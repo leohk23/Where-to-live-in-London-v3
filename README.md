@@ -1,26 +1,54 @@
-<<<<<<< HEAD
-# Where to Live in London v3
+# React + TypeScript + Vite
 
-The ultimate React application for finding the perfect place to live in London based on your work location, budget, and lifestyle preferences.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 🏠 What it does
-- Compares 15+ London neighborhoods
-- Calculates total monthly costs (rent + transport + council tax)
-- Shows estimated commute times
-- Sorts results by your priorities
+Currently, two official plugins are available:
 
-## 🚀 Features
-- Real transport zone pricing
-- Bedroom-specific rent data
-- Council tax calculations by borough
-- Interactive sorting and filtering
-- Mobile-responsive design
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 💻 How to Run
-```bash
-npm install
-npm run start
-=======
-# Where-to-live-in-London-v3
-React app to find the best places to live in London based on work location and budget
->>>>>>> 8735357fddae03ead50f5c27ed923b81254665dc
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
+```
