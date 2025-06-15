@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Calculator, Train, Building2, Home } from 'lucide-react';
+import { commuteTimes } from "./commute-times";
 
 type BedroomCount = 1 | 2 | 3 | 4;
 
@@ -352,7 +353,9 @@ function LondonCostCalculator() {
         totalMonthly: totalMonthly,
         farePerTrip: farePerTrip,
         commuteTime: getEstimatedCommuteTime(
+          location,
           data.zone,
+          workLocation,
           workLocations[workLocation as WorkLocationKey].zone
         ),
         bedrooms: bedrooms
@@ -390,11 +393,19 @@ function LondonCostCalculator() {
     return 6.0; // three or more zones apart
   };
 
-  const getEstimatedCommuteTime = (homeZone: string, workZone: string) => {
+  const getEstimatedCommuteTime = (
+    homeLocation: string,
+    homeZone: string,
+    workLocationName: string,
+    workZone: string,
+  ) => {
+    const specific = commuteTimes[homeLocation]?.[workLocationName];
+    if (specific) return specific;
+
     const homeZoneNum = parseInt(homeZone.replace('Zone ', ''));
     const workZoneNum = parseInt(workZone.replace('Zone ', ''));
     const zoneDiff = Math.abs(homeZoneNum - workZoneNum);
-    
+
     // Rough estimates based on zone differences
     if (zoneDiff === 0) return 25; // Same zone
     if (zoneDiff === 1) return 35; // Adjacent zones
@@ -590,7 +601,7 @@ function LondonCostCalculator() {
             <div className="mt-6 p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-800">
                 <strong>Note:</strong> Showing {bedrooms}-bedroom properties. Transport costs range from £{Math.min(...results.map(r => r.farePerTrip)).toFixed(2)} to £{Math.max(...results.map(r => r.farePerTrip)).toFixed(2)} per trip depending on zones.
-                Council tax varies by property size and borough. Commute times are estimates and may vary based on specific routes and time of day.
+                Council tax varies by property size and borough. Commute times are estimates and can be customised in <code>src/commute-times.ts</code>.
               </p>
             </div>
           </div>
