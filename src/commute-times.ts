@@ -1,3 +1,7 @@
+/*
+ * THIS FILE IS AUTO-GENERATED.
+ * To regenerate, run: npm run fetch-commutes
+ */
 export interface CommuteTimes {
   [homeLocation: string]: {
     [workLocation: string]: number;

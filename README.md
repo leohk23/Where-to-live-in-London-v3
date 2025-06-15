@@ -59,3 +59,18 @@ The app estimates commute durations based on zone differences but also includes
 a table of sample times for each home/work pair in
 `src/commute-times.ts`. Adjust those values to match your typical journeys if
 you want more accurate results.
+
+## Fetching real commute times
+
+You can automatically populate `src/commute-times.ts` using the Google Maps Distance Matrix API.
+
+1. Install dependencies and add your API key in a `.env` file:
+   ```
+   GOOGLE_MAPS_API_KEY=YOUR_GOOGLE_MAPS_API_KEY
+   ```
+2. Run the script:
+   ```bash
+   npm run fetch-commutes
+   ```
+
+The script queries transit times for all home/work pairs and writes a new `src/commute-times.ts` file. Existing values will be overwritten.
