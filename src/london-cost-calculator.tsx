@@ -304,7 +304,8 @@ function LondonCostCalculator() {
     const calculatedResults = Object.entries(locationData).map(([location, data]) => {
       const rent = data.rent[bedrooms];
       const councilTaxYearly = data.councilTaxYearly[bedrooms];
-      const transportCostMonthly = data.transportFare * monthlyTrips;
+      const farePerTrip = getFarePerTrip(data.zone, workLocations[workLocation].zone);
+      const transportCostMonthly = farePerTrip * monthlyTrips;
       const councilTaxMonthly = councilTaxYearly / 12;
       const totalMonthly = rent + transportCostMonthly + councilTaxMonthly;
       
@@ -316,7 +317,7 @@ function LondonCostCalculator() {
         transportCostMonthly: transportCostMonthly,
         councilTaxMonthly: councilTaxMonthly,
         totalMonthly: totalMonthly,
-        farePerTrip: data.transportFare,
+        farePerTrip: farePerTrip,
         commuteTime: getEstimatedCommuteTime(data.zone, workLocations[workLocation].zone),
         bedrooms: bedrooms
       };
@@ -340,6 +341,17 @@ function LondonCostCalculator() {
     });
     
     setResults(sorted);
+  };
+
+  const getFarePerTrip = (homeZone, workZone) => {
+    const homeZoneNum = parseInt(homeZone.replace('Zone ', ''));
+    const workZoneNum = parseInt(workZone.replace('Zone ', ''));
+    const zoneDiff = Math.abs(homeZoneNum - workZoneNum);
+
+    if (zoneDiff === 0) return 2.8; // same zone travel
+    if (zoneDiff === 1) return 3.5; // neighbouring zones
+    if (zoneDiff === 2) return 5.05; // two zones apart
+    return 6.0; // three or more zones apart
   };
 
   const getEstimatedCommuteTime = (homeZone, workZone) => {
@@ -539,7 +551,7 @@ function LondonCostCalculator() {
 
             <div className="mt-6 p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-blue-800">
-                <strong>Note:</strong> Showing {bedrooms}-bedroom properties. Transport costs based on £{results[0]?.farePerTrip} - £{Math.max(...results.map(r => r.farePerTrip))} per trip depending on zones. 
+                <strong>Note:</strong> Showing {bedrooms}-bedroom properties. Transport costs range from £{Math.min(...results.map(r => r.farePerTrip)).toFixed(2)} to £{Math.max(...results.map(r => r.farePerTrip)).toFixed(2)} per trip depending on zones.
                 Council tax varies by property size and borough. Commute times are estimates and may vary based on specific routes and time of day.
               </p>
             </div>
