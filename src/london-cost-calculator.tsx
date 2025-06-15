@@ -300,7 +300,7 @@ function LondonCostCalculator() {
 
   const calculateCosts = () => {
     if (!workLocation) return;
-    
+
     const calculatedResults = Object.entries(locationData).map(([location, data]) => {
       const rent = data.rent[bedrooms];
       const councilTaxYearly = data.councilTaxYearly[bedrooms];
@@ -321,8 +321,9 @@ function LondonCostCalculator() {
         bedrooms: bedrooms
       };
     });
-    
-    setResults(calculatedResults);
+    const sortedResults = [...calculatedResults].sort((a, b) => a.totalMonthly - b.totalMonthly);
+    setSortBy('total');
+    setResults(sortedResults);
   };
 
   const sortResults = (criteria) => {
