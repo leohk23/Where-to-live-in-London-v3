@@ -10,12 +10,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "fetch-commutes": "ts-node scripts/fetch-commutes.ts"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@googlemaps/google-maps-services-js": "^3.4.1",
-    "dotenv": "^16.5.0",
     "lucide-react": "^0.515.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
