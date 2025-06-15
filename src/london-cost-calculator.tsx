@@ -1,8 +1,36 @@
-import React, { useState } from 'react';
-import { Calculator, MapPin, DollarSign, Train, Building2, Home } from 'lucide-react';
+import { useState } from 'react';
+import { Calculator, Train, Building2, Home } from 'lucide-react';
+
+type BedroomCount = 1 | 2 | 3 | 4;
+
+interface LocationInfo {
+  borough: string;
+  rent: Record<BedroomCount, number>;
+  transportFare: number;
+  councilTaxYearly: Record<BedroomCount, number>;
+  zone: string;
+}
+
+interface WorkLocation {
+  zone: string;
+  description: string;
+}
+
+interface Result {
+  location: string;
+  borough: string;
+  zone: string;
+  rent: number;
+  transportCostMonthly: number;
+  councilTaxMonthly: number;
+  totalMonthly: number;
+  farePerTrip: number;
+  commuteTime: number;
+  bedrooms: BedroomCount;
+}
 
 // Data extracted from your CSV with bedroom variations
-const locationData = {
+const locationData: Record<string, LocationInfo> = {
   "Brixton": {
     borough: "Lambeth",
     rent: {
@@ -278,7 +306,7 @@ const locationData = {
 };
 
 // Common work locations in London
-const workLocations = {
+const workLocations: Record<string, WorkLocation> = {
   "City of London": { zone: "Zone 1", description: "Financial district" },
   "Canary Wharf": { zone: "Zone 2", description: "Business district" },
   "King's Cross": { zone: "Zone 1", description: "Tech hub" },
@@ -291,12 +319,14 @@ const workLocations = {
   "Oxford Circus": { zone: "Zone 1", description: "Shopping & media" }
 };
 
+type WorkLocationKey = keyof typeof workLocations;
+
 function LondonCostCalculator() {
-  const [workLocation, setWorkLocation] = useState('');
-  const [monthlyTrips, setMonthlyTrips] = useState(40);
-  const [bedrooms, setBedrooms] = useState(2);
-  const [results, setResults] = useState([]);
-  const [sortBy, setSortBy] = useState('total'); // 'total', 'rent', 'transport', 'commute'
+  const [workLocation, setWorkLocation] = useState<WorkLocationKey | ''>('');
+  const [monthlyTrips, setMonthlyTrips] = useState<number>(40);
+  const [bedrooms, setBedrooms] = useState<BedroomCount>(2);
+  const [results, setResults] = useState<Result[]>([]);
+  const [sortBy, setSortBy] = useState<'total' | 'rent' | 'transport' | 'commute'>('total');
 
   const calculateCosts = () => {
     if (!workLocation) return;
@@ -304,7 +334,10 @@ function LondonCostCalculator() {
     const calculatedResults = Object.entries(locationData).map(([location, data]) => {
       const rent = data.rent[bedrooms];
       const councilTaxYearly = data.councilTaxYearly[bedrooms];
-      const farePerTrip = getFarePerTrip(data.zone, workLocations[workLocation].zone);
+      const farePerTrip = getFarePerTrip(
+        data.zone,
+        workLocations[workLocation as WorkLocationKey].zone
+      );
       const transportCostMonthly = farePerTrip * monthlyTrips;
       const councilTaxMonthly = councilTaxYearly / 12;
       const totalMonthly = rent + transportCostMonthly + councilTaxMonthly;
@@ -318,7 +351,10 @@ function LondonCostCalculator() {
         councilTaxMonthly: councilTaxMonthly,
         totalMonthly: totalMonthly,
         farePerTrip: farePerTrip,
-        commuteTime: getEstimatedCommuteTime(data.zone, workLocations[workLocation].zone),
+        commuteTime: getEstimatedCommuteTime(
+          data.zone,
+          workLocations[workLocation as WorkLocationKey].zone
+        ),
         bedrooms: bedrooms
       };
     });
@@ -327,7 +363,7 @@ function LondonCostCalculator() {
     setResults(sortedResults);
   };
 
-  const sortResults = (criteria) => {
+  const sortResults = (criteria: 'total' | 'rent' | 'transport' | 'commute') => {
     setSortBy(criteria);
     if (results.length === 0) return;
     
@@ -343,7 +379,7 @@ function LondonCostCalculator() {
     setResults(sorted);
   };
 
-  const getFarePerTrip = (homeZone, workZone) => {
+  const getFarePerTrip = (homeZone: string, workZone: string) => {
     const homeZoneNum = parseInt(homeZone.replace('Zone ', ''));
     const workZoneNum = parseInt(workZone.replace('Zone ', ''));
     const zoneDiff = Math.abs(homeZoneNum - workZoneNum);
@@ -354,7 +390,7 @@ function LondonCostCalculator() {
     return 6.0; // three or more zones apart
   };
 
-  const getEstimatedCommuteTime = (homeZone, workZone) => {
+  const getEstimatedCommuteTime = (homeZone: string, workZone: string) => {
     const homeZoneNum = parseInt(homeZone.replace('Zone ', ''));
     const workZoneNum = parseInt(workZone.replace('Zone ', ''));
     const zoneDiff = Math.abs(homeZoneNum - workZoneNum);
@@ -367,7 +403,7 @@ function LondonCostCalculator() {
     return 65; // 4+ zones apart
   };
 
-  const getSortButtonClass = (value) => {
+  const getSortButtonClass = (value: 'total' | 'rent' | 'transport' | 'commute') => {
     return `px-3 py-1 rounded text-sm transition-colors ${
       sortBy === value 
         ? 'bg-blue-600 text-white' 
@@ -418,7 +454,9 @@ function LondonCostCalculator() {
               </label>
               <select
                 value={bedrooms}
-                onChange={(e) => setBedrooms(parseInt(e.target.value))}
+                onChange={(e) =>
+                  setBedrooms(parseInt(e.target.value) as BedroomCount)
+                }
                 className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value={1}>1 Bedroom</option>
