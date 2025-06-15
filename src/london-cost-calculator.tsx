@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Calculator, Train, Building2, Home } from 'lucide-react';
 import { commuteTimes } from "./commute-times";
+import { Train, Building2, Home } from 'lucide-react';
 
 type BedroomCount = 1 | 2 | 3 | 4;
 
@@ -427,8 +427,9 @@ function LondonCostCalculator() {
       <div className="bg-white rounded-lg shadow-xl p-8">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
-            <Calculator className="h-8 w-8 text-blue-600 mr-3" />
-            <h1 className="text-3xl font-bold text-gray-900">London Living Cost Calculator</h1>
+            <h1 className="text-3xl font-bold text-gray-900">
+              倫敦住邊最平？<br />Where is the cheapest place to live in London?
+            </h1>
           </div>
           <p className="text-gray-600">Find the best places to live based on your work location</p>
         </div>
