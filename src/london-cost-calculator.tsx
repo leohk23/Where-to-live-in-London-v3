@@ -412,25 +412,24 @@ function LondonCostCalculator() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-      <div className="bg-white rounded-lg shadow-xl p-8">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+      <div className="bg-white rounded-lg shadow-xl p-4 sm:p-8">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
             <h1 className="text-3xl font-bold text-gray-900">
               倫敦住邊最平？<br />Where is the cheapest place to live in London?
             </h1>
           </div>
-          <p className="text-gray-600">Find the best places to live based on your work location</p>
         </div>
 
         {/* Input Section */}
-        <div className="bg-gray-50 p-6 rounded-lg mb-8">
+        <div className="bg-gray-50 p-4 sm:p-6 rounded-lg mb-8">
           <h2 className="text-xl font-semibold mb-4 flex items-center">
             <Building2 className="h-5 w-5 mr-2 text-blue-600" />
             Work Location & Commute
           </h2>
           
-          <div className="grid md:grid-cols-4 gap-4">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Where do you work?
@@ -496,13 +495,13 @@ function LondonCostCalculator() {
         {/* Results Section */}
         {results.length > 0 && (
           <div>
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 space-y-4 sm:space-y-0">
               <h2 className="text-xl font-semibold flex items-center">
                 <Home className="h-5 w-5 mr-2 text-green-600" />
                 {bedrooms}-Bedroom Options for {workLocation}
               </h2>
               
-              <div className="flex items-center space-x-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="text-sm text-gray-600">Sort by:</span>
                 <button onClick={() => sortResults('total')} className={getSortButtonClass('total')}>
                   Total Cost
