@@ -1,7 +1,5 @@
-/*
- * THIS FILE IS AUTO-GENERATED.
- * To regenerate, run: npm run fetch-commutes
- */
+// Predefined commute times for home/work pairs
+
 export interface CommuteTimes {
   [homeLocation: string]: {
     [workLocation: string]: number;
