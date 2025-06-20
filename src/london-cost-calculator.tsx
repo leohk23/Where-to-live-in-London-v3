@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { commuteTimes } from "./commute-times";
 import { Train, Building2, Home } from 'lucide-react';
@@ -330,7 +330,7 @@ function LondonCostCalculator() {
   const [results, setResults] = useState<Result[]>([]);
   const [sortBy, setSortBy] = useState<'total' | 'rent' | 'transport' | 'commute'>('total');
 
-  const calculateCosts = () => {
+  const calculateCosts = useCallback(() => {
     if (!workLocation) return;
 
     const calculatedResults = Object.entries(locationData).map(([location, data]) => {
@@ -365,7 +365,7 @@ function LondonCostCalculator() {
     const sortedResults = [...calculatedResults].sort((a, b) => a.totalMonthly - b.totalMonthly);
     setSortBy('total');
     setResults(sortedResults);
-  };
+  }, [workLocation, monthlyTrips, bedrooms]);
 
   const sortResults = (criteria: 'total' | 'rent' | 'transport' | 'commute') => {
     setSortBy(criteria);
@@ -382,6 +382,12 @@ function LondonCostCalculator() {
     
     setResults(sorted);
   };
+
+  useEffect(() => {
+    if (workLocation) {
+      calculateCosts();
+    }
+  }, [calculateCosts, workLocation]);
 
   const getFarePerTrip = (homeZone: string, workZone: string) => {
     const homeZoneNum = parseInt(homeZone.replace('Zone ', ''));
@@ -492,15 +498,6 @@ function LondonCostCalculator() {
               />
             </div>
 
-            <div className="flex items-end">
-              <button
-                onClick={calculateCosts}
-                disabled={!workLocation}
-                className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
-              >
-                Find Living Options
-              </button>
-            </div>
           </div>
         </div>
 
@@ -611,7 +608,7 @@ function LondonCostCalculator() {
         {results.length === 0 && workLocation && (
           <div className="bg-gray-50 p-8 rounded-lg text-center">
             <Train className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600">Click "Find Living Options" to see all available areas for your commute to {workLocation}</p>
+            <p className="text-gray-600">Adjust the selections above to see available areas for your commute to {workLocation}</p>
           </div>
         )}
       </div>
