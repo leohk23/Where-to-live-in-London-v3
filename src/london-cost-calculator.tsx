@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { commuteTimes } from "./commute-times";
-import { locationData, BedroomCount } from "./location-data";
+import { locationData } from "./location-data";
+import type { BedroomCount } from "./location-data";
 import { Train, Building2, Home } from 'lucide-react';
 
 
