@@ -61,7 +61,7 @@ function LondonCostCalculator() {
 
     const calculatedResults = Object.entries(locationData).map(([location, data]) => {
       const rent = data.rent[bedrooms];
-      const councilTaxYearly = councilTaxData[location][bedrooms];
+      const councilTaxYearly = councilTaxData[data.borough][bedrooms];
       const farePerTrip = getFarePerTrip(
         data.zone,
         workLocations[workLocation as WorkLocationKey].zone
