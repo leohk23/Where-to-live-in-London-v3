@@ -10,7 +10,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "merge": "gh pr merge --auto --merge",
+    "sync": "git pull origin main && npm ci",
+    "pr": "gh pr create --base main --head test-ci --fill"
   },
   "dependencies": {
     "lucide-react": "^0.515.0",
