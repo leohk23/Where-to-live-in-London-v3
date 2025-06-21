@@ -46,7 +46,15 @@ function LondonCostCalculator() {
   const [monthlyTrips, setMonthlyTrips] = useState<number>(40);
   const [bedrooms, setBedrooms] = useState<BedroomCount>(2);
   const [results, setResults] = useState<Result[]>([]);
-  const [sortBy, setSortBy] = useState<'total' | 'rent' | 'transport' | 'commute'>('total');
+  const [sortBy, setSortBy] = useState<
+    | 'total'
+    | 'rent'
+    | 'transport'
+    | 'commute'
+    | 'location'
+    | 'borough'
+    | 'councilTax'
+  >('total');
 
   const calculateCosts = useCallback(() => {
     if (!workLocation) return;
@@ -85,16 +93,35 @@ function LondonCostCalculator() {
     setResults(sortedResults);
   }, [workLocation, monthlyTrips, bedrooms]);
 
-  const sortResults = (criteria: 'total' | 'rent' | 'transport' | 'commute') => {
+  const sortResults = (
+    criteria:
+      | 'total'
+      | 'rent'
+      | 'transport'
+      | 'commute'
+      | 'location'
+      | 'borough'
+      | 'councilTax',
+  ) => {
     setSortBy(criteria);
     if (results.length === 0) return;
     
     const sorted = [...results].sort((a, b) => {
-      switch(criteria) {
-        case 'rent': return a.rent - b.rent;
-        case 'transport': return a.transportCostMonthly - b.transportCostMonthly;
-        case 'commute': return a.commuteTime - b.commuteTime;
-        default: return a.totalMonthly - b.totalMonthly;
+      switch (criteria) {
+        case 'rent':
+          return a.rent - b.rent;
+        case 'transport':
+          return a.transportCostMonthly - b.transportCostMonthly;
+        case 'commute':
+          return a.commuteTime - b.commuteTime;
+        case 'location':
+          return a.location.localeCompare(b.location);
+        case 'borough':
+          return a.borough.localeCompare(b.borough);
+        case 'councilTax':
+          return a.councilTaxMonthly - b.councilTaxMonthly;
+        default:
+          return a.totalMonthly - b.totalMonthly;
       }
     });
     
@@ -140,7 +167,14 @@ function LondonCostCalculator() {
   };
 
   const getSortHeaderClass = (
-    value: 'total' | 'rent' | 'transport' | 'commute'
+    value:
+      | 'total'
+      | 'rent'
+      | 'transport'
+      | 'commute'
+      | 'location'
+      | 'borough'
+      | 'councilTax',
   ) => {
     return `cursor-pointer select-none ${
       sortBy === value
@@ -265,8 +299,18 @@ function LondonCostCalculator() {
                   <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
                     <tr>
                       <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Rank</th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Location</th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Borough</th>
+                      <th
+                        onClick={() => sortResults('location')}
+                        className={`text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('location')}`}
+                      >
+                        Location
+                      </th>
+                      <th
+                        onClick={() => sortResults('borough')}
+                        className={`text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('borough')}`}
+                      >
+                        Borough
+                      </th>
                       <th className="text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Zone</th>
                       <th
                         onClick={() => sortResults('commute')}
@@ -286,7 +330,12 @@ function LondonCostCalculator() {
                       >
                         Transport
                       </th>
-                      <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Council Tax</th>
+                      <th
+                        onClick={() => sortResults('councilTax')}
+                        className={`text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('councilTax')}`}
+                      >
+                        Council Tax
+                      </th>
                       <th
                         onClick={() => sortResults('total')}
                         className={`text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-gray-700 ${getSortHeaderClass('total')}`}
