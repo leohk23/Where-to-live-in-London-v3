@@ -140,39 +140,58 @@ function LondonCostCalculator() {
 
   const getSortButtonClass = (value: 'total' | 'rent' | 'transport' | 'commute') => {
     return `px-3 py-1 rounded text-sm transition-colors ${
-      sortBy === value 
-        ? 'bg-blue-600 text-white' 
-        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+      sortBy === value
+        ? 'bg-blue-600 text-white'
+        : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500'
     }`;
   };
 
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (darkMode) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [darkMode]);
+
   return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-      <div className="bg-white rounded-lg shadow-xl p-4 sm:p-8">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen dark:from-gray-900 dark:to-gray-800 dark:text-gray-100">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl p-4 sm:p-8">
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <h1 className="text-3xl font-bold text-gray-900">
-              倫敦住邊好？<br />Where to live in London?
-            </h1>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex-1 flex justify-center">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                倫敦住邊好？<br />Where to live in London?
+              </h1>
+            </div>
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="ml-4 px-3 py-1 rounded border text-sm dark:border-gray-600"
+            >
+              {darkMode ? 'Light' : 'Dark'} Mode
+            </button>
           </div>
         </div>
 
         {/* Input Section */}
-        <div className="bg-gray-50 p-4 sm:p-6 rounded-lg mb-8">
+        <div className="bg-gray-50 dark:bg-gray-800 p-4 sm:p-6 rounded-lg mb-8">
           <h2 className="text-xl font-semibold mb-4 flex items-center">
             <Building2 className="h-5 w-5 mr-2 text-blue-600" />
             Work Location & Commute
           </h2>
           
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Where do you work?
               </label>
               <select
                 value={workLocation}
                 onChange={(e) => setWorkLocation(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               >
                 <option value="">Select work location...</option>
                 {Object.entries(workLocations).map(([location, info]) => (
@@ -184,7 +203,7 @@ function LondonCostCalculator() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Number of Bedrooms
               </label>
               <select
@@ -192,7 +211,7 @@ function LondonCostCalculator() {
                 onChange={(e) =>
                   setBedrooms(parseInt(e.target.value) as BedroomCount)
                 }
-                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               >
                 <option value={1}>1 Bedroom</option>
                 <option value={2}>2 Bedrooms</option>
@@ -202,14 +221,14 @@ function LondonCostCalculator() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Monthly Round Trips
               </label>
               <input
                 type="number"
                 value={monthlyTrips}
                 onChange={(e) => setMonthlyTrips(parseInt(e.target.value) || 0)}
-                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 min="0"
                 max="200"
               />
@@ -228,7 +247,7 @@ function LondonCostCalculator() {
               </h2>
               
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm text-gray-600">Sort by:</span>
+                <span className="text-sm text-gray-600 dark:text-gray-300">Sort by:</span>
                 <button onClick={() => sortResults('total')} className={getSortButtonClass('total')}>
                   Total Cost
                 </button>
@@ -244,26 +263,26 @@ function LondonCostCalculator() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg border overflow-hidden">
+            <div className="bg-white dark:bg-gray-900 rounded-lg border dark:border-gray-700 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50 border-b">
+                  <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
                     <tr>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">Rank</th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">Location</th>
-                      <th className="text-left py-3 px-4 font-semibold text-gray-700">Borough</th>
-                      <th className="text-center py-3 px-4 font-semibold text-gray-700">Zone</th>
-                      <th className="text-center py-3 px-4 font-semibold text-gray-700">Commute</th>
-                      <th className="text-right py-3 px-4 font-semibold text-gray-700">Rent</th>
-                      <th className="text-right py-3 px-4 font-semibold text-gray-700">Transport</th>
-                      <th className="text-right py-3 px-4 font-semibold text-gray-700">Council Tax</th>
-                      <th className="text-right py-3 px-4 font-semibold text-gray-700 bg-blue-50">Total</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Rank</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Location</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Borough</th>
+                      <th className="text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Zone</th>
+                      <th className="text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Commute</th>
+                      <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Rent</th>
+                      <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Transport</th>
+                      <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Council Tax</th>
+                      <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-gray-700">Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     {results.map((result, index) => (
-                      <tr key={result.location} className={`border-b hover:bg-gray-50 transition-colors ${
-                        index < 3 ? 'bg-gradient-to-r from-green-50/30 to-blue-50/30' : ''
+                      <tr key={result.location} className={`border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
+                        index < 3 ? 'bg-gradient-to-r from-green-50/30 to-blue-50/30 dark:from-green-900/30 dark:to-blue-900/30' : ''
                       }`}>
                         <td className="py-3 px-4">
                           <div className="flex items-center">
@@ -276,15 +295,15 @@ function LondonCostCalculator() {
                                 {index + 1}
                               </div>
                             ) : (
-                              <span className="text-gray-500 text-sm">{index + 1}</span>
+                              <span className="text-gray-500 dark:text-gray-400 text-sm">{index + 1}</span>
                             )}
                           </div>
                         </td>
                         <td className="py-3 px-4">
-                          <div className="font-semibold text-gray-900">{result.location}</div>
+                          <div className="font-semibold text-gray-900 dark:text-gray-100">{result.location}</div>
                         </td>
                         <td className="py-3 px-4">
-                          <div className="text-sm text-gray-600">{result.borough}</div>
+                          <div className="text-sm text-gray-600 dark:text-gray-300">{result.borough}</div>
                         </td>
                         <td className="py-3 px-4 text-center">
                           <span className="inline-block bg-gray-100 px-2 py-1 rounded text-xs font-medium">
@@ -313,8 +332,8 @@ function LondonCostCalculator() {
               </div>
             </div>
 
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-800">
+            <div className="mt-6 p-4 bg-blue-50 dark:bg-gray-800 rounded-lg">
+              <p className="text-sm text-blue-800 dark:text-blue-300">
                 <strong>Note:</strong> Showing {bedrooms}-bedroom properties. Transport costs range from £{Math.min(...results.map(r => r.farePerTrip)).toFixed(2)} to £{Math.max(...results.map(r => r.farePerTrip)).toFixed(2)} per trip depending on zones.
                 Council tax varies by property size and borough. Commute times are estimates and can be customised in <code>src/commute-times.ts</code>.
               </p>
@@ -323,9 +342,9 @@ function LondonCostCalculator() {
         )}
 
         {results.length === 0 && workLocation && (
-          <div className="bg-gray-50 p-8 rounded-lg text-center">
+          <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-lg text-center">
             <Train className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600">Adjust the selections above to see available areas for your commute to {workLocation}</p>
+            <p className="text-gray-600 dark:text-gray-300">Adjust the selections above to see available areas for your commute to {workLocation}</p>
           </div>
         )}
       </div>
