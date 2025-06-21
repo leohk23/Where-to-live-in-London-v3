@@ -146,14 +146,23 @@ function LondonCostCalculator() {
     }`;
   };
 
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('theme');
+      if (stored) return stored === 'dark';
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return false;
+  });
 
   useEffect(() => {
     const root = window.document.documentElement;
     if (darkMode) {
       root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
       root.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
   }, [darkMode]);
 
@@ -183,7 +192,7 @@ function LondonCostCalculator() {
             Work Location & Commute
           </h2>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Where do you work?
@@ -306,7 +315,7 @@ function LondonCostCalculator() {
                           <div className="text-sm text-gray-600 dark:text-gray-300">{result.borough}</div>
                         </td>
                         <td className="py-3 px-4 text-center">
-                          <span className="inline-block bg-gray-100 px-2 py-1 rounded text-xs font-medium">
+                          <span className="inline-block bg-gray-100 dark:bg-gray-700 dark:text-gray-100 px-2 py-1 rounded text-xs font-medium">
                             {result.zone}
                           </span>
                         </td>
@@ -322,7 +331,7 @@ function LondonCostCalculator() {
                         <td className="py-3 px-4 text-right font-medium">
                           £{result.councilTaxMonthly.toFixed(0)}
                         </td>
-                        <td className="py-3 px-4 text-right font-bold text-blue-900 bg-blue-50">
+                        <td className="py-3 px-4 text-right font-bold text-blue-900 dark:text-blue-300 bg-blue-50 dark:bg-gray-800">
                           £{result.totalMonthly.toFixed(0)}
                         </td>
                       </tr>
