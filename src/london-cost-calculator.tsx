@@ -139,11 +139,13 @@ function LondonCostCalculator() {
     return 65; // 4+ zones apart
   };
 
-  const getSortButtonClass = (value: 'total' | 'rent' | 'transport' | 'commute') => {
-    return `px-3 py-1 rounded text-sm transition-colors ${
+  const getSortHeaderClass = (
+    value: 'total' | 'rent' | 'transport' | 'commute'
+  ) => {
+    return `cursor-pointer select-none ${
       sortBy === value
-        ? 'bg-blue-600 text-white'
-        : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500'
+        ? 'text-blue-600 dark:text-blue-400 underline'
+        : 'hover:underline'
     }`;
   };
 
@@ -250,27 +252,11 @@ function LondonCostCalculator() {
         {/* Results Section */}
         {results.length > 0 && (
           <div>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 space-y-4 sm:space-y-0">
+            <div className="flex items-center mb-6">
               <h2 className="text-xl font-semibold flex items-center">
                 <Home className="h-5 w-5 mr-2 text-green-600" />
                 {bedrooms}-Bedroom Options for {workLocation}
               </h2>
-              
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm text-gray-600 dark:text-gray-300">Sort by:</span>
-                <button onClick={() => sortResults('total')} className={getSortButtonClass('total')}>
-                  Total Cost
-                </button>
-                <button onClick={() => sortResults('rent')} className={getSortButtonClass('rent')}>
-                  Rent
-                </button>
-                <button onClick={() => sortResults('transport')} className={getSortButtonClass('transport')}>
-                  Transport
-                </button>
-                <button onClick={() => sortResults('commute')} className={getSortButtonClass('commute')}>
-                  Commute Time
-                </button>
-              </div>
             </div>
 
             <div className="bg-white dark:bg-gray-900 rounded-lg border dark:border-gray-700 overflow-hidden">
@@ -282,11 +268,31 @@ function LondonCostCalculator() {
                       <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Location</th>
                       <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Borough</th>
                       <th className="text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Zone</th>
-                      <th className="text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Commute</th>
-                      <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Rent</th>
-                      <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Transport</th>
+                      <th
+                        onClick={() => sortResults('commute')}
+                        className={`text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('commute')}`}
+                      >
+                        Commute
+                      </th>
+                      <th
+                        onClick={() => sortResults('rent')}
+                        className={`text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('rent')}`}
+                      >
+                        Rent
+                      </th>
+                      <th
+                        onClick={() => sortResults('transport')}
+                        className={`text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('transport')}`}
+                      >
+                        Transport
+                      </th>
                       <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Council Tax</th>
-                      <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-gray-700">Total</th>
+                      <th
+                        onClick={() => sortResults('total')}
+                        className={`text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-gray-700 ${getSortHeaderClass('total')}`}
+                      >
+                        Total
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
