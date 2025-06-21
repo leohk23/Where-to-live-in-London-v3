@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { commuteTimes } from "./commute-times";
 import { locationData, type BedroomCount } from "./location-data";
+import { councilTaxData } from "./tax-data";
 import { Train, Building2, Home } from 'lucide-react';
 
 
@@ -52,7 +53,7 @@ function LondonCostCalculator() {
 
     const calculatedResults = Object.entries(locationData).map(([location, data]) => {
       const rent = data.rent[bedrooms];
-      const councilTaxYearly = data.councilTaxYearly[bedrooms];
+      const councilTaxYearly = councilTaxData[location][bedrooms];
       const farePerTrip = getFarePerTrip(
         data.zone,
         workLocations[workLocation as WorkLocationKey].zone
