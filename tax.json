@@ -1,0 +1,322 @@
+[
+  {
+    "location": "Brixton",
+    "bedroom": 1,
+    "councilTaxYearly": 1563
+  },
+  {
+    "location": "Brixton",
+    "bedroom": 2,
+    "councilTaxYearly": 1953.95
+  },
+  {
+    "location": "Brixton",
+    "bedroom": 3,
+    "councilTaxYearly": 2344
+  },
+  {
+    "location": "Brixton",
+    "bedroom": 4,
+    "councilTaxYearly": 2734
+  },
+  {
+    "location": "Fulham",
+    "bedroom": 1,
+    "councilTaxYearly": 1161
+  },
+  {
+    "location": "Fulham",
+    "bedroom": 2,
+    "councilTaxYearly": 1451.42
+  },
+  {
+    "location": "Fulham",
+    "bedroom": 3,
+    "councilTaxYearly": 1741
+  },
+  {
+    "location": "Fulham",
+    "bedroom": 4,
+    "councilTaxYearly": 2032
+  },
+  {
+    "location": "Tooting",
+    "bedroom": 1,
+    "councilTaxYearly": 792
+  },
+  {
+    "location": "Tooting",
+    "bedroom": 2,
+    "councilTaxYearly": 990
+  },
+  {
+    "location": "Tooting",
+    "bedroom": 3,
+    "councilTaxYearly": 1188
+  },
+  {
+    "location": "Tooting",
+    "bedroom": 4,
+    "councilTaxYearly": 1386
+  },
+  {
+    "location": "Sutton",
+    "bedroom": 1,
+    "councilTaxYearly": 1815
+  },
+  {
+    "location": "Sutton",
+    "bedroom": 2,
+    "councilTaxYearly": 2269
+  },
+  {
+    "location": "Sutton",
+    "bedroom": 3,
+    "councilTaxYearly": 2723
+  },
+  {
+    "location": "Sutton",
+    "bedroom": 4,
+    "councilTaxYearly": 3177
+  },
+  {
+    "location": "New Malden",
+    "bedroom": 1,
+    "councilTaxYearly": 1990
+  },
+  {
+    "location": "New Malden",
+    "bedroom": 2,
+    "councilTaxYearly": 2488
+  },
+  {
+    "location": "New Malden",
+    "bedroom": 3,
+    "councilTaxYearly": 2986
+  },
+  {
+    "location": "New Malden",
+    "bedroom": 4,
+    "councilTaxYearly": 3484
+  },
+  {
+    "location": "Wimbledon",
+    "bedroom": 1,
+    "councilTaxYearly": 1671
+  },
+  {
+    "location": "Wimbledon",
+    "bedroom": 2,
+    "councilTaxYearly": 2088.43
+  },
+  {
+    "location": "Wimbledon",
+    "bedroom": 3,
+    "councilTaxYearly": 2506
+  },
+  {
+    "location": "Wimbledon",
+    "bedroom": 4,
+    "councilTaxYearly": 2923
+  },
+  {
+    "location": "Richmond",
+    "bedroom": 1,
+    "councilTaxYearly": 1898
+  },
+  {
+    "location": "Richmond",
+    "bedroom": 2,
+    "councilTaxYearly": 2372.07
+  },
+  {
+    "location": "Richmond",
+    "bedroom": 3,
+    "councilTaxYearly": 2846
+  },
+  {
+    "location": "Richmond",
+    "bedroom": 4,
+    "councilTaxYearly": 3320
+  },
+  {
+    "location": "Ealing",
+    "bedroom": 1,
+    "councilTaxYearly": 1633
+  },
+  {
+    "location": "Ealing",
+    "bedroom": 2,
+    "councilTaxYearly": 2041
+  },
+  {
+    "location": "Ealing",
+    "bedroom": 3,
+    "councilTaxYearly": 2449
+  },
+  {
+    "location": "Ealing",
+    "bedroom": 4,
+    "councilTaxYearly": 2857
+  },
+  {
+    "location": "Hounslow",
+    "bedroom": 1,
+    "councilTaxYearly": 1668
+  },
+  {
+    "location": "Hounslow",
+    "bedroom": 2,
+    "councilTaxYearly": 2085
+  },
+  {
+    "location": "Hounslow",
+    "bedroom": 3,
+    "councilTaxYearly": 2502
+  },
+  {
+    "location": "Hounslow",
+    "bedroom": 4,
+    "councilTaxYearly": 2919
+  },
+  {
+    "location": "Croydon",
+    "bedroom": 1,
+    "councilTaxYearly": 1984
+  },
+  {
+    "location": "Croydon",
+    "bedroom": 2,
+    "councilTaxYearly": 2480
+  },
+  {
+    "location": "Croydon",
+    "bedroom": 3,
+    "councilTaxYearly": 2976
+  },
+  {
+    "location": "Croydon",
+    "bedroom": 4,
+    "councilTaxYearly": 3472
+  },
+  {
+    "location": "Wimbledon Park",
+    "bedroom": 1,
+    "councilTaxYearly": 1671
+  },
+  {
+    "location": "Wimbledon Park",
+    "bedroom": 2,
+    "councilTaxYearly": 2088.43
+  },
+  {
+    "location": "Wimbledon Park",
+    "bedroom": 3,
+    "councilTaxYearly": 2506
+  },
+  {
+    "location": "Wimbledon Park",
+    "bedroom": 4,
+    "councilTaxYearly": 2923
+  },
+  {
+    "location": "High Barnet",
+    "bedroom": 1,
+    "councilTaxYearly": 1469
+  },
+  {
+    "location": "High Barnet",
+    "bedroom": 2,
+    "councilTaxYearly": 1836
+  },
+  {
+    "location": "High Barnet",
+    "bedroom": 3,
+    "councilTaxYearly": 2203
+  },
+  {
+    "location": "High Barnet",
+    "bedroom": 4,
+    "councilTaxYearly": 2570
+  },
+  {
+    "location": "Sutton Cheam",
+    "bedroom": 1,
+    "councilTaxYearly": 1817
+  },
+  {
+    "location": "Sutton Cheam",
+    "bedroom": 2,
+    "councilTaxYearly": 2270.72
+  },
+  {
+    "location": "Sutton Cheam",
+    "bedroom": 3,
+    "councilTaxYearly": 2725
+  },
+  {
+    "location": "Sutton Cheam",
+    "bedroom": 4,
+    "councilTaxYearly": 3179
+  },
+  {
+    "location": "Acton Common",
+    "bedroom": 1,
+    "councilTaxYearly": 1668
+  },
+  {
+    "location": "Acton Common",
+    "bedroom": 2,
+    "councilTaxYearly": 2085.3
+  },
+  {
+    "location": "Acton Common",
+    "bedroom": 3,
+    "councilTaxYearly": 2502
+  },
+  {
+    "location": "Acton Common",
+    "bedroom": 4,
+    "councilTaxYearly": 2919
+  },
+  {
+    "location": "South Ealing",
+    "bedroom": 1,
+    "councilTaxYearly": 1668
+  },
+  {
+    "location": "South Ealing",
+    "bedroom": 2,
+    "councilTaxYearly": 2085.3
+  },
+  {
+    "location": "South Ealing",
+    "bedroom": 3,
+    "councilTaxYearly": 2502
+  },
+  {
+    "location": "South Ealing",
+    "bedroom": 4,
+    "councilTaxYearly": 2919
+  },
+  {
+    "location": "Southfields",
+    "bedroom": 1,
+    "councilTaxYearly": 792
+  },
+  {
+    "location": "Southfields",
+    "bedroom": 2,
+    "councilTaxYearly": 990
+  },
+  {
+    "location": "Southfields",
+    "bedroom": 3,
+    "councilTaxYearly": 1188
+  },
+  {
+    "location": "Southfields",
+    "bedroom": 4,
+    "councilTaxYearly": 1386
+  }
+]
