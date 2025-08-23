@@ -42,6 +42,13 @@ const workLocations: Record<string, WorkLocation> = {
 
 type WorkLocationKey = keyof typeof workLocations;
 
+// Lookup table for zone-based fare calculations
+const fareByZoneDifference: Record<number, number> = {
+  0: 2.8,
+  1: 3.5,
+  2: 5.05,
+};
+
 function LondonCostCalculator() {
   const [workLocation, setWorkLocation] = useState<WorkLocationKey | ''>('');
   const [monthlyTrips, setMonthlyTrips] = useState<number>(40);
@@ -80,11 +87,9 @@ function LondonCostCalculator() {
         councilTaxMonthly: councilTaxMonthly,
         totalMonthly: totalMonthly,
         farePerTrip: farePerTrip,
-        commuteTime: getEstimatedCommuteTime(
+        commuteTime: getCommuteTime(
           location,
-          data.zone,
-          workLocation,
-          workLocations[workLocation as WorkLocationKey].zone
+          workLocation
         ),
         bedrooms: bedrooms
       };
@@ -139,32 +144,14 @@ function LondonCostCalculator() {
     const homeZoneNum = parseInt(homeZone.replace('Zone ', ''));
     const workZoneNum = parseInt(workZone.replace('Zone ', ''));
     const zoneDiff = Math.abs(homeZoneNum - workZoneNum);
-
-    if (zoneDiff === 0) return 2.8; // same zone travel
-    if (zoneDiff === 1) return 3.5; // neighbouring zones
-    if (zoneDiff === 2) return 5.05; // two zones apart
-    return 6.0; // three or more zones apart
+    return fareByZoneDifference[zoneDiff] ?? 6.0;
   };
 
-  const getEstimatedCommuteTime = (
+  const getCommuteTime = (
     homeLocation: string,
-    homeZone: string,
     workLocationName: string,
-    workZone: string,
   ) => {
-    const specific = commuteTimes[homeLocation]?.[workLocationName];
-    if (specific) return specific;
-
-    const homeZoneNum = parseInt(homeZone.replace('Zone ', ''));
-    const workZoneNum = parseInt(workZone.replace('Zone ', ''));
-    const zoneDiff = Math.abs(homeZoneNum - workZoneNum);
-
-    // Rough estimates based on zone differences
-    if (zoneDiff === 0) return 25; // Same zone
-    if (zoneDiff === 1) return 35; // Adjacent zones
-    if (zoneDiff === 2) return 45; // 2 zones apart
-    if (zoneDiff === 3) return 55; // 3 zones apart
-    return 65; // 4+ zones apart
+    return commuteTimes[homeLocation]?.[workLocationName] ?? 60;
   };
 
   const getSortHeaderClass = (
