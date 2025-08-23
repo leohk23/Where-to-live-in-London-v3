@@ -36,7 +36,8 @@ const workLocations: Record<string, WorkLocation> = {
   "Paddington": { zone: "Zone 1", description: "Transport hub" },
   "Victoria": { zone: "Zone 1", description: "Business area" },
   "Liverpool Street": { zone: "Zone 1", description: "Financial area" },
-  "Oxford Circus": { zone: "Zone 1", description: "Shopping & media" }
+  "Oxford Circus": { zone: "Zone 1", description: "Shopping & media" },
+  "Green Park": { zone: "Zone 1", description: "Royal park" }
 };
 
 type WorkLocationKey = keyof typeof workLocations;
@@ -242,7 +243,7 @@ function LondonCostCalculator() {
                 <option value="">Select work location...</option>
                 {Object.entries(workLocations).map(([location, info]) => (
                   <option key={location} value={location}>
-                    {location} ({info.zone}) - {info.description}
+                    {location} ({info.zone})
                   </option>
                 ))}
               </select>
