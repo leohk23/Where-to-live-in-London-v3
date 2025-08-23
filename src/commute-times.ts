@@ -19,6 +19,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 15,
     "Liverpool Street": 40,
     "Oxford Circus": 25,
+    "Green Park": 23,
   },
   Fulham: {
     "City of London": 30,
@@ -31,6 +32,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 15,
     "Liverpool Street": 35,
     "Oxford Circus": 30,
+    "Green Park": 28,
   },
   Tooting: {
     "City of London": 35,
@@ -43,6 +45,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 30,
     "Liverpool Street": 45,
     "Oxford Circus": 35,
+    "Green Park": 33,
   },
   Sutton: {
     "City of London": 55,
@@ -55,6 +58,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 40,
     "Liverpool Street": 60,
     "Oxford Circus": 55,
+    "Green Park": 55,
   },
   "New Malden": {
     "City of London": 45,
@@ -67,6 +71,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 30,
     "Liverpool Street": 50,
     "Oxford Circus": 45,
+    "Green Park": 45,
   },
   Wimbledon: {
     "City of London": 25,
@@ -79,6 +84,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 25,
     "Liverpool Street": 45,
     "Oxford Circus": 35,
+    "Green Park": 33,
   },
   Richmond: {
     "City of London": 45,
@@ -91,6 +97,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 30,
     "Liverpool Street": 50,
     "Oxford Circus": 40,
+    "Green Park": 38,
   },
   Ealing: {
     "City of London": 30,
@@ -103,6 +110,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 30,
     "Liverpool Street": 35,
     "Oxford Circus": 30,
+    "Green Park": 30,
   },
   Hounslow: {
     "City of London": 55,
@@ -115,6 +123,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 55,
     "Liverpool Street": 65,
     "Oxford Circus": 55,
+    "Green Park": 53,
   },
   Croydon: {
     "City of London": 30,
@@ -127,6 +136,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 35,
     "Liverpool Street": 50,
     "Oxford Circus": 45,
+    "Green Park": 45,
   },
   "Wimbledon Park": {
     "City of London": 30,
@@ -139,6 +149,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 25,
     "Liverpool Street": 40,
     "Oxford Circus": 35,
+    "Green Park": 30,
   },
   "High Barnet": {
     "City of London": 60,
@@ -151,6 +162,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 65,
     "Liverpool Street": 55,
     "Oxford Circus": 60,
+    "Green Park": 60,
   },
   "Sutton Cheam": {
     "City of London": 55,
@@ -163,6 +175,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 40,
     "Liverpool Street": 60,
     "Oxford Circus": 55,
+    "Green Park": 55,
   },
   "Acton Common": {
     "City of London": 30,
@@ -175,6 +188,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 30,
     "Liverpool Street": 40,
     "Oxford Circus": 35,
+    "Green Park": 30,
   },
   "South Ealing": {
     "City of London": 35,
@@ -187,6 +201,7 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 30,
     "Liverpool Street": 40,
     "Oxford Circus": 42,
+    "Green Park": 39,
   },
   Southfields: {
     "City of London": 30,
@@ -199,5 +214,6 @@ export const commuteTimes: CommuteTimes = {
     Victoria: 30,
     "Liverpool Street": 40,
     "Oxford Circus": 35,
+    "Green Park": 33,
   },
 };
