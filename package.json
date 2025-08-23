@@ -14,7 +14,8 @@
     "deploy": "gh-pages -d dist",
     "merge": "gh pr merge --auto --merge",
     "sync": "git pull origin main && npm ci",
-    "pr": "gh pr create --base main --head test-ci --fill"
+    "pr": "gh pr create --base main --head test-ci --fill",
+    "fetch-commutes:tfl": "ts-node scripts/fetch-tfl-commutes.ts"
   },
   "dependencies": {
     "lucide-react": "^0.515.0",
@@ -23,7 +24,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
-    "@types/node": "^24.0.1",
+    "@types/node": "^24.3.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
