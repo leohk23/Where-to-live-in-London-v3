@@ -15,7 +15,7 @@
     "merge": "gh pr merge --auto --merge",
     "sync": "git pull origin main && npm ci",
     "pr": "gh pr create --base main --head test-ci --fill",
-    "fetch-commutes:tfl": "ts-node scripts/fetch-tfl-commutes.ts"
+    "fetch-commutes:tfl": "tsx scripts/fetch-tfl-commutes.ts"
   },
   "dependencies": {
     "lucide-react": "^0.515.0",
