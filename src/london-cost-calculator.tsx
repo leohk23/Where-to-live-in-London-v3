@@ -285,7 +285,7 @@ function LondonCostCalculator() {
             <div className="bg-white dark:bg-gray-900 rounded-lg border dark:border-gray-700 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
+                  <thead className="sticky top-0 z-10 bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
                     <tr>
                       <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Rank</th>
                       <th
