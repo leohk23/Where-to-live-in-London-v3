@@ -4,6 +4,7 @@ import { commuteTimes } from "./commute-times";
 import { locationData, type BedroomCount } from "./location-data";
 import { councilTaxData } from "./tax-data";
 import { Train, Building2, Home } from 'lucide-react';
+import { commuteTimesLastRun } from "./commute-times-last-run";
 
 
 interface WorkLocation {
@@ -388,7 +389,16 @@ function LondonCostCalculator() {
             <div className="mt-6 p-4 bg-blue-50 dark:bg-gray-800 rounded-lg">
               <p className="text-sm text-blue-800 dark:text-blue-300">
                 <strong>Note:</strong> Showing {bedrooms}-bedroom properties. Transport costs range from £{Math.min(...results.map(r => r.farePerTrip)).toFixed(2)} to £{Math.max(...results.map(r => r.farePerTrip)).toFixed(2)} per trip depending on zones.
-                Council tax varies by property size and borough. Commute times are estimates and can be customised in <code>src/commute-times.ts</code>.
+                Council tax varies by property size and borough.
+                <br />
+                <span>
+                  <strong>Commute times last updated:</strong>{" "}
+                  {commuteTimesLastRun ? new Date(commuteTimesLastRun).toLocaleString() : "Unknown"}
+                </span>
+                <br />
+                <span>
+                  Commute times are taken from TfL Journey Planner, assuming travel from the home tube station to the work tube station.
+                </span>
               </p>
             </div>
           </div>
