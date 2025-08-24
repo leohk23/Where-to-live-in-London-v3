@@ -219,7 +219,7 @@ async function main() {
     out[h] = {};
     for (const w of workKeys) {
       try {
-        await pause(350);
+        await pause(1200); // increased pacing to 1.2 seconds between requests
         const mins = await getDurationMinutes(h, w);
         out[h][w] = mins;
         console.log(`${h} → ${w}: ${mins} min`);
