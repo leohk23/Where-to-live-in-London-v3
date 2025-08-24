@@ -1,0 +1,24 @@
+name: Update Commute Times
+
+on:
+  workflow_dispatch:  # run manually
+  schedule:
+    - cron: '0 4 * * 1'  # every Monday 4am UTC
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm ci
+      - run: npm run fetch-commutes:tfl
+        env:
+          TFL_APP_ID: ${{ secrets.TFL_APP_ID }}
+          TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
+      - name: Commit updated commute-times.ts
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add src/commute-times.ts
+          git commit -m "chore: update commute times from TfL"
+          git push
