@@ -31,7 +31,7 @@ export const commuteTimes: CommuteTimes = {
     "Shoreditch": 0,
     "Westminster": 15,
     "South Bank": 20,
-    "Paddington": 13,
+    "Paddington": 17,
     "Victoria": 12,
     "Liverpool Street": 34,
     "Oxford Circus": 21,
@@ -64,7 +64,7 @@ export const commuteTimes: CommuteTimes = {
     "Green Park": 49
   },
   "New Malden": {
-    "City of London": 36,
+    "City of London": 34,
     "Canary Wharf": 0,
     "King's Cross": 42,
     "Shoreditch": 0,
@@ -72,12 +72,12 @@ export const commuteTimes: CommuteTimes = {
     "South Bank": 24,
     "Paddington": 44,
     "Victoria": 33,
-    "Liverpool Street": 44,
+    "Liverpool Street": 43,
     "Oxford Circus": 37,
     "Green Park": 35
   },
   "Wimbledon": {
-    "City of London": 35,
+    "City of London": 31,
     "Canary Wharf": 0,
     "King's Cross": 35,
     "Shoreditch": 0,
@@ -85,12 +85,12 @@ export const commuteTimes: CommuteTimes = {
     "South Bank": 18,
     "Paddington": 26,
     "Victoria": 26,
-    "Liverpool Street": 43,
+    "Liverpool Street": 39,
     "Oxford Circus": 30,
     "Green Park": 28
   },
   "Richmond": {
-    "City of London": 35,
+    "City of London": 31,
     "Canary Wharf": 0,
     "King's Cross": 38,
     "Shoreditch": 0,
@@ -98,14 +98,14 @@ export const commuteTimes: CommuteTimes = {
     "South Bank": 21,
     "Paddington": 32,
     "Victoria": 26,
-    "Liverpool Street": 44,
+    "Liverpool Street": 40,
     "Oxford Circus": 33,
-    "Green Park": 31
+    "Green Park": 30
   },
   "Ealing": {
     "City of London": 28,
     "Canary Wharf": 0,
-    "King's Cross": 32,
+    "King's Cross": 33,
     "Shoreditch": 0,
     "Westminster": 33,
     "South Bank": 25,
@@ -113,7 +113,7 @@ export const commuteTimes: CommuteTimes = {
     "Victoria": 30,
     "Liverpool Street": 21,
     "Oxford Circus": 22,
-    "Green Park": 27
+    "Green Park": 30
   },
   "Hounslow": {
     "City of London": 57,
@@ -122,7 +122,7 @@ export const commuteTimes: CommuteTimes = {
     "Shoreditch": 0,
     "Westminster": 44,
     "South Bank": 49,
-    "Paddington": 41,
+    "Paddington": 42,
     "Victoria": 41,
     "Liverpool Street": 56,
     "Oxford Circus": 47,
@@ -147,7 +147,7 @@ export const commuteTimes: CommuteTimes = {
     "King's Cross": 38,
     "Shoreditch": 0,
     "Westminster": 31,
-    "South Bank": 32,
+    "South Bank": 25,
     "Paddington": 24,
     "Victoria": 28,
     "Liverpool Street": 45,
@@ -159,7 +159,7 @@ export const commuteTimes: CommuteTimes = {
     "Canary Wharf": 0,
     "King's Cross": 28,
     "Shoreditch": 0,
-    "Westminster": 43,
+    "Westminster": 44,
     "South Bank": 39,
     "Paddington": 47,
     "Victoria": 35,
@@ -175,7 +175,7 @@ export const commuteTimes: CommuteTimes = {
     "Westminster": 49,
     "South Bank": 47,
     "Paddington": 59,
-    "Victoria": 36,
+    "Victoria": 34,
     "Liverpool Street": 56,
     "Oxford Circus": 49,
     "Green Park": 47
@@ -186,7 +186,7 @@ export const commuteTimes: CommuteTimes = {
     "King's Cross": 32,
     "Shoreditch": 0,
     "Westminster": 27,
-    "South Bank": 33,
+    "South Bank": 32,
     "Paddington": 22,
     "Victoria": 24,
     "Liverpool Street": 35,
@@ -199,12 +199,12 @@ export const commuteTimes: CommuteTimes = {
     "King's Cross": 35,
     "Shoreditch": 0,
     "Westminster": 28,
-    "South Bank": 34,
+    "South Bank": 28,
     "Paddington": 21,
     "Victoria": 25,
     "Liverpool Street": 42,
     "Oxford Circus": 31,
-    "Green Park": 29
+    "Green Park": 28
   },
   "Southfields": {
     "City of London": 39,
@@ -217,6 +217,6 @@ export const commuteTimes: CommuteTimes = {
     "Victoria": 25,
     "Liverpool Street": 42,
     "Oxford Circus": 31,
-    "Green Park": 29
+    "Green Park": 28
   }
 };
