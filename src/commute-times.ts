@@ -53,7 +53,7 @@ export const commuteTimes: CommuteTimes = {
   "Sutton": {
     "City of London": 49,
     "Canary Wharf": 0,
-    "King's Cross": 49,
+    "King's Cross": 52,
     "Shoreditch": 0,
     "Westminster": 46,
     "South Bank": 42,
@@ -187,7 +187,7 @@ export const commuteTimes: CommuteTimes = {
     "Shoreditch": 0,
     "Westminster": 27,
     "South Bank": 32,
-    "Paddington": 22,
+    "Paddington": 24,
     "Victoria": 24,
     "Liverpool Street": 35,
     "Oxford Circus": 31,
