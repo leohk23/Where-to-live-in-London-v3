@@ -103,17 +103,17 @@ export const commuteTimes: CommuteTimes = {
     "Green Park": 35
   },
   "Ealing": {
-    "City of London": 49,
+    "City of London": 33,
     "Canary Wharf": 0,
-    "King's Cross": 34,
+    "King's Cross": 33,
     "Shoreditch": 0,
     "Westminster": 33,
-    "South Bank": 40,
+    "South Bank": 34,
     "Paddington": 8,
     "Victoria": 30,
-    "Liverpool Street": 22,
-    "Oxford Circus": 41,
-    "Green Park": 39
+    "Liverpool Street": 21,
+    "Oxford Circus": 25,
+    "Green Park": 37
   },
   "Hounslow": {
     "City of London": 55,
