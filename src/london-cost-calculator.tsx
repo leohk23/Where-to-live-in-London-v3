@@ -365,7 +365,7 @@ function LondonCostCalculator() {
             <div className="mt-6 p-4 bg-blue-50 dark:bg-gray-800 rounded-lg">
               <p className="text-sm text-blue-800 dark:text-blue-300">
                 <strong>Note:</strong> Showing {bedrooms}-bedroom properties. Transport costs range from £{Math.min(...sortedResults.map(r => r.farePerTrip)).toFixed(2)} to £{Math.max(...sortedResults.map(r => r.farePerTrip)).toFixed(2)} per trip depending on zones.
-                Council tax varies by property size and borough.
+                Council tax varies by property size and borough. Rates are based on 2025/26 Band D figures (including GLA precept), scaled by bedroom count.
                 <br />
                 <span>
                   <strong>Commute times last updated:</strong>{" "}

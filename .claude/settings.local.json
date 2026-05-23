@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.lambeth.gov.uk)",
+      "WebFetch(domain:www.lbhf.gov.uk)",
+      "WebFetch(domain:www.wandsworth.gov.uk)",
+      "WebFetch(domain:www.sutton.gov.uk)",
+      "WebFetch(domain:www.kingston.gov.uk)",
+      "WebFetch(domain:www.merton.gov.uk)",
+      "WebFetch(domain:www.richmond.gov.uk)",
+      "WebFetch(domain:www.hounslow.gov.uk)",
+      "WebFetch(domain:www.croydon.gov.uk)",
+      "WebFetch(domain:www.barnet.gov.uk)",
+      "WebFetch(domain:www.counciltax.info)",
+      "WebFetch(domain:www.ealing.gov.uk)",
+      "WebFetch(domain:democracy.lbhf.gov.uk)",
+      "WebFetch(domain:anthonywozniak.exp.uk.com)",
+      "WebFetch(domain:counciltaxchecker.co.uk)",
+      "WebFetch(domain:southlondon.co.uk)",
+      "Bash(npx tsc *)",
+      "WebFetch(domain:www.rightmove.co.uk)",
+      "WebFetch(domain:www.london.gov.uk)",
+      "WebFetch(domain:homelet.co.uk)",
+      "WebFetch(domain:investropa.com)",
+      "WebFetch(domain:www.home.co.uk)",
+      "WebFetch(domain:www.piccadillyestates.co.uk)",
+      "WebFetch(domain:joinhutch.com)",
+      "WebFetch(domain:www.foxtons.co.uk)",
+      "WebFetch(domain:home.co.uk)",
+      "WebFetch(domain:www.varbes.com)",
+      "WebFetch(domain:www.homeviews.com)",
+      "WebFetch(domain:data.london.gov.uk)",
+      "WebFetch(domain:londonrelocation.com)",
+      "WebFetch(domain:www.ons.gov.uk)",
+      "WebFetch(domain:www.timeout.com)",
+      "WebFetch(domain:en.uhomes.com)",
+      "WebFetch(domain:www.rentlondonflat.com)",
+      "WebFetch(domain:www.homenowuk.com)",
+      "WebFetch(domain:www.wollit.com)"
+    ]
+  }
+}

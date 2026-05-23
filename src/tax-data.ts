@@ -1,4 +1,4 @@
-import taxDataRaw from '../tax.json' assert { type: 'json' };
+import taxDataRaw from '../counciltax.json' assert { type: 'json' };
 import type { BedroomCount } from './location-data';
 
 // Council tax bands are keyed by borough name
