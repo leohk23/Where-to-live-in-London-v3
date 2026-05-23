@@ -207,7 +207,7 @@ function LondonCostCalculator() {
                 <option value="">Select work location...</option>
                 {Object.entries(workLocations).map(([location, info]) => (
                   <option key={location} value={location}>
-                    {location} ({info.zone})
+                    {location} ({info.zone} · {info.station.replace(/ (Underground|Rail) Station$/, '')})
                   </option>
                 ))}
               </select>

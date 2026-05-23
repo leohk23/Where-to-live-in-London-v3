@@ -15,14 +15,14 @@ const STOPPOINT_OVERRIDES: Record<string, string> = {
   // If your routes use the H&C entrance instead, use: "940GZZLUPAH"
   "Wimbledon Underground Station": "940GZZLUWIM",                  // Wimbledon (District)
   "Bank Underground Station": "940GZZLUBNK",
-  "Canary Wharf Underground Station": "940GZZLUCAW",
+  // "Canary Wharf Underground Station": resolved via search (940GZZLUCAW not recognised by Journey Planner)
   "Oxford Circus Underground Station": "940GZZLUOXC",
   "Victoria Underground Station": "940GZZLUVIC",
   "Liverpool Street Underground Station": "940GZZLULVT",
   "Westminster Underground Station": "940GZZLUWSM",
   "Waterloo Underground Station": "940GZZLUWLO",
   "Green Park Underground Station": "940GZZLUGPK",
-  "Shoreditch High Street Rail Station": "910GSHRDCH",             // London Overground
+  // "Shoreditch High Street Rail Station": resolved via search (910GSHRDCH not recognised by Journey Planner)
 
   // ---- Homes (suburbs) ----
   "Brixton Underground Station": "940GZZLUBXN",
@@ -34,12 +34,12 @@ const STOPPOINT_OVERRIDES: Record<string, string> = {
   "Richmond (London) Rail Station": "910GRICHMND",                 // alt: 910GRICHMOND
   "Ealing Broadway Underground Station": "940GZZLUEBY",
   "Hounslow Central Underground Station": "940GZZLUHWC",
-  "East Croydon Rail Station": "910GECRYDON",
+  // "East Croydon Rail Station": resolved via search (910GECRYDON not recognised by Journey Planner)
   "High Barnet Underground Station": "940GZZLUHBT",
   "Cheam Rail Station": "910GCHEAM",
   "Acton Town Underground Station": "940GZZLUACT",
-  "South Ealing Underground Station": "940GZZLUSFS",
-  "Southfields Underground Station": "940GZZLUSFS",                // Southfields is 940GZZLUSFS
+  // "South Ealing Underground Station": "",                         // TODO: find correct NaPTAN (940GZZLUSEA returns 404)
+  "Southfields Underground Station": "940GZZLUSFS",                 // Southfields (District)
 };
 
 /** TfL API config */
@@ -146,7 +146,7 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<M
   if (!fromQuery || !toQuery) throw new Error(`Unknown labels: ${fromLabel} → ${toLabel}`);
 
   const fromId = await resolveStopPointId(fromQuery);
-  await pause(200); // gentle pacing
+  await pause(100);
   const toId = await resolveStopPointId(toQuery);
 
   const url = `${BASE}/Journey/JourneyResults/${encodeURIComponent(fromId)}/to/${encodeURIComponent(toId)}?` + qs({
@@ -157,9 +157,12 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<M
 
   for (let attempt = 1; attempt <= 3; attempt++) {
     const res = await fetch(url);
-    if (!res.ok) {
+    if (!res.ok || res.status === 300) {
       if (res.status === 300) {
-        // Shouldn't happen with IDs, but if it does, retry once
+        const body = await res.json().catch(() => null);
+        console.warn(`300 for ${fromLabel} → ${toLabel} (IDs: ${fromId} → ${toId})`);
+        console.warn(`  body keys:`, Object.keys(body ?? {}));
+        console.warn(`  raw:`, JSON.stringify(body)?.slice(0, 600));
         if (attempt < 3) { await pause(300 * attempt); continue; }
       }
       throw new Error(`HTTP ${res.status}`);
@@ -182,7 +185,7 @@ async function main() {
     out[h] = {};
     for (const w of workKeys) {
       try {
-        await pause(1200); // increased pacing to 1.2 seconds between requests
+        await pause(700); // ~85 requests/min, well within TfL's 500/min limit
         const mins = await getDurationMinutes(h, w);
         out[h][w] = mins;
         console.log(`${h} → ${w}: ${mins} min`);
