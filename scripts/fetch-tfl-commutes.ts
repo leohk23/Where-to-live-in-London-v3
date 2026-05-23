@@ -1,48 +1,11 @@
 /* scripts/fetch-tfl-commutes.ts */
 import fs from "fs";
 import path from "path";
+import { locationData } from "../src/location-data";
+import { workLocations } from "../src/work-locations";
+import type { CommuteTimes } from "../src/commute-times";
 
 type Minutes = number;
-
-export interface CommuteTimes {
-  [homeLocation: string]: {
-    [workLocation: string]: Minutes;
-  };
-}
-
-/** Labels → search queries (keep your friendly labels) */
-const homes: Record<string, string> = {
-  "Brixton": "Brixton Underground Station",
-  "Fulham": "Fulham Broadway Underground Station",
-  "Tooting": "Tooting Broadway Underground Station",
-  "Sutton": "Sutton (London) Rail Station",
-  "New Malden": "New Malden Rail Station",
-  "Wimbledon": "Wimbledon Underground Station",           // 👈 ensure Underground
-  "Richmond": "Richmond (London) Rail Station",
-  "Ealing": "Ealing Broadway Underground Station",
-  "Hounslow": "Hounslow Central Underground Station",
-  "Croydon": "East Croydon Rail Station",
-  "Wimbledon Park": "Wimbledon Park Underground Station",
-  "High Barnet": "High Barnet Underground Station",
-  "Sutton Cheam": "Cheam Rail Station",
-  "Acton Common": "Acton Town Underground Station",
-  "South Ealing": "South Ealing Underground Station",
-  "Southfields": "Southfields Underground Station",
-};
-
-const works: Record<string, string> = {
-  "City of London": "Bank Underground Station",
-  "Canary Wharf": "Canary Wharf Underground Station",
-  "King's Cross": "King's Cross St. Pancras Underground Station", // 👈 full, specific
-  "Shoreditch": "Shoreditch High Street Rail Station",
-  "Westminster": "Westminster Underground Station",
-  "South Bank": "Waterloo Underground Station",
-  "Paddington": "Paddington Underground Station",
-  "Victoria": "Victoria Underground Station",
-  "Liverpool Street": "Liverpool Street Underground Station",
-  "Oxford Circus": "Oxford Circus Underground Station",
-  "Green Park": "Green Park Underground Station",
-};
 
 /** If a label is notoriously ambiguous, force a specific StopPoint (NaPTAN) ID. */
 const STOPPOINT_OVERRIDES: Record<string, string> = {
@@ -178,8 +141,8 @@ async function resolveStopPointId(query: string): Promise<string> {
 
 /** Call Journey Planner with StopPoint IDs to avoid 300 (multiple choices). */
 async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<Minutes> {
-  const fromQuery = homes[fromLabel];
-  const toQuery = works[toLabel];
+  const fromQuery = locationData[fromLabel]?.station;
+  const toQuery = workLocations[toLabel]?.station;
   if (!fromQuery || !toQuery) throw new Error(`Unknown labels: ${fromLabel} → ${toLabel}`);
 
   const fromId = await resolveStopPointId(fromQuery);
@@ -211,8 +174,8 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<M
 }
 
 async function main() {
-  const homeKeys = Object.keys(homes);
-  const workKeys = Object.keys(works);
+  const homeKeys = Object.keys(locationData);
+  const workKeys = Object.keys(workLocations);
   const out: CommuteTimes = {};
 
   for (const h of homeKeys) {

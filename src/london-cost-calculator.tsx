@@ -1,16 +1,12 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { commuteTimes } from "./commute-times";
 import { locationData, type BedroomCount } from "./location-data";
 import { councilTaxData } from "./tax-data";
-import { Train, Building2, Home } from 'lucide-react';
+import { Train, Building2, Home, ArrowUp, ArrowDown } from 'lucide-react';
 import { commuteTimesLastRun } from "./commute-times-last-run";
+import { workLocations, type WorkLocationKey } from "./work-locations";
 
-
-interface WorkLocation {
-  zone: string;
-  description: string;
-}
 
 interface Result {
   location: string;
@@ -25,23 +21,6 @@ interface Result {
   bedrooms: BedroomCount;
 }
 
-
-// Common work locations in London
-const workLocations: Record<string, WorkLocation> = {
-  "City of London": { zone: "Zone 1", description: "Financial district" },
-  "Canary Wharf": { zone: "Zone 2", description: "Business district" },
-  "King's Cross": { zone: "Zone 1", description: "Tech hub" },
-  "Shoreditch": { zone: "Zone 1", description: "Creative district" },
-  "Westminster": { zone: "Zone 1", description: "Government area" },
-  "South Bank": { zone: "Zone 1", description: "Cultural district" },
-  "Paddington": { zone: "Zone 1", description: "Transport hub" },
-  "Victoria": { zone: "Zone 1", description: "Business area" },
-  "Liverpool Street": { zone: "Zone 1", description: "Financial area" },
-  "Oxford Circus": { zone: "Zone 1", description: "Shopping & media" },
-  "Green Park": { zone: "Zone 1", description: "Royal park" }
-};
-
-type WorkLocationKey = keyof typeof workLocations;
 
 // Lookup table for zone-based fare calculations
 const fareByZoneDifference: Record<number, number> = {
@@ -64,6 +43,23 @@ function LondonCostCalculator() {
     | 'borough'
     | 'councilTax'
   >('total');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
+  const handleSort = (col: typeof sortBy) => {
+    if (sortBy === col) {
+      setSortDirection(d => d === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(col);
+      setSortDirection('asc');
+    }
+  };
+
+  const sortIcon = (col: typeof sortBy) => {
+    if (sortBy !== col) return null;
+    return sortDirection === 'asc'
+      ? <ArrowUp className="inline h-3 w-3 ml-1" />
+      : <ArrowDown className="inline h-3 w-3 ml-1" />;
+  };
 
   const calculateCosts = useCallback(() => {
     if (!workLocation) return;
@@ -95,45 +91,25 @@ function LondonCostCalculator() {
         bedrooms: bedrooms
       };
     });
-    const sortedResults = [...calculatedResults].sort((a, b) => a.totalMonthly - b.totalMonthly);
     setSortBy('total');
-    setResults(sortedResults);
+    setSortDirection('asc');
+    setResults(calculatedResults);
   }, [workLocation, monthlyTrips, bedrooms]);
 
-  const sortResults = (
-    criteria:
-      | 'total'
-      | 'rent'
-      | 'transport'
-      | 'commute'
-      | 'location'
-      | 'borough'
-      | 'councilTax',
-  ) => {
-    setSortBy(criteria);
-    if (results.length === 0) return;
-    
+  const sortedResults = useMemo(() => {
     const sorted = [...results].sort((a, b) => {
-      switch (criteria) {
-        case 'rent':
-          return a.rent - b.rent;
-        case 'transport':
-          return a.transportCostMonthly - b.transportCostMonthly;
-        case 'commute':
-          return a.commuteTime - b.commuteTime;
-        case 'location':
-          return a.location.localeCompare(b.location);
-        case 'borough':
-          return a.borough.localeCompare(b.borough);
-        case 'councilTax':
-          return a.councilTaxMonthly - b.councilTaxMonthly;
-        default:
-          return a.totalMonthly - b.totalMonthly;
+      switch (sortBy) {
+        case 'rent':          return a.rent - b.rent;
+        case 'transport':     return a.transportCostMonthly - b.transportCostMonthly;
+        case 'commute':       return a.commuteTime - b.commuteTime;
+        case 'location':      return a.location.localeCompare(b.location);
+        case 'borough':       return a.borough.localeCompare(b.borough);
+        case 'councilTax':    return a.councilTaxMonthly - b.councilTaxMonthly;
+        default:              return a.totalMonthly - b.totalMonthly;
       }
     });
-    
-    setResults(sorted);
-  };
+    return sortDirection === 'desc' ? sorted.reverse() : sorted;
+  }, [results, sortBy, sortDirection]);
 
   useEffect(() => {
     if (workLocation) {
@@ -193,8 +169,8 @@ function LondonCostCalculator() {
   }, [darkMode]);
 
   return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen dark:from-gray-900 dark:to-gray-800 dark:text-gray-100">
-      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl p-4 sm:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 dark:text-gray-100 p-4 sm:p-6">
+      <div className="max-w-7xl mx-auto bg-white dark:bg-gray-900 rounded-lg shadow-xl p-4 sm:p-8">
         <div className="text-center mb-8">
           <div className="flex items-center justify-between mb-4">
             <div className="flex-1 flex justify-center">
@@ -289,52 +265,52 @@ function LondonCostCalculator() {
                     <tr>
                       <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Rank</th>
                       <th
-                        onClick={() => sortResults('location')}
+                        onClick={() => handleSort('location')}
                         className={`text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('location')}`}
                       >
-                        Location
+                        Location{sortIcon('location')}
                       </th>
                       <th
-                        onClick={() => sortResults('borough')}
+                        onClick={() => handleSort('borough')}
                         className={`text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('borough')}`}
                       >
-                        Borough
+                        Borough{sortIcon('borough')}
                       </th>
                       <th className="text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Zone</th>
                       <th
-                        onClick={() => sortResults('commute')}
+                        onClick={() => handleSort('commute')}
                         className={`text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('commute')}`}
                       >
-                        Commute
+                        Commute{sortIcon('commute')}
                       </th>
                       <th
-                        onClick={() => sortResults('rent')}
+                        onClick={() => handleSort('rent')}
                         className={`text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('rent')}`}
                       >
-                        Rent
+                        Rent{sortIcon('rent')}
                       </th>
                       <th
-                        onClick={() => sortResults('transport')}
+                        onClick={() => handleSort('transport')}
                         className={`text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('transport')}`}
                       >
-                        Transport
+                        Transport{sortIcon('transport')}
                       </th>
                       <th
-                        onClick={() => sortResults('councilTax')}
+                        onClick={() => handleSort('councilTax')}
                         className={`text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 ${getSortHeaderClass('councilTax')}`}
                       >
-                        Council Tax
+                        Council Tax{sortIcon('councilTax')}
                       </th>
                       <th
-                        onClick={() => sortResults('total')}
+                        onClick={() => handleSort('total')}
                         className={`text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-gray-700 ${getSortHeaderClass('total')}`}
                       >
-                        Total
+                        Total{sortIcon('total')}
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {results.map((result, index) => (
+                    {sortedResults.map((result, index) => (
                       <tr key={result.location} className={`border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
                         index < 3 ? 'bg-gradient-to-r from-green-50/30 to-blue-50/30 dark:from-green-900/30 dark:to-blue-900/30' : ''
                       }`}>
@@ -388,7 +364,7 @@ function LondonCostCalculator() {
 
             <div className="mt-6 p-4 bg-blue-50 dark:bg-gray-800 rounded-lg">
               <p className="text-sm text-blue-800 dark:text-blue-300">
-                <strong>Note:</strong> Showing {bedrooms}-bedroom properties. Transport costs range from £{Math.min(...results.map(r => r.farePerTrip)).toFixed(2)} to £{Math.max(...results.map(r => r.farePerTrip)).toFixed(2)} per trip depending on zones.
+                <strong>Note:</strong> Showing {bedrooms}-bedroom properties. Transport costs range from £{Math.min(...sortedResults.map(r => r.farePerTrip)).toFixed(2)} to £{Math.max(...sortedResults.map(r => r.farePerTrip)).toFixed(2)} per trip depending on zones.
                 Council tax varies by property size and borough.
                 <br />
                 <span>
