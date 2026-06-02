@@ -1,23 +1,73 @@
 import { useState } from 'react';
-import { Train, Moon, Sun, Link, Check, Info, UserCircle, X } from 'lucide-react';
+import {
+  Train,
+  Moon,
+  Sun,
+  Check,
+  Info,
+  UserCircle,
+  X,
+  Share2,
+  Copy,
+  MessageCircle,
+  Send,
+  AtSign,
+  Facebook,
+  Instagram,
+  Twitter,
+  Smartphone,
+} from 'lucide-react';
 import { useCalculator } from './hooks/useCalculator';
 import { useDarkMode } from './hooks/useDarkMode';
 import FilterPanel from './components/FilterPanel';
 import ResultsTable from './components/ResultsTable';
 import { NotesContent } from './components/NotesFooter';
 
+type PopoverName = 'share' | 'notes' | 'about';
+
 function LondonCostCalculator() {
   const { darkMode, setDarkMode } = useDarkMode();
   const calc = useCalculator();
 
   const [copied, setCopied] = useState<boolean>(false);
-  const [activePopover, setActivePopover] = useState<'notes' | 'about' | null>(null);
+  const [activePopover, setActivePopover] = useState<PopoverName | null>(null);
 
   const handleCopyLink = () => {
     void navigator.clipboard.writeText(window.location.href).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
+  };
+
+  const shareTitle = 'Where to live in London?';
+  const shareText = 'Compare London areas by rent, commute, safety and schools.';
+  const shareUrl = typeof window === 'undefined' ? '' : window.location.href;
+  const encodedUrl = encodeURIComponent(shareUrl);
+  const encodedText = encodeURIComponent(shareText);
+  const encodedShareLine = encodeURIComponent(`${shareText} ${shareUrl}`);
+  const canNativeShare = typeof navigator !== 'undefined' && 'share' in navigator;
+
+  const handleNativeShare = () => {
+    if (!canNativeShare) return;
+    void navigator.share({
+      title: shareTitle,
+      text: shareText,
+      url: shareUrl,
+    }).catch(() => undefined);
+  };
+
+  const shareLinks = [
+    { label: 'WhatsApp', href: `https://wa.me/?text=${encodedShareLine}`, icon: MessageCircle },
+    { label: 'Telegram', href: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`, icon: Send },
+    { label: 'Threads', href: `https://www.threads.net/intent/post?text=${encodedShareLine}`, icon: AtSign },
+    { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`, icon: Facebook },
+    { label: 'X', href: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`, icon: Twitter },
+  ];
+
+  const getPopoverTitle = () => {
+    if (activePopover === 'share') return 'Share';
+    if (activePopover === 'notes') return 'Notes';
+    return 'About';
   };
 
   return (
@@ -36,12 +86,13 @@ function LondonCostCalculator() {
           </div>
           <div className="relative flex-1 flex justify-end items-center gap-1 pt-1">
             <button
-              onClick={handleCopyLink}
+              onClick={() => setActivePopover(current => current === 'share' ? null : 'share')}
               className="p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Copy link to this view"
-              title="Copy link"
+              aria-label="Share this view"
+              aria-expanded={activePopover === 'share'}
+              title="Share"
             >
-              {copied ? <Check className="h-5 w-5 text-green-500" /> : <Link className="h-5 w-5" />}
+              <Share2 className="h-5 w-5" />
             </button>
             <button
               onClick={() => setActivePopover(current => current === 'notes' ? null : 'notes')}
@@ -74,7 +125,7 @@ function LondonCostCalculator() {
               <div className="absolute right-0 top-11 z-40 w-[calc(100vw-2rem)] max-w-[28rem] rounded-md border border-gray-200 bg-white p-4 text-left text-sm text-gray-600 shadow-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
                 <div className="mb-3 flex items-start justify-between gap-3">
                   <div className="font-semibold text-gray-900 dark:text-gray-100">
-                    {activePopover === 'notes' ? 'Notes' : 'About'}
+                    {getPopoverTitle()}
                   </div>
                   <button
                     onClick={() => setActivePopover(null)}
@@ -85,7 +136,57 @@ function LondonCostCalculator() {
                   </button>
                 </div>
 
-                {activePopover === 'notes' ? (
+                {activePopover === 'share' ? (
+                  <div className="space-y-3">
+                    <button
+                      onClick={handleCopyLink}
+                      className="flex w-full items-center justify-between rounded-md border border-gray-200 px-3 py-2 text-left hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                    >
+                      <span className="inline-flex items-center gap-2">
+                        {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                        <span>{copied ? 'Copied link' : 'Copy link'}</span>
+                      </span>
+                    </button>
+
+                    {canNativeShare && (
+                      <button
+                        onClick={handleNativeShare}
+                        className="flex w-full items-center gap-2 rounded-md border border-gray-200 px-3 py-2 text-left hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                      >
+                        <Smartphone className="h-4 w-4" />
+                        <span>Share with phone apps</span>
+                      </button>
+                    )}
+
+                    <div className="grid grid-cols-2 gap-2">
+                      {shareLinks.map(({ label, href, icon: Icon }) => (
+                        <a
+                          key={label}
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 rounded-md border border-gray-200 px-3 py-2 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                        >
+                          <Icon className="h-4 w-4" />
+                          <span>{label}</span>
+                        </a>
+                      ))}
+                      <button
+                        onClick={() => {
+                          handleCopyLink();
+                          window.open('https://www.instagram.com/direct/inbox/', '_blank', 'noopener,noreferrer');
+                        }}
+                        className="inline-flex items-center gap-2 rounded-md border border-gray-200 px-3 py-2 text-left hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                      >
+                        <Instagram className="h-4 w-4" />
+                        <span>Instagram Chat</span>
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-400 dark:text-gray-500">
+                      Instagram does not support a pre-filled web share link, so this copies the link before opening Direct.
+                    </p>
+                  </div>
+                ) : activePopover === 'notes' ? (
                   <div className="max-h-[65vh] space-y-2 overflow-y-auto pr-1">
                     <NotesContent sortedResults={calc.sortedResults} />
                   </div>
