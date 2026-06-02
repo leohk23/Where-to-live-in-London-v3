@@ -7,6 +7,28 @@ import type { CommuteTimes } from "../src/types";
 
 type Minutes = number;
 
+interface StopPointSearchMatch {
+  id?: string;
+  icsId?: string;
+  stationId?: string;
+  naptanId?: string;
+}
+
+interface StopPointSearchResponse {
+  matches?: StopPointSearchMatch[];
+}
+
+interface StopPointDetails {
+  stopType?: string;
+  commonName?: string;
+  naptanId?: string;
+  id?: string;
+}
+
+interface JourneyPlannerResponse {
+  journeys?: Array<{ duration?: number }>;
+}
+
 /** If a label is notoriously ambiguous, force a specific StopPoint (NaPTAN) ID. */
 const STOPPOINT_OVERRIDES: Record<string, string> = {
   // ---- Works (central hubs) ----
@@ -79,6 +101,14 @@ const CONCURRENCY = 3;   // parallel workers sharing the rate limiter
 
 const pause = (ms: number) => new Promise(r => setTimeout(r, ms));
 
+function getErrorMessage(error: unknown) {
+  return error instanceof Error ? error.message : String(error);
+}
+
+function getObjectKeys(value: unknown) {
+  return value && typeof value === "object" ? Object.keys(value) : [];
+}
+
 // Claim the next available rate-limit slot synchronously, then wait for it.
 // Because JS is single-threaded, the slot assignment is atomic — no two workers
 // can claim the same slot even when called concurrently.
@@ -132,8 +162,8 @@ async function resolveStopPointId(query: string): Promise<string> {
       await pause(300 * attempt);
       continue;
     }
-    const data = await res.json() as any;
-    const matches: any[] = data?.matches || [];
+    const data = await res.json() as StopPointSearchResponse;
+    const matches = data.matches || [];
 
     // Prefer Underground stations first, then Rail/DLR/Elizabeth/tram
     const preferredTypes = [
@@ -152,7 +182,7 @@ async function resolveStopPointId(query: string): Promise<string> {
       const detailsUrl = `${BASE}/StopPoint/${encodeURIComponent(id)}?${qs({})}`;
       const detRes = await fetch(detailsUrl);
       if (!detRes.ok) continue;
-      const det = await detRes.json() as any;
+      const det = await detRes.json() as StopPointDetails;
 
       const type = det?.stopType || "";
       const name = det?.commonName || "";
@@ -213,9 +243,9 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<M
     }
 
     if (res.status === 300) {
-      const body = await res.json().catch(() => null);
+      const body = await res.json().catch(() => null) as unknown;
       console.warn(`300 for ${fromLabel} → ${toLabel} (IDs: ${fromId} → ${toId})`);
-      console.warn(`  body keys:`, Object.keys(body ?? {}));
+      console.warn(`  body keys:`, getObjectKeys(body));
       console.warn(`  raw:`, JSON.stringify(body)?.slice(0, 600));
       if (attempt < 4) { await pause(500 * attempt); continue; }
       throw new Error(`HTTP 300`);
@@ -223,8 +253,8 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<M
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-    const data = await res.json() as any;
-    const journeys = data?.journeys as Array<{ duration?: number }> | undefined;
+    const data = await res.json() as JourneyPlannerResponse;
+    const journeys = data.journeys;
     const best = journeys?.map(j => j.duration).filter((d): d is number => typeof d === "number").sort((a,b)=>a-b)[0];
     return typeof best === "number" ? Math.round(best) : 0;
   }
@@ -247,8 +277,8 @@ async function main() {
       const mins = await getDurationMinutes(h, w);
       out[h][w] = mins;
       console.log(`${h} → ${w}: ${mins} min`);
-    } catch (e: any) {
-      console.warn(`Failed ${h} → ${w}: ${e?.message || e}`);
+    } catch (e: unknown) {
+      console.warn(`Failed ${h} → ${w}: ${getErrorMessage(e)}`);
       out[h][w] = 0;
     }
   }, CONCURRENCY);

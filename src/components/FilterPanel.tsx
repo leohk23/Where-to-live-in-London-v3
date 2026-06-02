@@ -160,11 +160,13 @@ export default function FilterPanel({
 
       {/* Priority sliders */}
       <div className="border-t dark:border-gray-700 pt-4 mt-2">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            What matters most?
-            <span className="ml-2 text-xs font-normal text-gray-400">Drag sliders to rank by a weighted score</span>
-          </span>
+        <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+          <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <span>What matters most?</span>
+            <span className="mt-1 block text-xs font-normal text-gray-400 sm:ml-2 sm:mt-0 sm:inline">
+              Drag sliders to rank by a weighted score
+            </span>
+          </div>
           {anyPriority && (
             <button
               onClick={() => setPriorities(() => ({ commute: 0, cost: 0, safety: 0, schools: 0 }))}

@@ -15,8 +15,6 @@ const pauseMs = parseInt(process.argv[2] ?? "150");
 const count   = parseInt(process.argv[3] ?? "30");
 
 // Fixed pair: Brixton → City of London (both overridden, always 1 API call)
-const FROM = "940GZZLUBXN"; // Brixton
-const TO   = "940GZZLUBNK"; // Bank
 
 // Pick a variety of home→work pairs to stress different station combos
 const pairs: [string, string][] = [];
@@ -88,7 +86,8 @@ async function journeyCall(fromId: string, toId: string): Promise<{ status: numb
 async function main() {
   console.log(`Testing ${count} requests at ${pauseMs}ms interval (${Math.round(60000 / pauseMs)} req/min)\n`);
 
-  let ok = 0, errors: string[] = [];
+  let ok = 0;
+  const errors: string[] = [];
   const t0 = Date.now();
 
   for (let i = 0; i < pairs.length; i++) {

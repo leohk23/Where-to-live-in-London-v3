@@ -367,7 +367,7 @@ function LocationDetailPanel({
             src={mapSrc}
             className="block h-72 min-h-[18rem] w-full flex-1 border-0 lg:h-auto lg:min-h-0"
             loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
+            referrerPolicy="no-referrer"
           />
           <div className="flex items-center justify-between gap-3 border-t border-gray-200 px-3 py-2 text-xs dark:border-gray-700">
             <span className="truncate text-gray-500 dark:text-gray-400">{result.anchorStation}</span>

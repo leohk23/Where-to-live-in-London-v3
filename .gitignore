@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .vs/
+.claude/
 node_modules/
 dist/
 .env
