@@ -6,9 +6,10 @@ interface Props {
   sortedResults: ScoredResult[];
 }
 
-export default function NotesFooter({ sortedResults }: Props) {
-  const minFare = Math.min(...sortedResults.map(r => r.farePerTrip));
-  const maxFare = Math.max(...sortedResults.map(r => r.farePerTrip));
+export function NotesContent({ sortedResults }: Props) {
+  const fares = sortedResults.map(r => r.farePerTrip);
+  const minFare = fares.length ? Math.min(...fares) : null;
+  const maxFare = fares.length ? Math.max(...fares) : null;
   const lastUpdated = commuteTimesLastRun
     ? new Date(commuteTimesLastRun).toLocaleString()
     : 'unknown';
@@ -17,8 +18,8 @@ export default function NotesFooter({ sortedResults }: Props) {
     .join('; ');
 
   return (
-    <div className="mt-6 p-4 bg-blue-50 dark:bg-gray-800 rounded-lg text-sm text-blue-800 dark:text-blue-300 space-y-1">
-      <p><strong>Transport:</strong> Costs range from &pound;{minFare.toFixed(2)} to &pound;{maxFare.toFixed(2)} per trip depending on zones.</p>
+    <>
+      <p><strong>Transport:</strong> {minFare !== null && maxFare !== null ? <>Costs range from &pound;{minFare.toFixed(2)} to &pound;{maxFare.toFixed(2)} per trip depending on zones.</> : 'Costs depend on selected areas and fare zones.'}</p>
       <p><strong>Council tax:</strong> Rates are based on 2025/26 Band D figures (including GLA precept), scaled by bedroom count.</p>
       <p><strong>Rent:</strong> Sourced from ONS Private Rental Market Statistics (January 2026 release) and Hutch/Joinhutch asking-rent data.</p>
       <p><strong>Crime:</strong> Borough-level crimes per 1,000 residents, 2024/25 (Met Police). London average is 106/k; green &lt;= 90, yellow &lt;= 120, orange &lt;= 150, red &gt; 150.</p>
@@ -27,6 +28,14 @@ export default function NotesFooter({ sortedResults }: Props) {
       <p><strong>Geography:</strong> Locations are station-centric anchors. {geographySummary}. Header badges show each metric's current source geography.</p>
       <p><strong>Score:</strong> Weighted composite 0-100 based on your priority sliders. All dimensions normalised relative to the current result set.</p>
       <p><strong>Live commute times:</strong> Calculated on demand via TfL Journey Planner. Address geocoding uses <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" className="underline">OpenStreetMap contributors</a>.</p>
+    </>
+  );
+}
+
+export default function NotesFooter({ sortedResults }: Props) {
+  return (
+    <div className="mt-6 p-4 bg-blue-50 dark:bg-gray-800 rounded-lg text-sm text-blue-800 dark:text-blue-300 space-y-1">
+      <NotesContent sortedResults={sortedResults} />
     </div>
   );
 }
