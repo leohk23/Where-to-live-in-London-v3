@@ -1,4 +1,5 @@
 /* scripts/fetch-tfl-commutes.ts */
+import "dotenv/config";
 import fs from "fs";
 import path from "path";
 import { locationData } from "../src/location-data";

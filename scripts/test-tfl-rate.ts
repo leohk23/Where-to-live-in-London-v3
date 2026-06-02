@@ -5,6 +5,7 @@
  * Usage: tsx scripts/test-tfl-rate.ts [pauseMs] [count]
  * e.g.:  tsx scripts/test-tfl-rate.ts 150 30
  */
+import "dotenv/config";
 import { locationData } from "../src/location-data";
 import { workLocations } from "../src/work-locations";
 
