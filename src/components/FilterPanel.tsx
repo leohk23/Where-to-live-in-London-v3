@@ -1,10 +1,12 @@
-import { Building2, Users } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Building2, UserPlus, Users } from 'lucide-react';
 import WorkLocationInput, { type LiveCommuteStatus } from './WorkLocationInput';
 import { BUDGET_MIN, BUDGET_MAX, BUDGET_STEP, MAX_MONTHLY_TRIPS } from '../lib/constants';
 import type { BedroomCount, Priorities } from '../types';
 import type { WorkLocationKey } from '../work-locations';
 
 type WorkMode = 'preset' | 'address';
+const PRIORITY_MAX = 5;
 
 const PRIORITY_SLIDERS: { key: keyof Priorities; label: string; tip: string }[] = [
   { key: 'commute',  label: 'Commute', tip: 'Shorter commute = higher score' },
@@ -14,7 +16,7 @@ const PRIORITY_SLIDERS: { key: keyof Priorities; label: string; tip: string }[] 
 ];
 
 const SELECT_CLASS =
-  'w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white';
+  'w-full p-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white';
 
 interface Props {
   workLocation: WorkLocationKey | '';
@@ -74,6 +76,13 @@ export default function FilterPanel({
   onFetchLiveCommutes2,
   liveCommuteLoading2, liveCommuteGeocoding2, liveCommuteProgress2, liveCommuteTotal2, liveCommuteError2,
 }: Props) {
+  const partnerHasValue = Boolean(workLocation2 || officePostcode2.trim() || liveCommuteTotal2 > 0);
+  const [showPartnerWork, setShowPartnerWork] = useState(partnerHasValue);
+
+  useEffect(() => {
+    if (partnerHasValue) setShowPartnerWork(true);
+  }, [partnerHasValue]);
+
   const primaryLiveStatus: LiveCommuteStatus = {
     loading: liveCommuteLoading,
     geocoding: liveCommuteGeocoding,
@@ -94,6 +103,23 @@ export default function FilterPanel({
     onFetch: onFetchLiveCommutes2,
   };
 
+  const togglePartnerWork = () => {
+    if (showPartnerWork) {
+      setShowPartnerWork(false);
+      setWorkLocation2('');
+      setWorkMode2('preset');
+      setOfficePostcode2('');
+      setSelectedOfficeCoords2(null);
+      return;
+    }
+
+    setShowPartnerWork(true);
+  };
+
+  const setupGridClass = showPartnerWork
+    ? 'grid grid-cols-1 items-start xl:grid-cols-[minmax(0,1.35fr)_minmax(0,1.35fr)_minmax(18rem,0.9fr)] gap-4 mb-4'
+    : 'grid grid-cols-1 items-start xl:grid-cols-[minmax(0,1fr)_minmax(18rem,0.9fr)] gap-4 mb-4';
+
   return (
     <div className="bg-gray-50 dark:bg-gray-800 p-4 sm:p-6 rounded-lg mb-6">
       <h2 className="text-xl font-semibold mb-4 flex items-center">
@@ -101,9 +127,26 @@ export default function FilterPanel({
         Setup
       </h2>
 
-      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1.35fr)_minmax(0,1.35fr)_minmax(18rem,0.9fr)] gap-4 mb-4">
+      <div className={setupGridClass}>
         <WorkLocationInput
           label="Where do you work?"
+          labelAction={(
+            <button
+              type="button"
+              onClick={togglePartnerWork}
+              className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium transition-colors ${
+                showPartnerWork
+                  ? 'border-indigo-300 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:border-indigo-500/50 dark:bg-indigo-500/15 dark:text-indigo-200 dark:hover:bg-indigo-500/25'
+                  : 'border-gray-300 bg-white text-gray-500 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-blue-500 dark:hover:bg-blue-500/15 dark:hover:text-blue-200'
+              }`}
+              aria-pressed={showPartnerWork}
+              aria-label={showPartnerWork ? "Hide partner's work location" : "Add partner's work location"}
+              title={showPartnerWork ? "Hide partner's work location" : "Add partner's work location"}
+            >
+              {showPartnerWork ? <Users className="h-3.5 w-3.5" /> : <UserPlus className="h-3.5 w-3.5" />}
+              <span>Partner</span>
+            </button>
+          )}
           mode={workMode}
           setMode={setWorkMode}
           presetValue={workLocation}
@@ -115,46 +158,44 @@ export default function FilterPanel({
           live={primaryLiveStatus}
         />
 
-        <WorkLocationInput
-          label="Partner's work location"
-          icon={<Users className="h-4 w-4" />}
-          optional
-          liveAccent="indigo"
-          mode={workMode2}
-          setMode={setWorkMode2}
-          presetValue={workLocation2}
-          setPresetValue={setWorkLocation2}
-          noneLabel="None"
-          addressValue={officePostcode2}
-          setAddressValue={setOfficePostcode2}
-          setAddressCoords={setSelectedOfficeCoords2}
-          live={partnerLiveStatus}
-        />
+        {showPartnerWork && (
+          <WorkLocationInput
+            label="Partner's work location"
+            icon={<Users className="h-4 w-4" />}
+            optional
+            liveAccent="indigo"
+            mode={workMode2}
+            setMode={setWorkMode2}
+            presetValue={workLocation2}
+            setPresetValue={setWorkLocation2}
+            noneLabel="None"
+            addressValue={officePostcode2}
+            setAddressValue={setOfficePostcode2}
+            setAddressCoords={setSelectedOfficeCoords2}
+            live={partnerLiveStatus}
+          />
+        )}
 
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="flex min-h-8 items-center text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Bedrooms</label>
-            <select
-              value={bedrooms}
-              onChange={e => setBedrooms(parseInt(e.target.value) as BedroomCount)}
-              className={SELECT_CLASS}
-            >
-              {([1, 2, 3, 4] as BedroomCount[]).map(n => (
-                <option key={n} value={n}>{n} bed</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="flex min-h-8 items-center text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Monthly trips</label>
-            <input
-              type="number"
-              value={monthlyTrips}
-              onChange={e => setMonthlyTrips(Math.min(parseInt(e.target.value) || 0, MAX_MONTHLY_TRIPS))}
-              className={SELECT_CLASS}
-              min="0"
-              max={MAX_MONTHLY_TRIPS}
-            />
-          </div>
+        <div className="grid grid-cols-2 gap-x-3 gap-y-2 sm:grid-rows-[2rem_auto]">
+          <label className="flex min-h-8 items-center text-sm font-medium text-gray-700 dark:text-gray-300">Number of Bedrooms</label>
+          <label className="flex min-h-8 items-center text-sm font-medium text-gray-700 dark:text-gray-300">Monthly trips</label>
+          <select
+            value={bedrooms}
+            onChange={e => setBedrooms(parseInt(e.target.value) as BedroomCount)}
+            className={SELECT_CLASS}
+          >
+            {([1, 2, 3, 4] as BedroomCount[]).map(n => (
+              <option key={n} value={n}>{n} bed</option>
+            ))}
+          </select>
+          <input
+            type="number"
+            value={monthlyTrips}
+            onChange={e => setMonthlyTrips(Math.min(parseInt(e.target.value) || 0, MAX_MONTHLY_TRIPS))}
+            className={SELECT_CLASS}
+            min="0"
+            max={MAX_MONTHLY_TRIPS}
+          />
         </div>
       </div>
 
@@ -186,7 +227,7 @@ export default function FilterPanel({
                 </span>
               </div>
               <input
-                type="range" min="0" max="10" step="1"
+                type="range" min="0" max={PRIORITY_MAX} step="1"
                 value={priorities[key]}
                 onChange={e => setPriorities(p => ({ ...p, [key]: parseInt(e.target.value) }))}
                 className="w-full accent-blue-600"

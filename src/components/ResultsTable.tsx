@@ -9,6 +9,7 @@ import {
   Info,
   MapPin,
   Route,
+  Smartphone,
   Wallet,
 } from 'lucide-react';
 import { CRIME_THRESHOLDS, SCHOOL_THRESHOLDS, SCORE_THRESHOLDS } from '../lib/constants';
@@ -183,7 +184,7 @@ function HeaderLevelBadge({
 
   return (
     <span
-      className={`mt-1 inline-flex rounded px-1.5 py-0.5 text-[10px] font-medium leading-none no-underline ${toneClass}`}
+      className={`inline-flex h-5 items-center rounded px-1 py-0.5 text-[9px] font-medium leading-none no-underline lg:px-1.5 lg:text-[10px] ${toneClass}`}
       title={title}
     >
       {label}
@@ -357,15 +358,37 @@ function LocationDetailPanel({
     ? `${result.outstandingSchools} of ${result.schoolsTotal} Outstanding (${result.outstandingSchoolsPct}%)`
     : 'Unavailable';
   const schoolScope = getSchoolScope(result);
+  const detailCardClass = 'rounded-md border border-gray-200 bg-white p-2.5 dark:border-gray-700 dark:bg-gray-900 xl:p-3';
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-800/80 px-4 py-4">
-      <div className="grid items-stretch gap-4 lg:grid-cols-[minmax(16rem,0.75fr)_minmax(0,1.25fr)]">
-        <div className="flex min-h-[20rem] flex-col overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900 lg:min-h-full">
+    <div className="bg-gray-50 px-3 py-3 dark:bg-gray-800/80 sm:px-4 sm:py-4">
+      <div className="grid items-start gap-3 xl:grid-cols-[minmax(16rem,0.75fr)_minmax(0,1.25fr)] xl:gap-4">
+        <div className="flex justify-end xl:hidden">
+          <span className="rounded bg-teal-100 px-2 py-1 text-xs font-medium text-teal-800 dark:bg-teal-500/15 dark:text-teal-200">
+            Station anchor
+          </span>
+        </div>
+
+        <div className="hidden flex-wrap items-start justify-between gap-3 xl:col-start-2 xl:row-start-1 xl:flex">
+          <div>
+            <div className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <MapPin className="h-5 w-5 text-teal-600 dark:text-teal-300" />
+              {result.displayName}
+            </div>
+            <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              {result.borough} - {result.zone} - {result.reviewNote ?? 'Station-centric comparison anchor.'}
+            </div>
+          </div>
+          <span className="rounded bg-teal-100 px-2 py-1 text-xs font-medium text-teal-800 dark:bg-teal-500/15 dark:text-teal-200">
+            Station anchor
+          </span>
+        </div>
+
+        <div className="flex min-h-[13rem] flex-col overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900 sm:min-h-[11rem] lg:min-h-[14rem] xl:col-start-1 xl:row-span-4 xl:row-start-1 xl:min-h-full">
           <iframe
             title={`${result.displayName} map`}
             src={mapSrc}
-            className="block h-72 min-h-[18rem] w-full flex-1 border-0 lg:h-auto lg:min-h-0"
+            className="block h-52 min-h-[12rem] w-full flex-1 border-0 sm:h-44 sm:min-h-[10rem] lg:h-56 lg:min-h-[13rem] xl:h-auto xl:min-h-0"
             loading="lazy"
             referrerPolicy="no-referrer"
           />
@@ -382,24 +405,9 @@ function LocationDetailPanel({
           </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
-                <MapPin className="h-5 w-5 text-teal-600 dark:text-teal-300" />
-                {result.displayName}
-              </div>
-              <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                {result.borough} - {result.zone} - {result.reviewNote ?? 'Station-centric comparison anchor.'}
-              </div>
-            </div>
-            <span className="rounded bg-teal-100 px-2 py-1 text-xs font-medium text-teal-800 dark:bg-teal-500/15 dark:text-teal-200">
-              Station anchor
-            </span>
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            <div className="rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900">
+        <div className="space-y-3 xl:col-start-2 xl:row-start-2 xl:space-y-4">
+          <div className="grid gap-2.5 sm:grid-cols-3 xl:gap-3">
+            <div className={detailCardClass}>
               <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
                 <Route className="h-4 w-4" />
                 Commute
@@ -412,12 +420,12 @@ function LocationDetailPanel({
               )}
             </div>
 
-            <div className="rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900">
+            <div className={detailCardClass}>
               <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
                 <Wallet className="h-4 w-4" />
                 Cost
               </div>
-              <DetailStat label="Total" value={`\u00a3${result.totalMonthly.toFixed(0)}/mo`} />
+              <DetailStat label="Total" value={`\u00a3${Math.round(result.totalMonthly).toLocaleString()}/mo`} />
               <div className="mt-2 grid grid-cols-3 gap-2">
                 <DetailStat label="Rent" value={`\u00a3${result.rent.toLocaleString()}`} />
                 <DetailStat label="Transport" value={`\u00a3${result.transportCostMonthly.toFixed(0)}`} />
@@ -425,7 +433,7 @@ function LocationDetailPanel({
               </div>
             </div>
 
-            <div className="rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900">
+            <div className={detailCardClass}>
               <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
                 <GraduationCap className="h-4 w-4" />
                 Schools
@@ -449,7 +457,6 @@ function LocationDetailPanel({
               )}
             </div>
 
-            <GeographyCard schoolScope={schoolScope} className="hidden sm:block" />
           </div>
 
           {hasSchoolDetails && (
@@ -465,7 +472,7 @@ function LocationDetailPanel({
             </div>
           )}
 
-          <GeographyCard schoolScope={schoolScope} className="sm:hidden" />
+          <GeographyCard schoolScope={schoolScope} />
         </div>
       </div>
     </div>
@@ -500,58 +507,239 @@ export default function ResultsTable({
   const scrollRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
   const [canScrollRight, setCanScrollRight] = useState<boolean>(false);
+  const [hasHorizontalOverflow, setHasHorizontalOverflow] = useState<boolean>(false);
   const [expandedLocation, setExpandedLocation] = useState<string | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
+  const [tableWidth, setTableWidth] = useState(0);
+  const [columnWidths, setColumnWidths] = useState<number[]>([]);
+  const [floatingHeaderFrame, setFloatingHeaderFrame] = useState<{ left: number; width: number } | null>(null);
   const primaryDestination = getDestinationLabel(workMode, workLocation, officePostcode, 'custom workplace');
   const partnerDestination = getDestinationLabel(workMode2, workLocation2, officePostcode2, '');
   const hasPartnerDestination = Boolean(partnerDestination);
   const detailColSpan = 9;
 
-  const updateScrollHint = useCallback(() => {
+  const updateTableChrome = useCallback(() => {
     const el = scrollRef.current;
+    const table = tableRef.current;
     if (!el) {
       setCanScrollRight(false);
+      setHasHorizontalOverflow(false);
+      setFloatingHeaderFrame(null);
       return;
     }
 
     setContainerWidth(el.clientWidth);
     const hasHorizontalOverflow = el.scrollWidth > el.clientWidth + 2;
     const hasMoreToRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 2;
+    const headerCells = table?.querySelectorAll('thead th');
+
+    setHasHorizontalOverflow(hasHorizontalOverflow);
     setCanScrollRight(hasHorizontalOverflow && hasMoreToRight);
+
+    if (table) {
+      setTableWidth(table.offsetWidth);
+    }
+
+    if (headerCells?.length) {
+      setColumnWidths(Array.from(headerCells, cell => cell.getBoundingClientRect().width));
+    }
+
+    if (!table || hasHorizontalOverflow) {
+      setFloatingHeaderFrame(null);
+      return;
+    }
+
+    const tableRect = table.getBoundingClientRect();
+    const scrollerRect = el.getBoundingClientRect();
+    const shouldFloat = tableRect.top < 0 && tableRect.bottom > 72;
+
+    setFloatingHeaderFrame(shouldFloat
+      ? {
+          left: Math.max(scrollerRect.left, 0),
+          width: Math.min(scrollerRect.width, window.innerWidth - Math.max(scrollerRect.left, 0)),
+        }
+      : null
+    );
   }, []);
 
   useEffect(() => {
-    updateScrollHint();
+    updateTableChrome();
 
     const scrollEl = scrollRef.current;
     const tableEl = tableRef.current;
     const resizeObserver = typeof ResizeObserver === 'undefined'
       ? null
-      : new ResizeObserver(updateScrollHint);
+      : new ResizeObserver(updateTableChrome);
 
     if (scrollEl) resizeObserver?.observe(scrollEl);
     if (tableEl) resizeObserver?.observe(tableEl);
-    window.addEventListener('resize', updateScrollHint);
+    window.addEventListener('resize', updateTableChrome);
+    window.addEventListener('scroll', updateTableChrome, { passive: true });
 
     return () => {
       resizeObserver?.disconnect();
-      window.removeEventListener('resize', updateScrollHint);
+      window.removeEventListener('resize', updateTableChrome);
+      window.removeEventListener('scroll', updateTableChrome);
     };
-  }, [anyPriority, budgetEnabled, expandedLocation, hasPartnerDestination, sortedResults.length, updateScrollHint]);
+  }, [anyPriority, budgetEnabled, expandedLocation, hasPartnerDestination, sortedResults.length, updateTableChrome]);
 
   const handleScroll = () => {
-    updateScrollHint();
+    updateTableChrome();
   };
 
   const thClass = (col: SortColumn, align = 'text-left') =>
-    `${align} py-3 px-3 font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap cursor-pointer select-none ${
+    `${align} align-middle py-2 px-1.5 font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap cursor-pointer select-none lg:py-3 lg:px-3 ${
       sortBy === col ? 'text-blue-600 dark:text-blue-400 underline' : 'hover:underline'
     }`;
 
   const thNarrowClass = (col: SortColumn) =>
-    `text-center py-3 px-2 font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap cursor-pointer select-none ${
+    `text-center align-middle py-2 px-1 font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap cursor-pointer select-none lg:py-3 lg:px-2 ${
       sortBy === col ? 'text-blue-600 dark:text-blue-400 underline' : 'hover:underline'
     }`;
+  const headerStackClass = (align: 'left' | 'center' = 'center') =>
+    `flex min-h-[3.25rem] flex-col justify-center gap-1 ${align === 'left' ? 'items-start' : 'items-center'}`;
+  const headerTitleClass = (align: 'left' | 'center' = 'center') =>
+    `flex h-5 items-center ${align === 'left' ? 'justify-start' : 'justify-center'}`;
+  const headerBadgeRowClass = (align: 'left' | 'center' = 'center') =>
+    `flex min-h-5 items-center ${align === 'left' ? 'justify-start' : 'justify-center'}`;
+
+  const renderHeaderRow = () => (
+    <tr>
+      <th
+        onClick={anyPriority ? () => onSort('score') : undefined}
+        className={`text-center align-middle py-2 px-1.5 font-semibold whitespace-nowrap bg-gray-50 dark:bg-gray-700 min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${
+          anyPriority
+            ? `cursor-pointer select-none ${sortBy === 'score' ? 'text-blue-600 dark:text-blue-400 underline' : 'text-gray-700 dark:text-gray-300 hover:underline'}`
+            : 'text-gray-700 dark:text-gray-300'
+        }`}
+        title={anyPriority ? 'Weighted score based on your priority sliders (0-100, higher is better)' : undefined}
+      >
+        <div className={headerStackClass()}>
+          <div className={headerTitleClass()}>{anyPriority ? 'Score' : 'Rank'}{anyPriority && <SortIcon col="score" />}</div>
+        </div>
+      </th>
+      <th
+        onClick={() => onSort('location')}
+        className={`${thClass('location')} sticky left-0 z-20 bg-gray-50 dark:bg-gray-700 shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)]`}
+      >
+        <div className={headerStackClass('left')}>
+          <div className={headerTitleClass('left')}>Location<SortIcon col="location" /></div>
+          <div className={headerBadgeRowClass('left')}>
+            <HeaderLevelBadge
+              label="Station"
+              title="Station-centric comparison anchor; other header badges show each metric's current source geography."
+              tone="station"
+            />
+          </div>
+        </div>
+      </th>
+      <th
+        onClick={() => onSort('commute')}
+        className={thClass('commute', 'text-center')}
+      >
+        <div className={headerStackClass()}>
+          <div className={headerTitleClass()}>Commute<SortIcon col="commute" /></div>
+          <div className={headerBadgeRowClass()}>
+            <HeaderLevelBadge
+              label={workMode === 'address' || workMode2 === 'address' ? 'Station/live' : 'Station'}
+              title="Home station to selected work station or live workplace address."
+              tone="station"
+            />
+          </div>
+          {hasPartnerDestination && (
+            <div className="text-xs font-normal text-gray-400 dark:text-gray-500">you / partner</div>
+          )}
+        </div>
+      </th>
+      <th
+        onClick={() => onSort('crime')}
+        className={thClass('crime', 'text-center')}
+        title="Borough crime rate per 1,000 residents (2024/25, Met Police). Lower is safer. London avg: 106/k."
+      >
+        <div className={headerStackClass()}>
+          <div className={headerTitleClass()}>Crime<SortIcon col="crime" /></div>
+          <div className={headerBadgeRowClass()}>
+            <HeaderLevelBadge
+              label="Borough"
+              title="Crime is currently measured at borough level."
+              tone="borough"
+            />
+          </div>
+        </div>
+      </th>
+      <th
+        onClick={() => onSort('schools')}
+        className={thClass('schools', 'text-center')}
+        title="% of nearby state primary and secondary schools rated Outstanding by Ofsted (Apr 2026). Higher is better."
+      >
+        <div className={headerStackClass()}>
+          <div className={headerTitleClass()}>Schools<SortIcon col="schools" /></div>
+          <div className={headerBadgeRowClass()}>
+            <div
+              className="inline-flex h-5 items-center rounded bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-200"
+              title="Primary schools use a 3km radius; secondary and grammar/selective schools use a 5km radius around the location anchor."
+            >
+              <SchoolScopeBadges primaryLabel="3km" secondaryLabel="5km" />
+            </div>
+          </div>
+        </div>
+      </th>
+      <th onClick={() => onSort('rent')} className={thNarrowClass('rent')}>
+        <div className={headerStackClass()}>
+          <div className={headerTitleClass()}>Rent<SortIcon col="rent" /></div>
+          <div className={headerBadgeRowClass()}>
+            <HeaderLevelBadge
+              label="Area est."
+              title="Rent is a local area estimate and may not exactly match the station anchor."
+              tone="area"
+            />
+          </div>
+        </div>
+      </th>
+      <th onClick={() => onSort('transport')} className={thNarrowClass('transport')}>
+        <div className={headerStackClass()}>
+          <div className={headerTitleClass()}>Transport<SortIcon col="transport" /></div>
+          <div className={headerBadgeRowClass()}>
+            <HeaderLevelBadge
+              label="Fare zone"
+              title="Transport cost is estimated from fare-zone difference and monthly trip count."
+              tone="zone"
+            />
+          </div>
+        </div>
+      </th>
+      <th onClick={() => onSort('councilTax')} className={thNarrowClass('councilTax')}>
+        <div className={headerStackClass()}>
+          <div className={headerTitleClass()}>
+            <span className="lg:hidden">Tax</span>
+            <span className="hidden lg:inline">Council Tax</span>
+            <SortIcon col="councilTax" />
+          </div>
+          <div className={headerBadgeRowClass()}>
+            <HeaderLevelBadge
+              label="Borough"
+              title="Council tax uses borough-level Band D rates scaled by bedroom count."
+              tone="borough"
+            />
+          </div>
+        </div>
+      </th>
+      <th
+        onClick={() => onSort('total')}
+        className={`${thClass('total', 'text-center')} bg-blue-50 dark:bg-gray-700`}
+      >
+        <div className={headerStackClass()}>
+          <div className={headerTitleClass()}>Total<SortIcon col="total" /></div>
+          <div className={headerBadgeRowClass()}>
+            <HeaderLevelBadge
+              label="Mixed"
+              title="Total combines rent, transport and council tax estimates."
+            />
+          </div>
+        </div>
+      </th>
+    </tr>
+  );
 
   return (
     <div>
@@ -583,112 +771,46 @@ export default function ResultsTable({
         )}
       </div>
 
+      {floatingHeaderFrame && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed top-0 z-50 overflow-hidden rounded-t-lg border-x border-b border-gray-200 bg-gray-50 shadow-lg dark:border-gray-700 dark:bg-gray-700"
+          style={{ left: floatingHeaderFrame.left, width: floatingHeaderFrame.width }}
+        >
+          <table
+            className="border-separate border-spacing-0 [&_th]:border-b [&_th]:border-gray-200 dark:[&_th]:border-gray-600"
+            style={{ width: tableWidth || floatingHeaderFrame.width }}
+          >
+            {columnWidths.length > 0 && (
+              <colgroup>
+                {columnWidths.map((width, index) => (
+                  <col key={index} style={{ width }} />
+                ))}
+              </colgroup>
+            )}
+            <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
+              {renderHeaderRow()}
+            </thead>
+          </table>
+        </div>
+      )}
+
+      {hasHorizontalOverflow && (
+        <div className="mb-3 flex items-center gap-2 rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-800 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-200 lg:hidden">
+          <Smartphone className="h-4 w-4 shrink-0" />
+          <span>Phone tip: rotate to landscape for the full table.</span>
+        </div>
+      )}
+
       <div className="bg-white dark:bg-gray-900 rounded-lg border dark:border-gray-700 overflow-hidden">
         <div className="relative">
-          <div className="overflow-x-auto" ref={scrollRef} onScroll={handleScroll}>
+          <div className="overflow-x-auto overscroll-x-contain" ref={scrollRef} onScroll={handleScroll}>
             <table
               className="w-full border-separate border-spacing-0 [&_td]:border-b [&_td]:border-gray-200 dark:[&_td]:border-gray-700 [&_th]:border-b [&_th]:border-gray-200 dark:[&_th]:border-gray-600"
               ref={tableRef}
             >
-              <thead className="sticky top-0 z-10 bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
-                <tr>
-                  <th
-                    onClick={anyPriority ? () => onSort('score') : undefined}
-                    className={`text-center py-3 px-3 font-semibold whitespace-nowrap bg-gray-50 dark:bg-gray-700 min-w-[56px] w-[56px] overflow-hidden ${
-                      anyPriority
-                        ? `cursor-pointer select-none ${sortBy === 'score' ? 'text-blue-600 dark:text-blue-400 underline' : 'text-gray-700 dark:text-gray-300 hover:underline'}`
-                        : 'text-gray-700 dark:text-gray-300'
-                    }`}
-                    title={anyPriority ? 'Weighted score based on your priority sliders (0-100, higher is better)' : undefined}
-                  >
-                    <div>Rank{anyPriority && <SortIcon col="score" />}</div>
-                    {anyPriority && <div className="text-[10px] font-normal text-gray-400 dark:text-gray-500">score</div>}
-                  </th>
-                  <th
-                    onClick={() => onSort('location')}
-                    className={`${thClass('location')} sticky left-0 z-20 bg-gray-50 dark:bg-gray-700 shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)]`}
-                  >
-                    <div>Location<SortIcon col="location" /></div>
-                    <HeaderLevelBadge
-                      label="Station"
-                      title="Station-centric comparison anchor; other header badges show each metric's current source geography."
-                      tone="station"
-                    />
-                  </th>
-                  <th
-                    onClick={() => onSort('commute')}
-                    className={thClass('commute', 'text-center')}
-                  >
-                    <div>Commute<SortIcon col="commute" /></div>
-                    <HeaderLevelBadge
-                      label={workMode === 'address' || workMode2 === 'address' ? 'Station/live' : 'Station'}
-                      title="Home station to selected work station or live workplace address."
-                      tone="station"
-                    />
-                    {hasPartnerDestination && (
-                      <div className="text-xs font-normal text-gray-400 dark:text-gray-500">you / partner</div>
-                    )}
-                  </th>
-                  <th
-                    onClick={() => onSort('crime')}
-                    className={thClass('crime', 'text-center')}
-                    title="Borough crime rate per 1,000 residents (2024/25, Met Police). Lower is safer. London avg: 106/k."
-                  >
-                    <div>Crime<SortIcon col="crime" /></div>
-                    <HeaderLevelBadge
-                      label="Borough"
-                      title="Crime is currently measured at borough level."
-                      tone="borough"
-                    />
-                  </th>
-                  <th
-                    onClick={() => onSort('schools')}
-                    className={thClass('schools', 'text-center')}
-                    title="% of nearby state primary and secondary schools rated Outstanding by Ofsted (Apr 2026). Higher is better."
-                  >
-                    <div>Schools<SortIcon col="schools" /></div>
-                    <div
-                      className="mt-1 inline-flex rounded bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-200"
-                      title="Primary schools use a 3km radius; secondary and grammar/selective schools use a 5km radius around the location anchor."
-                    >
-                      <SchoolScopeBadges primaryLabel="3km" secondaryLabel="5km" />
-                    </div>
-                  </th>
-                  <th onClick={() => onSort('rent')} className={thNarrowClass('rent')}>
-                    <div>Rent<SortIcon col="rent" /></div>
-                    <HeaderLevelBadge
-                      label="Area est."
-                      title="Rent is a local area estimate and may not exactly match the station anchor."
-                      tone="area"
-                    />
-                  </th>
-                  <th onClick={() => onSort('transport')} className={thNarrowClass('transport')}>
-                    <div>Transport<SortIcon col="transport" /></div>
-                    <HeaderLevelBadge
-                      label="Fare zone"
-                      title="Transport cost is estimated from fare-zone difference and monthly trip count."
-                      tone="zone"
-                    />
-                  </th>
-                  <th onClick={() => onSort('councilTax')} className={thNarrowClass('councilTax')}>
-                    <div>Council Tax<SortIcon col="councilTax" /></div>
-                    <HeaderLevelBadge
-                      label="Borough"
-                      title="Council tax uses borough-level Band D rates scaled by bedroom count."
-                      tone="borough"
-                    />
-                  </th>
-                  <th
-                    onClick={() => onSort('total')}
-                    className={`${thClass('total', 'text-center')} bg-blue-50 dark:bg-gray-700`}
-                  >
-                    <div>Total<SortIcon col="total" /></div>
-                    <HeaderLevelBadge
-                      label="Mixed"
-                      title="Total combines rent, transport and council tax estimates."
-                    />
-                  </th>
-                </tr>
+              <thead className="sticky top-0 z-30 bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
+                {renderHeaderRow()}
               </thead>
               <tbody>
                 {sortedResults.map((result, index) => {
@@ -704,7 +826,7 @@ export default function ResultsTable({
                             : 'group'
                         }`}
                       >
-                      <td className={`relative py-3 px-3 text-center whitespace-nowrap min-w-[56px] w-[56px] overflow-hidden ${
+                      <td className={`relative py-2 px-1.5 text-center whitespace-nowrap min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${
                         overBudget
                           ? 'bg-gray-50 dark:bg-gray-800'
                           : 'bg-white dark:bg-gray-900'
@@ -712,30 +834,29 @@ export default function ResultsTable({
                         <span
                           aria-hidden="true"
                           className={`absolute left-0 top-0 bottom-0 w-[3px] ${
-                            !overBudget && index < 5 ? 'bg-blue-400 dark:bg-blue-500' : 'bg-transparent'
+                            !anyPriority && !overBudget && index < 5 ? 'bg-blue-400 dark:bg-blue-500' : 'bg-transparent'
                           }`}
                         />
-                        {!overBudget && index < 5 ? (
-                          <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mx-auto ${
-                            index === 0 ? 'bg-green-500 text-white' :
-                            index === 1 ? 'bg-blue-500 text-white' :
-                            index === 2 ? 'bg-purple-500 text-white' :
-                            index === 3 ? 'bg-amber-400 text-white' :
-                                          'bg-gray-400 text-white'
-                          }`}>
-                            {index + 1}
-                          </div>
-                        ) : (
-                          <span className="text-gray-500 dark:text-gray-400 text-sm">{index + 1}</span>
-                        )}
-                        {anyPriority && (
-                          <div className={`text-xs font-bold mt-0.5 ${scoreColor(result.compositeScore)}`}>
+                        {anyPriority ? (
+                          <span className={`text-sm font-bold lg:text-base ${scoreColor(result.compositeScore)}`}>
                             {result.compositeScore}
-                          </div>
+                          </span>
+                        ) : !overBudget && index < 5 ? (
+                            <div className={`mx-auto flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-bold lg:h-6 lg:w-6 lg:text-xs ${
+                              index === 0 ? 'bg-green-500 text-white' :
+                              index === 1 ? 'bg-blue-500 text-white' :
+                              index === 2 ? 'bg-purple-500 text-white' :
+                              index === 3 ? 'bg-amber-400 text-white' :
+                                            'bg-gray-400 text-white'
+                            }`}>
+                              {index + 1}
+                            </div>
+                        ) : (
+                          <span className="text-xs text-gray-500 dark:text-gray-400 lg:text-sm">{index + 1}</span>
                         )}
                       </td>
 
-                      <td className={`py-3 px-3 whitespace-nowrap sticky left-0 z-10 shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] ${
+                      <td className={`sticky left-0 z-10 whitespace-nowrap px-2 py-2 shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:px-3 lg:py-3 ${
                         overBudget
                           ? 'bg-gray-50 dark:bg-gray-800'
                           : 'bg-white dark:bg-gray-900'
@@ -746,7 +867,7 @@ export default function ResultsTable({
                             onClick={() => setExpandedLocation(current => (
                               current === result.location ? null : result.location
                             ))}
-                            className="inline-flex items-center gap-1.5 text-left font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-100 dark:hover:text-blue-300"
+                            className="inline-flex items-center gap-1 text-left text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-100 dark:hover:text-blue-300 lg:gap-1.5 lg:text-base"
                             aria-expanded={isExpanded}
                             aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${result.displayName} details`}
                           >
@@ -757,20 +878,20 @@ export default function ResultsTable({
                           </button>
                           <LocationDataFlag result={result} />
                         </div>
-                        <div className="text-xs text-gray-400 dark:text-gray-500">{result.borough}</div>
+                        <div className="text-[11px] text-gray-400 dark:text-gray-500 lg:text-xs">{result.borough}</div>
                       </td>
-                      <td className={`py-3 px-3 text-center whitespace-nowrap ${hoverCellClass}`}>
+                      <td className={`whitespace-nowrap px-1.5 py-2 text-center lg:px-3 lg:py-3 ${hoverCellClass}`}>
                         {result.commuteTime !== null ? (
                           <>
                             {result.commuteIsLive && <LiveCommuteDot />}
-                            <span className={`text-sm ${result.commuteIsLive ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400'}`}>
+                            <span className={`text-xs lg:text-sm ${result.commuteIsLive ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400'}`}>
                               {result.commuteTime} min
                             </span>
                           </>
                         ) : liveCommuteLoading && !result.commuteIsLive ? (
-                          <span className="text-sm text-gray-300 dark:text-gray-600 animate-pulse">...</span>
+                          <span className="animate-pulse text-xs text-gray-300 dark:text-gray-600 lg:text-sm">...</span>
                         ) : (
-                          <span className="text-sm text-gray-400" title="Commute data unavailable">?</span>
+                          <span className="text-xs text-gray-400 lg:text-sm" title="Commute data unavailable">?</span>
                         )}
                         {hasPartnerDestination && <span className="text-gray-300 dark:text-gray-600 mx-1">/</span>}
                         {hasPartnerDestination && (
@@ -778,53 +899,58 @@ export default function ResultsTable({
                             ? (
                               <>
                                 {result.commuteTime2IsLive && <LiveCommuteDot tone="indigo" />}
-                                <span className="text-sm text-indigo-500 dark:text-indigo-400">
+                                <span className="text-xs text-indigo-500 dark:text-indigo-400 lg:text-sm">
                                   {result.commuteTime2} min
                                 </span>
                               </>
                             )
                             : liveCommuteLoading2 && !result.commuteTime2IsLive
-                              ? <span className="text-sm text-gray-300 dark:text-gray-600 animate-pulse">...</span>
-                            : <span className="text-sm text-gray-400" title="Partner commute data unavailable">?</span>
+                              ? <span className="animate-pulse text-xs text-gray-300 dark:text-gray-600 lg:text-sm">...</span>
+                            : <span className="text-xs text-gray-400 lg:text-sm" title="Partner commute data unavailable">?</span>
                         )}
                       </td>
 
-                      <td className={`py-3 px-3 text-center whitespace-nowrap ${hoverCellClass}`}>
+                      <td className={`whitespace-nowrap px-1 py-2 text-center lg:px-3 lg:py-3 ${hoverCellClass}`}>
                         {result.crimeRate !== null ? (
                           <span
-                            className={`text-xs font-medium px-2 py-0.5 rounded-full ${crimeColor(result.crimeRate)}`}
+                            className={`rounded-full px-1.5 py-0.5 text-[11px] font-medium lg:px-2 lg:text-xs ${crimeColor(result.crimeRate)}`}
                             title={`${result.crimeRate} crimes per 1,000 residents (2024/25). London avg: 106/k.`}
                           >
                             {result.crimeRate}/k
                           </span>
-                        ) : <span className="text-sm text-gray-400">?</span>}
+                        ) : <span className="text-xs text-gray-400 lg:text-sm">?</span>}
                       </td>
 
-                      <td className={`py-3 px-3 text-center whitespace-nowrap ${hoverCellClass}`}>
+                      <td className={`whitespace-nowrap px-1 py-2 text-center lg:px-3 lg:py-3 ${hoverCellClass}`}>
                         {result.outstandingSchools !== null && result.outstandingSchoolsPct !== null ? (
                           <span
-                            className={`text-xs font-medium px-2 py-0.5 rounded-full ${schoolColor(result.outstandingSchoolsPct)}`}
+                            className={`rounded-full px-1.5 py-0.5 text-[11px] font-medium lg:px-2 lg:text-xs ${schoolColor(result.outstandingSchoolsPct)}`}
                             title={getSchoolTitle(result)}
                           >
                             {result.outstandingSchools} ({result.outstandingSchoolsPct}%)
                           </span>
-                        ) : <span className="text-sm text-gray-400">?</span>}
+                        ) : <span className="text-xs text-gray-400 lg:text-sm">?</span>}
                       </td>
 
-                      <td className={`py-3 px-2 text-center font-medium whitespace-nowrap ${hoverCellClass}`}>&pound;{result.rent.toLocaleString()}</td>
-                      <td className={`py-3 px-2 text-center whitespace-nowrap ${hoverCellClass}`}>
-                        <div className="font-medium">&pound;{result.transportCostMonthly.toFixed(0)}</div>
-                        <div className="text-xs text-gray-400 dark:text-gray-500">
-                          {result.zone} - &pound;{result.farePerTrip.toFixed(2)}/trip
+                      <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.rent.toLocaleString()}</td>
+                      <td className={`whitespace-nowrap px-1 py-2 text-center lg:px-2 lg:py-3 ${hoverCellClass}`}>
+                        <div className="text-sm font-medium lg:text-base">&pound;{result.transportCostMonthly.toFixed(0)}</div>
+                        <div className="text-[10px] text-gray-400 dark:text-gray-500 lg:text-xs">
+                          <span className="lg:hidden">
+                            {result.zone.replace('Zone ', 'Z')} - &pound;{result.farePerTrip.toFixed(2).replace(/\.00$/, '')}/trip
+                          </span>
+                          <span className="hidden lg:inline">
+                            {result.zone} - &pound;{result.farePerTrip.toFixed(2)}/trip
+                          </span>
                         </div>
                       </td>
-                      <td className={`py-3 px-2 text-center font-medium whitespace-nowrap ${hoverCellClass}`}>&pound;{result.councilTaxMonthly.toFixed(0)}</td>
-                      <td className={`py-3 px-3 text-center font-bold bg-blue-50 dark:bg-gray-800 whitespace-nowrap ${
+                      <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.councilTaxMonthly.toFixed(0)}</td>
+                      <td className={`whitespace-nowrap bg-blue-50 px-1.5 py-2 text-center text-sm font-bold dark:bg-gray-800 lg:px-3 lg:py-3 lg:text-base ${
                         overBudget
                           ? 'text-red-400'
                           : 'text-blue-900 dark:text-blue-300'
                       } ${hoverCellClass}`}>
-                        &pound;{result.totalMonthly.toFixed(0)}
+                        &pound;{Math.round(result.totalMonthly).toLocaleString()}
                       </td>
                       </tr>
                       {isExpanded && (

@@ -15,6 +15,7 @@ import type { BedroomCount, Result, ScoredResult, Priorities, SortColumn } from 
 type WorkMode = 'preset' | 'address';
 const ADDRESS_WORK_ZONE = 'Zone 1';
 const LIVE_COMMUTE_CACHE_VERSION = 'v3';
+const PRIORITY_MAX = 5;
 
 function readUrlParams() {
   if (typeof window === 'undefined') return null;
@@ -24,10 +25,10 @@ function readUrlParams() {
     work2:  p.get('work2') ?? '',
     beds:   (parseInt(p.get('beds') ?? '1') || 1) as BedroomCount,
     trips:  Math.min(parseInt(p.get('trips') ?? String(DEFAULT_MONTHLY_TRIPS)) || DEFAULT_MONTHLY_TRIPS, MAX_MONTHLY_TRIPS),
-    pc:     Math.min(parseInt(p.get('pc')   ?? '0') || 0, 10),
-    pco:    Math.min(parseInt(p.get('pco')  ?? '0') || 0, 10),
-    ps:     Math.min(parseInt(p.get('ps')   ?? '0') || 0, 10),
-    psch:   Math.min(parseInt(p.get('psch') ?? '0') || 0, 10),
+    pc:     Math.min(parseInt(p.get('pc')   ?? '0') || 0, PRIORITY_MAX),
+    pco:    Math.min(parseInt(p.get('pco')  ?? '0') || 0, PRIORITY_MAX),
+    ps:     Math.min(parseInt(p.get('ps')   ?? '0') || 0, PRIORITY_MAX),
+    psch:   Math.min(parseInt(p.get('psch') ?? '0') || 0, PRIORITY_MAX),
     budget: parseInt(p.get('budget') ?? String(DEFAULT_BUDGET)) || DEFAULT_BUDGET,
     be:     p.get('be') === '1',
     op:     p.get('op') ?? '',

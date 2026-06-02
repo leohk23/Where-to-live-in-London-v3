@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
 import { MapPin } from 'lucide-react';
 import { workLocations, type WorkLocationKey } from '../work-locations';
 
 const LONDON_BBOX = '-0.6,51.2,0.4,51.85';
+const LONDON_VIEWBOX = '-0.6,51.85,0.4,51.2';
 
 const INPUT_CLASS =
   'w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm';
@@ -36,7 +37,28 @@ interface PhotonFeature {
   };
 }
 
-function formatSuggestion(f: PhotonFeature): string {
+interface NominatimResult {
+  display_name?: string;
+  lat: string;
+  lon: string;
+  name?: string;
+  address?: {
+    house_number?: string;
+    road?: string;
+    suburb?: string;
+    city?: string;
+    town?: string;
+    postcode?: string;
+  };
+}
+
+interface AddressSuggestion {
+  label: string;
+  lat: string;
+  lon: string;
+}
+
+function formatPhotonSuggestion(f: PhotonFeature): string {
   const p = f.properties;
   const parts: string[] = [];
   if (p.name && p.name !== p.street) parts.push(p.name);
@@ -45,6 +67,103 @@ function formatSuggestion(f: PhotonFeature): string {
   if (p.city) parts.push(p.city);
   if (p.postcode) parts.push(p.postcode);
   return parts.length > 0 ? parts.join(', ') : (p.name ?? '');
+}
+
+function formatNominatimSuggestion(result: NominatimResult): string {
+  const address = result.address;
+  const street = [address?.house_number, address?.road].filter(Boolean).join(' ');
+  const locality = address?.suburb ?? address?.city ?? address?.town;
+  const parts = [result.name, street, locality, address?.postcode].filter(Boolean);
+  return parts.length > 0 ? parts.join(', ') : (result.display_name ?? '');
+}
+
+function uniqueSuggestions(suggestions: AddressSuggestion[]): AddressSuggestion[] {
+  const seen = new Set<string>();
+  return suggestions.filter(suggestion => {
+    const key = suggestion.label.trim().toLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function getAddressQueryVariants(query: string): string[] {
+  const variants = [query.trim()];
+  const addVariant = (value: string) => {
+    const trimmed = value.trim();
+    if (trimmed && !variants.some(v => v.toLowerCase() === trimmed.toLowerCase())) {
+      variants.push(trimmed);
+    }
+  };
+
+  addVariant(query.replace(/\band\b/gi, '&'));
+  addVariant(query.replace(/&/g, 'and'));
+
+  for (const variant of [...variants]) {
+    if (!/\blondon\b/i.test(variant)) addVariant(`${variant}, London`);
+  }
+
+  return variants;
+}
+
+async function fetchPhotonSuggestions(q: string): Promise<AddressSuggestion[]> {
+  const qs = new URLSearchParams({ q, limit: '6', lang: 'en', bbox: LONDON_BBOX });
+  const res = await fetch(`https://photon.komoot.io/api/?${qs}`);
+  if (!res.ok) return [];
+  const data = await res.json() as { features?: PhotonFeature[] };
+  return (data.features ?? []).map(feature => {
+    const [lon, lat] = feature.geometry.coordinates;
+    return {
+      label: formatPhotonSuggestion(feature),
+      lat: String(lat),
+      lon: String(lon),
+    };
+  });
+}
+
+async function fetchNominatimSuggestions(q: string): Promise<AddressSuggestion[]> {
+  const qs = new URLSearchParams({
+    q,
+    countrycodes: 'gb',
+    limit: '6',
+    format: 'json',
+    addressdetails: '1',
+    viewbox: LONDON_VIEWBOX,
+    bounded: '1',
+  });
+  const res = await fetch(`https://nominatim.openstreetmap.org/search?${qs}`);
+  if (!res.ok) return [];
+  const data = await res.json() as NominatimResult[];
+  return data.map(result => ({
+    label: formatNominatimSuggestion(result),
+    lat: result.lat,
+    lon: result.lon,
+  }));
+}
+
+async function fetchAddressSuggestions(q: string): Promise<AddressSuggestion[]> {
+  const variants = getAddressQueryVariants(q);
+
+  for (const variant of variants) {
+    try {
+      const photonSuggestions = await fetchPhotonSuggestions(variant);
+      if (photonSuggestions.length > 0) return uniqueSuggestions(photonSuggestions);
+    } catch {
+      // Browser/CORS failures should not make the dropdown unusable.
+      break;
+    }
+  }
+
+  for (const variant of variants) {
+    try {
+      const nominatimSuggestions = await fetchNominatimSuggestions(variant);
+      if (nominatimSuggestions.length > 0) return uniqueSuggestions(nominatimSuggestions);
+    } catch {
+      return [];
+    }
+  }
+
+  return [];
 }
 
 export interface LiveCommuteStatus {
@@ -60,6 +179,7 @@ export interface LiveCommuteStatus {
 interface Props {
   label: string;
   icon?: ReactNode;
+  labelAction?: ReactNode;
   optional?: boolean;
   liveAccent?: keyof typeof LIVE_ACCENT_STYLES;
   mode: 'preset' | 'address';
@@ -74,47 +194,86 @@ interface Props {
 }
 
 export default function WorkLocationInput({
-  label, icon, optional,
+  label, icon, labelAction, optional,
   liveAccent = 'green',
   mode, setMode,
   presetValue, setPresetValue, noneLabel,
   addressValue, setAddressValue, setAddressCoords,
   live,
 }: Props) {
-  const [suggestions,        setSuggestions]        = useState<PhotonFeature[]>([]);
+  const [suggestions,        setSuggestions]        = useState<AddressSuggestion[]>([]);
   const [showDropdown,       setShowDropdown]       = useState(false);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const [hasSearched,        setHasSearched]        = useState(false);
   const [focusedIndex,       setFocusedIndex]       = useState(-1);
+  const selectedSuggestionRef = useRef<string | null>(null);
 
   useEffect(() => {
-    if (mode !== 'address') { setSuggestions([]); setShowDropdown(false); return; }
+    if (mode !== 'address') {
+      setSuggestions([]);
+      setShowDropdown(false);
+      setLoadingSuggestions(false);
+      setHasSearched(false);
+      return;
+    }
+
     const q = addressValue.trim();
-    if (q.length < 3) { setSuggestions([]); setShowDropdown(false); return; }
+    if (q.length < 3 || q === selectedSuggestionRef.current) {
+      setSuggestions([]);
+      setShowDropdown(false);
+      setLoadingSuggestions(false);
+      setHasSearched(false);
+      return;
+    }
+
+    let cancelled = false;
 
     const timer = setTimeout(async () => {
       setLoadingSuggestions(true);
+      setHasSearched(false);
       try {
-        const qs = new URLSearchParams({ q, limit: '6', lang: 'en', bbox: LONDON_BBOX });
-        const res = await fetch(`https://photon.komoot.io/api/?${qs}`);
-        if (res.ok) {
-          const data = await res.json() as { features: PhotonFeature[] };
-          setSuggestions(data.features ?? []);
+        const nextSuggestions = await fetchAddressSuggestions(q);
+        if (cancelled) return;
+        setSuggestions(nextSuggestions);
+        setShowDropdown(true);
+        setFocusedIndex(-1);
+      } catch {
+        if (!cancelled) {
+          setSuggestions([]);
           setShowDropdown(true);
-          setFocusedIndex(-1);
         }
-      } catch { /* ignore */ }
-      finally { setLoadingSuggestions(false); }
+      }
+      finally {
+        if (!cancelled) {
+          setLoadingSuggestions(false);
+          setHasSearched(true);
+        }
+      }
     }, 300);
 
-    return () => clearTimeout(timer);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, [addressValue, mode]);
 
-  const handleSelect = (feature: PhotonFeature) => {
-    const [lon, lat] = feature.geometry.coordinates;
-    setAddressValue(formatSuggestion(feature));
-    setAddressCoords({ lat: String(lat), lon: String(lon) });
+  const handleSelect = (suggestion: AddressSuggestion) => {
+    const formatted = suggestion.label;
+    selectedSuggestionRef.current = formatted.trim();
+    setAddressValue(formatted);
+    setAddressCoords({ lat: suggestion.lat, lon: suggestion.lon });
     setShowDropdown(false);
     setSuggestions([]);
+    setHasSearched(false);
+  };
+
+  const handleAddressChange = (value: string) => {
+    selectedSuggestionRef.current = null;
+    setAddressValue(value);
+    setAddressCoords(null);
+    setSuggestions([]);
+    setHasSearched(false);
+    setShowDropdown(value.trim().length >= 3);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -131,13 +290,16 @@ export default function WorkLocationInput({
   const liveAccentStyles = LIVE_ACCENT_STYLES[liveAccent];
 
   return (
-    <div>
+    <div className="grid gap-y-2 sm:grid-rows-[2rem_auto]">
       {/* Label row + mode toggle */}
-      <div className="flex min-h-8 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-2">
-        <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-1">
-          {icon}{label}
-          {optional && <span className="text-xs text-gray-400 font-normal ml-1">(optional)</span>}
-        </label>
+      <div className="flex min-h-8 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-1.5">
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-1">
+            {icon}{label}
+            {optional && <span className="text-xs text-gray-400 font-normal ml-1">(optional)</span>}
+          </label>
+          {labelAction}
+        </div>
         <div className="flex w-fit rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden text-xs flex-shrink-0">
           <button
             type="button"
@@ -181,10 +343,14 @@ export default function WorkLocationInput({
               <input
                 type="text"
                 value={addressValue}
-                onChange={e => { setAddressValue(e.target.value); setAddressCoords(null); }}
+                onChange={e => handleAddressChange(e.target.value)}
                 onKeyDown={handleKeyDown}
                 onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
-                onFocus={() => { if (suggestions.length > 0) setShowDropdown(true); }}
+                onFocus={() => {
+                  if (addressValue.trim().length >= 3 && addressValue.trim() !== selectedSuggestionRef.current) {
+                    setShowDropdown(true);
+                  }
+                }}
                 placeholder="e.g. EC2V 8RF or 1 Canada Square"
                 autoComplete="off"
                 className={`${INPUT_CLASS} ${
@@ -195,16 +361,16 @@ export default function WorkLocationInput({
                       : 'border-gray-300 dark:border-gray-600'
                 }`}
               />
-              {(showDropdown && suggestions.length > 0) || loadingSuggestions ? (
+              {showDropdown && (loadingSuggestions || suggestions.length > 0 || hasSearched) ? (
                 <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-md shadow-lg overflow-hidden">
                   {loadingSuggestions && suggestions.length === 0 ? (
                     <div className="px-4 py-3 text-sm text-gray-400 dark:text-gray-500">Searching...</div>
-                  ) : (
-                    suggestions.map((feature, i) => (
+                  ) : suggestions.length > 0 ? (
+                    suggestions.map((suggestion, i) => (
                       <button
                         key={i}
                         type="button"
-                        onMouseDown={e => { e.preventDefault(); handleSelect(feature); }}
+                        onMouseDown={e => { e.preventDefault(); handleSelect(suggestion); }}
                         className={`w-full text-left px-3 py-2.5 text-sm flex items-start gap-2 transition-colors ${
                           i === focusedIndex
                             ? 'bg-blue-50 dark:bg-blue-900/40'
@@ -213,10 +379,12 @@ export default function WorkLocationInput({
                       >
                         <MapPin className="h-4 w-4 text-gray-400 flex-shrink-0 mt-0.5" />
                         <span className="text-gray-800 dark:text-gray-200 leading-snug">
-                          {formatSuggestion(feature)}
+                          {suggestion.label}
                         </span>
                       </button>
                     ))
+                  ) : (
+                    <div className="px-4 py-3 text-sm text-gray-400 dark:text-gray-500">No suggestions found</div>
                   )}
                 </div>
               ) : null}

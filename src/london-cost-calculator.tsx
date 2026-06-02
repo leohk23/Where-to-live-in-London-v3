@@ -5,7 +5,6 @@ import {
   Sun,
   Check,
   Info,
-  UserCircle,
   X,
   Share2,
   Copy,
@@ -13,9 +12,9 @@ import {
   Send,
   AtSign,
   Facebook,
-  Instagram,
   Twitter,
   Smartphone,
+  ALargeSmall,
 } from 'lucide-react';
 import { useCalculator } from './hooks/useCalculator';
 import { useDarkMode } from './hooks/useDarkMode';
@@ -23,7 +22,7 @@ import FilterPanel from './components/FilterPanel';
 import ResultsTable from './components/ResultsTable';
 import { NotesContent } from './components/NotesFooter';
 
-type PopoverName = 'share' | 'notes' | 'about';
+type PopoverName = 'share' | 'information';
 
 function LondonCostCalculator() {
   const { darkMode, setDarkMode } = useDarkMode();
@@ -31,6 +30,7 @@ function LondonCostCalculator() {
 
   const [copied, setCopied] = useState<boolean>(false);
   const [activePopover, setActivePopover] = useState<PopoverName | null>(null);
+  const [largeText, setLargeText] = useState<boolean>(false);
 
   const handleCopyLink = () => {
     void navigator.clipboard.writeText(window.location.href).then(() => {
@@ -66,25 +66,27 @@ function LondonCostCalculator() {
 
   const getPopoverTitle = () => {
     if (activePopover === 'share') return 'Share';
-    if (activePopover === 'notes') return 'Notes';
-    return 'About';
+    return 'Information';
   };
+  const popoverWidthClass = activePopover === 'information'
+    ? 'w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] sm:w-[42rem] md:w-[48rem] lg:w-[56rem] xl:w-[64rem]'
+    : 'w-[calc(100vw-2rem)] max-w-[28rem]';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 dark:text-gray-100 p-4 sm:p-6">
+    <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 dark:from-gray-900 dark:to-gray-800 dark:text-gray-100 sm:p-6 ${largeText ? 'large-text-mode' : ''}`}>
       <div className="max-w-[110rem] mx-auto bg-white dark:bg-gray-900 rounded-lg shadow-xl p-4 sm:p-8">
 
-        <header className="flex items-start justify-between mb-8">
-          <div className="flex-1" />
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">
+        <header className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="hidden flex-1 sm:block" />
+          <div className="order-2 text-center sm:order-none">
+            <h1 className="whitespace-nowrap text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
               倫敦住邊好？
             </h1>
-            <p className="text-xl font-semibold text-gray-500 dark:text-gray-400 mt-1">
+            <p className="mt-1 text-lg font-semibold text-gray-500 dark:text-gray-400 sm:text-xl">
               Where to live in London?
             </p>
           </div>
-          <div className="relative flex-1 flex justify-end items-center gap-1 pt-1">
+          <div className="relative order-1 flex justify-end gap-1 self-end pt-1 sm:order-none sm:flex-1 sm:items-center">
             <button
               onClick={() => setActivePopover(current => current === 'share' ? null : 'share')}
               className="p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -95,22 +97,13 @@ function LondonCostCalculator() {
               <Share2 className="h-5 w-5" />
             </button>
             <button
-              onClick={() => setActivePopover(current => current === 'notes' ? null : 'notes')}
+              onClick={() => setActivePopover(current => current === 'information' ? null : 'information')}
               className="p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Show methodology notes"
-              aria-expanded={activePopover === 'notes'}
-              title="Notes"
+              aria-label="Show information"
+              aria-expanded={activePopover === 'information'}
+              title="Information"
             >
               <Info className="h-5 w-5" />
-            </button>
-            <button
-              onClick={() => setActivePopover(current => current === 'about' ? null : 'about')}
-              className="p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Show about"
-              aria-expanded={activePopover === 'about'}
-              title="About"
-            >
-              <UserCircle className="h-5 w-5" />
             </button>
             <button
               onClick={() => setDarkMode(!darkMode)}
@@ -120,9 +113,18 @@ function LondonCostCalculator() {
             >
               {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </button>
+            <button
+              onClick={() => setLargeText(current => !current)}
+              className={`rounded-full p-2 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-200 ${largeText ? 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200' : 'text-gray-400 dark:text-gray-500'}`}
+              aria-label={largeText ? 'Return to normal text size' : 'Enlarge text size'}
+              aria-pressed={largeText}
+              title={largeText ? 'Normal text size' : 'Larger text'}
+            >
+              <ALargeSmall className="h-5 w-5" />
+            </button>
 
             {activePopover && (
-              <div className="absolute right-0 top-11 z-40 w-[calc(100vw-2rem)] max-w-[28rem] rounded-md border border-gray-200 bg-white p-4 text-left text-sm text-gray-600 shadow-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+              <div className={`absolute right-0 top-11 z-40 rounded-md border border-gray-200 bg-white p-4 text-left text-sm text-gray-600 shadow-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 ${popoverWidthClass}`}>
                 <div className="mb-3 flex items-start justify-between gap-3">
                   <div className="font-semibold text-gray-900 dark:text-gray-100">
                     {getPopoverTitle()}
@@ -171,36 +173,11 @@ function LondonCostCalculator() {
                           <span>{label}</span>
                         </a>
                       ))}
-                      <button
-                        onClick={() => {
-                          handleCopyLink();
-                          window.open('https://www.instagram.com/direct/inbox/', '_blank', 'noopener,noreferrer');
-                        }}
-                        className="inline-flex items-center gap-2 rounded-md border border-gray-200 px-3 py-2 text-left hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
-                      >
-                        <Instagram className="h-4 w-4" />
-                        <span>Instagram Chat</span>
-                      </button>
                     </div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">
-                      Instagram does not support a pre-filled web share link, so this copies the link before opening Direct.
-                    </p>
-                  </div>
-                ) : activePopover === 'notes' ? (
-                  <div className="max-h-[65vh] space-y-2 overflow-y-auto pr-1">
-                    <NotesContent sortedResults={calc.sortedResults} />
                   </div>
                 ) : (
-                  <div className="space-y-2">
-                    <p>A personal London area comparison tool for balancing rent, commute, safety and schools.</p>
-                    <p>Data is indicative and intended to help shortlist areas for further research.</p>
-                    <p><strong>Author:</strong> Leo L.</p>
-                    <p>
-                      <strong>Email:</strong>{' '}
-                      <a className="text-blue-600 underline dark:text-blue-300" href="mailto:leohk23@gmail.com">
-                        leohk23@gmail.com
-                      </a>
-                    </p>
+                  <div className="max-h-[65vh] space-y-2 overflow-y-auto pr-1">
+                    <NotesContent sortedResults={calc.sortedResults} />
                   </div>
                 )}
               </div>

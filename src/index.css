@@ -2,10 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+.large-text-mode .text-xs {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+
+.large-text-mode .text-sm {
+  font-size: 1rem !important;
+  line-height: 1.5rem !important;
+}
+
+.large-text-mode .text-base {
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
+}
+
+.large-text-mode .text-lg {
+  font-size: 1.25rem !important;
+  line-height: 1.875rem !important;
+}
+
+.large-text-mode .text-xl {
+  font-size: 1.375rem !important;
+  line-height: 2rem !important;
+}
+
+.large-text-mode .text-2xl {
+  font-size: 1.625rem !important;
+  line-height: 2.125rem !important;
+}
+
+.large-text-mode [class*="text-[9px]"] {
+  font-size: 0.75rem !important;
+  line-height: 1rem !important;
+}
+
+.large-text-mode [class*="text-[10px]"] {
+  font-size: 0.8125rem !important;
+  line-height: 1.125rem !important;
+}
+
+.large-text-mode [class*="text-[11px]"] {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+
+.large-text-mode label,
+.large-text-mode input,
+.large-text-mode select,
+.large-text-mode textarea,
+.large-text-mode button {
+  font-size: max(1rem, 1em);
+}
+
 body {
-  background-color: #eff6ff; /* blue-50 — matches gradient start */
+  background-color: #eff6ff; /* blue-50, matches gradient start */
 }
 
 .dark body {
-  background-color: #111827; /* gray-900 — matches dark gradient start */
+  background-color: #111827; /* gray-900, matches dark gradient start */
 }
