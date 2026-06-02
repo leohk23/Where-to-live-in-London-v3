@@ -1,0 +1,22 @@
+{
+  "Lambeth":                { "crimesPer1000": 150.2, "primaryOutstandingSchools":  7, "primarySchools": 58, "secondaryOutstandingSchools": 3, "secondarySchools": 16 },
+  "Hammersmith and Fulham": { "crimesPer1000": 141.6, "primaryOutstandingSchools":  8, "primarySchools": 36, "secondaryOutstandingSchools": 3, "secondarySchools": 12 },
+  "Wandsworth":             { "crimesPer1000": 100.9, "primaryOutstandingSchools":  7, "primarySchools": 58, "secondaryOutstandingSchools": 2, "secondarySchools": 11 },
+  "Sutton":                 { "crimesPer1000":  76.5, "primaryOutstandingSchools":  6, "primarySchools": 42, "secondaryOutstandingSchools": 2, "secondarySchools": 14 },
+  "Kingston upon Thames":   { "crimesPer1000":  87.5, "primaryOutstandingSchools":  6, "primarySchools": 35, "secondaryOutstandingSchools": 2, "secondarySchools": 11 },
+  "Merton":                 { "crimesPer1000":  78.2, "primaryOutstandingSchools":  4, "primarySchools": 43, "secondaryOutstandingSchools": 3, "secondarySchools":  9 },
+  "Richmond upon Thames":   { "crimesPer1000":  75.5, "primaryOutstandingSchools": 10, "primarySchools": 45, "secondaryOutstandingSchools": 0, "secondarySchools": 11 },
+  "Ealing":                 { "crimesPer1000": 112.9, "primaryOutstandingSchools":  9, "primarySchools": 65, "secondaryOutstandingSchools": 4, "secondarySchools": 17 },
+  "Hounslow":               { "crimesPer1000": 112.9, "primaryOutstandingSchools":  3, "primarySchools": 49, "secondaryOutstandingSchools": 5, "secondarySchools": 21 },
+  "Croydon":                { "crimesPer1000": 104.4, "primaryOutstandingSchools":  7, "primarySchools": 87, "secondaryOutstandingSchools": 1, "secondarySchools": 24 },
+  "Barnet":                 { "crimesPer1000":  91.6, "primaryOutstandingSchools":  9, "primarySchools": 91, "secondaryOutstandingSchools": 3, "secondarySchools": 28 },
+  "Tower Hamlets":          { "crimesPer1000": 144.3, "primaryOutstandingSchools": 10, "primarySchools": 66, "secondaryOutstandingSchools": 2, "secondarySchools": 18 },
+  "Newham":                 { "crimesPer1000": 134.9, "primaryOutstandingSchools": 17, "primarySchools": 68, "secondaryOutstandingSchools": 2, "secondarySchools": 21 },
+  "Waltham Forest":         { "crimesPer1000": 107.9, "primaryOutstandingSchools":  5, "primarySchools": 51, "secondaryOutstandingSchools": 0, "secondarySchools": 17 },
+  "Southwark":              { "crimesPer1000": 154.6, "primaryOutstandingSchools":  9, "primarySchools": 66, "secondaryOutstandingSchools": 5, "secondarySchools": 20 },
+  "Hackney":                { "crimesPer1000": 150.0, "primaryOutstandingSchools": 11, "primarySchools": 50, "secondaryOutstandingSchools": 3, "secondarySchools": 16 },
+  "Bromley":                { "crimesPer1000":  87.4, "primaryOutstandingSchools": 13, "primarySchools": 76, "secondaryOutstandingSchools": 2, "secondarySchools": 19 },
+  "Islington":              { "crimesPer1000": 181.8, "primaryOutstandingSchools":  6, "primarySchools": 40, "secondaryOutstandingSchools": 1, "secondarySchools": 10 },
+  "Greenwich":              { "crimesPer1000": 115.4, "primaryOutstandingSchools":  6, "primarySchools": 62, "secondaryOutstandingSchools": 3, "secondarySchools": 16 },
+  "Lewisham":               { "crimesPer1000": 120.1, "primaryOutstandingSchools":  4, "primarySchools": 64, "secondaryOutstandingSchools": 0, "secondarySchools": 14 }
+}

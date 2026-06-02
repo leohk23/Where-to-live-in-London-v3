@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { locationData } from "../src/location-data";
 import { workLocations } from "../src/work-locations";
-import type { CommuteTimes } from "../src/commute-times";
+import type { CommuteTimes } from "../src/types";
 
 type Minutes = number;
 
@@ -23,6 +23,10 @@ const STOPPOINT_OVERRIDES: Record<string, string> = {
   "Waterloo Underground Station": "940GZZLUWLO",
   "Green Park Underground Station": "940GZZLUGPK",
   // "Shoreditch High Street Rail Station": resolved via search (910GSHRDCH not recognised by Journey Planner)
+  "South Kensington Underground Station": "940GZZLUSKS",           // Piccadilly/Circle/District
+  "Holborn Underground Station": "940GZZLUHBN",                    // Central/Piccadilly
+  "London Bridge Underground Station": "940GZZLULNB",              // Jubilee/Northern
+  "Euston Underground Station": "940GZZLUEAC",                     // Victoria/Northern
 
   // ---- Homes (suburbs) ----
   "Brixton Underground Station": "940GZZLUBXN",
@@ -40,6 +44,22 @@ const STOPPOINT_OVERRIDES: Record<string, string> = {
   "Acton Town Underground Station": "940GZZLUACT",
   // "South Ealing Underground Station": "",                         // TODO: find correct NaPTAN (940GZZLUSEA returns 404)
   "Southfields Underground Station": "940GZZLUSFS",                 // Southfields (District)
+  "Clapham Common Underground Station": "940GZZLUCPC",
+  "Bethnal Green Underground Station": "940GZZLUBLG",
+  "Stratford Underground Station": "940GZZLUSTD",
+  "Walthamstow Central Underground Station": "940GZZLUWWL",
+  "Peckham Rye Rail Station": "910GPCKHMRY",
+  "Hackney Central Rail Station": "910GHACKNYC",
+
+  // ---- New areas (May 2026) ----
+  "East Putney Underground Station": "940GZZLUEPY",
+  "Crystal Palace Rail Station": "910GCRYSTLP",
+  "Chiswick Park Underground Station": "940GZZLUCWP",
+  "Hammersmith Underground Station": "940GZZLUHSD",
+  "Highbury and Islington Underground Station": "940GZZLUHAI",
+  "Finchley Central Underground Station": "940GZZLUFYC",
+  "Greenwich DLR Station": "940GZZDLGRE",
+  "Lewisham Rail Station": "910GLEWISHM",
 };
 
 /** TfL API config */
@@ -54,7 +74,34 @@ try {
   STOP_CACHE = JSON.parse(fs.readFileSync(cacheFile, "utf8"));
 } catch { STOP_CACHE = {}; }
 
+const PAUSE_MS    = 300; // ~200 req/min — conservative; TfL's stated limit is 500/min but burst enforcement is stricter
+const CONCURRENCY = 3;   // parallel workers sharing the rate limiter
+
 const pause = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+// Claim the next available rate-limit slot synchronously, then wait for it.
+// Because JS is single-threaded, the slot assignment is atomic — no two workers
+// can claim the same slot even when called concurrently.
+let nextAllowedMs = Date.now();
+function acquireRateSlot(): Promise<void> {
+  const slot = Math.max(nextAllowedMs, Date.now());
+  nextAllowedMs = slot + PAUSE_MS;
+  const wait = slot - Date.now();
+  return wait > 0 ? pause(wait) : Promise.resolve();
+}
+
+// Simple worker pool: `concurrency` workers drain a shared queue
+async function runPool<T>(items: T[], worker: (item: T) => Promise<void>, concurrency: number) {
+  const queue = [...items];
+  await Promise.all(
+    Array.from({ length: concurrency }, async () => {
+      while (queue.length) {
+        const item = queue.shift()!;
+        await worker(item);
+      }
+    })
+  );
+}
 
 function qs(params: Record<string, string>) {
   const sp = new URLSearchParams(params);
@@ -146,27 +193,36 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<M
   if (!fromQuery || !toQuery) throw new Error(`Unknown labels: ${fromLabel} → ${toLabel}`);
 
   const fromId = await resolveStopPointId(fromQuery);
-  await pause(100);
   const toId = await resolveStopPointId(toQuery);
 
   const url = `${BASE}/Journey/JourneyResults/${encodeURIComponent(fromId)}/to/${encodeURIComponent(toId)}?` + qs({
     mode: modes.join(","),
     timeIs: "Departing",
-    // date: "2025-09-01", time: "08:30", // optional: pin a time
+    date: "20260602", time: "0900", // pin to 09:00 Mon for consistent peak-hour results
   });
 
-  for (let attempt = 1; attempt <= 3; attempt++) {
+  for (let attempt = 1; attempt <= 4; attempt++) {
     const res = await fetch(url);
-    if (!res.ok || res.status === 300) {
-      if (res.status === 300) {
-        const body = await res.json().catch(() => null);
-        console.warn(`300 for ${fromLabel} → ${toLabel} (IDs: ${fromId} → ${toId})`);
-        console.warn(`  body keys:`, Object.keys(body ?? {}));
-        console.warn(`  raw:`, JSON.stringify(body)?.slice(0, 600));
-        if (attempt < 3) { await pause(300 * attempt); continue; }
-      }
-      throw new Error(`HTTP ${res.status}`);
+
+    if (res.status === 429) {
+      const retryAfter = parseInt(res.headers.get("Retry-After") ?? "0") || 0;
+      const wait = retryAfter > 0 ? retryAfter * 1000 : 15000 * attempt;
+      console.warn(`429 rate-limited ${fromLabel} → ${toLabel}, waiting ${wait / 1000}s (attempt ${attempt})`);
+      await pause(wait);
+      continue;
     }
+
+    if (res.status === 300) {
+      const body = await res.json().catch(() => null);
+      console.warn(`300 for ${fromLabel} → ${toLabel} (IDs: ${fromId} → ${toId})`);
+      console.warn(`  body keys:`, Object.keys(body ?? {}));
+      console.warn(`  raw:`, JSON.stringify(body)?.slice(0, 600));
+      if (attempt < 4) { await pause(500 * attempt); continue; }
+      throw new Error(`HTTP 300`);
+    }
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
     const data = await res.json() as any;
     const journeys = data?.journeys as Array<{ duration?: number }> | undefined;
     const best = journeys?.map(j => j.duration).filter((d): d is number => typeof d === "number").sort((a,b)=>a-b)[0];
@@ -180,24 +236,26 @@ async function main() {
   const homeKeys = Object.keys(locationData);
   const workKeys = Object.keys(workLocations);
   const out: CommuteTimes = {};
+  for (const h of homeKeys) out[h] = {};
 
-  for (const h of homeKeys) {
-    out[h] = {};
-    for (const w of workKeys) {
-      try {
-        await pause(700); // ~85 requests/min, well within TfL's 500/min limit
-        const mins = await getDurationMinutes(h, w);
-        out[h][w] = mins;
-        console.log(`${h} → ${w}: ${mins} min`);
-      } catch (e: any) {
-        console.warn(`Failed ${h} → ${w}: ${e?.message || e}`);
-        out[h][w] = 0;
-      }
+  const pairs = homeKeys.flatMap(h => workKeys.map(w => [h, w] as [string, string]));
+  console.log(`Fetching ${pairs.length} pairs with ${CONCURRENCY} workers at ${PAUSE_MS}ms/req…\n`);
+
+  await runPool(pairs, async ([h, w]) => {
+    try {
+      await acquireRateSlot();
+      const mins = await getDurationMinutes(h, w);
+      out[h][w] = mins;
+      console.log(`${h} → ${w}: ${mins} min`);
+    } catch (e: any) {
+      console.warn(`Failed ${h} → ${w}: ${e?.message || e}`);
+      out[h][w] = 0;
     }
-  }
+  }, CONCURRENCY);
 
+  const lastRun = new Date().toISOString();
   const banner = `/**
- * AUTO-GENERATED by scripts/fetch-commute-times.ts
+ * AUTO-GENERATED by scripts/fetch-tfl-commutes.ts
  * To regenerate: npm run fetch-commutes:tfl
  * Values are one-way minutes from TfL Journey Planner (shortest itinerary).
  */`;
@@ -211,20 +269,13 @@ export interface CommuteTimes {
 }
 
 export const commuteTimes: CommuteTimes = ${JSON.stringify(out, null, 2)};
+
+export const commuteTimesLastRun = "${lastRun}";
 `;
 
   const outPath = path.resolve(process.cwd(), "src/commute-times.ts");
   fs.writeFileSync(outPath, file, "utf8");
-  console.log(`\nWrote ${outPath}`);
-
-  // Write last run time as a TypeScript export
-  const lastRunTsPath = path.resolve(process.cwd(), "src/commute-times-last-run.ts");
-  fs.writeFileSync(
-    lastRunTsPath,
-    `export const commuteTimesLastRun = "${new Date().toISOString()}";\n`,
-    "utf8"
-  );
-  console.log(`Last run time written to ${lastRunTsPath}`);
+  console.log(`\nWrote ${outPath} (lastRun: ${lastRun})`);
 }
 
 main().catch((e) => {

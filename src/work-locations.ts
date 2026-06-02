@@ -16,6 +16,12 @@ export const workLocations: Record<string, WorkLocation> = {
   "Liverpool Street":{ zone: "Zone 1", description: "Financial area",     station: "Liverpool Street Underground Station" },
   "Oxford Circus":   { zone: "Zone 1", description: "Shopping & media",   station: "Oxford Circus Underground Station" },
   "Green Park":      { zone: "Zone 1", description: "Royal park",         station: "Green Park Underground Station" },
+  "South Kensington":{ zone: "Zone 1", description: "Museums & Imperial", station: "South Kensington Underground Station" },
+  "Holborn":         { zone: "Zone 1", description: "Legal & media",      station: "Holborn Underground Station" },
+  "London Bridge":   { zone: "Zone 1", description: "Finance & Shard",    station: "London Bridge Underground Station" },
+  "Hammersmith":     { zone: "Zone 2", description: "BBC & Sky offices",   station: "Hammersmith Underground Station" },
+  "Stratford":       { zone: "Zone 2", description: "Olympic Park & east", station: "Stratford Underground Station" },
+  "Euston":          { zone: "Zone 1", description: "UCL & biomedical",   station: "Euston Underground Station" },
 };
 
 export type WorkLocationKey = keyof typeof workLocations;

@@ -2,8 +2,6 @@ name: Update Commute Times
 
 on:
   workflow_dispatch:  # run manually
-  schedule:
-    - cron: '0 4 * * 1'  # every Monday 4am UTC
 
 jobs:
   fetch:
