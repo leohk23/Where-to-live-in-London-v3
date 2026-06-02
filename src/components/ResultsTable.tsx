@@ -303,6 +303,35 @@ function SchoolPreviewList({
   );
 }
 
+function GeographyCard({
+  schoolScope,
+  className = '',
+}: {
+  schoolScope: ReturnType<typeof getSchoolScope>;
+  className?: string;
+}) {
+  return (
+    <div className={`rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900 ${className}`}>
+      <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+        <Info className="h-4 w-4" />
+        Geography
+      </div>
+      <div className="space-y-1 text-xs text-gray-600 dark:text-gray-300">
+        <div>Commute: station/live</div>
+        <div>Rent: area estimate</div>
+        <div>Crime/tax: borough</div>
+        <div className="flex flex-wrap items-center gap-1">
+          <span>Schools:</span>
+          <SchoolScopeBadges
+            primaryLabel={schoolScope.primaryLabel}
+            secondaryLabel={schoolScope.secondaryLabel}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function formatCommute(time: number | null, isLive: boolean) {
   if (time === null) return 'Unavailable';
   return `${time} min${isLive ? ' live' : ''}`;
@@ -401,51 +430,26 @@ function LocationDetailPanel({
                 <GraduationCap className="h-4 w-4" />
                 Schools
               </div>
-              <div>
-                <div className="text-[11px] font-medium uppercase text-gray-400 dark:text-gray-500">
-                  <SchoolScopeBadges
-                    primaryLabel={schoolScope.primaryLabel}
-                    secondaryLabel={schoolScope.secondaryLabel}
-                  />
-                </div>
-                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{schoolSummary}</div>
-              </div>
+              <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{schoolSummary}</div>
               <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
                 <span className="inline-flex items-center gap-1">
                   <SchoolPhaseBadge phase="Primary" />
-                  <span>{result.primaryOutstandingSchools}/{result.primarySchools} ({schoolScope.primaryLabel})</span>
+                  <span>{result.primaryOutstandingSchools}/{result.primarySchools}</span>
                 </span>
                 <span className="inline-flex items-center gap-1">
                   <SchoolPhaseBadge phase="Secondary" />
-                  <span>{result.secondaryOutstandingSchools}/{result.secondarySchools} ({schoolScope.secondaryLabel})</span>
+                  <span>{result.secondaryOutstandingSchools}/{result.secondarySchools}</span>
                 </span>
               </div>
               {result.grammarSchools !== null && (
                 <div className="mt-1 flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                   <SchoolPhaseBadge phase="Secondary" />
-                  <span>Grammar/selective: {result.grammarSchools} ({schoolScope.secondaryLabel})</span>
+                  <span>Grammar/selective: {result.grammarSchools}</span>
                 </div>
               )}
             </div>
 
-            <div className="rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900">
-              <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
-                <Info className="h-4 w-4" />
-                Geography
-              </div>
-              <div className="space-y-1 text-xs text-gray-600 dark:text-gray-300">
-                <div>Commute: station/live</div>
-                <div>Rent: area estimate</div>
-                <div>Crime/tax: borough</div>
-                <div className="flex flex-wrap items-center gap-1">
-                  <span>Schools:</span>
-                  <SchoolScopeBadges
-                    primaryLabel={schoolScope.primaryLabel}
-                    secondaryLabel={schoolScope.secondaryLabel}
-                  />
-                </div>
-              </div>
-            </div>
+            <GeographyCard schoolScope={schoolScope} className="hidden sm:block" />
           </div>
 
           {hasSchoolDetails && (
@@ -460,6 +464,8 @@ function LocationDetailPanel({
               </div>
             </div>
           )}
+
+          <GeographyCard schoolScope={schoolScope} className="sm:hidden" />
         </div>
       </div>
     </div>
