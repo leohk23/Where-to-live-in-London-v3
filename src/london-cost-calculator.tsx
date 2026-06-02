@@ -19,6 +19,7 @@ import {
 import { useCalculator } from './hooks/useCalculator';
 import { useDarkMode } from './hooks/useDarkMode';
 import FilterPanel from './components/FilterPanel';
+import LocationMapPrototype from './components/LocationMapPrototype';
 import ResultsTable from './components/ResultsTable';
 import { NotesContent } from './components/NotesFooter';
 
@@ -227,6 +228,10 @@ function LondonCostCalculator() {
 
         {calc.sortedResults.length > 0 ? (
           <>
+            <LocationMapPrototype
+              sortedResults={calc.sortedResults}
+              anyPriority={calc.anyPriority}
+            />
             <ResultsTable
               sortedResults={calc.sortedResults}
               anyPriority={calc.anyPriority}
