@@ -13,21 +13,31 @@ import {
   Wallet,
 } from 'lucide-react';
 import { CRIME_THRESHOLDS, SCHOOL_THRESHOLDS, SCORE_THRESHOLDS } from '../lib/constants';
-import type { ScoredResult, SortColumn, BedroomCount, NearbySchool } from '../types';
+import locationWardPolygons from '../data/location-ward-polygons.json';
+import type { ScoredResult, SortColumn, NearbySchool } from '../types';
 import type { WorkLocationKey } from '../work-locations';
 
 type WorkMode = 'preset' | 'address';
 
+interface Coordinate {
+  lat: number;
+  lon: number;
+}
+
+interface LocationBoundary {
+  anchor: Coordinate;
+  boundaryName: string;
+}
+
+const LOCATION_BOUNDARIES = locationWardPolygons as Record<string, LocationBoundary>;
+
 interface Props {
   sortedResults: ScoredResult[];
   anyPriority: boolean;
-  workLocation: WorkLocationKey | '';
   workMode: WorkMode;
-  officePostcode: string;
   workLocation2: WorkLocationKey | '';
   workMode2: WorkMode;
   officePostcode2: string;
-  bedrooms: BedroomCount;
   budgetEnabled: boolean;
   maxBudget: number;
   sortBy: SortColumn;
@@ -35,6 +45,24 @@ interface Props {
   onSort: (col: SortColumn) => void;
   liveCommuteLoading: boolean;
   liveCommuteLoading2: boolean;
+  onLocationHover?: (location: string | null) => void;
+  selectedLocation?: string | null;
+  onLocationSelect?: (location: string) => void;
+}
+
+const SCORE_FACTOR_LABELS: Record<ScoredResult['scoreBreakdown'][number]['key'], string> = {
+  commute: 'Commute',
+  cost: 'Cost',
+  safety: 'Safety',
+  schools: 'Schools',
+};
+
+function buildScoreTitle(result: ScoredResult): string | undefined {
+  if (!result.scoreBreakdown.length) return undefined;
+  const lines = result.scoreBreakdown.map(
+    factor => `${SCORE_FACTOR_LABELS[factor.key]}: ${factor.normalized}/100 (weight ${factor.weight})`,
+  );
+  return `Match score ${result.compositeScore}/100 — weighted average of:\n${lines.join('\n')}`;
 }
 
 function crimeColor(rate: number) {
@@ -345,9 +373,14 @@ function LocationDetailPanel({
   result: ScoredResult;
   hasPartnerDestination: boolean;
 }) {
-  const mapQuery = encodeURIComponent(`${result.anchorStation}, London`);
-  const mapSrc = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
-  const mapLink = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+  const boundary = LOCATION_BOUNDARIES[result.location];
+  const anchor = boundary?.anchor;
+  const mapQuery = anchor
+    ? `${anchor.lat},${anchor.lon}`
+    : `${result.anchorStation}, London`;
+  const encodedMapQuery = encodeURIComponent(mapQuery);
+  const mapSrc = `https://www.google.com/maps?q=${encodedMapQuery}&z=14&output=embed`;
+  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodedMapQuery}`;
   const nearestPrimarySchools = result.nearestPrimaryOutstandingSchools.slice(0, 5);
   const nearestSecondarySchools = result.nearestSecondaryOutstandingSchools.slice(0, 5);
   const nearestGrammarSchools = result.nearestGrammarSchools.slice(0, 5);
@@ -464,7 +497,7 @@ function LocationDetailPanel({
               <div className="mb-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
                 Nearest Outstanding schools
               </div>
-              <div className="grid gap-3 md:grid-cols-3">
+              <div className="grid gap-3 md:grid-cols-2">
                 <SchoolPreviewList title="Primary" phase="Primary" schools={nearestPrimarySchools} />
                 <SchoolPreviewList title="Secondary" phase="Secondary" schools={nearestSecondarySchools} />
                 <SchoolPreviewList title={`Grammar/selective (${result.grammarSchools ?? 0})`} phase="Secondary" schools={nearestGrammarSchools} />
@@ -482,13 +515,10 @@ function LocationDetailPanel({
 export default function ResultsTable({
   sortedResults,
   anyPriority,
-  workLocation,
   workMode,
-  officePostcode,
   workLocation2,
   workMode2,
   officePostcode2,
-  bedrooms,
   budgetEnabled,
   maxBudget,
   sortBy,
@@ -496,6 +526,9 @@ export default function ResultsTable({
   onSort,
   liveCommuteLoading,
   liveCommuteLoading2,
+  onLocationHover,
+  selectedLocation,
+  onLocationSelect,
 }: Props) {
   const SortIcon = ({ col }: { col: SortColumn }) => {
     if (sortBy !== col) return null;
@@ -513,7 +546,6 @@ export default function ResultsTable({
   const [tableWidth, setTableWidth] = useState(0);
   const [columnWidths, setColumnWidths] = useState<number[]>([]);
   const [floatingHeaderFrame, setFloatingHeaderFrame] = useState<{ left: number; width: number } | null>(null);
-  const primaryDestination = getDestinationLabel(workMode, workLocation, officePostcode, 'custom workplace');
   const partnerDestination = getDestinationLabel(workMode2, workLocation2, officePostcode2, '');
   const hasPartnerDestination = Boolean(partnerDestination);
   const detailColSpan = 9;
@@ -747,7 +779,7 @@ export default function ResultsTable({
         <div className="flex items-center gap-3 flex-wrap">
           <h2 className="text-xl font-semibold flex items-center">
             <Home className="h-5 w-5 mr-2 text-green-600" />
-            {bedrooms}-Bedroom Areas
+            Your best matched locations
           </h2>
           {budgetEnabled && (
             <span className="text-xs bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300 px-2 py-1 rounded-full">
@@ -755,20 +787,6 @@ export default function ResultsTable({
             </span>
           )}
         </div>
-        {(primaryDestination || partnerDestination) && (
-          <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-gray-400">
-            {primaryDestination && (
-              <span>
-                Your commute: <span className="font-medium text-gray-700 dark:text-gray-200">{primaryDestination}</span>
-              </span>
-            )}
-            {partnerDestination && (
-              <span>
-                Partner commute: <span className="font-medium text-gray-700 dark:text-gray-200">{partnerDestination}</span>
-              </span>
-            )}
-          </div>
-        )}
       </div>
 
       {floatingHeaderFrame && (
@@ -815,15 +833,23 @@ export default function ResultsTable({
               <tbody>
                 {sortedResults.map((result, index) => {
                   const overBudget = budgetEnabled && result.totalMonthly > maxBudget;
-                  const hoverCellClass = overBudget ? '' : 'group-hover:!bg-gray-50 dark:group-hover:!bg-gray-700';
+                  const isSelected = selectedLocation === result.location;
+                  const hoverCellClass = overBudget
+                    ? ''
+                    : isSelected
+                      ? '!bg-blue-50 dark:!bg-blue-950/40'
+                      : 'group-hover:!bg-gray-50 dark:group-hover:!bg-gray-700';
                   const isExpanded = expandedLocation === result.location;
                   return (
                     <Fragment key={result.location}>
                       <tr
+                        onClick={onLocationSelect ? () => onLocationSelect(result.location) : undefined}
+                        onMouseEnter={() => onLocationHover?.(result.location)}
+                        onMouseLeave={() => onLocationHover?.(null)}
                         className={`border-b dark:border-gray-700 ${
                           overBudget
                             ? 'opacity-35 bg-gray-50 dark:bg-gray-800'
-                            : 'group'
+                            : `group ${onLocationSelect ? 'cursor-pointer' : ''}`
                         }`}
                       >
                       <td className={`relative py-2 px-1.5 text-center whitespace-nowrap min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${
@@ -838,7 +864,10 @@ export default function ResultsTable({
                           }`}
                         />
                         {anyPriority ? (
-                          <span className={`text-sm font-bold lg:text-base ${scoreColor(result.compositeScore)}`}>
+                          <span
+                            className={`cursor-help text-sm font-bold lg:text-base ${scoreColor(result.compositeScore)}`}
+                            title={buildScoreTitle(result)}
+                          >
                             {result.compositeScore}
                           </span>
                         ) : !overBudget && index < 5 ? (

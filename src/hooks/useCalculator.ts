@@ -478,14 +478,15 @@ export function useCalculator() {
 
     const withLive = results.map(r => ({
       ...r,
-      commuteTime:      r.location in liveCommuteTimes  ? liveCommuteTimes[r.location]  : r.commuteTime,
-      commuteIsLive:    r.location in liveCommuteTimes,
+      commuteTime:      workMode === 'address' && r.location in liveCommuteTimes ? liveCommuteTimes[r.location] : r.commuteTime,
+      commuteIsLive:    workMode === 'address' && r.location in liveCommuteTimes,
       commuteTime2:     workMode2 === 'address' && r.location in liveCommuteTimes2 ? liveCommuteTimes2[r.location] : r.commuteTime2,
       commuteTime2IsLive: workMode2 === 'address' && r.location in liveCommuteTimes2,
     }));
 
     let scored = withLive.map(r => {
       let compositeScore = 0;
+      let scoreBreakdown: ScoredResult['scoreBreakdown'] = [];
       if (isActive) {
         const totalWeight = priorities.commute + priorities.cost + priorities.safety + priorities.schools;
         const allCommutes = withLive.map(x => {
@@ -508,14 +509,25 @@ export function useCalculator() {
           ? ((r.commuteTime ?? NULL_COMMUTE_FALLBACK) + (r.commuteTime2 ?? NULL_COMMUTE_FALLBACK)) / 2
           : (r.commuteTime ?? NULL_COMMUTE_FALLBACK);
 
-        const sc = norm(myCommute,                          allCommutes, true)  * priorities.commute
-                 + norm(r.totalMonthly,                     allCosts,    true)  * priorities.cost
-                 + norm(r.crimeRate ?? NULL_CRIME_FALLBACK, allCrimes,   true)  * priorities.safety
-                 + norm(r.outstandingSchoolsPct ?? 0,       allSchools,  false) * priorities.schools;
+        const nCommute = norm(myCommute,                          allCommutes, true);
+        const nCost    = norm(r.totalMonthly,                     allCosts,    true);
+        const nSafety  = norm(r.crimeRate ?? NULL_CRIME_FALLBACK, allCrimes,   true);
+        const nSchools = norm(r.outstandingSchoolsPct ?? 0,       allSchools,  false);
+
+        const sc = nCommute * priorities.commute
+                 + nCost    * priorities.cost
+                 + nSafety  * priorities.safety
+                 + nSchools * priorities.schools;
 
         compositeScore = totalWeight > 0 ? Math.round(sc / totalWeight) : 0;
+        scoreBreakdown = ([
+          { key: 'commute', normalized: Math.round(nCommute), weight: priorities.commute },
+          { key: 'cost',    normalized: Math.round(nCost),    weight: priorities.cost },
+          { key: 'safety',  normalized: Math.round(nSafety),  weight: priorities.safety },
+          { key: 'schools', normalized: Math.round(nSchools), weight: priorities.schools },
+        ] as ScoredResult['scoreBreakdown']).filter(factor => factor.weight > 0);
       }
-      return { ...r, compositeScore };
+      return { ...r, compositeScore, scoreBreakdown };
     });
 
     const cmp = (a: ScoredResult, b: ScoredResult): number => {
@@ -559,7 +571,7 @@ export function useCalculator() {
     }
 
     return scored;
-  }, [results, liveCommuteTimes, liveCommuteTimes2, workMode2, workLocation2, sortBy, sortDirection, priorities, budgetEnabled, maxBudget]);
+  }, [results, liveCommuteTimes, liveCommuteTimes2, workMode, workMode2, workLocation2, sortBy, sortDirection, priorities, budgetEnabled, maxBudget]);
 
   useEffect(() => {
     calculateCosts();
@@ -577,14 +589,14 @@ export function useCalculator() {
     maxBudget,     setMaxBudget,
     // Primary live commute
     officePostcode,       setOfficePostcode,
-    setSelectedOfficeCoords,
+    selectedOfficeCoords, setSelectedOfficeCoords,
     liveCommuteLoading,   liveCommuteGeocoding,
     liveCommuteProgress,  liveCommuteTotal,
     liveCommuteError,
     fetchLiveCommutes,
     // Partner live commute
     officePostcode2,      setOfficePostcode2,
-    setSelectedOfficeCoords2,
+    selectedOfficeCoords2, setSelectedOfficeCoords2,
     liveCommuteLoading2,  liveCommuteGeocoding2,
     liveCommuteProgress2, liveCommuteTotal2,
     liveCommuteError2,

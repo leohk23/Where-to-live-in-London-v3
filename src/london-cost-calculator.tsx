@@ -22,8 +22,14 @@ import FilterPanel from './components/FilterPanel';
 import LocationMapPrototype from './components/LocationMapPrototype';
 import ResultsTable from './components/ResultsTable';
 import { NotesContent } from './components/NotesFooter';
+import { workLocations, type WorkLocationKey } from './work-locations';
 
 type PopoverName = 'share' | 'information';
+
+function presetCoords(key: WorkLocationKey | '') {
+  const coords = key ? workLocations[key]?.coords : null;
+  return coords ? { lat: String(coords.lat), lon: String(coords.lon) } : null;
+}
 
 function LondonCostCalculator() {
   const { darkMode, setDarkMode } = useDarkMode();
@@ -32,6 +38,8 @@ function LondonCostCalculator() {
   const [copied, setCopied] = useState<boolean>(false);
   const [activePopover, setActivePopover] = useState<PopoverName | null>(null);
   const [largeText, setLargeText] = useState<boolean>(false);
+  const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
+  const [pinnedLocation, setPinnedLocation] = useState<string | null>(null);
 
   const handleCopyLink = () => {
     void navigator.clipboard.writeText(window.location.href).then(() => {
@@ -72,6 +80,55 @@ function LondonCostCalculator() {
   const popoverWidthClass = activePopover === 'information'
     ? 'w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] sm:w-[42rem] md:w-[48rem] lg:w-[56rem] xl:w-[64rem]'
     : 'w-[calc(100vw-2rem)] max-w-[28rem]';
+  const hasResults = calc.sortedResults.length > 0;
+  const activeMapLocation = calc.sortedResults.some(result => result.location === hoveredLocation)
+    ? hoveredLocation
+    : calc.sortedResults.some(result => result.location === pinnedLocation)
+      ? pinnedLocation
+      : null;
+
+  const renderFilterPanel = (className?: string) => (
+    <FilterPanel
+      className={className}
+      workLocation={calc.workLocation}
+      setWorkLocation={calc.setWorkLocation}
+      workMode={calc.workMode}
+      setWorkMode={calc.setWorkMode}
+      workLocation2={calc.workLocation2}
+      setWorkLocation2={calc.setWorkLocation2}
+      workMode2={calc.workMode2}
+      setWorkMode2={calc.setWorkMode2}
+      bedrooms={calc.bedrooms}
+      setBedrooms={calc.setBedrooms}
+      monthlyTrips={calc.monthlyTrips}
+      setMonthlyTrips={calc.setMonthlyTrips}
+      priorities={calc.priorities}
+      setPriorities={calc.setPriorities}
+      budgetEnabled={calc.budgetEnabled}
+      setBudgetEnabled={calc.setBudgetEnabled}
+      maxBudget={calc.maxBudget}
+      setMaxBudget={calc.setMaxBudget}
+      anyPriority={calc.anyPriority}
+      officePostcode={calc.officePostcode}
+      setOfficePostcode={calc.setOfficePostcode}
+      setSelectedOfficeCoords={calc.setSelectedOfficeCoords}
+      onFetchLiveCommutes={() => { void calc.fetchLiveCommutes(); }}
+      liveCommuteLoading={calc.liveCommuteLoading}
+      liveCommuteGeocoding={calc.liveCommuteGeocoding}
+      liveCommuteProgress={calc.liveCommuteProgress}
+      liveCommuteTotal={calc.liveCommuteTotal}
+      liveCommuteError={calc.liveCommuteError}
+      officePostcode2={calc.officePostcode2}
+      setOfficePostcode2={calc.setOfficePostcode2}
+      setSelectedOfficeCoords2={calc.setSelectedOfficeCoords2}
+      onFetchLiveCommutes2={() => { void calc.fetchLiveCommutes2(); }}
+      liveCommuteLoading2={calc.liveCommuteLoading2}
+      liveCommuteGeocoding2={calc.liveCommuteGeocoding2}
+      liveCommuteProgress2={calc.liveCommuteProgress2}
+      liveCommuteTotal2={calc.liveCommuteTotal2}
+      liveCommuteError2={calc.liveCommuteError2}
+    />
+  );
 
   return (
     <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 dark:from-gray-900 dark:to-gray-800 dark:text-gray-100 sm:p-6 ${largeText ? 'large-text-mode' : ''}`}>
@@ -186,77 +243,54 @@ function LondonCostCalculator() {
           </div>
         </header>
 
-        <FilterPanel
-          workLocation={calc.workLocation}
-          setWorkLocation={calc.setWorkLocation}
-          workMode={calc.workMode}
-          setWorkMode={calc.setWorkMode}
-          workLocation2={calc.workLocation2}
-          setWorkLocation2={calc.setWorkLocation2}
-          workMode2={calc.workMode2}
-          setWorkMode2={calc.setWorkMode2}
-          bedrooms={calc.bedrooms}
-          setBedrooms={calc.setBedrooms}
-          monthlyTrips={calc.monthlyTrips}
-          setMonthlyTrips={calc.setMonthlyTrips}
-          priorities={calc.priorities}
-          setPriorities={calc.setPriorities}
-          budgetEnabled={calc.budgetEnabled}
-          setBudgetEnabled={calc.setBudgetEnabled}
-          maxBudget={calc.maxBudget}
-          setMaxBudget={calc.setMaxBudget}
-          anyPriority={calc.anyPriority}
-          officePostcode={calc.officePostcode}
-          setOfficePostcode={calc.setOfficePostcode}
-          setSelectedOfficeCoords={calc.setSelectedOfficeCoords}
-          onFetchLiveCommutes={() => { void calc.fetchLiveCommutes(); }}
-          liveCommuteLoading={calc.liveCommuteLoading}
-          liveCommuteGeocoding={calc.liveCommuteGeocoding}
-          liveCommuteProgress={calc.liveCommuteProgress}
-          liveCommuteTotal={calc.liveCommuteTotal}
-          liveCommuteError={calc.liveCommuteError}
-          officePostcode2={calc.officePostcode2}
-          setOfficePostcode2={calc.setOfficePostcode2}
-          setSelectedOfficeCoords2={calc.setSelectedOfficeCoords2}
-          onFetchLiveCommutes2={() => { void calc.fetchLiveCommutes2(); }}
-          liveCommuteLoading2={calc.liveCommuteLoading2}
-          liveCommuteGeocoding2={calc.liveCommuteGeocoding2}
-          liveCommuteProgress2={calc.liveCommuteProgress2}
-          liveCommuteTotal2={calc.liveCommuteTotal2}
-          liveCommuteError2={calc.liveCommuteError2}
-        />
-
-        {calc.sortedResults.length > 0 ? (
-          <>
-            <LocationMapPrototype
-              sortedResults={calc.sortedResults}
-              anyPriority={calc.anyPriority}
-            />
-            <ResultsTable
-              sortedResults={calc.sortedResults}
-              anyPriority={calc.anyPriority}
-              workLocation={calc.workLocation}
-              workMode={calc.workMode}
-              officePostcode={calc.officePostcode}
-              workLocation2={calc.workLocation2}
-              workMode2={calc.workMode2}
-              officePostcode2={calc.officePostcode2}
-              bedrooms={calc.bedrooms}
-              budgetEnabled={calc.budgetEnabled}
-              maxBudget={calc.maxBudget}
-              sortBy={calc.sortBy}
-              sortDirection={calc.sortDirection}
-              onSort={calc.handleSort}
-              liveCommuteLoading={calc.liveCommuteLoading}
-              liveCommuteLoading2={calc.liveCommuteLoading2}
-            />
-          </>
-        ) : calc.workLocation ? (
-          <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-lg text-center">
-            <Train className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600 dark:text-gray-300">Adjust the selections above to see available areas.</p>
+        {hasResults ? (
+          <div className="grid gap-6 xl:grid-cols-[minmax(22rem,0.45fr)_minmax(0,1.55fr)] xl:items-start">
+            <div className="xl:sticky xl:top-4">
+              <LocationMapPrototype
+                sortedResults={calc.sortedResults}
+                selectedLocation={pinnedLocation}
+                highlightedLocation={hoveredLocation}
+                darkMode={darkMode}
+                officeCoords={calc.workMode === 'address' ? calc.selectedOfficeCoords : presetCoords(calc.workLocation)}
+                partnerCoords={calc.workMode2 === 'address' ? calc.selectedOfficeCoords2 : presetCoords(calc.workLocation2)}
+                onLocationHover={setHoveredLocation}
+                onLocationSelect={loc => setPinnedLocation(cur => cur === loc ? null : loc)}
+                className="xl:h-[calc(100vh-2rem)]"
+              />
+            </div>
+            <div className="min-w-0">
+              {renderFilterPanel('mb-6')}
+              <ResultsTable
+                sortedResults={calc.sortedResults}
+                anyPriority={calc.anyPriority}
+                workMode={calc.workMode}
+                workLocation2={calc.workLocation2}
+                workMode2={calc.workMode2}
+                officePostcode2={calc.officePostcode2}
+                budgetEnabled={calc.budgetEnabled}
+                maxBudget={calc.maxBudget}
+                sortBy={calc.sortBy}
+                sortDirection={calc.sortDirection}
+                onSort={calc.handleSort}
+                liveCommuteLoading={calc.liveCommuteLoading}
+                liveCommuteLoading2={calc.liveCommuteLoading2}
+                selectedLocation={activeMapLocation}
+                onLocationHover={setHoveredLocation}
+                onLocationSelect={loc => setPinnedLocation(cur => cur === loc ? null : loc)}
+              />
+            </div>
           </div>
-        ) : null}
+        ) : (
+          <>
+            {renderFilterPanel()}
+            {calc.workLocation ? (
+              <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-lg text-center">
+                <Train className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-600 dark:text-gray-300">Adjust the selections above to see available areas.</p>
+              </div>
+            ) : null}
+          </>
+        )}
 
       </div>
     </div>

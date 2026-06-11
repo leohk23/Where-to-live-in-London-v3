@@ -19,6 +19,7 @@ const SELECT_CLASS =
   'w-full p-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white';
 
 interface Props {
+  className?: string;
   workLocation: WorkLocationKey | '';
   setWorkLocation: (v: WorkLocationKey | '') => void;
   workMode: WorkMode;
@@ -59,6 +60,7 @@ interface Props {
 }
 
 export default function FilterPanel({
+  className,
   workLocation, setWorkLocation,
   workMode, setWorkMode,
   workLocation2, setWorkLocation2,
@@ -116,18 +118,17 @@ export default function FilterPanel({
     setShowPartnerWork(true);
   };
 
-  const setupGridClass = showPartnerWork
-    ? 'grid grid-cols-1 items-start xl:grid-cols-[minmax(0,1.35fr)_minmax(0,1.35fr)_minmax(18rem,0.9fr)] gap-4 mb-4'
-    : 'grid grid-cols-1 items-start xl:grid-cols-[minmax(0,1fr)_minmax(18rem,0.9fr)] gap-4 mb-4';
+  const setupGridClass = 'grid grid-cols-1 items-start xl:grid-cols-[minmax(0,1fr)_minmax(18rem,0.9fr)] gap-4 mb-4';
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-800 p-4 sm:p-6 rounded-lg mb-6">
+    <div className={`bg-gray-50 dark:bg-gray-800 p-4 sm:p-6 rounded-lg ${className ?? 'mb-6'}`}>
       <h2 className="text-xl font-semibold mb-4 flex items-center">
         <Building2 className="h-5 w-5 mr-2 text-blue-600" />
         Setup
       </h2>
 
       <div className={setupGridClass}>
+        <div className="flex flex-col gap-4">
         <WorkLocationInput
           label="Where do you work?"
           labelAction={(
@@ -175,6 +176,7 @@ export default function FilterPanel({
             live={partnerLiveStatus}
           />
         )}
+        </div>
 
         <div className="grid grid-cols-2 gap-x-3 gap-y-2 sm:grid-rows-[2rem_auto]">
           <label className="flex min-h-8 items-center text-sm font-medium text-gray-700 dark:text-gray-300">Number of Bedrooms</label>

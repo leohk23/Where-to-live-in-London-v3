@@ -21,6 +21,7 @@
   "dependencies": {
     "dotenv": "^17.2.1",
     "lucide-react": "^0.515.0",
+    "maplibre-gl": "^5.24.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

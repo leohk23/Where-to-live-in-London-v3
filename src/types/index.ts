@@ -73,6 +73,12 @@ export interface Priorities {
   schools: number;
 }
 
+export interface ScoreFactor {
+  key: keyof Priorities;
+  normalized: number; // 0-100, higher is better for this factor
+  weight: number;     // the priority slider value
+}
+
 export interface Result {
   location: string;
   displayName: string;
@@ -112,6 +118,7 @@ export interface Result {
 
 export interface ScoredResult extends Result {
   compositeScore: number;
+  scoreBreakdown: ScoreFactor[];
   commuteIsLive: boolean;
   commuteTime2IsLive: boolean;
 }

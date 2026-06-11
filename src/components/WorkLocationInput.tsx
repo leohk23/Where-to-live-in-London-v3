@@ -290,9 +290,9 @@ export default function WorkLocationInput({
   const liveAccentStyles = LIVE_ACCENT_STYLES[liveAccent];
 
   return (
-    <div className="grid gap-y-2 sm:grid-rows-[2rem_auto]">
+    <div className="grid gap-y-2">
       {/* Label row + mode toggle */}
-      <div className="flex min-h-8 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex min-h-8 flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
         <div className="flex items-center gap-1.5">
           <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-1">
             {icon}{label}
