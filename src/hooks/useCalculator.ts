@@ -321,10 +321,12 @@ export function useCalculator() {
   };
 
   const calculateCosts = useCallback(() => {
+    // Default to a Zone 1 destination when nothing is selected yet, so the map and
+    // table render on first load (commute stays "?" until a destination is chosen) —
+    // same assumption address mode already makes before an address is entered.
     const workZone = workMode === 'address'
       ? ADDRESS_WORK_ZONE
-      : workLocations[workLocation as WorkLocationKey]?.zone;
-    if (!workZone) return;
+      : workLocations[workLocation as WorkLocationKey]?.zone ?? ADDRESS_WORK_ZONE;
 
     const calculated = Object.entries(locationData).map(([location, data]) => {
       const rent = data.rent[bedrooms];
