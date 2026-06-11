@@ -60,7 +60,7 @@ interface Bounds {
   maxY: number;
 }
 
-const LOCATION_BOUNDARIES = locationWardPolygons as Record<string, LocationBoundary>;
+const LOCATION_BOUNDARIES = locationWardPolygons as unknown as Record<string, LocationBoundary>;
 const TILE_SIZE = 256;
 const ALL_LOCATIONS_ZOOM = 11;
 const SELECTED_LOCATION_ZOOM = 13;
