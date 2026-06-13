@@ -48,6 +48,7 @@ interface Props {
   onLocationHover?: (location: string | null) => void;
   selectedLocation?: string | null;
   onLocationSelect?: (location: string) => void;
+  focusRequest?: { location: string; requestId: number } | null;
 }
 
 const SCORE_FACTOR_LABELS: Record<ScoredResult['scoreBreakdown'][number]['key'], string> = {
@@ -267,7 +268,8 @@ function SchoolScopeBadges({
   secondaryLabel: string;
 }) {
   return (
-    <span className="inline-flex flex-wrap items-center gap-1">
+    // Never wraps: the badge sits in fixed-height chips, so wrapping overflows them.
+    <span className="inline-flex items-center gap-1 whitespace-nowrap">
       <span className="inline-flex items-center gap-1">
         <SchoolPhaseBadge phase="Primary" title="Primary schools" />
         <span>{primaryLabel}</span>
@@ -529,6 +531,7 @@ export default function ResultsTable({
   onLocationHover,
   selectedLocation,
   onLocationSelect,
+  focusRequest,
 }: Props) {
   const SortIcon = ({ col }: { col: SortColumn }) => {
     if (sortBy !== col) return null;
@@ -539,59 +542,33 @@ export default function ResultsTable({
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const [canScrollRight, setCanScrollRight] = useState<boolean>(false);
-  const [hasHorizontalOverflow, setHasHorizontalOverflow] = useState<boolean>(false);
+  const [hasHorizontalOverflow, setHasHorizontalOverflow] = useState<boolean>(true);
   const [expandedLocation, setExpandedLocation] = useState<string | null>(null);
+  const rowRefs = useRef<Record<string, HTMLTableRowElement | null>>({});
   const [containerWidth, setContainerWidth] = useState(0);
-  const [tableWidth, setTableWidth] = useState(0);
-  const [columnWidths, setColumnWidths] = useState<number[]>([]);
-  const [floatingHeaderFrame, setFloatingHeaderFrame] = useState<{ left: number; width: number } | null>(null);
+  // Height of the sticky title; the sticky column headers dock directly beneath it.
+  const [titleHeight, setTitleHeight] = useState(48);
   const partnerDestination = getDestinationLabel(workMode2, workLocation2, officePostcode2, '');
   const hasPartnerDestination = Boolean(partnerDestination);
   const detailColSpan = 9;
 
   const updateTableChrome = useCallback(() => {
     const el = scrollRef.current;
-    const table = tableRef.current;
     if (!el) {
       setCanScrollRight(false);
       setHasHorizontalOverflow(false);
-      setFloatingHeaderFrame(null);
       return;
     }
 
     setContainerWidth(el.clientWidth);
     const hasHorizontalOverflow = el.scrollWidth > el.clientWidth + 2;
     const hasMoreToRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 2;
-    const headerCells = table?.querySelectorAll('thead th');
 
     setHasHorizontalOverflow(hasHorizontalOverflow);
     setCanScrollRight(hasHorizontalOverflow && hasMoreToRight);
-
-    if (table) {
-      setTableWidth(table.offsetWidth);
-    }
-
-    if (headerCells?.length) {
-      setColumnWidths(Array.from(headerCells, cell => cell.getBoundingClientRect().width));
-    }
-
-    if (!table || hasHorizontalOverflow) {
-      setFloatingHeaderFrame(null);
-      return;
-    }
-
-    const tableRect = table.getBoundingClientRect();
-    const scrollerRect = el.getBoundingClientRect();
-    const shouldFloat = tableRect.top < 0 && tableRect.bottom > 72;
-
-    setFloatingHeaderFrame(shouldFloat
-      ? {
-          left: Math.max(scrollerRect.left, 0),
-          width: Math.min(scrollerRect.width, window.innerWidth - Math.max(scrollerRect.left, 0)),
-        }
-      : null
-    );
+    setTitleHeight(titleRef.current?.getBoundingClientRect().height ?? 48);
   }, []);
 
   useEffect(() => {
@@ -599,33 +576,48 @@ export default function ResultsTable({
 
     const scrollEl = scrollRef.current;
     const tableEl = tableRef.current;
+    const titleEl = titleRef.current;
     const resizeObserver = typeof ResizeObserver === 'undefined'
       ? null
       : new ResizeObserver(updateTableChrome);
 
     if (scrollEl) resizeObserver?.observe(scrollEl);
     if (tableEl) resizeObserver?.observe(tableEl);
+    if (titleEl) resizeObserver?.observe(titleEl);
     window.addEventListener('resize', updateTableChrome);
-    window.addEventListener('scroll', updateTableChrome, { passive: true });
 
     return () => {
       resizeObserver?.disconnect();
       window.removeEventListener('resize', updateTableChrome);
-      window.removeEventListener('scroll', updateTableChrome);
     };
   }, [anyPriority, budgetEnabled, expandedLocation, hasPartnerDestination, sortedResults.length, updateTableChrome]);
+
+  // Map clicks ask the table to expand and scroll to the picked location.
+  useEffect(() => {
+    if (!focusRequest) return;
+    setExpandedLocation(focusRequest.location);
+    // Wait a frame so the expanded detail row exists before measuring scroll position.
+    const frame = requestAnimationFrame(() => {
+      rowRefs.current[focusRequest.location]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [focusRequest]);
 
   const handleScroll = () => {
     updateTableChrome();
   };
 
+  // Header cells stick below the sticky title via pure CSS (no JS on scroll).
+  // Backgrounds live on each cell so the stuck cells stay opaque over scrolling rows.
+  const thStickyClass = 'sticky top-[var(--results-header-top)] z-20';
+
   const thClass = (col: SortColumn, align = 'text-left') =>
-    `${align} align-middle py-2 px-1.5 font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap cursor-pointer select-none lg:py-3 lg:px-3 ${
+    `${align} ${thStickyClass} bg-gray-50 dark:bg-gray-700 align-middle py-2 px-1.5 text-xs font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap cursor-pointer select-none lg:py-3 lg:px-3 lg:text-sm ${
       sortBy === col ? 'text-blue-600 dark:text-blue-400 underline' : 'hover:underline'
     }`;
 
   const thNarrowClass = (col: SortColumn) =>
-    `text-center align-middle py-2 px-1 font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap cursor-pointer select-none lg:py-3 lg:px-2 ${
+    `text-center ${thStickyClass} bg-gray-50 dark:bg-gray-700 align-middle py-2 px-1 text-xs font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap cursor-pointer select-none lg:py-3 lg:px-2 lg:text-sm ${
       sortBy === col ? 'text-blue-600 dark:text-blue-400 underline' : 'hover:underline'
     }`;
   const headerStackClass = (align: 'left' | 'center' = 'center') =>
@@ -639,7 +631,7 @@ export default function ResultsTable({
     <tr>
       <th
         onClick={anyPriority ? () => onSort('score') : undefined}
-        className={`text-center align-middle py-2 px-1.5 font-semibold whitespace-nowrap bg-gray-50 dark:bg-gray-700 min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${
+        className={`text-center ${thStickyClass} left-0 !z-30 align-middle py-2 px-1.5 text-xs font-semibold whitespace-nowrap bg-gray-50 dark:bg-gray-700 min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] lg:text-sm ${
           anyPriority
             ? `cursor-pointer select-none ${sortBy === 'score' ? 'text-blue-600 dark:text-blue-400 underline' : 'text-gray-700 dark:text-gray-300 hover:underline'}`
             : 'text-gray-700 dark:text-gray-300'
@@ -652,7 +644,7 @@ export default function ResultsTable({
       </th>
       <th
         onClick={() => onSort('location')}
-        className={`${thClass('location')} sticky left-0 z-20 bg-gray-50 dark:bg-gray-700 shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)]`}
+        className={`${thClass('location')} left-[44px] !z-30 shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:left-[56px]`}
       >
         <div className={headerStackClass('left')}>
           <div className={headerTitleClass('left')}>Location<SortIcon col="location" /></div>
@@ -758,7 +750,7 @@ export default function ResultsTable({
       </th>
       <th
         onClick={() => onSort('total')}
-        className={`${thClass('total', 'text-center')} bg-blue-50 dark:bg-gray-700`}
+        className={`${thClass('total', 'text-center')} !bg-blue-50 dark:!bg-gray-700`}
       >
         <div className={headerStackClass()}>
           <div className={headerTitleClass()}>Total<SortIcon col="total" /></div>
@@ -774,45 +766,12 @@ export default function ResultsTable({
   );
 
   return (
-    <div>
-      <div className="mb-4">
-        <div className="flex items-center gap-3 flex-wrap">
-          <h2 className="text-xl font-semibold flex items-center">
-            <Home className="h-5 w-5 mr-2 text-green-600" />
-            Your best matched locations
-          </h2>
-          {budgetEnabled && (
-            <span className="text-xs bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300 px-2 py-1 rounded-full">
-              Budget: &pound;{maxBudget.toLocaleString()}/mo
-            </span>
-          )}
-        </div>
-      </div>
-
-      {floatingHeaderFrame && (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none fixed top-0 z-50 overflow-hidden rounded-t-lg border-x border-b border-gray-200 bg-gray-50 shadow-lg dark:border-gray-700 dark:bg-gray-700"
-          style={{ left: floatingHeaderFrame.left, width: floatingHeaderFrame.width }}
-        >
-          <table
-            className="border-separate border-spacing-0 [&_th]:border-b [&_th]:border-gray-200 dark:[&_th]:border-gray-600"
-            style={{ width: tableWidth || floatingHeaderFrame.width }}
-          >
-            {columnWidths.length > 0 && (
-              <colgroup>
-                {columnWidths.map((width, index) => (
-                  <col key={index} style={{ width }} />
-                ))}
-              </colgroup>
-            )}
-            <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
-              {renderHeaderRow()}
-            </thead>
-          </table>
-        </div>
-      )}
-
+    <div
+      style={{
+        '--results-title-h': `${titleHeight}px`,
+        '--results-header-top': `calc(var(--app-header-h, 0px) + ${titleHeight}px)`,
+      } as React.CSSProperties}
+    >
       {hasHorizontalOverflow && (
         <div className="mb-3 flex items-center gap-2 rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-800 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-200 lg:hidden">
           <Smartphone className="h-4 w-4 shrink-0" />
@@ -820,29 +779,60 @@ export default function ResultsTable({
         </div>
       )}
 
-      <div className="bg-white dark:bg-gray-900 rounded-lg border dark:border-gray-700 overflow-hidden">
+      {/* overflow-clip keeps the rounded-corner clipping without creating a scroll container,
+          so the sticky title/header stick to the page below xl. On xl the card is a tall
+          fixed-height internal scroller: the title sticks to the card top and the column
+          headers dock right beneath it (via the title-height var override). */}
+      <div className="rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900 overflow-clip xl:h-[calc(100vh-var(--app-header-h,3rem)-2.5rem)] xl:overflow-y-auto xl:[--results-header-top:var(--results-title-h)]">
+        <div
+          ref={titleRef}
+          className="sticky top-[var(--app-header-h,0px)] z-40 border-b border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900 sm:p-4 xl:top-0"
+        >
+          <div className="flex items-center gap-3 flex-wrap">
+            <h2 className="text-lg font-semibold flex items-center">
+              <Home className="h-5 w-5 mr-2 shrink-0 text-green-600" />
+              Your best matched locations
+            </h2>
+            {budgetEnabled && (
+              <span className="text-xs bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300 px-2 py-1 rounded-full">
+                Budget: &pound;{maxBudget.toLocaleString()}/mo
+              </span>
+            )}
+          </div>
+        </div>
         <div className="relative">
-          <div className="overflow-x-auto overscroll-x-contain" ref={scrollRef} onScroll={handleScroll}>
+          <div
+            className={hasHorizontalOverflow ? 'overflow-x-auto overscroll-x-contain' : undefined}
+            // The x-scroller is itself a scrollport: zero the header offset inside it so the
+            // header cells rest in place instead of sticking mid-table (they can't usefully
+            // stick vertically here since this container never scrolls vertically).
+            style={hasHorizontalOverflow ? ({ '--results-header-top': '0px' } as React.CSSProperties) : undefined}
+            ref={scrollRef}
+            onScroll={handleScroll}
+          >
             <table
               className="w-full border-separate border-spacing-0 [&_td]:border-b [&_td]:border-gray-200 dark:[&_td]:border-gray-700 [&_th]:border-b [&_th]:border-gray-200 dark:[&_th]:border-gray-600"
               ref={tableRef}
             >
-              <thead className="sticky top-0 z-30 bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
+              <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
                 {renderHeaderRow()}
               </thead>
               <tbody>
                 {sortedResults.map((result, index) => {
                   const overBudget = budgetEnabled && result.totalMonthly > maxBudget;
                   const isSelected = selectedLocation === result.location;
+                  // Backgrounds on sticky cells must stay opaque (no alpha), otherwise the
+                  // columns scrolling beneath them show through.
                   const hoverCellClass = overBudget
                     ? ''
                     : isSelected
-                      ? '!bg-blue-50 dark:!bg-blue-950/40'
+                      ? '!bg-blue-50 dark:!bg-[#131d39]'
                       : 'group-hover:!bg-gray-50 dark:group-hover:!bg-gray-700';
                   const isExpanded = expandedLocation === result.location;
                   return (
                     <Fragment key={result.location}>
                       <tr
+                        ref={el => { rowRefs.current[result.location] = el; }}
                         onClick={onLocationSelect ? () => onLocationSelect(result.location) : undefined}
                         onMouseEnter={() => onLocationHover?.(result.location)}
                         onMouseLeave={() => onLocationHover?.(null)}
@@ -852,7 +842,7 @@ export default function ResultsTable({
                             : `group ${onLocationSelect ? 'cursor-pointer' : ''}`
                         }`}
                       >
-                      <td className={`relative py-2 px-1.5 text-center whitespace-nowrap min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${
+                      <td className={`sticky left-0 z-10 py-2 px-1.5 text-center whitespace-nowrap min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${
                         overBudget
                           ? 'bg-gray-50 dark:bg-gray-800'
                           : 'bg-white dark:bg-gray-900'
@@ -885,7 +875,7 @@ export default function ResultsTable({
                         )}
                       </td>
 
-                      <td className={`sticky left-0 z-10 whitespace-nowrap px-2 py-2 shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:px-3 lg:py-3 ${
+                      <td className={`sticky left-[44px] z-10 whitespace-nowrap px-2 py-2 shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:left-[56px] lg:px-3 lg:py-3 ${
                         overBudget
                           ? 'bg-gray-50 dark:bg-gray-800'
                           : 'bg-white dark:bg-gray-900'

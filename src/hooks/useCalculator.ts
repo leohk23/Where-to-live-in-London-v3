@@ -33,8 +33,10 @@ function readUrlParams() {
     be:     p.get('be') === '1',
     op:     p.get('op') ?? '',
     op2:    p.get('op2') ?? '',
-    wm:     (p.get('wm') === 'a' ? 'address' : 'preset') as WorkMode,
-    wm2:    (p.get('wm2') === 'a' ? 'address' : 'preset') as WorkMode,
+    // Explicit flag wins; otherwise infer preset for legacy links that carry a preset
+    // work location, defaulting new visitors to the exact-address mode.
+    wm:     (p.get('wm') === 'a' ? 'address' : p.get('wm') === 'p' ? 'preset' : p.get('work') ? 'preset' : 'address') as WorkMode,
+    wm2:    (p.get('wm2') === 'a' ? 'address' : p.get('wm2') === 'p' ? 'preset' : p.get('work2') ? 'preset' : 'address') as WorkMode,
   };
 }
 
@@ -233,8 +235,8 @@ export function useCalculator() {
 
   const [workLocation,  setWorkLocation]  = useState<WorkLocationKey | ''>(url?.work  as WorkLocationKey | '' ?? '');
   const [workLocation2, setWorkLocation2] = useState<WorkLocationKey | ''>(url?.work2 as WorkLocationKey | '' ?? '');
-  const [workMode,      setWorkMode]      = useState<WorkMode>(url?.wm  ?? 'preset');
-  const [workMode2,     setWorkMode2]     = useState<WorkMode>(url?.wm2 ?? 'preset');
+  const [workMode,      setWorkMode]      = useState<WorkMode>(url?.wm  ?? 'address');
+  const [workMode2,     setWorkMode2]     = useState<WorkMode>(url?.wm2 ?? 'address');
   const [monthlyTrips,  setMonthlyTrips]  = useState<number>(url?.trips ?? DEFAULT_MONTHLY_TRIPS);
   const [bedrooms,      setBedrooms]      = useState<BedroomCount>(url?.beds ?? 1);
   const [budgetEnabled, setBudgetEnabled] = useState<boolean>(url?.be ?? false);
@@ -289,8 +291,10 @@ export function useCalculator() {
     const p = new URLSearchParams();
     if (workLocation)                           p.set('work',   workLocation);
     if (workLocation2)                          p.set('work2',  workLocation2);
-    if (workMode  === 'address')                p.set('wm',     'a');
-    if (workMode2 === 'address')                p.set('wm2',    'a');
+    if (workMode  === 'preset')                 p.set('wm',     'p');
+    else if (workLocation)                      p.set('wm',     'a');
+    if (workMode2 === 'preset')                 p.set('wm2',    'p');
+    else if (workLocation2)                     p.set('wm2',    'a');
     if (bedrooms !== 1)                         p.set('beds',   String(bedrooms));
     if (monthlyTrips !== DEFAULT_MONTHLY_TRIPS) p.set('trips',  String(monthlyTrips));
     if (priorities.commute)                     p.set('pc',     String(priorities.commute));

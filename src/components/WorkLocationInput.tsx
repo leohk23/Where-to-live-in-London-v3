@@ -303,25 +303,25 @@ export default function WorkLocationInput({
         <div className="flex w-fit rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden text-xs flex-shrink-0">
           <button
             type="button"
-            onClick={() => setMode('preset')}
+            onClick={() => setMode('address')}
             className={`px-2.5 py-1 transition-colors ${
-              mode === 'preset'
+              mode === 'address'
                 ? 'bg-blue-600 text-white'
                 : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
           >
-            Quick pick
+            Exact address
           </button>
           <button
             type="button"
-            onClick={() => setMode('address')}
+            onClick={() => setMode('preset')}
             className={`px-2.5 py-1 transition-colors border-l border-gray-300 dark:border-gray-600 ${
-              mode === 'address'
+              mode === 'preset'
                 ? 'bg-blue-600 text-white border-l-blue-600'
                 : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
           >
-            Exact address
+            Quick pick
           </button>
         </div>
       </div>

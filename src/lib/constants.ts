@@ -9,8 +9,8 @@ export const CRIME_THRESHOLDS = { low: 90, medium: 120, high: 150 } as const;
 export const SCHOOL_THRESHOLDS = { high: 20, medium: 10 } as const;
 export const SCORE_THRESHOLDS = { high: 70, medium: 45 } as const;
 
-export const BUDGET_MIN = 1500;
-export const BUDGET_MAX = 8000;
+export const BUDGET_MIN = 1000;
+export const BUDGET_MAX = 5000;
 export const BUDGET_STEP = 50;
 export const DEFAULT_MONTHLY_TRIPS = 22;
 export const DEFAULT_BUDGET = 3500;

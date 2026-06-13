@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Train,
   Moon,
@@ -15,6 +15,7 @@ import {
   Twitter,
   Smartphone,
   ALargeSmall,
+  Coffee,
 } from 'lucide-react';
 import { useCalculator } from './hooks/useCalculator';
 import { useDarkMode } from './hooks/useDarkMode';
@@ -40,6 +41,27 @@ function LondonCostCalculator() {
   const [largeText, setLargeText] = useState<boolean>(false);
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
   const [pinnedLocation, setPinnedLocation] = useState<string | null>(null);
+  // Set only by map clicks: asks the table to scroll to and expand this location.
+  const [tableFocusRequest, setTableFocusRequest] = useState<{ location: string; requestId: number } | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const appCardRef = useRef<HTMLDivElement>(null);
+
+  // Publish the sticky header's height as a CSS variable; the map, table title and
+  // column headers all offset themselves from it so everything docks beneath the bar.
+  useEffect(() => {
+    const update = () => {
+      const height = headerRef.current?.getBoundingClientRect().height ?? 0;
+      appCardRef.current?.style.setProperty('--app-header-h', `${height}px`);
+    };
+    update();
+    const resizeObserver = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
+    if (headerRef.current) resizeObserver?.observe(headerRef.current);
+    window.addEventListener('resize', update);
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener('resize', update);
+    };
+  }, []);
 
   const handleCopyLink = () => {
     void navigator.clipboard.writeText(window.location.href).then(() => {
@@ -131,20 +153,22 @@ function LondonCostCalculator() {
   );
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 dark:from-gray-900 dark:to-gray-800 dark:text-gray-100 sm:p-6 ${largeText ? 'large-text-mode' : ''}`}>
-      <div className="max-w-[110rem] mx-auto bg-white dark:bg-gray-900 rounded-lg shadow-xl p-4 sm:p-8">
-
-        <header className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div className="hidden flex-1 sm:block" />
-          <div className="order-2 text-center sm:order-none">
-            <h1 className="whitespace-nowrap text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
-              倫敦住邊好？
-            </h1>
-            <p className="mt-1 text-lg font-semibold text-gray-500 dark:text-gray-400 sm:text-xl">
-              Where to live in London?
-            </p>
-          </div>
-          <div className="relative order-1 flex justify-end gap-1 self-end pt-1 sm:order-none sm:flex-1 sm:items-center">
+    <div
+      ref={appCardRef}
+      className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 dark:text-gray-100 ${largeText ? 'large-text-mode' : ''}`}
+    >
+      <header
+        ref={headerRef}
+        className="sticky top-0 z-50 border-b border-gray-200/70 bg-white/90 shadow-sm backdrop-blur dark:border-gray-800 dark:bg-gray-900/90"
+      >
+        <div className="mx-auto flex max-w-[110rem] items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
+          {/* Mobile: English with the Chinese tucked beneath as a small second line; sm+: one truncated line. */}
+          <h1 className="min-w-0 text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:truncate sm:text-lg lg:text-xl">
+            <span className="block truncate sm:inline">Where to live in London?</span>
+            {' '}
+            <span className="block truncate text-xs font-semibold text-gray-500 dark:text-gray-400 sm:inline sm:[font-size:inherit]" lang="zh-Hant">倫敦住邊好？</span>
+          </h1>
+          <div className="relative flex shrink-0 items-center gap-1">
             <button
               onClick={() => setActivePopover(current => current === 'share' ? null : 'share')}
               className="p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -180,9 +204,19 @@ function LondonCostCalculator() {
             >
               <ALargeSmall className="h-5 w-5" />
             </button>
+            <a
+              href="https://buymeacoffee.com/leohk23"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full text-gray-400 hover:text-amber-600 dark:text-gray-500 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors"
+              aria-label="Buy me a coffee"
+              title="Buy me a coffee ☕"
+            >
+              <Coffee className="h-5 w-5" />
+            </a>
 
             {activePopover && (
-              <div className={`absolute right-0 top-11 z-40 rounded-md border border-gray-200 bg-white p-4 text-left text-sm text-gray-600 shadow-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 ${popoverWidthClass}`}>
+              <div className={`absolute right-0 top-11 z-50 rounded-md border border-gray-200 bg-white p-4 text-left text-sm text-gray-600 shadow-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 ${popoverWidthClass}`}>
                 <div className="mb-3 flex items-start justify-between gap-3">
                   <div className="font-semibold text-gray-900 dark:text-gray-100">
                     {getPopoverTitle()}
@@ -241,11 +275,13 @@ function LondonCostCalculator() {
               </div>
             )}
           </div>
-        </header>
+        </div>
+      </header>
 
+      <main className="mx-auto max-w-[110rem] p-4 sm:p-6">
         {hasResults ? (
-          <div className="grid gap-6 xl:grid-cols-[minmax(22rem,0.45fr)_minmax(0,1.55fr)] xl:items-start">
-            <div className="xl:sticky xl:top-4">
+          <div className="grid gap-6 xl:grid-cols-[minmax(22rem,0.45fr)_minmax(0,1.55fr)] xl:items-start xl:gap-y-3">
+            <div className="order-2 min-w-0 xl:order-none xl:col-start-1 xl:row-span-2 xl:row-start-1 xl:sticky xl:top-[calc(var(--app-header-h,3rem)+1rem)]">
               <LocationMapPrototype
                 sortedResults={calc.sortedResults}
                 selectedLocation={pinnedLocation}
@@ -253,13 +289,21 @@ function LondonCostCalculator() {
                 darkMode={darkMode}
                 officeCoords={calc.workMode === 'address' ? calc.selectedOfficeCoords : presetCoords(calc.workLocation)}
                 partnerCoords={calc.workMode2 === 'address' ? calc.selectedOfficeCoords2 : presetCoords(calc.workLocation2)}
+                budgetEnabled={calc.budgetEnabled}
+                maxBudget={calc.maxBudget}
                 onLocationHover={setHoveredLocation}
-                onLocationSelect={loc => setPinnedLocation(cur => cur === loc ? null : loc)}
-                className="xl:h-[calc(100vh-2rem)]"
+                onLocationSelect={loc => {
+                  const next = pinnedLocation === loc ? null : loc;
+                  setPinnedLocation(next);
+                  if (next) setTableFocusRequest({ location: loc, requestId: Date.now() });
+                }}
+                className="xl:h-[calc(100vh-var(--app-header-h,3rem)-2.5rem)]"
               />
             </div>
-            <div className="min-w-0">
-              {renderFilterPanel('mb-6')}
+            <div className="order-1 min-w-0 xl:order-none xl:col-start-2 xl:row-start-1">
+              {renderFilterPanel('')}
+            </div>
+            <div className="order-3 min-w-0 xl:order-none xl:col-start-2 xl:row-start-2">
               <ResultsTable
                 sortedResults={calc.sortedResults}
                 anyPriority={calc.anyPriority}
@@ -277,6 +321,7 @@ function LondonCostCalculator() {
                 selectedLocation={activeMapLocation}
                 onLocationHover={setHoveredLocation}
                 onLocationSelect={loc => setPinnedLocation(cur => cur === loc ? null : loc)}
+                focusRequest={tableFocusRequest}
               />
             </div>
           </div>
@@ -291,8 +336,7 @@ function LondonCostCalculator() {
             ) : null}
           </>
         )}
-
-      </div>
+      </main>
     </div>
   );
 }

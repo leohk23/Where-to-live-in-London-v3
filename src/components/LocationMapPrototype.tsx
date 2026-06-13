@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ExternalLink, MapPin } from 'lucide-react';
+import { Briefcase, ChevronDown, ChevronUp, MapPin } from 'lucide-react';
 import locationWardPolygons from '../data/location-ward-polygons.json';
 import { SCORE_THRESHOLDS } from '../lib/constants';
+import { usePersistedCollapse } from '../hooks/usePersistedCollapse';
 import type { ScoredResult } from '../types';
 
 interface OfficeMarker {
@@ -17,6 +18,8 @@ interface Props {
   darkMode?: boolean;
   officeCoords?: { lat: string; lon: string } | null;
   partnerCoords?: { lat: string; lon: string } | null;
+  budgetEnabled?: boolean;
+  maxBudget?: number;
   onLocationHover?: (location: string | null) => void;
   onLocationSelect?: (location: string) => void;
   className?: string;
@@ -333,17 +336,30 @@ function polygonTone(
   selectedLocation: string | null,
   darkMode: boolean,
   scoresActive: boolean,
+  overBudget: boolean,
 ) {
   const isSelected = location.result.location === selectedLocation;
   const isDimmed = Boolean(selectedLocation && !isSelected);
+
+  // Areas filtered out by the max-budget toggle are greyed out, mirroring the dimmed table rows.
+  if (overBudget) {
+    return {
+      fill: darkMode ? 'rgba(71, 85, 105, 0.30)' : 'rgba(148, 163, 184, 0.18)',
+      stroke: darkMode ? '#64748b' : '#94a3b8',
+      strokeWidth: isSelected ? 2.2 : 1,
+      pinFill: darkMode ? '#334155' : '#e2e8f0',
+      pinStroke: darkMode ? '#64748b' : '#94a3b8',
+      opacity: isSelected ? 0.9 : isDimmed ? 0.35 : 0.5,
+    };
+  }
 
   // When priority scores are active, colour each ward by its match score (keeping transparency).
   if (scoresActive) {
     const hue = scoreHue(location.result.compositeScore, darkMode);
     const isTop5 = location.rank <= 5;
     const fillAlpha = isSelected
-      ? (darkMode ? 0.62 : 0.34)
-      : (darkMode ? 0.45 : 0.2);
+      ? (darkMode ? 0.62 : 0.38)
+      : (darkMode ? 0.45 : 0.28);
     const opacity = isSelected
       ? 1
       : isDimmed
@@ -382,12 +398,12 @@ function polygonTone(
   }
 
   return {
-    fill: darkMode ? 'rgba(148, 163, 184, 0.35)' : 'rgba(100, 116, 139, 0.13)',
-    stroke: darkMode ? '#cbd5e1' : '#64748b',
-    strokeWidth: 1,
+    fill: darkMode ? 'rgba(148, 163, 184, 0.35)' : 'rgba(71, 85, 105, 0.24)',
+    stroke: darkMode ? '#cbd5e1' : '#475569',
+    strokeWidth: darkMode ? 1 : 1.2,
     pinFill: darkMode ? '#e2e8f0' : '#f8fafc',
-    pinStroke: darkMode ? '#94a3b8' : '#64748b',
-    opacity: isDimmed ? 0.6 : 0.75,
+    pinStroke: darkMode ? '#94a3b8' : '#475569',
+    opacity: isDimmed ? 0.6 : 0.85,
   };
 }
 
@@ -398,11 +414,14 @@ export default function LocationMapPrototype({
   darkMode = false,
   officeCoords = null,
   partnerCoords = null,
+  budgetEnabled = false,
+  maxBudget = 0,
   onLocationHover,
   onLocationSelect,
   className = '',
 }: Props) {
   const mapFrameRef = useRef<HTMLDivElement>(null);
+  const { collapsed, toggle } = usePersistedCollapse('wtl-collapse-map');
   const [mapAspectRatio, setMapAspectRatio] = useState<number | null>(null);
   const [tooltip, setTooltip] = useState<{ x: number; y: number; label: string } | null>(null);
   const [renderZoom, setRenderZoom] = useState(ALL_LOCATIONS_ZOOM);
@@ -453,9 +472,6 @@ export default function LocationMapPrototype({
     ? sortedResults.find(result => result.location === selectedLocation) ?? null
     : null;
   const selectedBoundary = selectedLocation ? LOCATION_BOUNDARIES[selectedLocation] ?? null : null;
-  const openMapLink = selectedBoundary
-    ? `https://www.openstreetmap.org/?mlat=${selectedBoundary.anchor.lat}&mlon=${selectedBoundary.anchor.lon}#map=14/${selectedBoundary.anchor.lat}/${selectedBoundary.anchor.lon}`
-    : 'https://www.openstreetmap.org/#map=10/51.5072/-0.1276';
 
   // Project work-location pins into the current map space (kept screen-stable as you zoom).
   const markerRadius = viewBox.width * 0.016;
@@ -493,7 +509,7 @@ export default function LocationMapPrototype({
     resizeObserver.observe(mapFrameRef.current);
 
     return () => resizeObserver.disconnect();
-  }, []);
+  }, [collapsed]); // re-attach when the section expands and the frame remounts
 
   // Animate the shared viewBox when the pinned location changes (zoom in/out).
   // Depends ONLY on selectedLocation: aspect/results are read from refs so a resize or
@@ -586,46 +602,46 @@ export default function LocationMapPrototype({
     };
   }, [selectedLocation]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Wheel to zoom (centred on the cursor), clamped between the overview and street level.
+  // Wheel to zoom (centred on the cursor) and two-finger pinch to zoom/pan on touch
+  // screens, both clamped between the overview and street level.
   useEffect(() => {
     const frame = mapFrameRef.current;
     if (!frame) return undefined;
 
-    const onWheel = (event: WheelEvent) => {
+    // Shared camera step: the geographic point under (fromX, fromY) ends up pinned
+    // under (toX, toY) while the effective zoom changes by zoomDelta. Wheel passes the
+    // same point twice (zoom in place); pinch passes the old/new midpoint (zoom + pan).
+    const applyZoom = (fromX: number, fromY: number, toX: number, toY: number, zoomDelta: number) => {
       const vb = viewBoxRef.current;
       const fallback = fallbackViewBoxRef.current;
       if (!vb || !fallback) return;
-      event.preventDefault();
-      cancelFly();
-
       const zoom = renderZoomRef.current;
       const rect = frame.getBoundingClientRect();
       if (rect.width === 0 || rect.height === 0) return;
-      const cx = event.clientX - rect.left;
-      const cy = event.clientY - rect.top;
+      const cx = fromX - rect.left;
+      const cy = fromY - rect.top;
 
-      // Geographic point under the cursor, in the current tile-zoom space.
+      // Geographic point under the anchor, in the current tile-zoom space.
       const pointX = vb.minX + (cx / rect.width) * vb.width;
       const pointY = vb.minY + (cy / rect.height) * vb.height;
 
       // Current and minimum effective zoom (overview = how far out the fit sits).
       const effZoom = zoom + Math.log2(rect.width / vb.width);
       const minEffZoom = zoom + Math.log2(rect.width / fallback.width);
-      const nextEffZoom = Math.min(
-        Math.max(effZoom - event.deltaY * 0.002, minEffZoom),
-        MAX_EFFECTIVE_ZOOM,
-      );
+      const nextEffZoom = Math.min(Math.max(effZoom + zoomDelta, minEffZoom), MAX_EFFECTIVE_ZOOM);
 
       const tileZoom = Math.min(Math.max(Math.round(nextEffZoom), MIN_TILE_ZOOM), MAX_TILE_ZOOM);
       const scale = 2 ** (nextEffZoom - tileZoom);
       const newWidth = rect.width / scale;
       const newHeight = rect.height / scale;
 
-      // Keep the cursor's geographic point pinned, in the chosen tile-zoom space.
+      // Re-pin the anchor's geographic point, in the chosen tile-zoom space.
       const factor = 2 ** (tileZoom - zoom);
+      const tx = toX - rect.left;
+      const ty = toY - rect.top;
       const nextViewBox = {
-        minX: pointX * factor - (cx / rect.width) * newWidth,
-        minY: pointY * factor - (cy / rect.height) * newHeight,
+        minX: pointX * factor - (tx / rect.width) * newWidth,
+        minY: pointY * factor - (ty / rect.height) * newHeight,
         width: newWidth,
         height: newHeight,
       };
@@ -634,46 +650,100 @@ export default function LocationMapPrototype({
       setRenderViewBox(nextViewBox);
     };
 
+    const onWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      cancelFly();
+      applyZoom(event.clientX, event.clientY, event.clientX, event.clientY, -event.deltaY * 0.002);
+    };
+
+    // Pinch state: midpoint and finger spread from the previous touch frame.
+    let pinch: { x: number; y: number; dist: number } | null = null;
+    const readPinch = (event: TouchEvent) => {
+      const [a, b] = [event.touches[0], event.touches[1]];
+      return {
+        x: (a.clientX + b.clientX) / 2,
+        y: (a.clientY + b.clientY) / 2,
+        dist: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY),
+      };
+    };
+
+    const onTouchStart = (event: TouchEvent) => {
+      if (event.touches.length !== 2) {
+        pinch = null;
+        return;
+      }
+      cancelFly();
+      pinch = readPinch(event);
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      if (event.touches.length !== 2 || !pinch) return;
+      event.preventDefault();
+      const next = readPinch(event);
+      applyZoom(pinch.x, pinch.y, next.x, next.y, Math.log2(next.dist / Math.max(pinch.dist, 1)));
+      pinch = next;
+    };
+
+    const onTouchEnd = (event: TouchEvent) => {
+      if (event.touches.length < 2) pinch = null;
+    };
+
     frame.addEventListener('wheel', onWheel, { passive: false });
-    return () => frame.removeEventListener('wheel', onWheel);
-  }, []);
+    frame.addEventListener('touchstart', onTouchStart, { passive: true });
+    frame.addEventListener('touchmove', onTouchMove, { passive: false });
+    frame.addEventListener('touchend', onTouchEnd);
+    frame.addEventListener('touchcancel', onTouchEnd);
+    return () => {
+      frame.removeEventListener('wheel', onWheel);
+      frame.removeEventListener('touchstart', onTouchStart);
+      frame.removeEventListener('touchmove', onTouchMove);
+      frame.removeEventListener('touchend', onTouchEnd);
+      frame.removeEventListener('touchcancel', onTouchEnd);
+    };
+  }, [collapsed]); // re-attach when the section expands and the frame remounts
 
   if (drawableLocations.length === 0) return null;
 
   return (
-    <section className={`flex flex-col rounded-lg border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900 sm:p-4 ${className}`}>
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-        <div className="min-w-0">
-          <div className="flex min-w-0 items-center gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-200">
-            <MapPin className="h-4 w-4 shrink-0 text-teal-600 dark:text-teal-300" />
+    <section className={`flex flex-col rounded-lg border border-gray-200 bg-white p-3 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:p-4 ${collapsed ? '' : className}`}>
+      <div className={`flex items-center justify-between gap-3 ${collapsed ? '' : 'mb-3'}`}>
+        <div className="min-w-0 flex-1">
+          <h2 className="flex min-w-0 items-center text-lg font-semibold">
+            <MapPin className="mr-2 h-5 w-5 shrink-0 text-teal-600 dark:text-teal-300" />
             <span className="truncate">{selectedResult?.displayName ?? 'All locations'}</span>
-          </div>
-          {/* Fixed-height, non-wrapping line so selecting a ward never reflows the map frame. */}
-          <p
-            className="mt-1 h-4 truncate text-xs text-gray-500 dark:text-gray-400"
-            title={selectedBoundary && selectedResult
-              ? `${selectedBoundary.boundaryName} ward - ${selectedResult.anchorStation}`
-              : undefined}
-          >
-            {selectedBoundary && selectedResult
-              ? `${selectedBoundary.boundaryName} ward - ${selectedResult.anchorStation}`
-              : 'Hover or click a ward to focus it'}
-          </p>
+          </h2>
+          {!collapsed && (
+            /* Fixed-height, non-wrapping line so selecting a ward never reflows the map frame. */
+            <p
+              className="mt-1 h-4 truncate text-xs text-gray-500 dark:text-gray-400"
+              title={selectedBoundary && selectedResult
+                ? `${selectedBoundary.boundaryName} ward - ${selectedResult.anchorStation}`
+                : undefined}
+            >
+              {selectedBoundary && selectedResult
+                ? `${selectedBoundary.boundaryName} ward - ${selectedResult.anchorStation}`
+                : 'Hover or click a ward to focus it'}
+            </p>
+          )}
         </div>
-        <a
-          href={openMapLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 rounded border border-gray-200 px-2 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+        <button
+          type="button"
+          onClick={toggle}
+          className="shrink-0 rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+          aria-expanded={!collapsed}
+          title={collapsed ? 'Expand map' : 'Collapse map'}
         >
-          <ExternalLink className="h-3.5 w-3.5" />
-          Open
-        </a>
+          {collapsed ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+        </button>
       </div>
 
+      {!collapsed && (
+      <>
       <div
         ref={mapFrameRef}
         className="relative h-80 min-h-[22rem] flex-1 overflow-hidden rounded-md border border-gray-200 bg-slate-100 dark:border-gray-700 dark:bg-slate-950 sm:h-[28rem] xl:h-auto"
+        /* One-finger touch keeps scrolling the page; pinch is reserved for the map's own zoom. */
+        style={{ touchAction: 'pan-x pan-y' }}
         onMouseLeave={() => { onLocationHover?.(null); setTooltip(null); }}
       >
         <div
@@ -709,7 +779,8 @@ export default function LocationMapPrototype({
             pointerEvents="none"
           />
           {drawableLocations.map(location => {
-            const tone = polygonTone(location, visualFocus, darkMode, scoresActive);
+            const overBudget = budgetEnabled && location.result.totalMonthly > maxBudget;
+            const tone = polygonTone(location, visualFocus, darkMode, scoresActive, overBudget);
             return (
               <g
                 key={location.result.location}
@@ -756,23 +827,27 @@ export default function LocationMapPrototype({
           })}
           {officeMarkers.map(marker => {
             const fill = marker.tone === 'partner' ? '#6366f1' : '#e11d48';
+            const badgeRadius = markerRadius * 1.3;
+            const iconSize = badgeRadius * 1.25;
             return (
               <g key={marker.tone} pointerEvents="none">
                 <title>{marker.label}</title>
-                <path
-                  d={`M ${marker.point.x} ${marker.point.y}
-                      c ${-markerRadius} ${-markerRadius * 1.5} ${-markerRadius} ${-markerRadius * 2.6} 0 ${-markerRadius * 2.8}
-                      c ${markerRadius} ${markerRadius * 0.2} ${markerRadius} ${markerRadius * 1.3} 0 ${markerRadius * 2.8} Z`}
+                <circle
+                  cx={marker.point.x}
+                  cy={marker.point.y}
+                  r={badgeRadius}
                   fill={fill}
                   stroke="#ffffff"
                   strokeWidth={1.5}
                   vectorEffect="non-scaling-stroke"
                 />
-                <circle
-                  cx={marker.point.x}
-                  cy={marker.point.y - markerRadius * 1.7}
-                  r={markerRadius * 0.42}
-                  fill="#ffffff"
+                <Briefcase
+                  x={marker.point.x - iconSize / 2}
+                  y={marker.point.y - iconSize / 2}
+                  width={iconSize}
+                  height={iconSize}
+                  color="#ffffff"
+                  strokeWidth={2.25}
                 />
               </g>
             );
@@ -820,14 +895,20 @@ export default function LocationMapPrototype({
               <span>Top 5 matches from the table highlighted</span>
             </span>
           )}
+          {budgetEnabled && (
+            <span className="flex items-center gap-1.5">
+              <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-sm border border-slate-400 bg-slate-400/30" />
+              <span>Over budget</span>
+            </span>
+          )}
         </div>
         {officeMarkers.length > 0 && (
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
             {officeMarkers.map(marker => (
               <span key={marker.tone} className="flex items-center gap-1.5">
-                <span
-                  className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
-                  style={{ backgroundColor: marker.tone === 'partner' ? '#6366f1' : '#e11d48' }}
+                <Briefcase
+                  className="h-3 w-3 shrink-0"
+                  style={{ color: marker.tone === 'partner' ? '#6366f1' : '#e11d48' }}
                 />
                 <span>{marker.label}</span>
               </span>
@@ -836,6 +917,8 @@ export default function LocationMapPrototype({
         )}
         <span className="block">Hover a row to highlight; click to zoom to a ward (click again to reset); scroll to zoom.</span>
       </div>
+      </>
+      )}
     </section>
   );
 }

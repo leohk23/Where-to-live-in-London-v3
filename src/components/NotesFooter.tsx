@@ -101,7 +101,6 @@ export function NotesContent({ sortedResults }: Props) {
       </div>
 
       <div className="space-y-2 rounded-md border border-blue-200 bg-white/70 px-3 py-2 text-xs leading-relaxed text-blue-900 dark:border-blue-400/20 dark:bg-white/5 dark:text-blue-100">
-        <p><strong>About:</strong> A personal London area comparison tool for balancing rent, commute, safety and schools. Data is indicative and intended to help shortlist areas for further research.</p>
         <p>Published on <a className="underline" href="https://leohk23.github.io/Where-to-live-in-London-v3/" target="_blank" rel="noopener noreferrer">GitHub Pages</a>.</p>
         <p><strong>Author:</strong> Leo L.</p>
         <p>
