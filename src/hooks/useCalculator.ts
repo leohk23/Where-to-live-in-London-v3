@@ -332,10 +332,20 @@ export function useCalculator() {
       ? ADDRESS_WORK_ZONE
       : workLocations[workLocation as WorkLocationKey]?.zone ?? ADDRESS_WORK_ZONE;
 
+    // A partner contributes their own commute fares once their workplace is set
+    // (a preset location, or a typed address — assumed Zone 1, like the primary).
+    const hasPartnerWork = workMode2 === 'address'
+      ? Boolean(officePostcode2.trim())
+      : Boolean(workLocation2);
+    const partnerWorkZone = workMode2 === 'address'
+      ? ADDRESS_WORK_ZONE
+      : workLocations[workLocation2 as WorkLocationKey]?.zone ?? ADDRESS_WORK_ZONE;
+
     const calculated = Object.entries(locationData).map(([location, data]) => {
       const rent = data.rent[bedrooms];
       const farePerTrip = getFarePerTrip(data.zone, workZone);
-      const transportCostMonthly = farePerTrip * monthlyTrips;
+      const partnerFarePerTrip = hasPartnerWork ? getFarePerTrip(data.zone, partnerWorkZone) : 0;
+      const transportCostMonthly = (farePerTrip + partnerFarePerTrip) * monthlyTrips;
       const councilTaxMonthly = councilTaxData[data.borough][bedrooms] / 12;
       const totalMonthly = rent + transportCostMonthly + councilTaxMonthly;
       const stats = boroughStats[data.borough];
@@ -366,6 +376,7 @@ export function useCalculator() {
         councilTaxMonthly,
         totalMonthly,
         farePerTrip,
+        partnerFarePerTrip,
         commuteTime:  workMode  === 'preset' ? getCommuteTime(location, workLocation) : null,
         commuteTime2: workMode2 === 'preset' && workLocation2 ? getCommuteTime(location, workLocation2) : null,
         crimeRate:    stats?.crimesPer1000 ?? null,
@@ -411,7 +422,7 @@ export function useCalculator() {
     setSortBy(anyPriority ? 'score' : 'total');
     setSortDirection(anyPriority ? 'desc' : 'asc');
     setResults(calculated);
-  }, [workMode, workLocation, workMode2, workLocation2, monthlyTrips, bedrooms, priorities]);
+  }, [workMode, workLocation, workMode2, workLocation2, officePostcode2, monthlyTrips, bedrooms, priorities]);
 
   const fetchLiveCommutes = useCallback(async () => {
     const input = officePostcode.trim();

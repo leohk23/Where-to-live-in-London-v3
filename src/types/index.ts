@@ -94,6 +94,8 @@ export interface Result {
   councilTaxMonthly: number;
   totalMonthly: number;
   farePerTrip: number;
+  // Partner's per-trip fare (0 when no partner workplace is set); already folded into transportCostMonthly.
+  partnerFarePerTrip: number;
   commuteTime: number | null;
   commuteTime2: number | null;
   crimeRate: number | null;

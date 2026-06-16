@@ -36,6 +36,23 @@ function LondonCostCalculator() {
   const { darkMode, setDarkMode } = useDarkMode();
   const calc = useCalculator();
 
+  // On the very first visit, make sure every section opens expanded by clearing any
+  // stale persisted collapse state before the sections mount and read it. Runs once,
+  // synchronously, during this component's first render (ahead of its children).
+  useState(() => {
+    if (typeof window === 'undefined') return null;
+    try {
+      if (!localStorage.getItem('wtl-visited')) {
+        localStorage.removeItem('wtl-collapse-map');
+        localStorage.removeItem('wtl-collapse-filters');
+        localStorage.setItem('wtl-visited', '1');
+      }
+    } catch {
+      // Storage unavailable (private mode etc.) — sections already default to expanded.
+    }
+    return null;
+  });
+
   const [copied, setCopied] = useState<boolean>(false);
   const [activePopover, setActivePopover] = useState<PopoverName | null>(null);
   const [largeText, setLargeText] = useState<boolean>(false);
@@ -311,6 +328,7 @@ function LondonCostCalculator() {
                 workLocation2={calc.workLocation2}
                 workMode2={calc.workMode2}
                 officePostcode2={calc.officePostcode2}
+                monthlyTrips={calc.monthlyTrips}
                 budgetEnabled={calc.budgetEnabled}
                 maxBudget={calc.maxBudget}
                 sortBy={calc.sortBy}

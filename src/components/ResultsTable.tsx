@@ -2,6 +2,7 @@ import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import {
   ArrowUp,
   ArrowDown,
+  CalendarClock,
   ChevronDown,
   ChevronRight,
   GraduationCap,
@@ -38,6 +39,7 @@ interface Props {
   workLocation2: WorkLocationKey | '';
   workMode2: WorkMode;
   officePostcode2: string;
+  monthlyTrips: number;
   budgetEnabled: boolean;
   maxBudget: number;
   sortBy: SortColumn;
@@ -371,10 +373,15 @@ function formatCommute(time: number | null, isLive: boolean) {
 function LocationDetailPanel({
   result,
   hasPartnerDestination,
+  monthlyTrips,
 }: {
   result: ScoredResult;
   hasPartnerDestination: boolean;
+  monthlyTrips: number;
 }) {
+  // Split the transport total into each commuter's share (partner share is 0 when none set).
+  const youTransportMonthly = result.farePerTrip * monthlyTrips;
+  const partnerTransportMonthly = result.partnerFarePerTrip * monthlyTrips;
   const boundary = LOCATION_BOUNDARIES[result.location];
   const anchor = boundary?.anchor;
   const mapQuery = anchor
@@ -447,11 +454,13 @@ function LocationDetailPanel({
                 <Route className="h-4 w-4" />
                 Commute
               </div>
-              <DetailStat label="You" value={formatCommute(result.commuteTime, result.commuteIsLive)} />
-              {hasPartnerDestination && (
-                <div className="mt-2">
+              {hasPartnerDestination ? (
+                <div className="grid grid-cols-2 gap-2">
+                  <DetailStat label="You" value={formatCommute(result.commuteTime, result.commuteIsLive)} />
                   <DetailStat label="Partner" value={formatCommute(result.commuteTime2, result.commuteTime2IsLive)} />
                 </div>
+              ) : (
+                <DetailStat label="You" value={formatCommute(result.commuteTime, result.commuteIsLive)} />
               )}
             </div>
 
@@ -459,11 +468,26 @@ function LocationDetailPanel({
               <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
                 <Wallet className="h-4 w-4" />
                 Cost
+                <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium normal-case tracking-normal text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+                  <CalendarClock className="h-3 w-3" />
+                  per month
+                </span>
               </div>
-              <DetailStat label="Total" value={`\u00a3${Math.round(result.totalMonthly).toLocaleString()}/mo`} />
-              <div className="mt-2 grid grid-cols-3 gap-2">
+              <DetailStat label="Total" value={`\u00a3${Math.round(result.totalMonthly).toLocaleString()}`} />
+              <div className="mt-2 grid grid-cols-3 items-start gap-2">
                 <DetailStat label="Rent" value={`\u00a3${result.rent.toLocaleString()}`} />
-                <DetailStat label="Transport" value={`\u00a3${result.transportCostMonthly.toFixed(0)}`} />
+                <div>
+                  <div className="text-[11px] font-medium uppercase text-gray-400 dark:text-gray-500">Transport</div>
+                  <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                    &pound;{result.transportCostMonthly.toFixed(0)}
+                  </div>
+                  {result.partnerFarePerTrip > 0 && (
+                    <div className="text-[10px] leading-tight text-gray-400 dark:text-gray-500">
+                      <div>you &pound;{youTransportMonthly.toFixed(0)}</div>
+                      <div>partner &pound;{partnerTransportMonthly.toFixed(0)}</div>
+                    </div>
+                  )}
+                </div>
                 <DetailStat label="Tax" value={`\u00a3${result.councilTaxMonthly.toFixed(0)}`} />
               </div>
             </div>
@@ -521,6 +545,7 @@ export default function ResultsTable({
   workLocation2,
   workMode2,
   officePostcode2,
+  monthlyTrips,
   budgetEnabled,
   maxBudget,
   sortBy,
@@ -753,7 +778,7 @@ export default function ResultsTable({
         className={`${thClass('total', 'text-center')} !bg-blue-50 dark:!bg-gray-700`}
       >
         <div className={headerStackClass()}>
-          <div className={headerTitleClass()}>Total<SortIcon col="total" /></div>
+          <div className={headerTitleClass()}>Total Cost<SortIcon col="total" /></div>
           <div className={headerBadgeRowClass()}>
             <HeaderLevelBadge
               label="Mixed"
@@ -955,12 +980,25 @@ export default function ResultsTable({
                       <td className={`whitespace-nowrap px-1 py-2 text-center lg:px-2 lg:py-3 ${hoverCellClass}`}>
                         <div className="text-sm font-medium lg:text-base">&pound;{result.transportCostMonthly.toFixed(0)}</div>
                         <div className="text-[10px] text-gray-400 dark:text-gray-500 lg:text-xs">
-                          <span className="lg:hidden">
-                            {result.zone.replace('Zone ', 'Z')} - &pound;{result.farePerTrip.toFixed(2).replace(/\.00$/, '')}/trip
-                          </span>
-                          <span className="hidden lg:inline">
-                            {result.zone} - &pound;{result.farePerTrip.toFixed(2)}/trip
-                          </span>
+                          {result.partnerFarePerTrip > 0 ? (
+                            <>
+                              <span className="lg:hidden">
+                                &pound;{(result.farePerTrip + result.partnerFarePerTrip).toFixed(2).replace(/\.00$/, '')}/trip &middot; 2
+                              </span>
+                              <span className="hidden lg:inline">
+                                &pound;{result.farePerTrip.toFixed(2)} + &pound;{result.partnerFarePerTrip.toFixed(2)}/trip
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <span className="lg:hidden">
+                                {result.zone.replace('Zone ', 'Z')} - &pound;{result.farePerTrip.toFixed(2).replace(/\.00$/, '')}/trip
+                              </span>
+                              <span className="hidden lg:inline">
+                                {result.zone} - &pound;{result.farePerTrip.toFixed(2)}/trip
+                              </span>
+                            </>
+                          )}
                         </div>
                       </td>
                       <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.councilTaxMonthly.toFixed(0)}</td>
@@ -979,6 +1017,7 @@ export default function ResultsTable({
                               <LocationDetailPanel
                                 result={result}
                                 hasPartnerDestination={hasPartnerDestination}
+                                monthlyTrips={monthlyTrips}
                               />
                             </div>
                           </td>
