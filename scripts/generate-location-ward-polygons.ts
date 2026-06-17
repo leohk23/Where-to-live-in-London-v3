@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import locationData from '../src/data/locations.json';
 
 interface Coordinate {
   lat: number;
@@ -31,71 +32,17 @@ interface FeatureCollection {
 const OUT_PATH = path.resolve(process.cwd(), 'src/data/location-ward-polygons.json');
 const WARD_BASE_URL = 'https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/electoral/eng/wards_by_lad';
 
-const LOCATION_COORDS: Record<string, Coordinate> = {
-  'Acton Common': { lat: 51.5028, lon: -0.2801 },
-  'Bethnal Green': { lat: 51.5279, lon: -0.0556 },
-  Brixton: { lat: 51.4627, lon: -0.1147 },
-  Chiswick: { lat: 51.4946, lon: -0.2678 },
-  Clapham: { lat: 51.4618, lon: -0.1383 },
-  Croydon: { lat: 51.3757, lon: -0.0924 },
-  'Crystal Palace': { lat: 51.4182, lon: -0.0726 },
-  Ealing: { lat: 51.5152, lon: -0.3017 },
-  Finchley: { lat: 51.6012, lon: -0.1924 },
-  Fulham: { lat: 51.4804, lon: -0.1950 },
-  Greenwich: { lat: 51.4781, lon: -0.0149 },
-  Hackney: { lat: 51.5471, lon: -0.0560 },
-  Hammersmith: { lat: 51.4927, lon: -0.2229 },
-  'High Barnet': { lat: 51.6505, lon: -0.1940 },
-  Hounslow: { lat: 51.4713, lon: -0.3666 },
-  Islington: { lat: 51.5465, lon: -0.1039 },
-  Lewisham: { lat: 51.4657, lon: -0.0142 },
-  'New Malden': { lat: 51.4036, lon: -0.2558 },
-  Peckham: { lat: 51.4698, lon: -0.0698 },
-  Putney: { lat: 51.4592, lon: -0.2110 },
-  Richmond: { lat: 51.4633, lon: -0.3013 },
-  'South Ealing': { lat: 51.5008, lon: -0.3074 },
-  Southfields: { lat: 51.4450, lon: -0.2066 },
-  Stratford: { lat: 51.5416, lon: -0.0037 },
-  Sutton: { lat: 51.3594, lon: -0.1919 },
-  'Sutton Cheam': { lat: 51.3555, lon: -0.2143 },
-  Tooting: { lat: 51.4274, lon: -0.1680 },
-  Walthamstow: { lat: 51.5829, lon: -0.0199 },
-  Wimbledon: { lat: 51.4214, lon: -0.2064 },
-  'Wimbledon Park': { lat: 51.4346, lon: -0.1998 },
-};
+// Anchor coordinate and borough (LAD) code now come from the canonical location registry
+// (src/data/locations.json) so "where is this location" is defined in exactly one place.
+const registry = locationData as Record<string, { point: Coordinate; ladCode: string }>;
 
-const LOCATION_LAD_CODES: Record<string, string> = {
-  'Acton Common': 'E09000009',
-  'Bethnal Green': 'E09000030',
-  Brixton: 'E09000022',
-  Chiswick: 'E09000018',
-  Clapham: 'E09000022',
-  Croydon: 'E09000008',
-  'Crystal Palace': 'E09000006',
-  Ealing: 'E09000009',
-  Finchley: 'E09000003',
-  Fulham: 'E09000013',
-  Greenwich: 'E09000011',
-  Hackney: 'E09000012',
-  Hammersmith: 'E09000013',
-  'High Barnet': 'E09000003',
-  Hounslow: 'E09000018',
-  Islington: 'E09000019',
-  Lewisham: 'E09000023',
-  'New Malden': 'E09000021',
-  Peckham: 'E09000028',
-  Putney: 'E09000032',
-  Richmond: 'E09000027',
-  'South Ealing': 'E09000009',
-  Southfields: 'E09000032',
-  Stratford: 'E09000025',
-  Sutton: 'E09000029',
-  'Sutton Cheam': 'E09000029',
-  Tooting: 'E09000032',
-  Walthamstow: 'E09000031',
-  Wimbledon: 'E09000024',
-  'Wimbledon Park': 'E09000024',
-};
+const LOCATION_COORDS: Record<string, Coordinate> = Object.fromEntries(
+  Object.entries(registry).map(([name, info]) => [name, { lat: info.point.lat, lon: info.point.lon }]),
+);
+
+const LOCATION_LAD_CODES: Record<string, string> = Object.fromEntries(
+  Object.entries(registry).map(([name, info]) => [name, info.ladCode]),
+);
 
 function getRings(geometry: Geometry): number[][][] {
   if (geometry.type === 'Polygon') return geometry.coordinates as number[][][];

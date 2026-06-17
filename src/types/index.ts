@@ -9,6 +9,11 @@ export type LocationLabelScope = 'station' | 'area' | 'broad-area' | 'multi-boro
 export type DataConfidence = 'high' | 'medium' | 'low';
 export type DatasetKey = 'commute' | 'rent' | 'councilTax' | 'crime' | 'schools';
 
+export interface GeoPoint {
+  lat: number;
+  lon: number;
+}
+
 export interface LocationInfo {
   id: string;
   displayName: string;
@@ -18,6 +23,12 @@ export interface LocationInfo {
   dataConfidence: DataConfidence;
   reviewNote?: string;
   borough: string;
+  // Canonical geographic identity for this location (single source of truth). The map
+  // anchor and the ward-polygon generator both derive from these instead of redefining them:
+  //   point   - the station/area anchor coordinate
+  //   ladCode - the ONS Local Authority District (borough) code these borough-level KPIs join on
+  point: GeoPoint;
+  ladCode: string;
   rent: Record<BedroomCount, number>;
   zone: string;
   station: string;

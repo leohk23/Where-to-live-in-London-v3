@@ -263,7 +263,11 @@ export default function FilterPanel({
             className={SELECT_CLASS}
             min="0"
             max={MAX_MONTHLY_TRIPS}
+            title="Number of commute trips to your workplace each month — used to estimate transport cost."
           />
+          <p className="col-start-2 -mt-1 text-[11px] leading-4 text-gray-400 dark:text-gray-500">
+            Commutes to your workplace per month (≈22 for a 5-day week).
+          </p>
         </div>
       </div>
 

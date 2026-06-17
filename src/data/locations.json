@@ -1,5 +1,7 @@
 {
   "Brixton": {
+    "point": { "lat": 51.4627, "lon": -0.1147 },
+    "ladCode": "E09000022",
     "id": "brixton",
     "displayName": "Brixton",
     "comparisonName": "Brixton",
@@ -14,6 +16,8 @@
     "rent": { "1": 1876, "2": 2336, "3": 2675, "4": 3731 }
   },
   "Fulham": {
+    "point": { "lat": 51.4804, "lon": -0.195 },
+    "ladCode": "E09000013",
     "id": "fulham-broadway",
     "displayName": "Fulham Broadway",
     "comparisonName": "Fulham Broadway",
@@ -28,6 +32,8 @@
     "rent": { "1": 1895, "2": 2487, "3": 2841, "4": 4006 }
   },
   "Tooting": {
+    "point": { "lat": 51.4274, "lon": -0.168 },
+    "ladCode": "E09000032",
     "id": "tooting-broadway",
     "displayName": "Tooting Broadway",
     "comparisonName": "Tooting Broadway",
@@ -42,6 +48,8 @@
     "rent": { "1": 1700, "2": 2150, "3": 2700, "4": 3400 }
   },
   "Sutton": {
+    "point": { "lat": 51.3594, "lon": -0.1919 },
+    "ladCode": "E09000029",
     "id": "sutton",
     "displayName": "Sutton",
     "comparisonName": "Sutton",
@@ -56,6 +64,8 @@
     "rent": { "1": 1227, "2": 1540, "3": 1877, "4": 2479 }
   },
   "New Malden": {
+    "point": { "lat": 51.4036, "lon": -0.2558 },
+    "ladCode": "E09000021",
     "id": "new-malden",
     "displayName": "New Malden",
     "comparisonName": "New Malden",
@@ -70,6 +80,8 @@
     "rent": { "1": 1385, "2": 1763, "3": 2162, "4": 2868 }
   },
   "Wimbledon": {
+    "point": { "lat": 51.4214, "lon": -0.2064 },
+    "ladCode": "E09000024",
     "id": "wimbledon",
     "displayName": "Wimbledon",
     "comparisonName": "Wimbledon",
@@ -84,6 +96,8 @@
     "rent": { "1": 1724, "2": 2129, "3": 2531, "4": 3473 }
   },
   "Richmond": {
+    "point": { "lat": 51.4633, "lon": -0.3013 },
+    "ladCode": "E09000027",
     "id": "richmond",
     "displayName": "Richmond",
     "comparisonName": "Richmond",
@@ -98,6 +112,8 @@
     "rent": { "1": 1670, "2": 2143, "3": 2589, "4": 3805 }
   },
   "Ealing": {
+    "point": { "lat": 51.5152, "lon": -0.3017 },
+    "ladCode": "E09000009",
     "id": "ealing-broadway",
     "displayName": "Ealing Broadway",
     "comparisonName": "Ealing Broadway",
@@ -112,6 +128,8 @@
     "rent": { "1": 1581, "2": 1974, "3": 2336, "4": 3218 }
   },
   "Hounslow": {
+    "point": { "lat": 51.4713, "lon": -0.3666 },
+    "ladCode": "E09000018",
     "id": "hounslow-central",
     "displayName": "Hounslow Central",
     "comparisonName": "Hounslow Central",
@@ -126,6 +144,8 @@
     "rent": { "1": 1539, "2": 1893, "3": 2175, "4": 3016 }
   },
   "Croydon": {
+    "point": { "lat": 51.3757, "lon": -0.0924 },
+    "ladCode": "E09000008",
     "id": "croydon",
     "displayName": "East Croydon",
     "comparisonName": "East Croydon",
@@ -140,6 +160,8 @@
     "rent": { "1": 1241, "2": 1543, "3": 1820, "4": 2631 }
   },
   "Wimbledon Park": {
+    "point": { "lat": 51.4346, "lon": -0.1998 },
+    "ladCode": "E09000024",
     "id": "wimbledon-park",
     "displayName": "Wimbledon Park",
     "comparisonName": "Wimbledon Park",
@@ -154,6 +176,8 @@
     "rent": { "1": 1650, "2": 2040, "3": 2430, "4": 3300 }
   },
   "High Barnet": {
+    "point": { "lat": 51.6505, "lon": -0.194 },
+    "ladCode": "E09000003",
     "id": "high-barnet",
     "displayName": "High Barnet",
     "comparisonName": "High Barnet",
@@ -168,6 +192,8 @@
     "rent": { "1": 1478, "2": 1832, "3": 2222, "4": 3169 }
   },
   "Sutton Cheam": {
+    "point": { "lat": 51.3555, "lon": -0.2143 },
+    "ladCode": "E09000029",
     "id": "cheam",
     "displayName": "Cheam",
     "comparisonName": "Cheam",
@@ -182,6 +208,8 @@
     "rent": { "1": 1350, "2": 1700, "3": 2100, "4": 2700 }
   },
   "Acton Common": {
+    "point": { "lat": 51.5028, "lon": -0.2801 },
+    "ladCode": "E09000009",
     "id": "acton-town",
     "displayName": "Acton Town",
     "comparisonName": "Acton Town",
@@ -196,6 +224,8 @@
     "rent": { "1": 1700, "2": 2150, "3": 2550, "4": 3400 }
   },
   "South Ealing": {
+    "point": { "lat": 51.5008, "lon": -0.3074 },
+    "ladCode": "E09000009",
     "id": "south-ealing",
     "displayName": "South Ealing",
     "comparisonName": "South Ealing",
@@ -210,6 +240,8 @@
     "rent": { "1": 1550, "2": 1930, "3": 2280, "4": 3100 }
   },
   "Southfields": {
+    "point": { "lat": 51.445, "lon": -0.2066 },
+    "ladCode": "E09000032",
     "id": "southfields",
     "displayName": "Southfields",
     "comparisonName": "Southfields",
@@ -224,6 +256,8 @@
     "rent": { "1": 1650, "2": 2075, "3": 2375, "4": 3250 }
   },
   "Clapham": {
+    "point": { "lat": 51.4618, "lon": -0.1383 },
+    "ladCode": "E09000022",
     "id": "clapham",
     "displayName": "Clapham Common",
     "comparisonName": "Clapham Common",
@@ -238,6 +272,8 @@
     "rent": { "1": 1950, "2": 2600, "3": 3500, "4": 4500 }
   },
   "Bethnal Green": {
+    "point": { "lat": 51.5279, "lon": -0.0556 },
+    "ladCode": "E09000030",
     "id": "bethnal-green",
     "displayName": "Bethnal Green",
     "comparisonName": "Bethnal Green",
@@ -252,6 +288,8 @@
     "rent": { "1": 2300, "2": 3000, "3": 3900, "4": 4400 }
   },
   "Stratford": {
+    "point": { "lat": 51.5416, "lon": -0.0037 },
+    "ladCode": "E09000025",
     "id": "stratford",
     "displayName": "Stratford",
     "comparisonName": "Stratford",
@@ -266,6 +304,8 @@
     "rent": { "1": 1950, "2": 2400, "3": 2900, "4": 3400 }
   },
   "Walthamstow": {
+    "point": { "lat": 51.5829, "lon": -0.0199 },
+    "ladCode": "E09000031",
     "id": "walthamstow-central",
     "displayName": "Walthamstow Central",
     "comparisonName": "Walthamstow Central",
@@ -280,6 +320,8 @@
     "rent": { "1": 1800, "2": 2200, "3": 2800, "4": 3200 }
   },
   "Peckham": {
+    "point": { "lat": 51.4698, "lon": -0.0698 },
+    "ladCode": "E09000028",
     "id": "peckham-rye",
     "displayName": "Peckham Rye",
     "comparisonName": "Peckham Rye",
@@ -294,6 +336,8 @@
     "rent": { "1": 1700, "2": 2100, "3": 2700, "4": 3400 }
   },
   "Hackney": {
+    "point": { "lat": 51.5471, "lon": -0.056 },
+    "ladCode": "E09000012",
     "id": "hackney",
     "displayName": "Hackney Central",
     "comparisonName": "Hackney Central",
@@ -308,6 +352,8 @@
     "rent": { "1": 2100, "2": 2700, "3": 3200, "4": 3700 }
   },
   "Putney": {
+    "point": { "lat": 51.4592, "lon": -0.211 },
+    "ladCode": "E09000032",
     "id": "east-putney",
     "displayName": "East Putney",
     "comparisonName": "East Putney",
@@ -322,6 +368,8 @@
     "rent": { "1": 1950, "2": 2500, "3": 3000, "4": 3900 }
   },
   "Crystal Palace": {
+    "point": { "lat": 51.4182, "lon": -0.0726 },
+    "ladCode": "E09000006",
     "id": "crystal-palace",
     "displayName": "Crystal Palace",
     "comparisonName": "Crystal Palace",
@@ -336,6 +384,8 @@
     "rent": { "1": 1289, "2": 1614, "3": 1955, "4": 2895 }
   },
   "Chiswick": {
+    "point": { "lat": 51.4946, "lon": -0.2678 },
+    "ladCode": "E09000018",
     "id": "chiswick-park",
     "displayName": "Chiswick Park",
     "comparisonName": "Chiswick Park",
@@ -350,6 +400,8 @@
     "rent": { "1": 1900, "2": 2450, "3": 3000, "4": 3800 }
   },
   "Hammersmith": {
+    "point": { "lat": 51.4927, "lon": -0.2229 },
+    "ladCode": "E09000013",
     "id": "hammersmith",
     "displayName": "Hammersmith",
     "comparisonName": "Hammersmith",
@@ -364,6 +416,8 @@
     "rent": { "1": 1800, "2": 2300, "3": 2700, "4": 3600 }
   },
   "Islington": {
+    "point": { "lat": 51.5465, "lon": -0.1039 },
+    "ladCode": "E09000019",
     "id": "islington",
     "displayName": "Highbury & Islington",
     "comparisonName": "Highbury & Islington",
@@ -378,6 +432,8 @@
     "rent": { "1": 2050, "2": 2544, "3": 2835, "4": 4018 }
   },
   "Finchley": {
+    "point": { "lat": 51.6012, "lon": -0.1924 },
+    "ladCode": "E09000003",
     "id": "finchley",
     "displayName": "Finchley Central",
     "comparisonName": "Finchley Central",
@@ -392,6 +448,8 @@
     "rent": { "1": 1478, "2": 1832, "3": 2222, "4": 3169 }
   },
   "Greenwich": {
+    "point": { "lat": 51.4781, "lon": -0.0149 },
+    "ladCode": "E09000011",
     "id": "greenwich",
     "displayName": "Greenwich",
     "comparisonName": "Greenwich",
@@ -406,6 +464,8 @@
     "rent": { "1": 1520, "2": 1880, "3": 2177, "4": 2933 }
   },
   "Lewisham": {
+    "point": { "lat": 51.4657, "lon": -0.0142 },
+    "ladCode": "E09000023",
     "id": "lewisham",
     "displayName": "Lewisham",
     "comparisonName": "Lewisham",
