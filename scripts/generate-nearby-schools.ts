@@ -9,6 +9,7 @@ interface LocationInfo {
   displayName: string;
   naptan?: string;
   station: string;
+  point: { lat: number; lon: number };
 }
 
 interface OfstedRow {
@@ -82,9 +83,7 @@ const MAX_CACHED_CSV_BYTES = 50 * 1024 * 1024;
 const PRIMARY_RADIUS_KM = 3;
 const SECONDARY_RADIUS_KM = 5;
 const NEAREST_OUTSTANDING_LIMIT = 5;
-const POSTCODES_BATCH_SIZE = 100;
-const POSTCODES_URL = 'https://api.postcodes.io/postcodes';
-const TFL_BASE = 'https://api.tfl.gov.uk';
+const POSTCODE_COORDS_CSV = path.resolve(process.cwd(), 'scripts/school-postcode-coords.csv');
 
 function parseCsv(content: string): Record<string, string>[] {
   const rows: string[][] = [];
@@ -134,52 +133,24 @@ function normalizePostcode(postcode: string): string {
   return postcode.toUpperCase().replace(/\s+/g, '');
 }
 
-async function fetchPostcodeBatch(postcodes: string[]): Promise<Map<string, Coordinates>> {
-  const res = await fetch(POSTCODES_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ postcodes }),
-  });
-  if (!res.ok) throw new Error(`postcodes.io HTTP ${res.status}`);
-
-  const json = await res.json() as {
-    result?: Array<{
-      query: string;
-      result: { latitude: number; longitude: number } | null;
-    }>;
-  };
-
+// School postcode -> coordinates, from the committed preprocessed dataset
+// (scripts/school-postcode-coords.csv). Geocoding therefore needs no network.
+// Regenerate that file from a full UK postcode dataset only when new school
+// postcodes appear (see scripts/build-school-postcode-coords).
+function loadPostcodeCoords(): Map<string, Coordinates> {
   const out = new Map<string, Coordinates>();
-  for (const item of json.result ?? []) {
-    if (item.result) {
-      out.set(normalizePostcode(item.query), {
-        lat: item.result.latitude,
-        lon: item.result.longitude,
-      });
-    }
+  const lines = fs.readFileSync(POSTCODE_COORDS_CSV, 'utf8').split(/\r?\n/);
+  for (let i = 1; i < lines.length; i += 1) { // skip header row
+    const line = lines[i];
+    if (!line) continue;
+    const [postcode, lat, lon] = line.split(',');
+    const latNum = Number(lat);
+    const lonNum = Number(lon);
+    if (!postcode || Number.isNaN(latNum) || Number.isNaN(lonNum)) continue;
+    out.set(normalizePostcode(postcode), { lat: latNum, lon: lonNum });
   }
+  console.log(`Loaded ${out.size} postcode coordinates from ${POSTCODE_COORDS_CSV}`);
   return out;
-}
-
-async function geocodePostcodes(postcodes: string[]): Promise<Map<string, Coordinates>> {
-  const out = new Map<string, Coordinates>();
-  for (let i = 0; i < postcodes.length; i += POSTCODES_BATCH_SIZE) {
-    const batch = postcodes.slice(i, i + POSTCODES_BATCH_SIZE);
-    const coords = await fetchPostcodeBatch(batch);
-    for (const [postcode, point] of coords) out.set(postcode, point);
-    console.log(`Geocoded ${Math.min(i + batch.length, postcodes.length)}/${postcodes.length} school postcodes`);
-  }
-  return out;
-}
-
-async function fetchStopPointCoordinates(naptan: string): Promise<Coordinates> {
-  const res = await fetch(`${TFL_BASE}/StopPoint/${encodeURIComponent(naptan)}`);
-  if (!res.ok) throw new Error(`TfL StopPoint ${naptan} HTTP ${res.status}`);
-  const json = await res.json() as { lat?: number; lon?: number };
-  if (typeof json.lat !== 'number' || typeof json.lon !== 'number') {
-    throw new Error(`TfL StopPoint ${naptan} did not include coordinates`);
-  }
-  return { lat: json.lat, lon: json.lon };
 }
 
 async function loadOfstedCsv(): Promise<string> {
@@ -258,8 +229,7 @@ async function main() {
     (row['Ofsted phase'] === 'Primary' || row['Ofsted phase'] === 'Secondary')
     && row.Postcode.trim()
   );
-  const postcodes = [...new Set(schoolRows.map(row => normalizePostcode(row.Postcode)))];
-  const postcodeCoordinates = await geocodePostcodes(postcodes);
+  const postcodeCoordinates = loadPostcodeCoords();
 
   const schools: School[] = schoolRows.flatMap(row => {
     const point = postcodeCoordinates.get(normalizePostcode(row.Postcode));
@@ -281,8 +251,8 @@ async function main() {
   const output: Record<string, LocationSchoolStats> = {};
 
   for (const [locationKey, location] of Object.entries(locations)) {
-    if (!location.naptan) throw new Error(`${locationKey} has no naptan`);
-    const anchor = await fetchStopPointCoordinates(location.naptan);
+    // Anchor on the canonical registry point (single source of truth), not a live TfL lookup.
+    const anchor: Coordinates = { lat: location.point.lat, lon: location.point.lon };
     const schoolDistances = schools
       .map(school => ({ school, distanceKm: distanceKm(anchor, school) }));
     const primary = schoolDistances.filter(item =>

@@ -2,7 +2,7 @@
 import "dotenv/config";
 import fs from "fs";
 import path from "path";
-import { locationData } from "../src/location-data";
+import { locationData } from "../src/data";
 import { workLocations } from "../src/work-locations";
 import type { CommuteTimes } from "../src/types";
 
@@ -52,6 +52,9 @@ const STOPPOINT_OVERRIDES: Record<string, string> = {
   "Euston Underground Station": "940GZZLUEAC",                     // Victoria/Northern
 
   // ---- Homes (suburbs) ----
+  // Search returns the HUBSPB hub / "Shepherd's Bush Market" instead of the Central-line
+  // station, so pin the Central-line StopPoint directly (verified in Journey Planner).
+  "Shepherd's Bush Underground Station": "940GZZLUSBC",
   "Brixton Underground Station": "940GZZLUBXN",
   "Fulham Broadway Underground Station": "940GZZLUFBY",
   "Tooting Broadway Underground Station": "940GZZLUTBY",
@@ -97,8 +100,11 @@ try {
   STOP_CACHE = JSON.parse(fs.readFileSync(cacheFile, "utf8"));
 } catch { STOP_CACHE = {}; }
 
-const PAUSE_MS    = 300; // ~200 req/min — conservative; TfL's stated limit is 500/min but burst enforcement is stricter
-const CONCURRENCY = 3;   // parallel workers sharing the rate limiter
+// TfL product limit is 500 req/min (~120ms/req). Pace just under that with headroom;
+// every TfL call (search, detail, journey) shares this one limiter so nothing bursts.
+// Override via env if your key's limit differs.
+const PAUSE_MS    = Number(process.env.TFL_PAUSE_MS ?? 135);    // ~444 req/min, ~11% headroom
+const CONCURRENCY = Number(process.env.TFL_CONCURRENCY ?? 4);   // workers to keep the pace saturated despite latency
 
 const pause = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -136,11 +142,21 @@ async function runPool<T>(items: T[], worker: (item: T) => Promise<void>, concur
 
 function qs(params: Record<string, string>) {
   const sp = new URLSearchParams(params);
-  if (APP_ID && APP_KEY) {
-    sp.set("app_id", APP_ID);
-    sp.set("app_key", APP_KEY);
-  }
+  // Modern TfL keys authenticate with app_key alone (app_id is deprecated and usually
+  // empty). Send whichever are present — previously this required BOTH, so an empty
+  // app_id meant no key was sent at all and every call hit the anonymous rate limit.
+  if (APP_KEY) sp.set("app_key", APP_KEY);
+  if (APP_ID) sp.set("app_id", APP_ID);
   return sp.toString();
+}
+
+/** Next Monday as YYYYMMDD, so the pinned peak-hour journey date is always in the future. */
+function getNextMonday(): string {
+  const d = new Date();
+  const day = d.getDay();
+  const diff = day === 0 ? 1 : day === 1 ? 7 : 8 - day;
+  d.setDate(d.getDate() + diff);
+  return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
 }
 
 /** Resolve a Station Name → a specific StopPoint ID (NaptanId). */
@@ -157,6 +173,7 @@ async function resolveStopPointId(query: string): Promise<string> {
   });
 
   for (let attempt = 1; attempt <= 3; attempt++) {
+    await acquireRateSlot(); // pace resolution too, so it can't burst past the rate limit
     const res = await fetch(url);
     if (!res.ok) {
       if (attempt === 3) throw new Error(`StopPoint search failed: HTTP ${res.status}`);
@@ -181,6 +198,7 @@ async function resolveStopPointId(query: string): Promise<string> {
     for (const m of matches) {
       const id = m.id || m.icsId || m.stationId || m.naptanId || "";
       const detailsUrl = `${BASE}/StopPoint/${encodeURIComponent(id)}?${qs({})}`;
+      await acquireRateSlot();
       const detRes = await fetch(detailsUrl);
       if (!detRes.ok) continue;
       const det = await detRes.json() as StopPointDetails;
@@ -217,8 +235,11 @@ async function resolveStopPointId(query: string): Promise<string> {
   throw new Error(`Could not resolve stop for "${query}"`);
 }
 
-/** Call Journey Planner with StopPoint IDs to avoid 300 (multiple choices). */
-async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<Minutes> {
+/** Call Journey Planner with StopPoint IDs to avoid 300 (multiple choices).
+ *  Returns minutes on success (0 only for a genuine empty result), or null when the
+ *  request could not be completed (e.g. rate-limited) — callers must NOT persist null,
+ *  leaving the pair absent so a later run retries it. */
+async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<number | null> {
   const fromQuery = locationData[fromLabel]?.station;
   const toQuery = workLocations[toLabel]?.station;
   if (!fromQuery || !toQuery) throw new Error(`Unknown labels: ${fromLabel} → ${toLabel}`);
@@ -229,10 +250,11 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<M
   const url = `${BASE}/Journey/JourneyResults/${encodeURIComponent(fromId)}/to/${encodeURIComponent(toId)}?` + qs({
     mode: modes.join(","),
     timeIs: "Departing",
-    date: "20260602", time: "0900", // pin to 09:00 Mon for consistent peak-hour results
+    date: getNextMonday(), time: "0900", // pin to 09:00 next Mon for consistent peak-hour results
   });
 
   for (let attempt = 1; attempt <= 4; attempt++) {
+    await acquireRateSlot(); // every TfL call shares one global pace, so nothing bursts
     const res = await fetch(url);
 
     if (res.status === 429) {
@@ -260,35 +282,86 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<M
     return typeof best === "number" ? Math.round(best) : 0;
   }
 
-  return 0;
+  return null; // exhausted retries (e.g. persistent rate-limiting) — leave the pair for a later run
 }
 
 async function main() {
   const homeKeys = Object.keys(locationData);
   const workKeys = Object.keys(workLocations);
+
+  // Incremental & merge-based: start from the existing matrix and only fetch the pairs
+  // we still need, so adding one location pulls just its pairs and a rate-limit blip
+  // never overwrites good data. Modes:
+  //   (default)         fill only missing pairs
+  //   REFETCH_ZEROS=1   also re-fetch existing 0s (repair earlier failures)
+  //   FORCE=1           re-fetch every pair
+  //   ONLY=<location>   restrict to a single home location
+  //   DRY=1             list what would be fetched, make no API calls
+  let existing: CommuteTimes = {};
+  try {
+    ({ commuteTimes: existing } = await import("../src/commute-times"));
+  } catch { existing = {}; }
+
+  const force = process.env.FORCE === "1";
+  const refetchZeros = process.env.REFETCH_ZEROS === "1";
+  const only = process.env.ONLY;
+  const dry = process.env.DRY === "1";
+
+  // Carry every existing value forward; we only ever add/replace, never drop good data.
   const out: CommuteTimes = {};
-  for (const h of homeKeys) out[h] = {};
+  for (const h of homeKeys) out[h] = { ...(existing[h] ?? {}) };
 
-  const pairs = homeKeys.flatMap(h => workKeys.map(w => [h, w] as [string, string]));
-  console.log(`Fetching ${pairs.length} pairs with ${CONCURRENCY} workers at ${PAUSE_MS}ms/req…\n`);
+  const pairs = homeKeys.flatMap(h => workKeys.map(w => [h, w] as [string, string]))
+    .filter(([h, w]) => {
+      if (only && h !== only) return false;
+      if (force) return true;
+      const cur = existing[h]?.[w];
+      if (cur === undefined) return true;          // missing → fetch
+      if (refetchZeros && cur === 0) return true;  // repair a previously-failed 0
+      return false;                                // already populated → keep as-is
+    });
 
+  const totalPairs = homeKeys.length * workKeys.length;
+  const mode = force ? "FORCE all" : refetchZeros ? "missing + zeros" : "missing only";
+  console.log(`${pairs.length}/${totalPairs} pairs to fetch (mode: ${mode}${only ? `, ONLY=${only}` : ""}); preserving ${totalPairs - pairs.length} existing values.`);
+
+  if (dry) {
+    pairs.forEach(([h, w]) => console.log(`  would fetch: ${h} → ${w}`));
+    console.log(`\nDRY run — no API calls made.`);
+    return;
+  }
+
+  console.log(`Using ${CONCURRENCY} workers at ${PAUSE_MS}ms/req…\n`);
+
+  let filled = 0;
+  let skipped = 0;
   await runPool(pairs, async ([h, w]) => {
     try {
-      await acquireRateSlot();
       const mins = await getDurationMinutes(h, w);
+      if (mins === null) { skipped += 1; console.warn(`· ${h} → ${w}: no result — kept existing, will retry next run`); return; }
+      if (mins === 0 && (existing[h]?.[w] ?? 0) > 0) { skipped += 1; return; } // never downgrade a good value
       out[h][w] = mins;
+      filled += 1;
       console.log(`${h} → ${w}: ${mins} min`);
     } catch (e: unknown) {
-      console.warn(`Failed ${h} → ${w}: ${getErrorMessage(e)}`);
-      out[h][w] = 0;
+      skipped += 1;
+      console.warn(`· ${h} → ${w}: ${getErrorMessage(e)} — kept existing, will retry next run`);
     }
   }, CONCURRENCY);
+
+  console.log(`\nFilled ${filled}, skipped/failed ${skipped}.`);
 
   const lastRun = new Date().toISOString();
   const banner = `/**
  * AUTO-GENERATED by scripts/fetch-tfl-commutes.ts
- * To regenerate: npm run fetch-commutes:tfl
  * Values are one-way minutes from TfL Journey Planner (shortest itinerary).
+ *
+ * Incremental & merge-based — re-running only fills missing pairs and preserves
+ * existing values:
+ *   npm run fetch-commutes:tfl                 # fill missing pairs only
+ *   REFETCH_ZEROS=1 npm run fetch-commutes:tfl # also repair existing 0s
+ *   ONLY="Camden" npm run fetch-commutes:tfl   # just one home location
+ *   FORCE=1 npm run fetch-commutes:tfl         # re-fetch everything
  */`;
 
   const file = `${banner}

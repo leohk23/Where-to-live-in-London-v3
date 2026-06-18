@@ -900,7 +900,7 @@ export default function ResultsTable({
                         )}
                       </td>
 
-                      <td className={`sticky left-[44px] z-10 whitespace-nowrap px-2 py-2 shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:left-[56px] lg:px-3 lg:py-3 ${
+                      <td className={`sticky left-[44px] z-10 max-w-[40vw] px-2 py-2 align-top shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:left-[56px] lg:max-w-none lg:whitespace-nowrap lg:px-3 lg:py-3 ${
                         overBudget
                           ? 'bg-gray-50 dark:bg-gray-800'
                           : 'bg-white dark:bg-gray-900'
@@ -911,18 +911,18 @@ export default function ResultsTable({
                             onClick={() => setExpandedLocation(current => (
                               current === result.location ? null : result.location
                             ))}
-                            className="inline-flex items-center gap-1 text-left text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-100 dark:hover:text-blue-300 lg:gap-1.5 lg:text-base"
+                            className="inline-flex items-start gap-1 text-left text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-100 dark:hover:text-blue-300 lg:items-center lg:gap-1.5 lg:text-base"
                             aria-expanded={isExpanded}
                             aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${result.displayName} details`}
                           >
                             {isExpanded
-                              ? <ChevronDown className="h-4 w-4 shrink-0" />
-                              : <ChevronRight className="h-4 w-4 shrink-0" />}
-                            <span>{result.displayName}</span>
+                              ? <ChevronDown className="mt-0.5 h-4 w-4 shrink-0 lg:mt-0" />
+                              : <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 lg:mt-0" />}
+                            <span className="break-words leading-tight">{result.displayName}</span>
                           </button>
                           <LocationDataFlag result={result} />
                         </div>
-                        <div className="text-[11px] text-gray-400 dark:text-gray-500 lg:text-xs">{result.borough}</div>
+                        <div className="pl-5 text-[11px] text-gray-400 dark:text-gray-500 lg:pl-[22px] lg:text-xs">{result.borough}</div>
                       </td>
                       <td className={`whitespace-nowrap px-1.5 py-2 text-center lg:px-3 lg:py-3 ${hoverCellClass}`}>
                         {result.commuteTime !== null ? (

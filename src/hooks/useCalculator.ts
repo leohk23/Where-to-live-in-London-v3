@@ -1,9 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { commuteTimes } from '../commute-times';
-import { locationData } from '../location-data';
-import { councilTaxData } from '../tax-data';
-import { boroughStats } from '../borough-stats';
-import { locationSchoolStats } from '../location-schools';
+import { locationData, councilTaxData, boroughStats, locationSchoolStats } from '../data';
 import { workLocations, type WorkLocationKey } from '../work-locations';
 import {
   FARE_BY_ZONE_DIFF, FARE_FALLBACK,
