@@ -6,7 +6,7 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 9,
-    "primarySchools": 70,
+    "primarySchools": 68,
     "secondaryOutstandingSchools": 9,
     "secondarySchools": 42,
     "grammarSchools": 0,
@@ -24,7 +24,7 @@
       {
         "name": "Sacred Heart Catholic School",
         "phase": "Secondary",
-        "distanceKm": 1.8
+        "distanceKm": 1.9
       },
       {
         "name": "The Charter School North Dulwich",
@@ -54,12 +54,12 @@
         "distanceKm": 2.1
       },
       {
-        "name": "Dulwich Village Church of England Infants' School",
+        "name": "Rosendale Primary School",
         "phase": "Primary",
         "distanceKm": 2.2
       },
       {
-        "name": "Rosendale Primary School",
+        "name": "Dulwich Village Church of England Infants' School",
         "phase": "Primary",
         "distanceKm": 2.2
       }
@@ -68,7 +68,7 @@
       {
         "name": "Sacred Heart Catholic School",
         "phase": "Secondary",
-        "distanceKm": 1.8
+        "distanceKm": 1.9
       },
       {
         "name": "The Charter School North Dulwich",
@@ -102,9 +102,9 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 8,
-    "primarySchools": 50,
+    "primarySchools": 49,
     "secondaryOutstandingSchools": 8,
-    "secondarySchools": 37,
+    "secondarySchools": 35,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
@@ -115,12 +115,12 @@
       {
         "name": "The London Oratory School",
         "phase": "Secondary",
-        "distanceKm": 0.7
+        "distanceKm": 0.6
       },
       {
         "name": "Lady Margaret School",
         "phase": "Secondary",
-        "distanceKm": 0.7
+        "distanceKm": 0.8
       },
       {
         "name": "Servite RC Primary School",
@@ -130,7 +130,7 @@
       {
         "name": "Avonmore Primary School",
         "phase": "Primary",
-        "distanceKm": 1.2
+        "distanceKm": 1.1
       }
     ],
     "nearestPrimaryOutstandingSchools": [
@@ -147,7 +147,7 @@
       {
         "name": "Avonmore Primary School",
         "phase": "Primary",
-        "distanceKm": 1.2
+        "distanceKm": 1.1
       },
       {
         "name": "St John's Walham Green Church of England Primary School",
@@ -164,12 +164,12 @@
       {
         "name": "The London Oratory School",
         "phase": "Secondary",
-        "distanceKm": 0.7
+        "distanceKm": 0.6
       },
       {
         "name": "Lady Margaret School",
         "phase": "Secondary",
-        "distanceKm": 0.7
+        "distanceKm": 0.8
       },
       {
         "name": "The Hurlingham Academy",
@@ -198,7 +198,7 @@
     "primaryOutstandingSchools": 9,
     "primarySchools": 47,
     "secondaryOutstandingSchools": 7,
-    "secondarySchools": 31,
+    "secondarySchools": 30,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
@@ -212,19 +212,19 @@
         "distanceKm": 1.2
       },
       {
-        "name": "Graveney School",
-        "phase": "Secondary",
-        "distanceKm": 1.2
-      },
-      {
         "name": "Singlegate Primary School",
         "phase": "Primary",
         "distanceKm": 1.2
       },
       {
+        "name": "Graveney School",
+        "phase": "Secondary",
+        "distanceKm": 1.2
+      },
+      {
         "name": "Penwortham Primary School",
         "phase": "Primary",
-        "distanceKm": 1.7
+        "distanceKm": 1.6
       }
     ],
     "nearestPrimaryOutstandingSchools": [
@@ -246,12 +246,12 @@
       {
         "name": "Penwortham Primary School",
         "phase": "Primary",
-        "distanceKm": 1.7
+        "distanceKm": 1.6
       },
       {
         "name": "Holy Trinity CofE Primary School",
         "phase": "Primary",
-        "distanceKm": 1.9
+        "distanceKm": 2
       }
     ],
     "nearestSecondaryOutstandingSchools": [
@@ -263,12 +263,12 @@
       {
         "name": "Harris Academy Wimbledon",
         "phase": "Secondary",
-        "distanceKm": 2.2
+        "distanceKm": 2.1
       },
       {
         "name": "St Mark's Church of England Academy",
         "phase": "Secondary",
-        "distanceKm": 2.6
+        "distanceKm": 2.5
       },
       {
         "name": "La Retraite Roman Catholic Girls' School",
@@ -314,7 +314,7 @@
       {
         "name": "Victor Seymour Infants' School",
         "phase": "Primary",
-        "distanceKm": 2.4
+        "distanceKm": 2.5
       },
       {
         "name": "St Cecilia's Catholic Primary School",
@@ -336,7 +336,7 @@
       {
         "name": "Victor Seymour Infants' School",
         "phase": "Primary",
-        "distanceKm": 2.4
+        "distanceKm": 2.5
       },
       {
         "name": "St Cecilia's Catholic Primary School",
@@ -376,7 +376,7 @@
       {
         "name": "Wallington County Grammar School",
         "phase": "Secondary",
-        "distanceKm": 3.1
+        "distanceKm": 3.2
       },
       {
         "name": "Wallington High School for Girls",
@@ -400,7 +400,7 @@
     "primaryOutstandingSchools": 3,
     "primarySchools": 24,
     "secondaryOutstandingSchools": 3,
-    "secondarySchools": 20,
+    "secondarySchools": 19,
     "grammarSchools": 2,
     "nearestOutstandingSchools": [
       {
@@ -411,12 +411,12 @@
       {
         "name": "Coombe Hill Junior School",
         "phase": "Primary",
-        "distanceKm": 1.4
+        "distanceKm": 1.5
       },
       {
         "name": "Richard Challoner School",
         "phase": "Secondary",
-        "distanceKm": 2.2
+        "distanceKm": 2.1
       },
       {
         "name": "Alexandra Primary School",
@@ -426,7 +426,7 @@
       {
         "name": "The Tiffin Girls' School",
         "phase": "Secondary",
-        "distanceKm": 4,
+        "distanceKm": 4.1,
         "genderOfEntry": "Girls"
       }
     ],
@@ -439,7 +439,7 @@
       {
         "name": "Coombe Hill Junior School",
         "phase": "Primary",
-        "distanceKm": 1.4
+        "distanceKm": 1.5
       },
       {
         "name": "Alexandra Primary School",
@@ -451,18 +451,18 @@
       {
         "name": "Richard Challoner School",
         "phase": "Secondary",
-        "distanceKm": 2.2
+        "distanceKm": 2.1
       },
       {
         "name": "The Tiffin Girls' School",
         "phase": "Secondary",
-        "distanceKm": 4,
+        "distanceKm": 4.1,
         "genderOfEntry": "Girls"
       },
       {
         "name": "Harris Academy Wimbledon",
         "phase": "Secondary",
-        "distanceKm": 4.7
+        "distanceKm": 4.8
       }
     ],
     "nearestGrammarSchools": [
@@ -474,7 +474,7 @@
       {
         "name": "The Tiffin Girls' School",
         "phase": "Secondary",
-        "distanceKm": 4,
+        "distanceKm": 4.1,
         "genderOfEntry": "Girls"
       }
     ]
@@ -504,12 +504,12 @@
       {
         "name": "Harris Academy Wimbledon",
         "phase": "Secondary",
-        "distanceKm": 1.4
+        "distanceKm": 1.5
       },
       {
         "name": "Park Academy",
         "phase": "Primary",
-        "distanceKm": 1.7
+        "distanceKm": 1.6
       },
       {
         "name": "Singlegate Primary School",
@@ -531,7 +531,7 @@
       {
         "name": "Park Academy",
         "phase": "Primary",
-        "distanceKm": 1.7
+        "distanceKm": 1.6
       },
       {
         "name": "Singlegate Primary School",
@@ -548,7 +548,7 @@
       {
         "name": "Harris Academy Wimbledon",
         "phase": "Secondary",
-        "distanceKm": 1.4
+        "distanceKm": 1.5
       },
       {
         "name": "Graveney School",
@@ -575,9 +575,9 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 3,
-    "primarySchools": 25,
+    "primarySchools": 27,
     "secondaryOutstandingSchools": 4,
-    "secondarySchools": 26,
+    "secondarySchools": 25,
     "grammarSchools": 1,
     "nearestOutstandingSchools": [
       {
@@ -588,7 +588,7 @@
       {
         "name": "St Mary's Church of England Primary School",
         "phase": "Primary",
-        "distanceKm": 2.3
+        "distanceKm": 2.4
       },
       {
         "name": "St Richard Reynolds Catholic Primary School",
@@ -615,7 +615,7 @@
       {
         "name": "St Mary's Church of England Primary School",
         "phase": "Primary",
-        "distanceKm": 2.3
+        "distanceKm": 2.4
       },
       {
         "name": "St Richard Reynolds Catholic Primary School",
@@ -664,18 +664,18 @@
     "primaryOutstandingSchools": 5,
     "primarySchools": 28,
     "secondaryOutstandingSchools": 7,
-    "secondarySchools": 26,
+    "secondarySchools": 28,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
         "name": "Ada Lovelace Church of England High School",
         "phase": "Secondary",
-        "distanceKm": 0.7
+        "distanceKm": 0.6
       },
       {
         "name": "Holy Family Catholic Primary School",
         "phase": "Primary",
-        "distanceKm": 1.5
+        "distanceKm": 1.4
       },
       {
         "name": "St John's Primary School",
@@ -690,14 +690,14 @@
       {
         "name": "Ark Soane Academy",
         "phase": "Secondary",
-        "distanceKm": 2
+        "distanceKm": 1.9
       }
     ],
     "nearestPrimaryOutstandingSchools": [
       {
         "name": "Holy Family Catholic Primary School",
         "phase": "Primary",
-        "distanceKm": 1.5
+        "distanceKm": 1.4
       },
       {
         "name": "St John's Primary School",
@@ -724,7 +724,7 @@
       {
         "name": "Ada Lovelace Church of England High School",
         "phase": "Secondary",
-        "distanceKm": 0.7
+        "distanceKm": 0.6
       },
       {
         "name": "Twyford Church of England High School",
@@ -734,12 +734,12 @@
       {
         "name": "Ark Soane Academy",
         "phase": "Secondary",
-        "distanceKm": 2
+        "distanceKm": 1.9
       },
       {
         "name": "Drayton Manor High School",
         "phase": "Secondary",
-        "distanceKm": 2.3
+        "distanceKm": 2.4
       },
       {
         "name": "Gunnersbury Catholic School",
@@ -758,16 +758,16 @@
     "primaryOutstandingSchools": 2,
     "primarySchools": 34,
     "secondaryOutstandingSchools": 5,
-    "secondarySchools": 32,
+    "secondarySchools": 29,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
-        "name": "St Mark's Catholic School",
+        "name": "Lampton Academy",
         "phase": "Secondary",
         "distanceKm": 0.7
       },
       {
-        "name": "Lampton Academy",
+        "name": "St Mark's Catholic School",
         "phase": "Secondary",
         "distanceKm": 0.7
       },
@@ -801,12 +801,12 @@
     ],
     "nearestSecondaryOutstandingSchools": [
       {
-        "name": "St Mark's Catholic School",
+        "name": "Lampton Academy",
         "phase": "Secondary",
         "distanceKm": 0.7
       },
       {
-        "name": "Lampton Academy",
+        "name": "St Mark's Catholic School",
         "phase": "Secondary",
         "distanceKm": 0.7
       },
@@ -834,11 +834,11 @@
     "radiusKm": 5,
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
-    "primaryOutstandingSchools": 3,
-    "primarySchools": 39,
+    "primaryOutstandingSchools": 4,
+    "primarySchools": 40,
     "secondaryOutstandingSchools": 2,
-    "secondarySchools": 24,
-    "grammarSchools": 2,
+    "secondarySchools": 25,
+    "grammarSchools": 3,
     "nearestOutstandingSchools": [
       {
         "name": "Park Hill Infant School",
@@ -853,17 +853,17 @@
       {
         "name": "Harris Primary Academy Croydon",
         "phase": "Primary",
-        "distanceKm": 1.8
+        "distanceKm": 1.7
+      },
+      {
+        "name": "Beddington Park Academy ",
+        "phase": "Primary",
+        "distanceKm": 2.9
       },
       {
         "name": "Wilson's School",
         "phase": "Secondary",
-        "distanceKm": 3.2
-      },
-      {
-        "name": "Harris Academy Merton",
-        "phase": "Secondary",
-        "distanceKm": 4.2
+        "distanceKm": 3.1
       }
     ],
     "nearestPrimaryOutstandingSchools": [
@@ -880,31 +880,42 @@
       {
         "name": "Harris Primary Academy Croydon",
         "phase": "Primary",
-        "distanceKm": 1.8
+        "distanceKm": 1.7
+      },
+      {
+        "name": "Beddington Park Academy ",
+        "phase": "Primary",
+        "distanceKm": 2.9
       }
     ],
     "nearestSecondaryOutstandingSchools": [
       {
         "name": "Wilson's School",
         "phase": "Secondary",
-        "distanceKm": 3.2
+        "distanceKm": 3.1
       },
       {
         "name": "Harris Academy Merton",
         "phase": "Secondary",
-        "distanceKm": 4.2
+        "distanceKm": 4.1
       }
     ],
     "nearestGrammarSchools": [
       {
         "name": "Wilson's School",
         "phase": "Secondary",
-        "distanceKm": 3.2
+        "distanceKm": 3.1
       },
       {
         "name": "Wallington County Grammar School",
         "phase": "Secondary",
-        "distanceKm": 4.1
+        "distanceKm": 4
+      },
+      {
+        "name": "Wallington High School for Girls",
+        "phase": "Secondary",
+        "distanceKm": 5,
+        "genderOfEntry": "Girls"
       }
     ]
   },
@@ -915,9 +926,9 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 7,
-    "primarySchools": 38,
+    "primarySchools": 37,
     "secondaryOutstandingSchools": 7,
-    "secondarySchools": 25,
+    "secondarySchools": 24,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
@@ -977,7 +988,7 @@
       {
         "name": "Harris Academy Wimbledon",
         "phase": "Secondary",
-        "distanceKm": 2.4
+        "distanceKm": 2.5
       },
       {
         "name": "Ashcroft Technology Academy",
@@ -987,7 +998,7 @@
       {
         "name": "Graveney School",
         "phase": "Secondary",
-        "distanceKm": 3.5
+        "distanceKm": 3.6
       },
       {
         "name": "The Hurlingham Academy",
@@ -1012,7 +1023,7 @@
     "primaryOutstandingSchools": 3,
     "primarySchools": 18,
     "secondaryOutstandingSchools": 4,
-    "secondarySchools": 15,
+    "secondarySchools": 16,
     "grammarSchools": 2,
     "nearestOutstandingSchools": [
       {
@@ -1023,7 +1034,7 @@
       {
         "name": "Queen Elizabeth's School, Barnet",
         "phase": "Secondary",
-        "distanceKm": 1.4
+        "distanceKm": 1.5
       },
       {
         "name": "Monken Hadley CofE Primary School",
@@ -1033,7 +1044,7 @@
       {
         "name": "Whitings Hill Primary School",
         "phase": "Primary",
-        "distanceKm": 1.6
+        "distanceKm": 1.7
       },
       {
         "name": "Livingstone Primary and Nursery School",
@@ -1050,7 +1061,7 @@
       {
         "name": "Whitings Hill Primary School",
         "phase": "Primary",
-        "distanceKm": 1.6
+        "distanceKm": 1.7
       },
       {
         "name": "Livingstone Primary and Nursery School",
@@ -1067,7 +1078,7 @@
       {
         "name": "Queen Elizabeth's School, Barnet",
         "phase": "Secondary",
-        "distanceKm": 1.4
+        "distanceKm": 1.5
       },
       {
         "name": "St Michael's Catholic Grammar School",
@@ -1084,7 +1095,7 @@
       {
         "name": "Queen Elizabeth's School, Barnet",
         "phase": "Secondary",
-        "distanceKm": 1.4
+        "distanceKm": 1.5
       },
       {
         "name": "St Michael's Catholic Grammar School",
@@ -1197,7 +1208,7 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 5,
-    "primarySchools": 34,
+    "primarySchools": 35,
     "secondaryOutstandingSchools": 8,
     "secondarySchools": 31,
     "grammarSchools": 0,
@@ -1215,12 +1226,12 @@
       {
         "name": "St Vincent's Catholic Primary School",
         "phase": "Primary",
-        "distanceKm": 1.2
+        "distanceKm": 1.1
       },
       {
         "name": "Southfield Primary School",
         "phase": "Primary",
-        "distanceKm": 1.7
+        "distanceKm": 1.6
       },
       {
         "name": "Holy Family Catholic Primary School",
@@ -1232,12 +1243,12 @@
       {
         "name": "St Vincent's Catholic Primary School",
         "phase": "Primary",
-        "distanceKm": 1.2
+        "distanceKm": 1.1
       },
       {
         "name": "Southfield Primary School",
         "phase": "Primary",
-        "distanceKm": 1.7
+        "distanceKm": 1.6
       },
       {
         "name": "Holy Family Catholic Primary School",
@@ -1293,7 +1304,7 @@
     "primaryOutstandingSchools": 4,
     "primarySchools": 29,
     "secondaryOutstandingSchools": 7,
-    "secondarySchools": 29,
+    "secondarySchools": 27,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
@@ -1336,7 +1347,7 @@
       {
         "name": "St Vincent's Catholic Primary School",
         "phase": "Primary",
-        "distanceKm": 2.7
+        "distanceKm": 2.6
       },
       {
         "name": "Holy Family Catholic Primary School",
@@ -1382,7 +1393,7 @@
     "primaryOutstandingSchools": 4,
     "primarySchools": 33,
     "secondaryOutstandingSchools": 7,
-    "secondarySchools": 27,
+    "secondarySchools": 26,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
@@ -1406,8 +1417,8 @@
         "distanceKm": 2
       },
       {
-        "name": "The Hurlingham Academy",
-        "phase": "Secondary",
+        "name": "Holy Trinity CofE Primary School",
+        "phase": "Primary",
         "distanceKm": 2.6
       }
     ],
@@ -1470,7 +1481,7 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 7,
-    "primarySchools": 59,
+    "primarySchools": 58,
     "secondaryOutstandingSchools": 12,
     "secondarySchools": 39,
     "grammarSchools": 0,
@@ -1565,21 +1576,21 @@
     "radiusKm": 5,
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
-    "primaryOutstandingSchools": 15,
+    "primaryOutstandingSchools": 14,
     "primarySchools": 79,
     "secondaryOutstandingSchools": 6,
-    "secondarySchools": 54,
+    "secondarySchools": 53,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
         "name": "Stewart Headlam Primary School",
         "phase": "Primary",
-        "distanceKm": 0.5
+        "distanceKm": 0.6
       },
       {
         "name": "Swanlea School",
         "phase": "Secondary",
-        "distanceKm": 0.8
+        "distanceKm": 0.9
       },
       {
         "name": "Solebay Primary - A Paradigm Academy",
@@ -1587,22 +1598,22 @@
         "distanceKm": 1.3
       },
       {
-        "name": "Mulberry School for Girls",
-        "phase": "Secondary",
-        "distanceKm": 1.5,
-        "genderOfEntry": "Girls"
-      },
-      {
         "name": "Mossbourne Victoria Park Academy",
         "phase": "Secondary",
-        "distanceKm": 1.5
+        "distanceKm": 1.4
+      },
+      {
+        "name": "Mulberry School for Girls",
+        "phase": "Secondary",
+        "distanceKm": 1.6,
+        "genderOfEntry": "Girls"
       }
     ],
     "nearestPrimaryOutstandingSchools": [
       {
         "name": "Stewart Headlam Primary School",
         "phase": "Primary",
-        "distanceKm": 0.5
+        "distanceKm": 0.6
       },
       {
         "name": "Solebay Primary - A Paradigm Academy",
@@ -1615,32 +1626,32 @@
         "distanceKm": 1.6
       },
       {
-        "name": "Queensbridge Primary School",
+        "name": "Gayhurst Community School",
         "phase": "Primary",
         "distanceKm": 1.7
       },
       {
-        "name": "Gayhurst Community School",
+        "name": "Queensbridge Primary School",
         "phase": "Primary",
-        "distanceKm": 1.8
+        "distanceKm": 1.7
       }
     ],
     "nearestSecondaryOutstandingSchools": [
       {
         "name": "Swanlea School",
         "phase": "Secondary",
-        "distanceKm": 0.8
-      },
-      {
-        "name": "Mulberry School for Girls",
-        "phase": "Secondary",
-        "distanceKm": 1.5,
-        "genderOfEntry": "Girls"
+        "distanceKm": 0.9
       },
       {
         "name": "Mossbourne Victoria Park Academy",
         "phase": "Secondary",
-        "distanceKm": 1.5
+        "distanceKm": 1.4
+      },
+      {
+        "name": "Mulberry School for Girls",
+        "phase": "Secondary",
+        "distanceKm": 1.6,
+        "genderOfEntry": "Girls"
       },
       {
         "name": "Mossbourne Community Academy",
@@ -1650,7 +1661,7 @@
       {
         "name": "Clapton Girls' Academy",
         "phase": "Secondary",
-        "distanceKm": 3.1,
+        "distanceKm": 3,
         "genderOfEntry": "Girls"
       }
     ],
@@ -1663,15 +1674,15 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 10,
-    "primarySchools": 56,
-    "secondaryOutstandingSchools": 6,
-    "secondarySchools": 49,
+    "primarySchools": 55,
+    "secondaryOutstandingSchools": 7,
+    "secondarySchools": 50,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
         "name": "Earlham Primary School",
         "phase": "Primary",
-        "distanceKm": 1.4
+        "distanceKm": 1.5
       },
       {
         "name": "St Agnes RC Primary School",
@@ -1684,21 +1695,21 @@
         "distanceKm": 2
       },
       {
-        "name": "Curwen Primary School",
-        "phase": "Primary",
-        "distanceKm": 2
-      },
-      {
         "name": "Old Ford Primary - A Paradigm Academy",
         "phase": "Primary",
-        "distanceKm": 2.2
+        "distanceKm": 2.1
+      },
+      {
+        "name": "Curwen Primary School",
+        "phase": "Primary",
+        "distanceKm": 2.1
       }
     ],
     "nearestPrimaryOutstandingSchools": [
       {
         "name": "Earlham Primary School",
         "phase": "Primary",
-        "distanceKm": 1.4
+        "distanceKm": 1.5
       },
       {
         "name": "St Agnes RC Primary School",
@@ -1706,14 +1717,14 @@
         "distanceKm": 1.9
       },
       {
-        "name": "Curwen Primary School",
-        "phase": "Primary",
-        "distanceKm": 2
-      },
-      {
         "name": "Old Ford Primary - A Paradigm Academy",
         "phase": "Primary",
-        "distanceKm": 2.2
+        "distanceKm": 2.1
+      },
+      {
+        "name": "Curwen Primary School",
+        "phase": "Primary",
+        "distanceKm": 2.1
       },
       {
         "name": "Wellington Primary School",
@@ -1730,23 +1741,23 @@
       {
         "name": "St Angela's Ursuline School",
         "phase": "Secondary",
-        "distanceKm": 2.2
+        "distanceKm": 2.3
       },
       {
         "name": "Mossbourne Victoria Park Academy",
         "phase": "Secondary",
-        "distanceKm": 2.9
+        "distanceKm": 2.8
       },
       {
         "name": "Clapton Girls' Academy",
         "phase": "Secondary",
-        "distanceKm": 3.7,
+        "distanceKm": 3.6,
         "genderOfEntry": "Girls"
       },
       {
         "name": "Mossbourne Community Academy",
         "phase": "Secondary",
-        "distanceKm": 4.3
+        "distanceKm": 4.2
       }
     ],
     "nearestGrammarSchools": []
@@ -1758,7 +1769,7 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 3,
-    "primarySchools": 39,
+    "primarySchools": 40,
     "secondaryOutstandingSchools": 3,
     "secondarySchools": 35,
     "grammarSchools": 1,
@@ -1839,8 +1850,8 @@
     "radiusKm": 5,
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
-    "primaryOutstandingSchools": 7,
-    "primarySchools": 69,
+    "primaryOutstandingSchools": 6,
+    "primarySchools": 67,
     "secondaryOutstandingSchools": 8,
     "secondarySchools": 43,
     "grammarSchools": 0,
@@ -1870,7 +1881,7 @@
       {
         "name": "Sacred Heart Catholic School",
         "phase": "Secondary",
-        "distanceKm": 2.2
+        "distanceKm": 2.1
       }
     ],
     "nearestPrimaryOutstandingSchools": [
@@ -1882,22 +1893,22 @@
       {
         "name": "Dulwich Village Church of England Infants' School",
         "phase": "Primary",
-        "distanceKm": 2.3
+        "distanceKm": 2.2
       },
       {
         "name": "Dulwich Hamlet Junior School",
+        "phase": "Primary",
+        "distanceKm": 2.3
+      },
+      {
+        "name": "Jessop Primary School",
         "phase": "Primary",
         "distanceKm": 2.4
       },
       {
         "name": "John Ruskin Primary School and Language Classes",
         "phase": "Primary",
-        "distanceKm": 2.5
-      },
-      {
-        "name": "Jessop Primary School",
-        "phase": "Primary",
-        "distanceKm": 2.5
+        "distanceKm": 2.4
       }
     ],
     "nearestSecondaryOutstandingSchools": [
@@ -1921,7 +1932,7 @@
       {
         "name": "Sacred Heart Catholic School",
         "phase": "Secondary",
-        "distanceKm": 2.2
+        "distanceKm": 2.1
       },
       {
         "name": "Lilian Baylis Technology School",
@@ -1938,7 +1949,7 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 14,
-    "primarySchools": 71,
+    "primarySchools": 70,
     "secondaryOutstandingSchools": 6,
     "secondarySchools": 53,
     "grammarSchools": 0,
@@ -2022,7 +2033,7 @@
       {
         "name": "Mulberry School for Girls",
         "phase": "Secondary",
-        "distanceKm": 3.6,
+        "distanceKm": 3.7,
         "genderOfEntry": "Girls"
       }
     ],
@@ -2035,9 +2046,9 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 5,
-    "primarySchools": 44,
+    "primarySchools": 43,
     "secondaryOutstandingSchools": 6,
-    "secondarySchools": 27,
+    "secondarySchools": 26,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
@@ -2051,13 +2062,13 @@
         "distanceKm": 1.3
       },
       {
-        "name": "The Hurlingham Academy",
-        "phase": "Secondary",
+        "name": "Our Lady Queen of Heaven RC School",
+        "phase": "Primary",
         "distanceKm": 1.4
       },
       {
-        "name": "Our Lady Queen of Heaven RC School",
-        "phase": "Primary",
+        "name": "The Hurlingham Academy",
+        "phase": "Secondary",
         "distanceKm": 1.4
       },
       {
@@ -2112,7 +2123,7 @@
       {
         "name": "The London Oratory School",
         "phase": "Secondary",
-        "distanceKm": 3.2
+        "distanceKm": 3.1
       },
       {
         "name": "La Retraite Roman Catholic Girls' School",
@@ -2130,9 +2141,9 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 1,
-    "primarySchools": 45,
+    "primarySchools": 46,
     "secondaryOutstandingSchools": 5,
-    "secondarySchools": 33,
+    "secondarySchools": 32,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
@@ -2143,7 +2154,7 @@
       {
         "name": "St James the Great RC Primary and Nursery School",
         "phase": "Primary",
-        "distanceKm": 2.6
+        "distanceKm": 2.7
       },
       {
         "name": "Harris Boys' Academy East Dulwich",
@@ -2167,7 +2178,7 @@
       {
         "name": "St James the Great RC Primary and Nursery School",
         "phase": "Primary",
-        "distanceKm": 2.6
+        "distanceKm": 2.7
       }
     ],
     "nearestSecondaryOutstandingSchools": [
@@ -2304,16 +2315,16 @@
     "primaryOutstandingSchools": 12,
     "primarySchools": 56,
     "secondaryOutstandingSchools": 10,
-    "secondarySchools": 31,
+    "secondarySchools": 29,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
-        "name": "St John's Walham Green Church of England Primary School",
+        "name": "Avonmore Primary School",
         "phase": "Primary",
-        "distanceKm": 1.4
+        "distanceKm": 1.3
       },
       {
-        "name": "Avonmore Primary School",
+        "name": "St John's Walham Green Church of England Primary School",
         "phase": "Primary",
         "distanceKm": 1.4
       },
@@ -2323,24 +2334,24 @@
         "distanceKm": 1.4
       },
       {
-        "name": "St Stephen's CofE Primary School",
-        "phase": "Primary",
+        "name": "The Cardinal Vaughan Memorial RC School",
+        "phase": "Secondary",
         "distanceKm": 1.5
       },
       {
-        "name": "The Cardinal Vaughan Memorial RC School",
-        "phase": "Secondary",
+        "name": "St Stephen's CofE Primary School",
+        "phase": "Primary",
         "distanceKm": 1.5
       }
     ],
     "nearestPrimaryOutstandingSchools": [
       {
-        "name": "St John's Walham Green Church of England Primary School",
+        "name": "Avonmore Primary School",
         "phase": "Primary",
-        "distanceKm": 1.4
+        "distanceKm": 1.3
       },
       {
-        "name": "Avonmore Primary School",
+        "name": "St John's Walham Green Church of England Primary School",
         "phase": "Primary",
         "distanceKm": 1.4
       },
@@ -2395,24 +2406,24 @@
     "radiusKm": 5,
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
-    "primaryOutstandingSchools": 17,
-    "primarySchools": 78,
+    "primaryOutstandingSchools": 16,
+    "primarySchools": 75,
     "secondaryOutstandingSchools": 7,
-    "secondarySchools": 51,
+    "secondarySchools": 50,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
         "name": "St Mary Magdalene Academy",
         "phase": "Secondary",
-        "distanceKm": 0.5
+        "distanceKm": 0.4
       },
       {
-        "name": "Newington Green Primary School",
+        "name": "Gillespie Primary School",
         "phase": "Primary",
         "distanceKm": 1.5
       },
       {
-        "name": "Gillespie Primary School",
+        "name": "Newington Green Primary School",
         "phase": "Primary",
         "distanceKm": 1.5
       },
@@ -2429,12 +2440,12 @@
     ],
     "nearestPrimaryOutstandingSchools": [
       {
-        "name": "Newington Green Primary School",
+        "name": "Gillespie Primary School",
         "phase": "Primary",
         "distanceKm": 1.5
       },
       {
-        "name": "Gillespie Primary School",
+        "name": "Newington Green Primary School",
         "phase": "Primary",
         "distanceKm": 1.5
       },
@@ -2458,7 +2469,7 @@
       {
         "name": "St Mary Magdalene Academy",
         "phase": "Secondary",
-        "distanceKm": 0.5
+        "distanceKm": 0.4
       },
       {
         "name": "Mossbourne Community Academy",
@@ -2468,7 +2479,7 @@
       {
         "name": "Parliament Hill School",
         "phase": "Secondary",
-        "distanceKm": 3.5
+        "distanceKm": 3.4
       },
       {
         "name": "Clapton Girls' Academy",
@@ -2479,7 +2490,7 @@
       {
         "name": "Swanlea School",
         "phase": "Secondary",
-        "distanceKm": 4.1
+        "distanceKm": 4.2
       }
     ],
     "nearestGrammarSchools": []
@@ -2491,15 +2502,15 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 1,
-    "primarySchools": 32,
+    "primarySchools": 33,
     "secondaryOutstandingSchools": 2,
-    "secondarySchools": 23,
+    "secondarySchools": 24,
     "grammarSchools": 2,
     "nearestOutstandingSchools": [
       {
         "name": "Chalgrove Primary School",
         "phase": "Primary",
-        "distanceKm": 1.3
+        "distanceKm": 1.4
       },
       {
         "name": "St Michael's Catholic Grammar School",
@@ -2516,7 +2527,7 @@
       {
         "name": "Chalgrove Primary School",
         "phase": "Primary",
-        "distanceKm": 1.3
+        "distanceKm": 1.4
       }
     ],
     "nearestSecondaryOutstandingSchools": [
@@ -2551,9 +2562,9 @@
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
     "primaryOutstandingSchools": 3,
-    "primarySchools": 51,
+    "primarySchools": 49,
     "secondaryOutstandingSchools": 5,
-    "secondarySchools": 38,
+    "secondarySchools": 36,
     "grammarSchools": 0,
     "nearestOutstandingSchools": [
       {
@@ -2579,7 +2590,7 @@
       {
         "name": "Harris Girls' Academy East Dulwich",
         "phase": "Secondary",
-        "distanceKm": 3.7,
+        "distanceKm": 3.6,
         "genderOfEntry": "Girls"
       }
     ],
@@ -2609,13 +2620,13 @@
       {
         "name": "Harris Girls' Academy East Dulwich",
         "phase": "Secondary",
-        "distanceKm": 3.7,
+        "distanceKm": 3.6,
         "genderOfEntry": "Girls"
       },
       {
         "name": "Harris Boys' Academy East Dulwich",
         "phase": "Secondary",
-        "distanceKm": 4.3,
+        "distanceKm": 4.2,
         "genderOfEntry": "Boys"
       },
       {
@@ -2637,8 +2648,8 @@
     "radiusKm": 5,
     "primaryRadiusKm": 3,
     "secondaryRadiusKm": 5,
-    "primaryOutstandingSchools": 5,
-    "primarySchools": 50,
+    "primaryOutstandingSchools": 4,
+    "primarySchools": 49,
     "secondaryOutstandingSchools": 5,
     "secondarySchools": 33,
     "grammarSchools": 0,
@@ -2651,22 +2662,23 @@
       {
         "name": "St Margaret's Lee CofE Primary School",
         "phase": "Primary",
-        "distanceKm": 1.4
+        "distanceKm": 1.5
       },
       {
         "name": "Brindishe Manor School",
         "phase": "Primary",
-        "distanceKm": 1.7
+        "distanceKm": 1.8
       },
       {
         "name": "John Stainer Community Primary School",
         "phase": "Primary",
-        "distanceKm": 1.9
+        "distanceKm": 1.8
       },
       {
-        "name": "Wingfield Primary School",
-        "phase": "Primary",
-        "distanceKm": 2.5
+        "name": "Harris Girls' Academy East Dulwich",
+        "phase": "Secondary",
+        "distanceKm": 3,
+        "genderOfEntry": "Girls"
       }
     ],
     "nearestPrimaryOutstandingSchools": [
@@ -2678,22 +2690,17 @@
       {
         "name": "St Margaret's Lee CofE Primary School",
         "phase": "Primary",
-        "distanceKm": 1.4
+        "distanceKm": 1.5
       },
       {
         "name": "Brindishe Manor School",
         "phase": "Primary",
-        "distanceKm": 1.7
+        "distanceKm": 1.8
       },
       {
         "name": "John Stainer Community Primary School",
         "phase": "Primary",
-        "distanceKm": 1.9
-      },
-      {
-        "name": "Wingfield Primary School",
-        "phase": "Primary",
-        "distanceKm": 2.5
+        "distanceKm": 1.8
       }
     ],
     "nearestSecondaryOutstandingSchools": [
@@ -2711,18 +2718,18 @@
       {
         "name": "Harris Boys' Academy East Dulwich",
         "phase": "Secondary",
-        "distanceKm": 3.8,
+        "distanceKm": 3.7,
         "genderOfEntry": "Boys"
       },
       {
         "name": "Harris Academy Greenwich",
         "phase": "Secondary",
-        "distanceKm": 3.9
+        "distanceKm": 4
       },
       {
         "name": "Ark Greenwich Free School",
         "phase": "Secondary",
-        "distanceKm": 4.6
+        "distanceKm": 4.7
       }
     ],
     "nearestGrammarSchools": []
@@ -3537,5 +3544,99 @@
         "distanceKm": 1.7
       }
     ]
+  },
+  "Shepherd's Bush": {
+    "displayName": "Shepherd's Bush",
+    "anchorStation": "Shepherd's Bush Underground Station",
+    "radiusKm": 5,
+    "primaryRadiusKm": 3,
+    "secondaryRadiusKm": 5,
+    "primaryOutstandingSchools": 13,
+    "primarySchools": 60,
+    "secondaryOutstandingSchools": 9,
+    "secondarySchools": 33,
+    "grammarSchools": 0,
+    "nearestOutstandingSchools": [
+      {
+        "name": "The Cardinal Vaughan Memorial RC School",
+        "phase": "Secondary",
+        "distanceKm": 0.5
+      },
+      {
+        "name": "St Stephen's CofE Primary School",
+        "phase": "Primary",
+        "distanceKm": 0.6
+      },
+      {
+        "name": "Miles Coverdale Primary School",
+        "phase": "Primary",
+        "distanceKm": 0.7
+      },
+      {
+        "name": "Thomas Jones Primary School",
+        "phase": "Primary",
+        "distanceKm": 1.3
+      },
+      {
+        "name": "St John XXIII Catholic Primary School",
+        "phase": "Primary",
+        "distanceKm": 1.3
+      }
+    ],
+    "nearestPrimaryOutstandingSchools": [
+      {
+        "name": "St Stephen's CofE Primary School",
+        "phase": "Primary",
+        "distanceKm": 0.6
+      },
+      {
+        "name": "Miles Coverdale Primary School",
+        "phase": "Primary",
+        "distanceKm": 0.7
+      },
+      {
+        "name": "Thomas Jones Primary School",
+        "phase": "Primary",
+        "distanceKm": 1.3
+      },
+      {
+        "name": "St John XXIII Catholic Primary School",
+        "phase": "Primary",
+        "distanceKm": 1.3
+      },
+      {
+        "name": "Fox Primary School",
+        "phase": "Primary",
+        "distanceKm": 1.6
+      }
+    ],
+    "nearestSecondaryOutstandingSchools": [
+      {
+        "name": "The Cardinal Vaughan Memorial RC School",
+        "phase": "Secondary",
+        "distanceKm": 0.5
+      },
+      {
+        "name": "All Saints Catholic College",
+        "phase": "Secondary",
+        "distanceKm": 1.8
+      },
+      {
+        "name": "The London Oratory School",
+        "phase": "Secondary",
+        "distanceKm": 2.6
+      },
+      {
+        "name": "Paddington Academy",
+        "phase": "Secondary",
+        "distanceKm": 2.9
+      },
+      {
+        "name": "Lady Margaret School",
+        "phase": "Secondary",
+        "distanceKm": 3.6
+      }
+    ],
+    "nearestGrammarSchools": []
   }
 }
