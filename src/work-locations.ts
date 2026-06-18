@@ -23,6 +23,7 @@ export const workLocations: Record<string, WorkLocation> = {
   "Hammersmith":     { zone: "Zone 2", description: "BBC & Sky offices",   station: "Hammersmith Underground Station", coords: { lat: 51.4923, lon: -0.2240 } },
   "Stratford":       { zone: "Zone 2", description: "Olympic Park & east", station: "Stratford Underground Station", coords: { lat: 51.5416, lon: -0.0042 } },
   "Euston":          { zone: "Zone 1", description: "UCL & biomedical",   station: "Euston Underground Station", coords: { lat: 51.5282, lon: -0.1337 } },
+  "City Thameslink": { zone: "Zone 1", description: "City rail (Thameslink)", station: "City Thameslink Rail Station", coords: { lat: 51.5138, lon: -0.1033 } },
 };
 
 export type WorkLocationKey = keyof typeof workLocations;
