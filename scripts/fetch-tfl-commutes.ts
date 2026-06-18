@@ -2,7 +2,7 @@
 import "dotenv/config";
 import fs from "fs";
 import path from "path";
-import { locationData } from "../src/location-data";
+import { locationData } from "../src/data";
 import { workLocations } from "../src/work-locations";
 import type { CommuteTimes } from "../src/types";
 
