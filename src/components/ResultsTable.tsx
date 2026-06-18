@@ -922,7 +922,7 @@ export default function ResultsTable({
                           </button>
                           <LocationDataFlag result={result} />
                         </div>
-                        <div className="text-[11px] text-gray-400 dark:text-gray-500 lg:text-xs">{result.borough}</div>
+                        <div className="pl-5 text-[11px] text-gray-400 dark:text-gray-500 lg:pl-[22px] lg:text-xs">{result.borough}</div>
                       </td>
                       <td className={`whitespace-nowrap px-1.5 py-2 text-center lg:px-3 lg:py-3 ${hoverCellClass}`}>
                         {result.commuteTime !== null ? (
