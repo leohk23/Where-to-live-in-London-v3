@@ -622,5 +622,21 @@
     "station": "Cricklewood Rail Station",
     "naptan": "910GCRICKLWD",
     "rent": { "1": 1600, "2": 2000, "3": 2500, "4": 3300 }
+  },
+  "Shepherd's Bush": {
+    "point": { "lat": 51.5046, "lon": -0.2187 },
+    "ladCode": "E09000013",
+    "id": "shepherds-bush",
+    "displayName": "Shepherd's Bush",
+    "comparisonName": "Shepherd's Bush",
+    "anchorStation": "Shepherd's Bush Underground Station",
+    "labelScope": "station",
+    "dataConfidence": "medium",
+    "reviewNote": "W12, Hammersmith and Fulham. Rent estimated from ONS/Hutch comparables.",
+    "borough": "Hammersmith and Fulham",
+    "zone": "Zone 2",
+    "station": "Shepherd's Bush Underground Station",
+    "naptan": "940GZZLUSBC",
+    "rent": { "1": 1800, "2": 2300, "3": 2750, "4": 3650 }
   }
 }
