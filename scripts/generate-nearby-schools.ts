@@ -9,6 +9,7 @@ interface LocationInfo {
   displayName: string;
   naptan?: string;
   station: string;
+  point: { lat: number; lon: number };
 }
 
 interface OfstedRow {
@@ -84,7 +85,6 @@ const SECONDARY_RADIUS_KM = 5;
 const NEAREST_OUTSTANDING_LIMIT = 5;
 const POSTCODES_BATCH_SIZE = 100;
 const POSTCODES_URL = 'https://api.postcodes.io/postcodes';
-const TFL_BASE = 'https://api.tfl.gov.uk';
 
 function parseCsv(content: string): Record<string, string>[] {
   const rows: string[][] = [];
@@ -170,16 +170,6 @@ async function geocodePostcodes(postcodes: string[]): Promise<Map<string, Coordi
     console.log(`Geocoded ${Math.min(i + batch.length, postcodes.length)}/${postcodes.length} school postcodes`);
   }
   return out;
-}
-
-async function fetchStopPointCoordinates(naptan: string): Promise<Coordinates> {
-  const res = await fetch(`${TFL_BASE}/StopPoint/${encodeURIComponent(naptan)}`);
-  if (!res.ok) throw new Error(`TfL StopPoint ${naptan} HTTP ${res.status}`);
-  const json = await res.json() as { lat?: number; lon?: number };
-  if (typeof json.lat !== 'number' || typeof json.lon !== 'number') {
-    throw new Error(`TfL StopPoint ${naptan} did not include coordinates`);
-  }
-  return { lat: json.lat, lon: json.lon };
 }
 
 async function loadOfstedCsv(): Promise<string> {
@@ -281,8 +271,8 @@ async function main() {
   const output: Record<string, LocationSchoolStats> = {};
 
   for (const [locationKey, location] of Object.entries(locations)) {
-    if (!location.naptan) throw new Error(`${locationKey} has no naptan`);
-    const anchor = await fetchStopPointCoordinates(location.naptan);
+    // Anchor on the canonical registry point (single source of truth), not a live TfL lookup.
+    const anchor: Coordinates = { lat: location.point.lat, lon: location.point.lon };
     const schoolDistances = schools
       .map(school => ({ school, distanceKm: distanceKm(anchor, school) }));
     const primary = schoolDistances.filter(item =>
