@@ -648,6 +648,13 @@ export default function LocationMapPrototype({
 
       if (tileZoom !== zoom) setRenderZoom(tileZoom);
       setRenderViewBox(nextViewBox);
+
+      // Keep the camera refs in sync immediately. Pinch fires many touchmoves per second at
+      // continuous-event priority, so the next frame often runs before React has committed this
+      // update; without this, applyZoom would re-read the pre-zoom camera and the map jumps
+      // around instead of zooming smoothly toward the fingers.
+      renderZoomRef.current = tileZoom;
+      viewBoxRef.current = nextViewBox;
     };
 
     const onWheel = (event: WheelEvent) => {
@@ -688,17 +695,26 @@ export default function LocationMapPrototype({
       if (event.touches.length < 2) pinch = null;
     };
 
+    // Safari (iOS) fires its own gesture events on a two-finger pinch and zooms the whole
+    // page/visual viewport, which touch-action does not govern. Suppress it so the pinch
+    // drives the map instead of the page. No-op on browsers that don't emit these events.
+    const onGesture = (event: Event) => event.preventDefault();
+
     frame.addEventListener('wheel', onWheel, { passive: false });
     frame.addEventListener('touchstart', onTouchStart, { passive: true });
     frame.addEventListener('touchmove', onTouchMove, { passive: false });
     frame.addEventListener('touchend', onTouchEnd);
     frame.addEventListener('touchcancel', onTouchEnd);
+    frame.addEventListener('gesturestart', onGesture);
+    frame.addEventListener('gesturechange', onGesture);
     return () => {
       frame.removeEventListener('wheel', onWheel);
       frame.removeEventListener('touchstart', onTouchStart);
       frame.removeEventListener('touchmove', onTouchMove);
       frame.removeEventListener('touchend', onTouchEnd);
       frame.removeEventListener('touchcancel', onTouchEnd);
+      frame.removeEventListener('gesturestart', onGesture);
+      frame.removeEventListener('gesturechange', onGesture);
     };
   }, [collapsed]); // re-attach when the section expands and the frame remounts
 
