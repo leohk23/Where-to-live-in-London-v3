@@ -5,6 +5,9 @@ export const FARE_BY_ZONE_DIFF: Record<number, number> = {
 };
 export const FARE_FALLBACK = 6.0;
 
+// Walk radius for counting nearby Hongkongese/East Asian spots around an anchor.
+export const ASIAN_RADIUS_KM = 1.75;
+
 export const CRIME_THRESHOLDS = { low: 90, medium: 120, high: 150 } as const;
 export const SCHOOL_THRESHOLDS = { high: 20, medium: 10 } as const;
 export const SCORE_THRESHOLDS = { high: 70, medium: 45 } as const;

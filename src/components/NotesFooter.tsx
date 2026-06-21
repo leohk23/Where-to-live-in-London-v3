@@ -56,6 +56,12 @@ export function NotesContent({ sortedResults }: Props) {
       level: 'Borough',
     },
     {
+      label: 'Hongkongese & East Asian spots',
+      source: 'Hand-curated by the author, initially seeded from OpenStreetMap',
+      availability: 'Curated list held in app data',
+      level: 'Within ~1.75km walk of each location anchor',
+    },
+    {
       label: 'Schools',
       source: 'Ofsted state-school inspection data',
       availability: 'Latest inspections as at 30 April 2026',

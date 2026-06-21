@@ -3,7 +3,7 @@ export type BedroomCount = 1 | 2 | 3 | 4;
 export type SortColumn =
   | 'total' | 'rent' | 'transport' | 'commute'
   | 'location' | 'borough' | 'councilTax'
-  | 'crime' | 'schools' | 'score';
+  | 'crime' | 'schools' | 'score' | 'asianSpots';
 
 export type LocationLabelScope = 'station' | 'area' | 'broad-area' | 'multi-borough';
 export type DataConfidence = 'high' | 'medium' | 'low';
@@ -75,6 +75,20 @@ export interface LocationSchoolStats {
   nearestPrimaryOutstandingSchools: NearbyOutstandingSchool[];
   nearestSecondaryOutstandingSchools: NearbyOutstandingSchool[];
   nearestGrammarSchools: NearbySchool[];
+}
+
+export type AsianSpotType = 'hk' | 'asian-food' | 'grocery';
+
+export interface AsianSpot {
+  name: string;
+  type: AsianSpotType;
+}
+
+// Master-list record: one entry per physical spot, with coordinates. Locations
+// pick up whichever of these fall within ASIAN_RADIUS_KM of their anchor.
+export interface AsianSpotRecord extends AsianSpot {
+  lat: number;
+  lon: number;
 }
 
 export interface Priorities {

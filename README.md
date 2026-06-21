@@ -19,7 +19,7 @@ The app helps shortlist London areas by comparing:
 
 ## Data And Privacy
 
-The app uses public or app-maintained datasets, including ONS rental data, TfL Journey Planner, Ofsted school inspection data, Met Police crime data and council tax figures.
+The app uses public or app-maintained datasets, including ONS Private Rental Market Statistics plus Hutch / Joinhutch asking-rent data (manually maintained estimate), TfL Journey Planner, Ofsted school inspection data, Met Police crime data and council tax figures.
 
 No personal data or user input is collected by the author or stored on a server through this web app. Shared links can include selected filters in the URL, and live commute results may be cached temporarily in your browser session.
 

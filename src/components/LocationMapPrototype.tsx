@@ -70,9 +70,6 @@ const SELECTED_LOCATION_ZOOM = 13;
 const MIN_TILE_ZOOM = 11;
 const MAX_TILE_ZOOM = 14;
 const MAX_EFFECTIVE_ZOOM = 14;
-// Cap how wide a selected ward can frame (degrees), so big boundaries (e.g. High Barnet)
-// still zoom in to a similar level as small ones instead of barely zooming.
-const MAX_SELECTED_SPAN_DEG = 0.05;
 const fallbackGeoBounds = {
   minX: -0.52,
   minY: 51.28,
@@ -285,10 +282,11 @@ function getMapBounds(locations: DrawableLocation[]) {
 
 function getVisibleTiles(viewBox: ReturnType<typeof boundsToViewBox>, zoom: number) {
   const maxTileIndex = 2 ** zoom - 1;
-  const minTileX = Math.max(0, Math.floor(viewBox.minX / TILE_SIZE));
-  const maxTileX = Math.min(maxTileIndex, Math.floor((viewBox.minX + viewBox.width) / TILE_SIZE));
-  const minTileY = Math.max(0, Math.floor(viewBox.minY / TILE_SIZE));
-  const maxTileY = Math.min(maxTileIndex, Math.floor((viewBox.minY + viewBox.height) / TILE_SIZE));
+  // Pad the range by one tile each side so a sub-pixel edge can never leave a blank strip.
+  const minTileX = Math.max(0, Math.floor(viewBox.minX / TILE_SIZE) - 1);
+  const maxTileX = Math.min(maxTileIndex, Math.floor((viewBox.minX + viewBox.width) / TILE_SIZE) + 1);
+  const minTileY = Math.max(0, Math.floor(viewBox.minY / TILE_SIZE) - 1);
+  const maxTileY = Math.min(maxTileIndex, Math.floor((viewBox.minY + viewBox.height) / TILE_SIZE) + 1);
   const tiles: Array<{ x: number; y: number; href: string }> = [];
 
   for (let x = minTileX; x <= maxTileX; x += 1) {
@@ -296,7 +294,9 @@ function getVisibleTiles(viewBox: ReturnType<typeof boundsToViewBox>, zoom: numb
       tiles.push({
         x,
         y,
-        href: `https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`,
+        // OSM, sharded across subdomains so the browser's ~6-per-host connection cap
+        // doesn't stall a whole column of tiles while many load at once.
+        href: `https://${['a', 'b', 'c'][(x + y) % 3]}.tile.openstreetmap.org/${zoom}/${x}/${y}.png`,
       });
     }
   }
@@ -529,14 +529,9 @@ export default function LocationMapPrototype({
         const bounds = getMapBounds(drawable) ?? getFallbackBounds(zoom);
         return viewBoxToAspect(boundsToViewBox(bounds, 0.06), liveAspect);
       }
-      // Cap how far a big ward zooms out so every ward zooms to a similar level.
-      const raw = boundsToViewBox(shape.bounds, 0.35);
-      const maxSpan = MAX_SELECTED_SPAN_DEG * (TILE_SIZE * 2 ** zoom / 360);
-      const cx = raw.minX + raw.width / 2;
-      const cy = raw.minY + raw.height / 2;
-      const width = Math.min(raw.width, maxSpan);
-      const height = Math.min(raw.height, maxSpan);
-      return viewBoxToAspect({ minX: cx - width / 2, minY: cy - height / 2, width, height }, liveAspect);
+      // Fit the whole ward (plus padding); aspect expansion only ever adds margin, so the
+      // full polygon stays visible however big the ward is.
+      return viewBoxToAspect(boundsToViewBox(shape.bounds, 0.35), liveAspect);
     };
 
     const targetZoom = selectedLocation ? SELECTED_LOCATION_ZOOM : ALL_LOCATIONS_ZOOM;
@@ -700,6 +695,76 @@ export default function LocationMapPrototype({
     // drives the map instead of the page. No-op on browsers that don't emit these events.
     const onGesture = (event: Event) => event.preventDefault();
 
+    // Mouse navigation:
+    //  - single drag         => pan (Google-Maps style)
+    //  - double-click + hold, then drag vertically => zoom (up = in, down = out)
+    // A plain click still falls through to select a ward.
+    let lastDownAt = 0;
+    let lastDownX = 0;
+    let lastDownY = 0;
+    type Gesture =
+      | { kind: 'pan'; startX: number; startY: number; minX: number; minY: number; moved: boolean }
+      | { kind: 'zoom'; anchorX: number; anchorY: number; lastY: number; moved: boolean };
+    let gesture: Gesture | null = null;
+
+    const onMove = (event: MouseEvent) => {
+      if (!gesture) return;
+      const rect = frame.getBoundingClientRect();
+      const vb = viewBoxRef.current;
+      if (!vb || rect.width === 0 || rect.height === 0) return;
+      event.preventDefault();
+      if (gesture.kind === 'zoom') {
+        const dy = event.clientY - gesture.lastY;
+        if (Math.abs(dy) < 0.5) return;
+        gesture.lastY = event.clientY;
+        gesture.moved = true;
+        applyZoom(gesture.anchorX, gesture.anchorY, gesture.anchorX, gesture.anchorY, -dy * 0.01);
+      } else {
+        const dxPx = event.clientX - gesture.startX;
+        const dyPx = event.clientY - gesture.startY;
+        if (!gesture.moved && Math.hypot(dxPx, dyPx) < 4) return;
+        gesture.moved = true;
+        const next = {
+          minX: gesture.minX - dxPx * (vb.width / rect.width),
+          minY: gesture.minY - dyPx * (vb.height / rect.height),
+          width: vb.width,
+          height: vb.height,
+        };
+        setRenderViewBox(next);
+        viewBoxRef.current = next;
+      }
+    };
+    // Swallow the click that ends a drag so it doesn't also toggle a ward selection.
+    const swallowClick = (event: MouseEvent) => { event.stopPropagation(); event.preventDefault(); };
+    const onUp = () => {
+      const moved = gesture?.moved;
+      gesture = null;
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+      if (moved) frame.addEventListener('click', swallowClick, { capture: true, once: true });
+    };
+    const onMouseDown = (event: MouseEvent) => {
+      if (event.button !== 0) return;
+      const now = Date.now();
+      const isDouble = now - lastDownAt < 300
+        && Math.hypot(event.clientX - lastDownX, event.clientY - lastDownY) < 12;
+      lastDownAt = now;
+      lastDownX = event.clientX;
+      lastDownY = event.clientY;
+      const vb = viewBoxRef.current;
+      if (!vb) return;
+      cancelFly();
+      if (isDouble) {
+        event.preventDefault();
+        gesture = { kind: 'zoom', anchorX: event.clientX, anchorY: event.clientY, lastY: event.clientY, moved: false };
+      } else {
+        gesture = { kind: 'pan', startX: event.clientX, startY: event.clientY, minX: vb.minX, minY: vb.minY, moved: false };
+      }
+      window.addEventListener('mousemove', onMove, { passive: false });
+      window.addEventListener('mouseup', onUp);
+    };
+
+    frame.addEventListener('mousedown', onMouseDown);
     frame.addEventListener('wheel', onWheel, { passive: false });
     frame.addEventListener('touchstart', onTouchStart, { passive: true });
     frame.addEventListener('touchmove', onTouchMove, { passive: false });
@@ -708,6 +773,7 @@ export default function LocationMapPrototype({
     frame.addEventListener('gesturestart', onGesture);
     frame.addEventListener('gesturechange', onGesture);
     return () => {
+      frame.removeEventListener('mousedown', onMouseDown);
       frame.removeEventListener('wheel', onWheel);
       frame.removeEventListener('touchstart', onTouchStart);
       frame.removeEventListener('touchmove', onTouchMove);
@@ -715,6 +781,8 @@ export default function LocationMapPrototype({
       frame.removeEventListener('touchcancel', onTouchEnd);
       frame.removeEventListener('gesturestart', onGesture);
       frame.removeEventListener('gesturechange', onGesture);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
     };
   }, [collapsed]); // re-attach when the section expands and the frame remounts
 
@@ -757,7 +825,7 @@ export default function LocationMapPrototype({
       <>
       <div
         ref={mapFrameRef}
-        className="relative h-80 min-h-[22rem] flex-1 overflow-hidden rounded-md border border-gray-200 bg-slate-100 dark:border-gray-700 dark:bg-slate-950 sm:h-[28rem] xl:h-auto"
+        className="relative h-80 min-h-[22rem] flex-1 cursor-grab overflow-hidden rounded-md border border-gray-200 bg-slate-100 active:cursor-grabbing dark:border-gray-700 dark:bg-slate-950 sm:h-[28rem] xl:h-auto"
         /* One-finger touch keeps scrolling the page; pinch is reserved for the map's own zoom. */
         style={{ touchAction: 'pan-x pan-y' }}
         onMouseLeave={() => { onLocationHover?.(null); setTooltip(null); }}

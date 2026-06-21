@@ -20,5 +20,6 @@
   "Greenwich":              { "crimesPer1000": 115.4, "primaryOutstandingSchools":  6, "primarySchools": 62, "secondaryOutstandingSchools": 3, "secondarySchools": 16 },
   "Lewisham":               { "crimesPer1000": 120.1, "primaryOutstandingSchools":  4, "primarySchools": 64, "secondaryOutstandingSchools": 0, "secondarySchools": 14 },
   "Haringey":               { "crimesPer1000": 124.0, "primaryOutstandingSchools":  7, "primarySchools": 49, "secondaryOutstandingSchools": 3, "secondarySchools": 13 },
-  "Brent":                  { "crimesPer1000": 110.0, "primaryOutstandingSchools":  6, "primarySchools": 62, "secondaryOutstandingSchools": 4, "secondarySchools": 18 }
+  "Brent":                  { "crimesPer1000": 110.0, "primaryOutstandingSchools":  6, "primarySchools": 62, "secondaryOutstandingSchools": 4, "secondarySchools": 18 },
+  "Camden":                 { "crimesPer1000": 185.0, "primaryOutstandingSchools":  7, "primarySchools": 34, "secondaryOutstandingSchools": 2, "secondarySchools":  9 }
 }

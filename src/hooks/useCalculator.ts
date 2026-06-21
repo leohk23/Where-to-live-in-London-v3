@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { commuteTimes } from '../commute-times';
-import { locationData, councilTaxData, boroughStats, locationSchoolStats } from '../data';
+import { locationData, councilTaxData, boroughStats, locationSchoolStats, asianSpots } from '../data';
 import { workLocations, type WorkLocationKey } from '../work-locations';
 import {
   FARE_BY_ZONE_DIFF, FARE_FALLBACK,
@@ -317,7 +317,7 @@ export function useCalculator() {
       setSortDirection(d => d === 'asc' ? 'desc' : 'asc');
     } else {
       setSortBy(col);
-      setSortDirection(col === 'score' ? 'desc' : 'asc');
+      setSortDirection(col === 'score' || col === 'asianSpots' ? 'desc' : 'asc');
     }
   };
 
@@ -570,13 +570,29 @@ export function useCalculator() {
           if (b.outstandingSchoolsPct === null) return -1;
           return b.outstandingSchoolsPct - a.outstandingSchoolsPct;
         }
+        case 'asianSpots': {
+          // Most spots first by default (like score/schools); 0 is a valid value, never null.
+          return (asianSpots[b.location]?.length ?? 0) - (asianSpots[a.location]?.length ?? 0);
+        }
         default: return a.totalMonthly - b.totalMonthly;
       }
     };
 
     scored.sort(cmp);
-    if (sortDirection === 'desc' && sortBy !== 'score' && sortBy !== 'schools') scored.reverse();
-    if (sortDirection === 'asc'  && (sortBy === 'score' || sortBy === 'schools')) scored.reverse();
+    const descByDefault = sortBy === 'score' || sortBy === 'schools' || sortBy === 'asianSpots';
+    if (sortDirection === 'desc' && !descByDefault) scored.reverse();
+    if (sortDirection === 'asc'  && descByDefault) scored.reverse();
+
+    // Rows missing the sorted metric (e.g. no live commute fetched yet) always sink to the
+    // bottom, regardless of direction — otherwise the desc reverse floats the blanks to the top.
+    const missingForSort = (r: ScoredResult): boolean =>
+      sortBy === 'commute' ? r.commuteTime === null
+        : sortBy === 'crime' ? r.crimeRate === null
+          : sortBy === 'schools' ? r.outstandingSchoolsPct === null
+            : false;
+    if (sortBy === 'commute' || sortBy === 'crime' || sortBy === 'schools') {
+      scored = [...scored.filter(r => !missingForSort(r)), ...scored.filter(r => missingForSort(r))];
+    }
 
     if (budgetEnabled) {
       const within = scored.filter(r => r.totalMonthly <= maxBudget);

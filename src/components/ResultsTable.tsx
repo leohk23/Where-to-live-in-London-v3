@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ArrowUp,
   ArrowDown,
@@ -13,9 +13,11 @@ import {
   Smartphone,
   Wallet,
 } from 'lucide-react';
-import { CRIME_THRESHOLDS, SCHOOL_THRESHOLDS, SCORE_THRESHOLDS } from '../lib/constants';
+import { ASIAN_RADIUS_KM, CRIME_THRESHOLDS, SCHOOL_THRESHOLDS, SCORE_THRESHOLDS } from '../lib/constants';
 import locationWardPolygons from '../data/location-ward-polygons.json';
-import type { ScoredResult, SortColumn, NearbySchool } from '../types';
+import { asianSpots } from '../data';
+import hkFlag from '../assets/flag-hk.svg';
+import type { ScoredResult, SortColumn, NearbySchool, AsianSpot, AsianSpotType } from '../types';
 import type { WorkLocationKey } from '../work-locations';
 
 type WorkMode = 'preset' | 'address';
@@ -336,6 +338,49 @@ function SchoolPreviewList({
   );
 }
 
+// Restaurants & cafes share one icon per cuisine group; grocers get the basket.
+// Hong Kong uses the real flag image — the 🇭🇰 emoji renders as "HK" text on Windows.
+const SPOT_EMOJI: Record<Exclude<AsianSpotType, 'hk'>, string> = {
+  'asian-food': '🍜',
+  grocery: '🛒',
+};
+
+function SpotIcon({ type }: { type: AsianSpotType }) {
+  if (type === 'hk') {
+    return <img src={hkFlag} alt="" aria-hidden className="mr-[2px] inline-block h-[0.85em] w-auto rounded-[1px] align-[-0.04em]" />;
+  }
+  return <span aria-hidden>{SPOT_EMOJI[type]}</span>;
+}
+
+const SPOT_LABEL: Record<AsianSpotType, string> = {
+  hk: 'Hongkongese (restaurant/café/grocer)',
+  'asian-food': 'Other Asian restaurant/café',
+  grocery: 'Other East Asian grocer',
+};
+
+// Display order: Hongkongese first, then other Asian food, then grocers.
+const SPOT_ORDER: AsianSpotType[] = ['hk', 'asian-food', 'grocery'];
+
+// Tiny icon+count chips shown on the collapsed row so you can spot which areas
+// have these features without expanding.
+function SpotIcons({ spots, className = '' }: { spots: AsianSpot[]; className?: string }) {
+  const order: AsianSpotType[] = ['hk', 'asian-food', 'grocery'];
+  const counts = order
+    .map(type => ({ type, n: spots.filter(s => s.type === type).length }))
+    .filter(c => c.n > 0);
+  if (counts.length === 0) return null;
+  return (
+    <span className={`inline-flex flex-wrap items-center gap-x-1.5 gap-y-0.5 ${className}`}>
+      {counts.map(({ type, n }) => (
+        <span key={type} title={`${SPOT_LABEL[type]} × ${n} nearby`} className="inline-flex items-center gap-0.5">
+          <SpotIcon type={type} />
+          <span className="tabular-nums">{n}</span>
+        </span>
+      ))}
+    </span>
+  );
+}
+
 function GeographyCard({
   schoolScope,
   className = '',
@@ -343,23 +388,30 @@ function GeographyCard({
   schoolScope: ReturnType<typeof getSchoolScope>;
   className?: string;
 }) {
+  const items: Array<{ label: string; value: string }> = [
+    { label: 'Commute', value: 'station / live' },
+    { label: 'Rent', value: 'area est.' },
+    { label: 'Crime & tax', value: 'borough' },
+    { label: 'Schools', value: `${schoolScope.primaryLabel} / ${schoolScope.secondaryLabel}` },
+    { label: 'East Asian spots', value: `within ${ASIAN_RADIUS_KM} km` },
+  ];
   return (
     <div className={`rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900 ${className}`}>
       <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
         <Info className="h-4 w-4" />
-        Geography
+        Data coverage
       </div>
-      <div className="space-y-1 text-xs text-gray-600 dark:text-gray-300">
-        <div>Commute: station/live</div>
-        <div>Rent: area estimate</div>
-        <div>Crime/tax: borough</div>
-        <div className="flex flex-wrap items-center gap-1">
-          <span>Schools:</span>
-          <SchoolScopeBadges
-            primaryLabel={schoolScope.primaryLabel}
-            secondaryLabel={schoolScope.secondaryLabel}
-          />
-        </div>
+      <div className="flex flex-wrap gap-1.5">
+        {items.map(item => (
+          <span
+            key={item.label}
+            className="inline-flex items-center gap-1 rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-[11px] dark:border-gray-700 dark:bg-gray-800"
+          >
+            <span className="font-medium text-gray-700 dark:text-gray-200">{item.label}</span>
+            <span className="text-gray-300 dark:text-gray-600">·</span>
+            <span className="text-gray-500 dark:text-gray-400">{item.value}</span>
+          </span>
+        ))}
       </div>
     </div>
   );
@@ -397,9 +449,23 @@ function LocationDetailPanel({
     || nearestSecondarySchools.length > 0
     || result.grammarSchools !== null;
   const schoolSummary = result.outstandingSchools !== null && result.outstandingSchoolsPct !== null
-    ? `${result.outstandingSchools} of ${result.schoolsTotal} Outstanding (${result.outstandingSchoolsPct}%)`
+    ? `${result.outstandingSchools} of ${result.schoolsTotal} Outstanding (${Math.round(result.outstandingSchoolsPct)}%)`
     : 'Unavailable';
   const schoolScope = getSchoolScope(result);
+  const spots = asianSpots[result.location] ?? [];
+  // Hongkongese first; membership is already nearest-first within each type (stable sort).
+  const orderedSpots = [...spots].sort((a, b) => SPOT_ORDER.indexOf(a.type) - SPOT_ORDER.indexOf(b.type));
+  // Dense central areas (e.g. Bloomsbury near Chinatown) pick up hundreds of
+  // restaurants, so cap only the restaurants/cafés behind a toggle — Hongkongese
+  // spots and grocers (the most relevant, and usually few) always stay visible.
+  const [showAllSpots, setShowAllSpots] = useState(false);
+  const FOOD_CAP = 10;
+  const hkSpots = orderedSpots.filter(s => s.type === 'hk');
+  const foodSpots = orderedSpots.filter(s => s.type === 'asian-food');
+  const grocerySpots = orderedSpots.filter(s => s.type === 'grocery');
+  const shownFood = showAllSpots ? foodSpots : foodSpots.slice(0, FOOD_CAP);
+  const visibleSpots = [...hkSpots, ...shownFood, ...grocerySpots];
+  const hiddenSpotCount = foodSpots.length - shownFood.length;
   const detailCardClass = 'rounded-md border border-gray-200 bg-white p-2.5 dark:border-gray-700 dark:bg-gray-900 xl:p-3';
 
   return (
@@ -426,7 +492,7 @@ function LocationDetailPanel({
           </span>
         </div>
 
-        <div className="flex min-h-[13rem] flex-col overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900 sm:min-h-[11rem] lg:min-h-[14rem] xl:col-start-1 xl:row-span-4 xl:row-start-1 xl:min-h-full">
+        <div className="flex min-h-[13rem] flex-col overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900 sm:min-h-[11rem] lg:min-h-[14rem] xl:col-start-1 xl:row-span-2 xl:row-start-1 xl:min-h-full xl:max-h-[26rem] xl:self-stretch">
           <iframe
             title={`${result.displayName} map`}
             src={mapSrc}
@@ -481,6 +547,11 @@ function LocationDetailPanel({
                   <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                     &pound;{result.transportCostMonthly.toFixed(0)}
                   </div>
+                  <div className="text-[10px] leading-tight text-gray-400 dark:text-gray-500">
+                    {result.partnerFarePerTrip > 0
+                      ? <>&pound;{result.farePerTrip.toFixed(2)} + &pound;{result.partnerFarePerTrip.toFixed(2)}/trip</>
+                      : <>{result.zone} &middot; &pound;{result.farePerTrip.toFixed(2)}/trip</>}
+                  </div>
                   {result.partnerFarePerTrip > 0 && (
                     <div className="text-[10px] leading-tight text-gray-400 dark:text-gray-500">
                       <div>you &pound;{youTransportMonthly.toFixed(0)}</div>
@@ -531,6 +602,46 @@ function LocationDetailPanel({
             </div>
           )}
 
+          {spots.length > 0 && (
+            <div className="rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900">
+              <div className="mb-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+                Hongkongese & East Asian spots
+              </div>
+              <div className="mb-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-gray-500 dark:text-gray-400">
+                {SPOT_ORDER
+                  .map(type => ({ type, n: spots.filter(s => s.type === type).length }))
+                  .filter(({ n }) => n > 0)
+                  .map(({ type, n }) => (
+                    <span key={type} className="inline-flex items-center gap-1">
+                      <SpotIcon type={type} />
+                      {SPOT_LABEL[type]} <span className="tabular-nums font-medium text-gray-700 dark:text-gray-200">({n})</span>
+                    </span>
+                  ))}
+              </div>
+              <ul className="grid grid-cols-1 gap-x-5 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+                {visibleSpots.map(spot => (
+                  <li
+                    key={`${spot.type}-${spot.name}`}
+                    title={SPOT_LABEL[spot.type]}
+                    className="flex items-center gap-2 text-[12px] text-gray-700 dark:text-gray-200"
+                  >
+                    <span className="w-4 shrink-0 text-center"><SpotIcon type={spot.type} /></span>
+                    <span className="truncate">{spot.name}</span>
+                  </li>
+                ))}
+              </ul>
+              {(hiddenSpotCount > 0 || showAllSpots) && (
+                <button
+                  type="button"
+                  onClick={() => setShowAllSpots(v => !v)}
+                  className="mt-2 text-[11px] font-medium text-blue-600 hover:underline dark:text-blue-300"
+                >
+                  {showAllSpots ? 'Show fewer' : `Show all ${foodSpots.length} restaurants & cafés`}
+                </button>
+              )}
+            </div>
+          )}
+
           <GeographyCard schoolScope={schoolScope} />
         </div>
       </div>
@@ -575,9 +686,20 @@ export default function ResultsTable({
   const [containerWidth, setContainerWidth] = useState(0);
   // Height of the sticky title; the sticky column headers dock directly beneath it.
   const [titleHeight, setTitleHeight] = useState(48);
+  // At xl the column-label header leaves the vertical scroller and becomes a
+  // synced floating header above it, so the scrollbar starts below the labels.
+  const headerScrollRef = useRef<HTMLDivElement>(null);
+  const headerTableRef = useRef<HTMLTableElement>(null);
+  const [isXl, setIsXl] = useState(false);
+  // Column-header row height; an expanded row sticks just beneath it.
+  const [theadHeight, setTheadHeight] = useState(0);
+  // Firefox doesn't release a sticky <tr> at its <tbody> edge, so we drop the sticky
+  // ourselves once the expanded section has scrolled above the header.
+  const detailRowRef = useRef<HTMLTableRowElement | null>(null);
+  const [stickyReleased, setStickyReleased] = useState(false);
   const partnerDestination = getDestinationLabel(workMode2, workLocation2, officePostcode2, '');
   const hasPartnerDestination = Boolean(partnerDestination);
-  const detailColSpan = 9;
+  const detailColSpan = 10;
 
   const updateTableChrome = useCallback(() => {
     const el = scrollRef.current;
@@ -594,28 +716,130 @@ export default function ResultsTable({
     setHasHorizontalOverflow(hasHorizontalOverflow);
     setCanScrollRight(hasHorizontalOverflow && hasMoreToRight);
     setTitleHeight(titleRef.current?.getBoundingClientRect().height ?? 48);
+    // 0 at xl (the in-table thead is hidden there; the floating header sits outside the scroller).
+    setTheadHeight(tableRef.current?.querySelector('thead')?.getBoundingClientRect().height ?? 0);
   }, []);
 
+  // Keep the floating header's horizontal position locked to the body scroller (cheap, runs on scroll).
+  const syncHeaderScroll = useCallback(() => {
+    if (headerScrollRef.current && scrollRef.current) {
+      headerScrollRef.current.scrollLeft = scrollRef.current.scrollLeft;
+    }
+  }, []);
+
+  // Match each floating-header column to the body column width (= max of header/body
+  // natural width), forcing both tables to fixed layout so they stay aligned. At < xl
+  // it just clears the forced widths so the single sticky-header table behaves as before.
+  const syncHeaderWidths = useCallback(() => {
+    const body = tableRef.current;
+    const header = headerTableRef.current;
+    const bodyCols = body ? Array.from(body.querySelectorAll(':scope > colgroup > col')) as HTMLElement[] : [];
+    const headerCols = header ? Array.from(header.querySelectorAll(':scope > colgroup > col')) as HTMLElement[] : [];
+
+    // Resetting to auto-layout momentarily collapses the width, which clamps the
+    // horizontal scroll to 0 — capture it so we can restore it after re-applying widths
+    // (otherwise sorting/refreshing snaps the table back to the left).
+    const savedScrollLeft = scrollRef.current?.scrollLeft ?? 0;
+
+    // Reset to natural so measurements are clean and < xl stays auto-laid-out.
+    if (body) { body.style.tableLayout = ''; body.style.width = ''; }
+    bodyCols.forEach(c => { c.style.width = ''; });
+
+    const isXlNow = typeof window !== 'undefined' && window.matchMedia('(min-width: 1280px)').matches;
+    if (!isXlNow || !body || !header) return;
+
+    const firstRow = body.querySelector('tbody tr');
+    const bodyCells = firstRow ? Array.from(firstRow.querySelectorAll(':scope > td')) as HTMLElement[] : [];
+    const headCells = Array.from(header.querySelectorAll('thead > tr > th')) as HTMLElement[];
+    if (!bodyCells.length || bodyCells.length !== headCells.length || bodyCells.length !== bodyCols.length) return;
+
+    header.style.tableLayout = 'auto';
+    header.style.width = '';
+    headerCols.forEach(c => { c.style.width = ''; });
+    const headW = headCells.map(h => h.getBoundingClientRect().width);
+    const bodyW = bodyCells.map(c => c.getBoundingClientRect().width);
+    const widths = bodyW.map((w, i) => Math.ceil(Math.max(w, headW[i])));
+    // If the columns don't fill the scroller, give the slack to the flexible
+    // Location column (index 1) so the table stretches like the old w-full did.
+    const natural = widths.reduce((a, b) => a + b, 0);
+    const target = scrollRef.current?.clientWidth ?? natural;
+    if (natural < target && widths.length > 1) widths[1] += target - natural;
+    const total = widths.reduce((a, b) => a + b, 0);
+
+    // Lock widths through a <colgroup> on each table — order-independent, so it stays
+    // correct when rows reorder (sort) or content changes (live commute), unlike
+    // per-row inline widths which only ever sized off the first row.
+    body.style.tableLayout = 'fixed';
+    body.style.width = `${total}px`;
+    header.style.tableLayout = 'fixed';
+    header.style.width = `${total}px`;
+    widths.forEach((w, i) => {
+      if (bodyCols[i]) bodyCols[i].style.width = `${w}px`;
+      if (headerCols[i]) headerCols[i].style.width = `${w}px`;
+    });
+    // Width restored, so the scroll range exists again — put the user back where they were.
+    if (scrollRef.current) scrollRef.current.scrollLeft = savedScrollLeft;
+    syncHeaderScroll();
+  }, [syncHeaderScroll]);
+
   useEffect(() => {
-    updateTableChrome();
+    const mq = window.matchMedia('(min-width: 1280px)');
+    const update = () => setIsXl(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  // Release the expanded row's stickiness once its detail has scrolled above the header.
+  useEffect(() => {
+    if (!expandedLocation) { setStickyReleased(false); return undefined; }
+    const update = () => {
+      const detail = detailRowRef.current;
+      if (!detail) return;
+      const xl = window.matchMedia('(min-width: 1280px)').matches;
+      // Where the sticky row docks: top of the internal scroller (xl) or below the
+      // sticky column-header row (below xl).
+      const headerBottom = xl
+        ? (scrollRef.current?.getBoundingClientRect().top ?? 0)
+        : (tableRef.current?.querySelector('thead')?.getBoundingClientRect().bottom ?? 0);
+      setStickyReleased(detail.getBoundingClientRect().bottom <= headerBottom + 1);
+    };
+    update();
+    const sc = scrollRef.current;
+    sc?.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      sc?.removeEventListener('scroll', update);
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, [expandedLocation]);
+
+  useEffect(() => {
+    const recompute = () => { updateTableChrome(); syncHeaderWidths(); };
+    recompute();
 
     const scrollEl = scrollRef.current;
     const tableEl = tableRef.current;
     const titleEl = titleRef.current;
     const resizeObserver = typeof ResizeObserver === 'undefined'
       ? null
-      : new ResizeObserver(updateTableChrome);
+      : new ResizeObserver(recompute);
 
     if (scrollEl) resizeObserver?.observe(scrollEl);
     if (tableEl) resizeObserver?.observe(tableEl);
     if (titleEl) resizeObserver?.observe(titleEl);
-    window.addEventListener('resize', updateTableChrome);
+    window.addEventListener('resize', recompute);
 
     return () => {
       resizeObserver?.disconnect();
-      window.removeEventListener('resize', updateTableChrome);
+      window.removeEventListener('resize', recompute);
     };
-  }, [anyPriority, budgetEnabled, expandedLocation, hasPartnerDestination, sortedResults.length, updateTableChrome]);
+    // Depend on the results array itself (not just length) so widths re-measure when
+    // content changes too — e.g. live commute times arriving or a re-sort — since the
+    // fixed-layout table can't grow to reveal overflow on its own.
+  }, [anyPriority, budgetEnabled, expandedLocation, hasPartnerDestination, isXl, sortedResults, sortBy, sortDirection, updateTableChrome, syncHeaderWidths]);
 
   // Map clicks ask the table to expand and scroll to the picked location.
   useEffect(() => {
@@ -629,6 +853,7 @@ export default function ResultsTable({
   }, [focusRequest]);
 
   const handleScroll = () => {
+    syncHeaderScroll();
     updateTableChrome();
   };
 
@@ -787,6 +1012,17 @@ export default function ResultsTable({
           </div>
         </div>
       </th>
+      <th onClick={() => onSort('asianSpots')} className={thNarrowClass('asianSpots')}>
+        <div className={headerStackClass()}>
+          <div className={headerTitleClass()}>Lifelines<SortIcon col="asianSpots" /></div>
+          <div className={headerBadgeRowClass()}>
+            <HeaderLevelBadge
+              label={`~${ASIAN_RADIUS_KM}km`}
+              title={`Hongkongese & East Asian restaurants, cafés and grocers within ~${ASIAN_RADIUS_KM}km of the anchor (🇭🇰 Hongkongese, 🍜 other Asian food, 🛒 grocer).`}
+            />
+          </div>
+        </div>
+      </th>
     </tr>
   );
 
@@ -808,10 +1044,10 @@ export default function ResultsTable({
           so the sticky title/header stick to the page below xl. On xl the card is a tall
           fixed-height internal scroller: the title sticks to the card top and the column
           headers dock right beneath it (via the title-height var override). */}
-      <div className="rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900 overflow-clip xl:h-[calc(100vh-var(--app-header-h,3rem)-2.5rem)] xl:overflow-y-auto xl:[--results-header-top:var(--results-title-h)]">
+      <div className="rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900 overflow-clip xl:flex xl:flex-col xl:h-[calc(100vh-var(--app-header-h,3rem)-2.5rem)]">
         <div
           ref={titleRef}
-          className="sticky top-[var(--app-header-h,0px)] z-40 border-b border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900 sm:p-4 xl:top-0"
+          className="sticky top-[var(--app-header-h,0px)] z-40 border-b border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900 sm:p-4 xl:static xl:shrink-0"
         >
           <div className="flex items-center gap-3 flex-wrap">
             <h2 className="text-lg font-semibold flex items-center">
@@ -823,14 +1059,40 @@ export default function ResultsTable({
                 Budget: &pound;{maxBudget.toLocaleString()}/mo
               </span>
             )}
+            <span
+              className="ml-auto inline-flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500"
+              title="Click any row to expand it for a map, cost breakdown, schools and nearby East Asian spots."
+            >
+              <ChevronRight className="h-3.5 w-3.5" />
+              Click a row to expand
+            </span>
           </div>
         </div>
-        <div className="relative">
+        <div className="relative xl:flex xl:flex-col xl:flex-1 xl:min-h-0">
+          {/* xl floating header: the column labels live here (outside the vertical
+              scroller) so the scrollbar starts strictly below them. Width-synced to the
+              body columns and horizontally scroll-synced via syncHeader*. */}
+          {isXl && (
+            <div
+              ref={headerScrollRef}
+              className="shrink-0 overflow-hidden [scrollbar-gutter:stable] [--results-header-top:0px]"
+            >
+              <table
+                ref={headerTableRef}
+                className="border-separate border-spacing-0 [&_th]:border-b [&_th]:border-gray-200 dark:[&_th]:border-gray-600"
+              >
+                <colgroup>{Array.from({ length: detailColSpan }).map((_, i) => <col key={i} />)}</colgroup>
+                <thead className="bg-gray-50 dark:bg-gray-700">
+                  {renderHeaderRow()}
+                </thead>
+              </table>
+            </div>
+          )}
           <div
-            className={hasHorizontalOverflow ? 'overflow-x-auto overscroll-x-contain' : undefined}
-            // The x-scroller is itself a scrollport: zero the header offset inside it so the
-            // header cells rest in place instead of sticking mid-table (they can't usefully
-            // stick vertically here since this container never scrolls vertically).
+            // At xl this is the vertical scroller; the floating header sits above it, so
+            // the scrollbar starts below the labels. Below xl it only scrolls
+            // horizontally when the table overflows.
+            className={`xl:flex-1 xl:min-h-0 xl:overflow-y-auto xl:[scrollbar-gutter:stable] xl:[--results-header-top:0px]${hasHorizontalOverflow ? ' overflow-x-auto overscroll-x-contain' : ''}`}
             style={hasHorizontalOverflow ? ({ '--results-header-top': '0px' } as React.CSSProperties) : undefined}
             ref={scrollRef}
             onScroll={handleScroll}
@@ -839,11 +1101,11 @@ export default function ResultsTable({
               className="w-full border-separate border-spacing-0 [&_td]:border-b [&_td]:border-gray-200 dark:[&_td]:border-gray-700 [&_th]:border-b [&_th]:border-gray-200 dark:[&_th]:border-gray-600"
               ref={tableRef}
             >
-              <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
+              <colgroup>{Array.from({ length: detailColSpan }).map((_, i) => <col key={i} />)}</colgroup>
+              <thead className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600 xl:hidden">
                 {renderHeaderRow()}
               </thead>
-              <tbody>
-                {sortedResults.map((result, index) => {
+              {sortedResults.map((result, index) => {
                   const overBudget = budgetEnabled && result.totalMonthly > maxBudget;
                   const isSelected = selectedLocation === result.location;
                   // Backgrounds on sticky cells must stay opaque (no alpha), otherwise the
@@ -855,17 +1117,21 @@ export default function ResultsTable({
                       : 'group-hover:!bg-gray-50 dark:group-hover:!bg-gray-700';
                   const isExpanded = expandedLocation === result.location;
                   return (
-                    <Fragment key={result.location}>
+                    <tbody key={result.location}>
                       <tr
                         ref={el => { rowRefs.current[result.location] = el; }}
                         onClick={onLocationSelect ? () => onLocationSelect(result.location) : undefined}
                         onMouseEnter={() => onLocationHover?.(result.location)}
                         onMouseLeave={() => onLocationHover?.(null)}
+                        // While a row is expanded, it sticks just under the header so you can
+                        // see which location you're reading. Scoped to its own <tbody> (with the
+                        // detail row) so it releases once you scroll past its details.
+                        style={isExpanded && !stickyReleased ? { top: `calc(var(--results-header-top) + ${theadHeight}px)` } : undefined}
                         className={`border-b dark:border-gray-700 ${
                           overBudget
                             ? 'opacity-35 bg-gray-50 dark:bg-gray-800'
                             : `group ${onLocationSelect ? 'cursor-pointer' : ''}`
-                        }`}
+                        } ${isExpanded && !stickyReleased ? 'sticky z-[15] bg-white shadow-[0_3px_6px_-3px_rgba(0,0,0,0.25)] dark:bg-gray-900' : ''}`}
                       >
                       <td className={`sticky left-0 z-10 py-2 px-1.5 text-center whitespace-nowrap min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${
                         overBudget
@@ -900,7 +1166,7 @@ export default function ResultsTable({
                         )}
                       </td>
 
-                      <td className={`sticky left-[44px] z-10 max-w-[40vw] px-2 py-2 align-top shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:left-[56px] lg:max-w-none lg:whitespace-nowrap lg:px-3 lg:py-3 ${
+                      <td className={`sticky left-[44px] z-10 max-w-[40vw] px-2 py-2 align-middle shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:left-[56px] lg:max-w-none lg:whitespace-nowrap lg:px-3 lg:py-3 ${
                         overBudget
                           ? 'bg-gray-50 dark:bg-gray-800'
                           : 'bg-white dark:bg-gray-900'
@@ -958,9 +1224,9 @@ export default function ResultsTable({
                         {result.crimeRate !== null ? (
                           <span
                             className={`rounded-full px-1.5 py-0.5 text-[11px] font-medium lg:px-2 lg:text-xs ${crimeColor(result.crimeRate)}`}
-                            title={`${result.crimeRate} crimes per 1,000 residents (2024/25). London avg: 106/k.`}
+                            title={`${Math.round(result.crimeRate)} crimes per 1,000 residents (2024/25). London avg: 106/k.`}
                           >
-                            {result.crimeRate}/k
+                            {Math.round(result.crimeRate)}/k
                           </span>
                         ) : <span className="text-xs text-gray-400 lg:text-sm">?</span>}
                       </td>
@@ -971,36 +1237,13 @@ export default function ResultsTable({
                             className={`rounded-full px-1.5 py-0.5 text-[11px] font-medium lg:px-2 lg:text-xs ${schoolColor(result.outstandingSchoolsPct)}`}
                             title={getSchoolTitle(result)}
                           >
-                            {result.outstandingSchools} ({result.outstandingSchoolsPct}%)
+                            {result.outstandingSchools} ({Math.round(result.outstandingSchoolsPct)}%)
                           </span>
                         ) : <span className="text-xs text-gray-400 lg:text-sm">?</span>}
                       </td>
 
                       <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.rent.toLocaleString()}</td>
-                      <td className={`whitespace-nowrap px-1 py-2 text-center lg:px-2 lg:py-3 ${hoverCellClass}`}>
-                        <div className="text-sm font-medium lg:text-base">&pound;{result.transportCostMonthly.toFixed(0)}</div>
-                        <div className="text-[10px] text-gray-400 dark:text-gray-500 lg:text-xs">
-                          {result.partnerFarePerTrip > 0 ? (
-                            <>
-                              <span className="lg:hidden">
-                                &pound;{(result.farePerTrip + result.partnerFarePerTrip).toFixed(2).replace(/\.00$/, '')}/trip &middot; 2
-                              </span>
-                              <span className="hidden lg:inline">
-                                &pound;{result.farePerTrip.toFixed(2)} + &pound;{result.partnerFarePerTrip.toFixed(2)}/trip
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              <span className="lg:hidden">
-                                {result.zone.replace('Zone ', 'Z')} - &pound;{result.farePerTrip.toFixed(2).replace(/\.00$/, '')}/trip
-                              </span>
-                              <span className="hidden lg:inline">
-                                {result.zone} - &pound;{result.farePerTrip.toFixed(2)}/trip
-                              </span>
-                            </>
-                          )}
-                        </div>
-                      </td>
+                      <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.transportCostMonthly.toFixed(0)}</td>
                       <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.councilTaxMonthly.toFixed(0)}</td>
                       <td className={`whitespace-nowrap bg-blue-50 px-1.5 py-2 text-center text-sm font-bold dark:bg-gray-800 lg:px-3 lg:py-3 lg:text-base ${
                         overBudget
@@ -1009,9 +1252,14 @@ export default function ResultsTable({
                       } ${hoverCellClass}`}>
                         &pound;{Math.round(result.totalMonthly).toLocaleString()}
                       </td>
+                      <td className={`px-1.5 py-2 text-center align-middle lg:px-3 lg:py-3 ${hoverCellClass}`}>
+                        {(asianSpots[result.location]?.length ?? 0) > 0
+                          ? <SpotIcons spots={asianSpots[result.location]} className="mx-auto max-w-[4rem] justify-center text-[11px]" />
+                          : <span className="text-gray-300 dark:text-gray-600">–</span>}
+                      </td>
                       </tr>
                       {isExpanded && (
-                        <tr className="border-b dark:border-gray-700">
+                        <tr ref={detailRowRef} className="border-b dark:border-gray-700">
                           <td colSpan={detailColSpan} className="p-0">
                             <div style={{ position: 'sticky', left: 0, width: containerWidth || undefined }}>
                               <LocationDetailPanel
@@ -1023,10 +1271,9 @@ export default function ResultsTable({
                           </td>
                         </tr>
                       )}
-                    </Fragment>
+                    </tbody>
                   );
                 })}
-              </tbody>
             </table>
           </div>
           {canScrollRight && (
