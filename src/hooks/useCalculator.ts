@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { commuteTimes } from '../commute-times';
+import { commuteTimes, commuteRoutes } from '../commute-times';
+import { summariseRoute, type TflJourney } from '../lib/tfl-route';
 import { locationData, councilTaxData, boroughStats, locationSchoolStats, asianSpots } from '../data';
 import { workLocations, type WorkLocationKey } from '../work-locations';
 import {
@@ -10,8 +11,9 @@ import {
 import type { BedroomCount, Result, ScoredResult, Priorities, SortColumn } from '../types';
 
 type WorkMode = 'preset' | 'address';
+type CommuteSource = 'static' | 'live';
 const ADDRESS_WORK_ZONE = 'Zone 1';
-const LIVE_COMMUTE_CACHE_VERSION = 'v3';
+const LIVE_COMMUTE_CACHE_VERSION = 'v4'; // v4 adds route summaries to the cached blob
 const PRIORITY_MAX = 5;
 
 function readUrlParams() {
@@ -30,6 +32,9 @@ function readUrlParams() {
     be:     p.get('be') === '1',
     op:     p.get('op') ?? '',
     op2:    p.get('op2') ?? '',
+    // Commute data source for preset destinations: static matrix (default) or live TfL fetch.
+    cs:     (p.get('cs')  === 'live' ? 'live' : 'static') as CommuteSource,
+    cs2:    (p.get('cs2') === 'live' ? 'live' : 'static') as CommuteSource,
     // Explicit flag wins; otherwise infer preset for legacy links that carry a preset
     // work location, defaulting new visitors to the exact-address mode.
     wm:     (p.get('wm') === 'a' ? 'address' : p.get('wm') === 'p' ? 'preset' : p.get('work') ? 'preset' : 'address') as WorkMode,
@@ -48,11 +53,21 @@ function getCommuteTime(homeLocation: string, workLoc: string): number | null {
   return t ? t : null;
 }
 
-function getNextMonday(): string {
+function getCommuteRoute(homeLocation: string, workLoc: string): string | null {
+  return commuteRoutes[homeLocation]?.[workLoc] ?? null;
+}
+
+// A preset work location's coords as the string pair the live-fetch destination expects.
+function presetCoordsStr(loc: WorkLocationKey | ''): { lat: string; lon: string } | null {
+  const wl = loc ? workLocations[loc] : undefined;
+  return wl ? { lat: String(wl.coords.lat), lon: String(wl.coords.lon) } : null;
+}
+
+// Pin journeys to the most recent Monday at 09:00 — a representative weekday-morning peak.
+function getLastMonday(): string {
   const d = new Date();
-  const day = d.getDay();
-  const diff = day === 0 ? 1 : day === 1 ? 7 : 8 - day;
-  d.setDate(d.getDate() + diff);
+  const daysSinceMonday = (d.getDay() + 6) % 7; // 0 if Monday, else days back to the last Monday
+  d.setDate(d.getDate() - daysSinceMonday);
   return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
 }
 
@@ -85,7 +100,7 @@ function hasCompleteLiveCommuteResults(results: Record<string, number | null>) {
 }
 
 interface TflJourneyResponse {
-  journeys?: Array<{ duration?: number }>;
+  journeys?: TflJourney[];
 }
 
 interface TflDisambiguation {
@@ -128,7 +143,7 @@ async function fetchTflJourneyDuration(
   destination: string,
   qs: string,
   hasRetried = false,
-): Promise<{ duration: number | null; destination: string }> {
+): Promise<{ duration: number | null; route: string | null; destination: string }> {
   try {
     const res = await fetch(
       `https://api.tfl.gov.uk/Journey/JourneyResults/${encodeURIComponent(origin)}/to/${encodeURIComponent(destination)}?${qs}`
@@ -136,7 +151,8 @@ async function fetchTflJourneyDuration(
 
     if (res.ok) {
       const json = await res.json() as TflJourneyResponse;
-      return { duration: json.journeys?.[0]?.duration ?? null, destination };
+      const best = json.journeys?.[0];
+      return { duration: best?.duration ?? null, route: summariseRoute(best), destination };
     }
 
     if (res.status === 300 && !hasRetried) {
@@ -149,10 +165,10 @@ async function fetchTflJourneyDuration(
       }
     }
   } catch {
-    return { duration: null, destination };
+    return { duration: null, route: null, destination };
   }
 
-  return { duration: null, destination };
+  return { duration: null, route: null, destination };
 }
 
 async function resolveTflDestination(
@@ -177,8 +193,9 @@ async function doFetchLiveCommutes(params: {
   setProgress: (fn: (n: number) => number) => void;
   setTotal: (n: number) => void;
   updateTimes: (location: string, time: number | null) => void;
-}): Promise<{ destination: string; allResults: Record<string, number | null> } | null> {
-  const { input, selectedCoords, setGeocoding, setError, setLoading, setProgress, setTotal, updateTimes } = params;
+  updateRoute: (location: string, route: string | null) => void;
+}): Promise<{ destination: string; allResults: Record<string, number | null>; allRoutes: Record<string, string | null> } | null> {
+  const { input, selectedCoords, setGeocoding, setError, setLoading, setProgress, setTotal, updateTimes, updateRoute } = params;
 
   let destination: string;
   if (selectedCoords) {
@@ -203,7 +220,8 @@ async function doFetchLiveCommutes(params: {
   setTotal(entries.length);
 
   const allResults: Record<string, number | null> = {};
-  const date = getNextMonday();
+  const allRoutes: Record<string, string | null> = {};
+  const date = getLastMonday();
   const qs = new URLSearchParams({
     mode: 'tube,overground,elizabeth-line,dlr,tram,national-rail',
     timeIs: 'Departing',
@@ -215,16 +233,19 @@ async function doFetchLiveCommutes(params: {
   await fetchWithConcurrency(entries, 8, async ([location, data]) => {
     if (!data.naptan) {
       allResults[location] = null;
+      allRoutes[location] = null;
     } else {
       const result = await fetchTflJourneyDuration(data.naptan, resolvedDestination, qs);
       allResults[location] = result.duration;
+      allRoutes[location] = result.route;
     }
     updateTimes(location, allResults[location]);
+    updateRoute(location, allRoutes[location]);
     setProgress(p => p + 1);
   });
 
   setLoading(false);
-  return { destination, allResults };
+  return { destination, allResults, allRoutes };
 }
 
 export function useCalculator() {
@@ -234,6 +255,8 @@ export function useCalculator() {
   const [workLocation2, setWorkLocation2] = useState<WorkLocationKey | ''>(url?.work2 as WorkLocationKey | '' ?? '');
   const [workMode,      setWorkMode]      = useState<WorkMode>(url?.wm  ?? 'address');
   const [workMode2,     setWorkMode2]     = useState<WorkMode>(url?.wm2 ?? 'address');
+  const [commuteSource,  setCommuteSource]  = useState<CommuteSource>(url?.cs  ?? 'static');
+  const [commuteSource2, setCommuteSource2] = useState<CommuteSource>(url?.cs2 ?? 'static');
   const [monthlyTrips,  setMonthlyTrips]  = useState<number>(url?.trips ?? DEFAULT_MONTHLY_TRIPS);
   const [bedrooms,      setBedrooms]      = useState<BedroomCount>(url?.beds ?? 1);
   const [budgetEnabled, setBudgetEnabled] = useState<boolean>(url?.be ?? false);
@@ -252,6 +275,7 @@ export function useCalculator() {
   const [officePostcode,      setOfficePostcode]      = useState<string>(url?.op ?? '');
   const [selectedOfficeCoords, setSelectedOfficeCoords] = useState<{ lat: string; lon: string } | null>(null);
   const [liveCommuteTimes,    setLiveCommuteTimes]    = useState<Record<string, number | null>>({});
+  const [liveCommuteRoutes,   setLiveCommuteRoutes]   = useState<Record<string, string | null>>({});
   const [liveCommuteProgress, setLiveCommuteProgress] = useState(0);
   const [liveCommuteTotal,    setLiveCommuteTotal]    = useState(0);
   const [liveCommuteLoading,  setLiveCommuteLoading]  = useState(false);
@@ -262,26 +286,29 @@ export function useCalculator() {
   const [officePostcode2,       setOfficePostcode2]       = useState<string>(url?.op2 ?? '');
   const [selectedOfficeCoords2, setSelectedOfficeCoords2] = useState<{ lat: string; lon: string } | null>(null);
   const [liveCommuteTimes2,     setLiveCommuteTimes2]     = useState<Record<string, number | null>>({});
+  const [liveCommuteRoutes2,    setLiveCommuteRoutes2]    = useState<Record<string, string | null>>({});
   const [liveCommuteProgress2,  setLiveCommuteProgress2]  = useState(0);
   const [liveCommuteTotal2,     setLiveCommuteTotal2]     = useState(0);
   const [liveCommuteLoading2,   setLiveCommuteLoading2]   = useState(false);
   const [liveCommuteGeocoding2, setLiveCommuteGeocoding2] = useState(false);
   const [liveCommuteError2,     setLiveCommuteError2]     = useState<string | null>(null);
 
-  // Clear live times when inputs are edited
+  // Clear live times when inputs are edited (address, or the preset destination/source).
   useEffect(() => {
     setLiveCommuteTimes({});
+    setLiveCommuteRoutes({});
     setLiveCommuteProgress(0);
     setLiveCommuteTotal(0);
     setLiveCommuteError(null);
-  }, [officePostcode]);
+  }, [officePostcode, workLocation, commuteSource]);
 
   useEffect(() => {
     setLiveCommuteTimes2({});
+    setLiveCommuteRoutes2({});
     setLiveCommuteProgress2(0);
     setLiveCommuteTotal2(0);
     setLiveCommuteError2(null);
-  }, [officePostcode2]);
+  }, [officePostcode2, workLocation2, commuteSource2]);
 
   // URL sync
   useEffect(() => {
@@ -301,9 +328,11 @@ export function useCalculator() {
     if (budgetEnabled) { p.set('be', '1'); p.set('budget', String(maxBudget)); }
     if (officePostcode)  p.set('op',  officePostcode);
     if (officePostcode2) p.set('op2', officePostcode2);
+    if (commuteSource  === 'live') p.set('cs',  'live');
+    if (commuteSource2 === 'live') p.set('cs2', 'live');
     const qs = p.toString();
     window.history.replaceState({}, '', qs ? '?' + qs : window.location.pathname);
-  }, [workLocation, workLocation2, workMode, workMode2, bedrooms, monthlyTrips, priorities, maxBudget, budgetEnabled, officePostcode, officePostcode2]);
+  }, [workLocation, workLocation2, workMode, workMode2, bedrooms, monthlyTrips, priorities, maxBudget, budgetEnabled, officePostcode, officePostcode2, commuteSource, commuteSource2]);
 
   // Auto-switch sort column when priorities change
   useEffect(() => {
@@ -374,8 +403,12 @@ export function useCalculator() {
         totalMonthly,
         farePerTrip,
         partnerFarePerTrip,
-        commuteTime:  workMode  === 'preset' ? getCommuteTime(location, workLocation) : null,
-        commuteTime2: workMode2 === 'preset' && workLocation2 ? getCommuteTime(location, workLocation2) : null,
+        // Static matrix feeds the base only for preset + static; live (and address) start
+        // null and are filled by the live fetch in sortedResults.
+        commuteTime:  workMode  === 'preset' && commuteSource  === 'static' ? getCommuteTime(location, workLocation) : null,
+        commuteTime2: workMode2 === 'preset' && commuteSource2 === 'static' && workLocation2 ? getCommuteTime(location, workLocation2) : null,
+        commuteRoute:  workMode  === 'preset' && commuteSource  === 'static' ? getCommuteRoute(location, workLocation) : null,
+        commuteRoute2: workMode2 === 'preset' && commuteSource2 === 'static' && workLocation2 ? getCommuteRoute(location, workLocation2) : null,
         crimeRate:    stats?.crimesPer1000 ?? null,
         primaryOutstandingSchools: schools?.primaryOutstandingSchools ?? null,
         primarySchools: schools?.primarySchools ?? null,
@@ -419,69 +452,91 @@ export function useCalculator() {
     setSortBy(anyPriority ? 'score' : 'total');
     setSortDirection(anyPriority ? 'desc' : 'asc');
     setResults(calculated);
-  }, [workMode, workLocation, workMode2, workLocation2, officePostcode2, monthlyTrips, bedrooms, priorities]);
+  }, [workMode, workLocation, workMode2, workLocation2, commuteSource, commuteSource2, officePostcode2, monthlyTrips, bedrooms, priorities]);
 
-  const fetchLiveCommutes = useCallback(async () => {
-    const input = officePostcode.trim();
-    if (!input) return;
+  // force=true skips the session cache so an explicit click always recalculates.
+  const fetchLiveCommutes = useCallback(async (force = false) => {
+    // Destination is the typed address, or — for preset + live — the chosen preset's coords.
+    const presetLive = workMode === 'preset' && commuteSource === 'live';
+    const coords = presetLive ? presetCoordsStr(workLocation) : selectedOfficeCoords;
+    const input = presetLive ? '' : officePostcode.trim();
+    if (!input && !coords) return;
     setLiveCommuteError(null);
 
-    const cacheKey = getLiveCommuteCacheKey('live-commute', input, selectedOfficeCoords);
-    const cached = sessionStorage.getItem(cacheKey);
+    const cacheKey = getLiveCommuteCacheKey('live-commute', input, coords);
+    const cached = !force && sessionStorage.getItem(cacheKey);
     if (cached) {
-      const parsed = JSON.parse(cached) as Record<string, number | null>;
-      setLiveCommuteTimes(parsed);
+      const parsed = JSON.parse(cached) as { times: Record<string, number | null>; routes: Record<string, string | null> };
+      setLiveCommuteTimes(parsed.times);
+      setLiveCommuteRoutes(parsed.routes ?? {});
       setLiveCommuteProgress(Object.keys(locationData).length);
       setLiveCommuteTotal(Object.keys(locationData).length);
       return;
     }
 
     setLiveCommuteTimes({});
+    setLiveCommuteRoutes({});
     const result = await doFetchLiveCommutes({
       input,
-      selectedCoords: selectedOfficeCoords,
+      selectedCoords: coords,
       setGeocoding: setLiveCommuteGeocoding,
       setError: setLiveCommuteError,
       setLoading: setLiveCommuteLoading,
       setProgress: setLiveCommuteProgress,
       setTotal: setLiveCommuteTotal,
       updateTimes: (loc, time) => setLiveCommuteTimes(prev => ({ ...prev, [loc]: time })),
+      updateRoute: (loc, route) => setLiveCommuteRoutes(prev => ({ ...prev, [loc]: route })),
     });
     if (result && hasCompleteLiveCommuteResults(result.allResults)) {
-      sessionStorage.setItem(cacheKey, JSON.stringify(result.allResults));
+      sessionStorage.setItem(cacheKey, JSON.stringify({ times: result.allResults, routes: result.allRoutes }));
     }
-  }, [officePostcode, selectedOfficeCoords]);
+  }, [officePostcode, selectedOfficeCoords, workMode, commuteSource, workLocation]);
 
-  const fetchLiveCommutes2 = useCallback(async () => {
-    const input = officePostcode2.trim();
-    if (!input) return;
+  const fetchLiveCommutes2 = useCallback(async (force = false) => {
+    const presetLive = workMode2 === 'preset' && commuteSource2 === 'live';
+    const coords = presetLive ? presetCoordsStr(workLocation2) : selectedOfficeCoords2;
+    const input = presetLive ? '' : officePostcode2.trim();
+    if (!input && !coords) return;
     setLiveCommuteError2(null);
 
-    const cacheKey = getLiveCommuteCacheKey('live-commute2', input, selectedOfficeCoords2);
-    const cached = sessionStorage.getItem(cacheKey);
+    const cacheKey = getLiveCommuteCacheKey('live-commute2', input, coords);
+    const cached = !force && sessionStorage.getItem(cacheKey);
     if (cached) {
-      const parsed = JSON.parse(cached) as Record<string, number | null>;
-      setLiveCommuteTimes2(parsed);
+      const parsed = JSON.parse(cached) as { times: Record<string, number | null>; routes: Record<string, string | null> };
+      setLiveCommuteTimes2(parsed.times);
+      setLiveCommuteRoutes2(parsed.routes ?? {});
       setLiveCommuteProgress2(Object.keys(locationData).length);
       setLiveCommuteTotal2(Object.keys(locationData).length);
       return;
     }
 
     setLiveCommuteTimes2({});
+    setLiveCommuteRoutes2({});
     const result = await doFetchLiveCommutes({
       input,
-      selectedCoords: selectedOfficeCoords2,
+      selectedCoords: coords,
       setGeocoding: setLiveCommuteGeocoding2,
       setError: setLiveCommuteError2,
       setLoading: setLiveCommuteLoading2,
       setProgress: setLiveCommuteProgress2,
       setTotal: setLiveCommuteTotal2,
       updateTimes: (loc, time) => setLiveCommuteTimes2(prev => ({ ...prev, [loc]: time })),
+      updateRoute: (loc, route) => setLiveCommuteRoutes2(prev => ({ ...prev, [loc]: route })),
     });
     if (result && hasCompleteLiveCommuteResults(result.allResults)) {
-      sessionStorage.setItem(cacheKey, JSON.stringify(result.allResults));
+      sessionStorage.setItem(cacheKey, JSON.stringify({ times: result.allResults, routes: result.allRoutes }));
     }
-  }, [officePostcode2, selectedOfficeCoords2]);
+  }, [officePostcode2, selectedOfficeCoords2, workMode2, commuteSource2, workLocation2]);
+
+  // Preset + live auto-fetches as soon as a destination/source is chosen — no extra button.
+  // The clearing effects above reset times first; fetch then re-runs (cache makes it instant).
+  useEffect(() => {
+    if (workMode === 'preset' && commuteSource === 'live' && workLocation) void fetchLiveCommutes();
+  }, [workMode, commuteSource, workLocation]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (workMode2 === 'preset' && commuteSource2 === 'live' && workLocation2) void fetchLiveCommutes2();
+  }, [workMode2, commuteSource2, workLocation2]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const anyPriority = Object.values(priorities).some(v => v > 0);
 
@@ -490,12 +545,17 @@ export function useCalculator() {
 
     const isActive = Object.values(priorities).some(v => v > 0);
 
+    // Address is inherently live; a preset is live only when its source toggle says so.
+    const liveOn  = workMode  === 'address' || commuteSource  === 'live';
+    const liveOn2 = workMode2 === 'address' || commuteSource2 === 'live';
     const withLive = results.map(r => ({
       ...r,
-      commuteTime:      workMode === 'address' && r.location in liveCommuteTimes ? liveCommuteTimes[r.location] : r.commuteTime,
-      commuteIsLive:    workMode === 'address' && r.location in liveCommuteTimes,
-      commuteTime2:     workMode2 === 'address' && r.location in liveCommuteTimes2 ? liveCommuteTimes2[r.location] : r.commuteTime2,
-      commuteTime2IsLive: workMode2 === 'address' && r.location in liveCommuteTimes2,
+      commuteTime:        liveOn  && r.location in liveCommuteTimes  ? liveCommuteTimes[r.location]  : r.commuteTime,
+      commuteIsLive:      liveOn  && r.location in liveCommuteTimes,
+      commuteRoute:       liveOn  && r.location in liveCommuteTimes  ? (liveCommuteRoutes[r.location]  ?? null) : r.commuteRoute,
+      commuteTime2:       liveOn2 && r.location in liveCommuteTimes2 ? liveCommuteTimes2[r.location] : r.commuteTime2,
+      commuteTime2IsLive: liveOn2 && r.location in liveCommuteTimes2,
+      commuteRoute2:      liveOn2 && r.location in liveCommuteTimes2 ? (liveCommuteRoutes2[r.location] ?? null) : r.commuteRoute2,
     }));
 
     let scored = withLive.map(r => {
@@ -601,7 +661,7 @@ export function useCalculator() {
     }
 
     return scored;
-  }, [results, liveCommuteTimes, liveCommuteTimes2, workMode, workMode2, workLocation2, sortBy, sortDirection, priorities, budgetEnabled, maxBudget]);
+  }, [results, liveCommuteTimes, liveCommuteTimes2, liveCommuteRoutes, liveCommuteRoutes2, workMode, workMode2, workLocation2, commuteSource, commuteSource2, sortBy, sortDirection, priorities, budgetEnabled, maxBudget]);
 
   useEffect(() => {
     calculateCosts();
@@ -612,6 +672,8 @@ export function useCalculator() {
     workLocation2, setWorkLocation2,
     workMode,      setWorkMode,
     workMode2,     setWorkMode2,
+    commuteSource,  setCommuteSource,
+    commuteSource2, setCommuteSource2,
     bedrooms,      setBedrooms,
     monthlyTrips,  setMonthlyTrips,
     priorities,    setPriorities,

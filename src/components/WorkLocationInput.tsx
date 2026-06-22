@@ -184,6 +184,8 @@ interface Props {
   liveAccent?: keyof typeof LIVE_ACCENT_STYLES;
   mode: 'preset' | 'address';
   setMode: (m: 'preset' | 'address') => void;
+  source: 'static' | 'live';
+  setSource: (s: 'static' | 'live') => void;
   presetValue: WorkLocationKey | '';
   setPresetValue: (v: WorkLocationKey | '') => void;
   noneLabel: string;
@@ -197,6 +199,7 @@ export default function WorkLocationInput({
   label, icon, labelAction, optional,
   liveAccent = 'green',
   mode, setMode,
+  source, setSource,
   presetValue, setPresetValue, noneLabel,
   addressValue, setAddressValue, setAddressCoords,
   live,
@@ -289,6 +292,28 @@ export default function WorkLocationInput({
   const isBusy = live.loading || live.geocoding;
   const liveAccentStyles = LIVE_ACCENT_STYLES[liveAccent];
 
+  // Error + progress + "live active" — shared by address mode and preset + live.
+  const liveStatusBlock = (
+    <>
+      {live.error && <p className="text-xs text-red-500 dark:text-red-400">{live.error}</p>}
+      {(live.loading || live.timesActive) && (
+        <div className="flex items-center gap-3">
+          {live.loading && (
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              {live.progress}/{live.total} routes
+            </span>
+          )}
+          {live.timesActive && (
+            <span className={`text-xs ${liveAccentStyles.text} flex items-center gap-1.5`}>
+              <span className={`w-2 h-2 rounded-full ${liveAccentStyles.dot} inline-block`} />
+              Live times active
+            </span>
+          )}
+        </div>
+      )}
+    </>
+  );
+
   return (
     <div className="grid gap-y-2">
       {/* Label row + mode toggle */}
@@ -327,14 +352,68 @@ export default function WorkLocationInput({
       </div>
 
       {mode === 'preset' ? (
-        <select value={presetValue} onChange={e => setPresetValue(e.target.value as WorkLocationKey | '')} className={SELECT_CLASS}>
-          <option value="">{noneLabel}</option>
-          {SORTED_WORK_LOCATIONS.map(([loc, info]) => (
-            <option key={loc} value={loc}>
-              {loc} ({info.zone} - {info.station.replace(/ (Underground|Rail) Station$/, '')})
-            </option>
-          ))}
-        </select>
+        <div className="space-y-2">
+          <select value={presetValue} onChange={e => setPresetValue(e.target.value as WorkLocationKey | '')} className={SELECT_CLASS}>
+            <option value="">{noneLabel}</option>
+            {SORTED_WORK_LOCATIONS.map(([loc, info]) => (
+              <option key={loc} value={loc}>
+                {loc} ({info.zone} - {info.station.replace(/ (Underground|Rail) Station$/, '')})
+              </option>
+            ))}
+          </select>
+
+          {/* Commute data source: instant snapshot vs real-time TfL */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 min-w-0 text-xs">
+              <span className="text-gray-500 dark:text-gray-400">Commute times</span>
+              {source === 'live' && (live.loading || live.geocoding) && (
+                <span className="text-gray-500 dark:text-gray-400">
+                  Calculating…{live.total > 0 ? ` ${live.progress}/${live.total}` : ''}
+                </span>
+              )}
+              {source === 'live' && live.timesActive && (
+                <span className={`${liveAccentStyles.text} flex items-center gap-1.5`}>
+                  <span className={`w-2 h-2 rounded-full ${liveAccentStyles.dot} inline-block`} />
+                  Live
+                </span>
+              )}
+            </div>
+            <div className="flex w-fit rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden text-xs flex-shrink-0">
+              <button
+                type="button"
+                onClick={() => setSource('static')}
+                title="Pre-computed peak-time snapshot — instant"
+                className={`px-2.5 py-1 transition-colors ${
+                  source === 'static'
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                Static
+              </button>
+              <button
+                type="button"
+                onClick={() => source === 'live' ? live.onFetch() : setSource('live')}
+                disabled={isBusy}
+                title="Fetch real-time times from TfL now (click again to recalculate)"
+                className={`px-2.5 py-1 transition-colors border-l border-gray-300 dark:border-gray-600 disabled:opacity-50 disabled:cursor-not-allowed ${
+                  source === 'live'
+                    ? 'bg-blue-600 text-white border-l-blue-600'
+                    : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                {isBusy ? 'Calculating' : 'Live'}
+              </button>
+            </div>
+          </div>
+
+          {source === 'live' && !presetValue && !live.loading && (
+            <p className="text-xs text-gray-400 dark:text-gray-500">Pick a location above to fetch live times.</p>
+          )}
+          {source === 'live' && live.error && (
+            <p className="text-xs text-red-500 dark:text-red-400">{live.error}</p>
+          )}
+        </div>
       ) : (
         <div className="space-y-2">
           {/* Address input + fetch button */}
@@ -398,24 +477,7 @@ export default function WorkLocationInput({
             </button>
           </div>
           {/* Status */}
-          {live.error && (
-            <p className="text-xs text-red-500 dark:text-red-400">{live.error}</p>
-          )}
-          {(live.loading || live.timesActive) && (
-            <div className="flex items-center gap-3">
-              {live.loading && (
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {live.progress}/{live.total} routes
-                </span>
-              )}
-              {live.timesActive && (
-                <span className={`text-xs ${liveAccentStyles.text} flex items-center gap-1.5`}>
-                  <span className={`w-2 h-2 rounded-full ${liveAccentStyles.dot} inline-block`} />
-                  Live times active
-                </span>
-              )}
-            </div>
-          )}
+          {liveStatusBlock}
         </div>
       )}
     </div>

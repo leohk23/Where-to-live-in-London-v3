@@ -7,6 +7,7 @@ import type { BedroomCount, Priorities } from '../types';
 import type { WorkLocationKey } from '../work-locations';
 
 type WorkMode = 'preset' | 'address';
+type CommuteSource = 'static' | 'live';
 const PRIORITY_MAX = 5;
 
 const PRIORITY_SLIDERS: { key: keyof Priorities; label: string; tip: string }[] = [
@@ -25,6 +26,10 @@ interface Props {
   setWorkLocation: (v: WorkLocationKey | '') => void;
   workMode: WorkMode;
   setWorkMode: (v: WorkMode) => void;
+  commuteSource: CommuteSource;
+  setCommuteSource: (v: CommuteSource) => void;
+  commuteSource2: CommuteSource;
+  setCommuteSource2: (v: CommuteSource) => void;
   workLocation2: WorkLocationKey | '';
   setWorkLocation2: (v: WorkLocationKey | '') => void;
   workMode2: WorkMode;
@@ -64,6 +69,8 @@ export default function FilterPanel({
   className,
   workLocation, setWorkLocation,
   workMode, setWorkMode,
+  commuteSource, setCommuteSource,
+  commuteSource2, setCommuteSource2,
   workLocation2, setWorkLocation2,
   workMode2, setWorkMode2,
   bedrooms, setBedrooms,
@@ -216,6 +223,8 @@ export default function FilterPanel({
           )}
           mode={workMode}
           setMode={setWorkMode}
+          source={commuteSource}
+          setSource={setCommuteSource}
           presetValue={workLocation}
           setPresetValue={setWorkLocation}
           noneLabel="Select work location..."
@@ -233,6 +242,8 @@ export default function FilterPanel({
             liveAccent="indigo"
             mode={workMode2}
             setMode={setWorkMode2}
+            source={commuteSource2}
+            setSource={setCommuteSource2}
             presetValue={workLocation2}
             setPresetValue={setWorkLocation2}
             noneLabel="None"

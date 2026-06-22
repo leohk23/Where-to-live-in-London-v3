@@ -133,6 +133,10 @@ function LondonCostCalculator() {
       setWorkLocation={calc.setWorkLocation}
       workMode={calc.workMode}
       setWorkMode={calc.setWorkMode}
+      commuteSource={calc.commuteSource}
+      setCommuteSource={calc.setCommuteSource}
+      commuteSource2={calc.commuteSource2}
+      setCommuteSource2={calc.setCommuteSource2}
       workLocation2={calc.workLocation2}
       setWorkLocation2={calc.setWorkLocation2}
       workMode2={calc.workMode2}
@@ -151,7 +155,7 @@ function LondonCostCalculator() {
       officePostcode={calc.officePostcode}
       setOfficePostcode={calc.setOfficePostcode}
       setSelectedOfficeCoords={calc.setSelectedOfficeCoords}
-      onFetchLiveCommutes={() => { void calc.fetchLiveCommutes(); }}
+      onFetchLiveCommutes={() => { void calc.fetchLiveCommutes(true); }}
       liveCommuteLoading={calc.liveCommuteLoading}
       liveCommuteGeocoding={calc.liveCommuteGeocoding}
       liveCommuteProgress={calc.liveCommuteProgress}
@@ -160,7 +164,7 @@ function LondonCostCalculator() {
       officePostcode2={calc.officePostcode2}
       setOfficePostcode2={calc.setOfficePostcode2}
       setSelectedOfficeCoords2={calc.setSelectedOfficeCoords2}
-      onFetchLiveCommutes2={() => { void calc.fetchLiveCommutes2(); }}
+      onFetchLiveCommutes2={() => { void calc.fetchLiveCommutes2(true); }}
       liveCommuteLoading2={calc.liveCommuteLoading2}
       liveCommuteGeocoding2={calc.liveCommuteGeocoding2}
       liveCommuteProgress2={calc.liveCommuteProgress2}

@@ -14,6 +14,7 @@ import {
   Wallet,
 } from 'lucide-react';
 import { ASIAN_RADIUS_KM, CRIME_THRESHOLDS, SCHOOL_THRESHOLDS, SCORE_THRESHOLDS } from '../lib/constants';
+import { lineColor } from '../lib/tfl-line-colors';
 import locationWardPolygons from '../data/location-ward-polygons.json';
 import { asianSpots } from '../data';
 import hkFlag from '../assets/flag-hk.svg';
@@ -422,6 +423,39 @@ function formatCommute(time: number | null, isLive: boolean) {
   return `${time} min${isLive ? ' live' : ''}`;
 }
 
+// The dated slot a live result was modelled for: most recent Monday, 09:00.
+function lastMondayLabel(): string {
+  const d = new Date();
+  d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
+  const date = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  return `Last Monday (${date}), 09:00.`;
+}
+
+// The tube/rail lines of an itinerary as colour-coded badges, shown beneath its time.
+function RouteLine({ route }: { route: string | null }) {
+  if (!route) return null;
+  const lines = route.split(' → ');
+  return (
+    <div className="mt-1 flex flex-wrap items-center gap-1">
+      <span className="text-[10px] font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500">via</span>
+      {lines.map((line, i) => {
+        const { bg, fg } = lineColor(line);
+        return (
+          <span key={i} className="inline-flex items-center gap-1">
+            {i > 0 && <span className="text-[10px] text-gray-300 dark:text-gray-600">&rsaquo;</span>}
+            <span
+              className="rounded px-1.5 py-0.5 text-[10px] font-semibold leading-none"
+              style={{ backgroundColor: bg, color: fg }}
+            >
+              {line}
+            </span>
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
 function LocationDetailPanel({
   result,
   hasPartnerDestination,
@@ -522,12 +556,26 @@ function LocationDetailPanel({
               </div>
               {hasPartnerDestination ? (
                 <div className="grid grid-cols-2 gap-2">
-                  <DetailStat label="You" value={formatCommute(result.commuteTime, result.commuteIsLive)} />
-                  <DetailStat label="Partner" value={formatCommute(result.commuteTime2, result.commuteTime2IsLive)} />
+                  <div>
+                    <DetailStat label="You" value={formatCommute(result.commuteTime, result.commuteIsLive)} />
+                    <RouteLine route={result.commuteRoute} />
+                  </div>
+                  <div>
+                    <DetailStat label="Partner" value={formatCommute(result.commuteTime2, result.commuteTime2IsLive)} />
+                    <RouteLine route={result.commuteRoute2} />
+                  </div>
                 </div>
               ) : (
-                <DetailStat label="You" value={formatCommute(result.commuteTime, result.commuteIsLive)} />
+                <div>
+                  <DetailStat label="You" value={formatCommute(result.commuteTime, result.commuteIsLive)} />
+                  <RouteLine route={result.commuteRoute} />
+                </div>
               )}
+              <p className="mt-2 text-[11px] leading-snug text-gray-400 dark:text-gray-500">
+                {result.commuteIsLive || result.commuteTime2IsLive
+                  ? lastMondayLabel()
+                  : 'For a typical weekday morning — Monday, 09:00.'}
+              </p>
             </div>
 
             <div className={detailCardClass}>
@@ -916,7 +964,7 @@ export default function ResultsTable({
           <div className={headerBadgeRowClass()}>
             <HeaderLevelBadge
               label={workMode === 'address' || workMode2 === 'address' ? 'Station/live' : 'Station'}
-              title="Home station to selected work station or live workplace address."
+              title="Home station to selected work station or live workplace address. Modelled for a typical weekday morning — Monday, 09:00."
               tone="station"
             />
           </div>
@@ -1190,7 +1238,13 @@ export default function ResultsTable({
                         </div>
                         <div className="pl-5 text-[11px] text-gray-400 dark:text-gray-500 lg:pl-[22px] lg:text-xs">{result.borough}</div>
                       </td>
-                      <td className={`whitespace-nowrap px-1.5 py-2 text-center lg:px-3 lg:py-3 ${hoverCellClass}`}>
+                      <td
+                        className={`whitespace-nowrap px-1.5 py-2 text-center lg:px-3 lg:py-3 ${hoverCellClass}`}
+                        title={[
+                          result.commuteRoute && `You: via ${result.commuteRoute}`,
+                          result.commuteRoute2 && `Partner: via ${result.commuteRoute2}`,
+                        ].filter(Boolean).join('\n') || undefined}
+                      >
                         {result.commuteTime !== null ? (
                           <>
                             {result.commuteIsLive && <LiveCommuteDot />}

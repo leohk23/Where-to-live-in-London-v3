@@ -4,7 +4,8 @@ import fs from "fs";
 import path from "path";
 import { locationData } from "../src/data";
 import { workLocations } from "../src/work-locations";
-import type { CommuteTimes } from "../src/types";
+import type { CommuteTimes, CommuteRoutes } from "../src/commute-times";
+import { summariseRoute, type TflJourney } from "../src/lib/tfl-route";
 
 type Minutes = number;
 
@@ -27,7 +28,7 @@ interface StopPointDetails {
 }
 
 interface JourneyPlannerResponse {
-  journeys?: Array<{ duration?: number }>;
+  journeys?: TflJourney[];
 }
 
 /** If a label is notoriously ambiguous, force a specific StopPoint (NaPTAN) ID. */
@@ -150,12 +151,11 @@ function qs(params: Record<string, string>) {
   return sp.toString();
 }
 
-/** Next Monday as YYYYMMDD, so the pinned peak-hour journey date is always in the future. */
-function getNextMonday(): string {
+/** Most recent Monday as YYYYMMDD — a representative weekday-morning peak. */
+function getLastMonday(): string {
   const d = new Date();
-  const day = d.getDay();
-  const diff = day === 0 ? 1 : day === 1 ? 7 : 8 - day;
-  d.setDate(d.getDate() + diff);
+  const daysSinceMonday = (d.getDay() + 6) % 7; // 0 if Monday, else days back to the last Monday
+  d.setDate(d.getDate() - daysSinceMonday);
   return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
 }
 
@@ -236,10 +236,10 @@ async function resolveStopPointId(query: string): Promise<string> {
 }
 
 /** Call Journey Planner with StopPoint IDs to avoid 300 (multiple choices).
- *  Returns minutes on success (0 only for a genuine empty result), or null when the
- *  request could not be completed (e.g. rate-limited) — callers must NOT persist null,
+ *  Returns minutes + route summary on success (0 only for a genuine empty result), or null
+ *  when the request could not be completed (e.g. rate-limited) — callers must NOT persist null,
  *  leaving the pair absent so a later run retries it. */
-async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<number | null> {
+async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<{ minutes: number; route: string | null } | null> {
   const fromQuery = locationData[fromLabel]?.station;
   const toQuery = workLocations[toLabel]?.station;
   if (!fromQuery || !toQuery) throw new Error(`Unknown labels: ${fromLabel} → ${toLabel}`);
@@ -250,7 +250,7 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<n
   const url = `${BASE}/Journey/JourneyResults/${encodeURIComponent(fromId)}/to/${encodeURIComponent(toId)}?` + qs({
     mode: modes.join(","),
     timeIs: "Departing",
-    date: getNextMonday(), time: "0900", // pin to 09:00 next Mon for consistent peak-hour results
+    date: getLastMonday(), time: "0900", // pin to 09:00 last Mon for consistent peak-hour results
   });
 
   for (let attempt = 1; attempt <= 4; attempt++) {
@@ -277,9 +277,11 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<n
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const data = await res.json() as JourneyPlannerResponse;
-    const journeys = data.journeys;
-    const best = journeys?.map(j => j.duration).filter((d): d is number => typeof d === "number").sort((a,b)=>a-b)[0];
-    return typeof best === "number" ? Math.round(best) : 0;
+    // Pick the fastest journey, then summarise that same journey's lines (keeps time & route consistent).
+    const best = (data.journeys ?? [])
+      .filter(j => typeof j.duration === "number")
+      .sort((a, b) => (a.duration ?? 0) - (b.duration ?? 0))[0];
+    return best ? { minutes: Math.round(best.duration ?? 0), route: summariseRoute(best) } : { minutes: 0, route: null };
   }
 
   return null; // exhausted retries (e.g. persistent rate-limiting) — leave the pair for a later run
@@ -298,27 +300,36 @@ async function main() {
   //   ONLY=<location>   restrict to a single home location
   //   DRY=1             list what would be fetched, make no API calls
   let existing: CommuteTimes = {};
+  let existingRoutes: CommuteRoutes = {};
   try {
-    ({ commuteTimes: existing } = await import("../src/commute-times"));
-  } catch { existing = {}; }
+    const mod = await import("../src/commute-times");
+    existing = mod.commuteTimes ?? {};
+    existingRoutes = mod.commuteRoutes ?? {};
+  } catch { existing = {}; existingRoutes = {}; }
 
   const force = process.env.FORCE === "1";
   const refetchZeros = process.env.REFETCH_ZEROS === "1";
+  const backfillRoutes = process.env.BACKFILL_ROUTES === "1";
   const only = process.env.ONLY;
   const dry = process.env.DRY === "1";
 
   // Carry every existing value forward; we only ever add/replace, never drop good data.
   const out: CommuteTimes = {};
-  for (const h of homeKeys) out[h] = { ...(existing[h] ?? {}) };
+  const outRoutes: CommuteRoutes = {};
+  for (const h of homeKeys) {
+    out[h] = { ...(existing[h] ?? {}) };
+    outRoutes[h] = { ...(existingRoutes[h] ?? {}) };
+  }
 
   const pairs = homeKeys.flatMap(h => workKeys.map(w => [h, w] as [string, string]))
     .filter(([h, w]) => {
       if (only && h !== only) return false;
       if (force) return true;
       const cur = existing[h]?.[w];
-      if (cur === undefined) return true;          // missing → fetch
-      if (refetchZeros && cur === 0) return true;  // repair a previously-failed 0
-      return false;                                // already populated → keep as-is
+      if (cur === undefined) return true;                                          // new pair (no time) → fetch
+      if (refetchZeros && cur === 0) return true;                                  // repair a previously-failed 0
+      if (backfillRoutes && existingRoutes[h]?.[w] === undefined) return true;     // opt-in: fill a missing route
+      return false;                                                               // has a time → preserved (manual edits safe)
     });
 
   const totalPairs = homeKeys.length * workKeys.length;
@@ -337,12 +348,13 @@ async function main() {
   let skipped = 0;
   await runPool(pairs, async ([h, w]) => {
     try {
-      const mins = await getDurationMinutes(h, w);
-      if (mins === null) { skipped += 1; console.warn(`· ${h} → ${w}: no result — kept existing, will retry next run`); return; }
-      if (mins === 0 && (existing[h]?.[w] ?? 0) > 0) { skipped += 1; return; } // never downgrade a good value
-      out[h][w] = mins;
+      const res = await getDurationMinutes(h, w);
+      if (res === null) { skipped += 1; console.warn(`· ${h} → ${w}: no result — kept existing, will retry next run`); return; }
+      if (res.minutes === 0 && (existing[h]?.[w] ?? 0) > 0) { skipped += 1; return; } // never downgrade a good value
+      out[h][w] = res.minutes;
+      outRoutes[h][w] = res.route;
       filled += 1;
-      console.log(`${h} → ${w}: ${mins} min`);
+      console.log(`${h} → ${w}: ${res.minutes} min${res.route ? ` via ${res.route}` : ""}`);
     } catch (e: unknown) {
       skipped += 1;
       console.warn(`· ${h} → ${w}: ${getErrorMessage(e)} — kept existing, will retry next run`);
@@ -353,15 +365,22 @@ async function main() {
 
   const lastRun = new Date().toISOString();
   const banner = `/**
- * AUTO-GENERATED by scripts/fetch-tfl-commutes.ts
- * Values are one-way minutes from TfL Journey Planner (shortest itinerary).
+ * AUTO-GENERATED by scripts/fetch-tfl-commutes.ts — but safe to hand-edit.
+ * commuteTimes  — one-way minutes from TfL Journey Planner (shortest itinerary).
+ * commuteRoutes — the tube/rail lines of that same itinerary, e.g. "Victoria → Central".
  *
- * Incremental & merge-based — re-running only fills missing pairs and preserves
- * existing values:
- *   npm run fetch-commutes:tfl                 # fill missing pairs only
- *   REFETCH_ZEROS=1 npm run fetch-commutes:tfl # also repair existing 0s
- *   ONLY="Camden" npm run fetch-commutes:tfl   # just one home location
- *   FORCE=1 npm run fetch-commutes:tfl         # re-fetch everything
+ * Incremental & merge-based — a default run ONLY fetches new pairs (a home/work pair
+ * with no time yet) and preserves everything else, so manual edits and existing values
+ * are never overwritten. Preview first with DRY=1.
+ *   DRY=1 npm run fetch-commutes:tfl              # list what WOULD be fetched, no API calls
+ *   npm run fetch-commutes:tfl                    # fetch only new (missing-time) pairs
+ *   ONLY="Camden" npm run fetch-commutes:tfl      # restrict to one home location
+ *   BACKFILL_ROUTES=1 npm run fetch-commutes:tfl  # also fill pairs that have a time but no route
+ *   REFETCH_ZEROS=1 npm run fetch-commutes:tfl    # also repair existing 0s
+ *   FORCE=1 npm run fetch-commutes:tfl            # re-fetch everything (full overwrite)
+ *
+ * To pin a value by hand, set BOTH its commuteTimes entry and its commuteRoutes entry
+ * (use null if the route is unknown) so the pair is never seen as "missing".
  */`;
 
   const file = `${banner}
@@ -372,7 +391,15 @@ export interface CommuteTimes {
   };
 }
 
+export interface CommuteRoutes {
+  [homeLocation: string]: {
+    [workLocation: string]: string | null;
+  };
+}
+
 export const commuteTimes: CommuteTimes = ${JSON.stringify(out, null, 2)};
+
+export const commuteRoutes: CommuteRoutes = ${JSON.stringify(outRoutes, null, 2)};
 
 export const commuteTimesLastRun = "${lastRun}";
 `;

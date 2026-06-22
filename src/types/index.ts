@@ -123,6 +123,9 @@ export interface Result {
   partnerFarePerTrip: number;
   commuteTime: number | null;
   commuteTime2: number | null;
+  // Tube/rail lines of the itinerary, e.g. "Victoria → Central" (static matrix or live).
+  commuteRoute: string | null;
+  commuteRoute2: string | null;
   crimeRate: number | null;
   outstandingSchools: number | null;
   schoolsTotal: number | null;
