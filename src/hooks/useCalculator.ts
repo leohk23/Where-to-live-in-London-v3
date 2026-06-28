@@ -3,6 +3,7 @@ import { commuteTimes, commuteRoutes } from '../commute-times';
 import { summariseRoute, type TflJourney } from '../lib/tfl-route';
 import { locationData, councilTaxData, boroughStats, locationSchoolStats, asianSpots } from '../data';
 import { workLocations, type WorkLocationKey } from '../work-locations';
+import { expectedWaitMinutes } from '../lib/commute-wait';
 import {
   FARE_BY_ZONE_DIFF, FARE_FALLBACK,
   NULL_COMMUTE_FALLBACK, NULL_CRIME_FALLBACK,
@@ -56,6 +57,7 @@ function getCommuteTime(homeLocation: string, workLoc: string): number | null {
 function getCommuteRoute(homeLocation: string, workLoc: string): string | null {
   return commuteRoutes[homeLocation]?.[workLoc] ?? null;
 }
+
 
 // A preset work location's coords as the string pair the live-fetch destination expects.
 function presetCoordsStr(loc: WorkLocationKey | ''): { lat: string; lon: string } | null {
@@ -143,6 +145,7 @@ async function fetchTflJourneyDuration(
   destination: string,
   qs: string,
   hasRetried = false,
+  attempt = 0,
 ): Promise<{ duration: number | null; route: string | null; destination: string }> {
   try {
     const res = await fetch(
@@ -155,13 +158,23 @@ async function fetchTflJourneyDuration(
       return { duration: best?.duration ?? null, route: summariseRoute(best), destination };
     }
 
+    // TfL throttles anonymous (no app key) browser use to ~50 req/min; with 50+ locations a
+    // burst gets 429s and would otherwise silently drop the tail of the list. Back off
+    // (honouring Retry-After, with jitter) and retry so every location resolves.
+    if (res.status === 429 && attempt < 5) {
+      const retryAfter = parseInt(res.headers.get('Retry-After') ?? '') || 0;
+      const waitMs = retryAfter > 0 ? retryAfter * 1000 : 700 * (attempt + 1) + Math.random() * 600;
+      await new Promise(r => setTimeout(r, waitMs));
+      return fetchTflJourneyDuration(origin, destination, qs, hasRetried, attempt + 1);
+    }
+
     if (res.status === 300 && !hasRetried) {
       const json = await res.json().catch(() => null) as TflDisambiguationResponse | null;
       const resolvedOrigin = getDisambiguatedPoint(json?.fromLocationDisambiguation) ?? origin;
       const resolvedDestination = getDisambiguatedPoint(json?.toLocationDisambiguation) ?? destination;
 
       if (resolvedOrigin !== origin || resolvedDestination !== destination) {
-        return fetchTflJourneyDuration(resolvedOrigin, resolvedDestination, qs, true);
+        return fetchTflJourneyDuration(resolvedOrigin, resolvedDestination, qs, true, attempt);
       }
     }
   } catch {
@@ -230,7 +243,7 @@ async function doFetchLiveCommutes(params: {
   }).toString();
   const resolvedDestination = await resolveTflDestination(destination, entries, qs);
 
-  await fetchWithConcurrency(entries, 8, async ([location, data]) => {
+  await fetchWithConcurrency(entries, 5, async ([location, data]) => {
     if (!data.naptan) {
       allResults[location] = null;
       allRoutes[location] = null;
@@ -563,10 +576,14 @@ export function useCalculator() {
       let scoreBreakdown: ScoredResult['scoreBreakdown'] = [];
       if (isActive) {
         const totalWeight = priorities.commute + priorities.cost + priorities.safety + priorities.schools;
+        // Effective commute = journey time + expected wait, where the wait keys off each
+        // person's actual route (train vs tube first leg), so two equal journey times score
+        // differently when one boards a service that runs every 30 min.
+        const withPartnerScore = (workMode2 !== 'preset' || workLocation2);
         const allCommutes = withLive.map(x => {
-          const t1 = x.commuteTime ?? NULL_COMMUTE_FALLBACK;
-          const t2 = (workMode2 !== 'preset' || workLocation2) ? (x.commuteTime2 ?? NULL_COMMUTE_FALLBACK) : t1;
-          return (workMode2 !== 'preset' || workLocation2) ? (t1 + t2) / 2 : t1;
+          const e1 = (x.commuteTime ?? NULL_COMMUTE_FALLBACK) + expectedWaitMinutes(x.location, x.commuteRoute);
+          const e2 = withPartnerScore ? (x.commuteTime2 ?? NULL_COMMUTE_FALLBACK) + expectedWaitMinutes(x.location, x.commuteRoute2) : e1;
+          return withPartnerScore ? (e1 + e2) / 2 : e1;
         });
         const allCosts   = withLive.map(x => x.totalMonthly);
         const allCrimes  = withLive.map(x => x.crimeRate  ?? NULL_CRIME_FALLBACK);
@@ -579,9 +596,9 @@ export function useCalculator() {
         };
 
         const hasPartner = workMode2 === 'address' || !!workLocation2;
-        const myCommute = hasPartner
-          ? ((r.commuteTime ?? NULL_COMMUTE_FALLBACK) + (r.commuteTime2 ?? NULL_COMMUTE_FALLBACK)) / 2
-          : (r.commuteTime ?? NULL_COMMUTE_FALLBACK);
+        const myE1 = (r.commuteTime ?? NULL_COMMUTE_FALLBACK) + expectedWaitMinutes(r.location, r.commuteRoute);
+        const myE2 = hasPartner ? (r.commuteTime2 ?? NULL_COMMUTE_FALLBACK) + expectedWaitMinutes(r.location, r.commuteRoute2) : myE1;
+        const myCommute = hasPartner ? (myE1 + myE2) / 2 : myE1;
 
         const nCommute = norm(myCommute,                          allCommutes, true);
         const nCost    = norm(r.totalMonthly,                     allCosts,    true);

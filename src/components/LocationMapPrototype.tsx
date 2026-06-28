@@ -423,7 +423,7 @@ export default function LocationMapPrototype({
   const mapFrameRef = useRef<HTMLDivElement>(null);
   const { collapsed, toggle } = usePersistedCollapse('wtl-collapse-map');
   const [mapAspectRatio, setMapAspectRatio] = useState<number | null>(null);
-  const [tooltip, setTooltip] = useState<{ x: number; y: number; label: string } | null>(null);
+  const [tooltip, setTooltip] = useState<{ x: number; y: number; result: ScoredResult } | null>(null);
   const [renderZoom, setRenderZoom] = useState(ALL_LOCATIONS_ZOOM);
   const [renderViewBox, setRenderViewBox] = useState<ReturnType<typeof boundsToViewBox> | null>(null);
   const animationRef = useRef<number | null>(null);
@@ -444,10 +444,10 @@ export default function LocationMapPrototype({
     }
   };
 
-  const showTooltip = (event: { clientX: number; clientY: number }, label: string) => {
+  const showTooltip = (event: { clientX: number; clientY: number }, result: ScoredResult) => {
     const rect = mapFrameRef.current?.getBoundingClientRect();
     if (!rect) return;
-    setTooltip({ x: event.clientX - rect.left, y: event.clientY - rect.top, label });
+    setTooltip({ x: event.clientX - rect.left, y: event.clientY - rect.top, result });
   };
   const visualFocus = highlightedLocation ?? selectedLocation;
   const scoresActive = sortedResults.some(result => result.compositeScore > 0);
@@ -874,8 +874,8 @@ export default function LocationMapPrototype({
                 aria-label={`${location.result.displayName}, ${location.result.borough}${
                   scoresActive ? `, match score ${location.result.compositeScore} of 100` : ''
                 }. Press Enter to zoom.`}
-                onMouseEnter={event => { onLocationHover?.(location.result.location); showTooltip(event, location.result.displayName); }}
-                onMouseMove={event => showTooltip(event, location.result.displayName)}
+                onMouseEnter={event => { onLocationHover?.(location.result.location); showTooltip(event, location.result); }}
+                onMouseMove={event => showTooltip(event, location.result)}
                 onFocus={() => onLocationHover?.(location.result.location)}
                 onBlur={() => onLocationHover?.(null)}
                 onClick={() => onLocationSelect?.(location.result.location)}
@@ -887,7 +887,6 @@ export default function LocationMapPrototype({
                 }}
                 className="cursor-pointer focus:outline-none"
               >
-                <title>{`${location.result.displayName} - ${location.boundary.boundaryName}`}</title>
                 <path
                   d={location.path}
                   fill={tone.fill}
@@ -915,7 +914,6 @@ export default function LocationMapPrototype({
             const iconSize = badgeRadius * 1.25;
             return (
               <g key={marker.tone} pointerEvents="none">
-                <title>{marker.label}</title>
                 <circle
                   cx={marker.point.x}
                   cy={marker.point.y}
@@ -949,10 +947,22 @@ export default function LocationMapPrototype({
         </div>
         {tooltip && (
           <div
-            className="pointer-events-none absolute z-20 max-w-[14rem] -translate-y-full truncate rounded bg-gray-900/90 px-2 py-1 text-xs font-medium text-white shadow-md dark:bg-gray-100/95 dark:text-gray-900"
+            className="pointer-events-none absolute z-20 w-max max-w-[15rem] -translate-y-full rounded-md bg-gray-900/95 px-2.5 py-1.5 text-white shadow-lg dark:bg-gray-100/95 dark:text-gray-900"
             style={{ left: tooltip.x + 12, top: tooltip.y - 6 }}
           >
-            {tooltip.label}
+            <div className="text-xs font-semibold leading-tight">{tooltip.result.displayName}</div>
+            <div className="text-[10px] leading-tight text-gray-300 dark:text-gray-500">
+              {tooltip.result.borough} · {tooltip.result.zone}
+            </div>
+            <div className="mt-1 text-[11px] leading-tight">
+              &pound;{tooltip.result.rent.toLocaleString()}/mo
+              {tooltip.result.commuteTime !== null && <> &middot; {tooltip.result.commuteTime} min</>}
+            </div>
+            {tooltip.result.compositeScore > 0 && (
+              <div className="text-[11px] font-medium leading-tight text-amber-300 dark:text-amber-600">
+                Match {tooltip.result.compositeScore}/100
+              </div>
+            )}
           </div>
         )}
       </div>

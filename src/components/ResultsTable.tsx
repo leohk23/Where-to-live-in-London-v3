@@ -16,6 +16,9 @@ import {
 import { ASIAN_RADIUS_KM, CRIME_THRESHOLDS, SCHOOL_THRESHOLDS, SCORE_THRESHOLDS } from '../lib/constants';
 import { lineColor } from '../lib/tfl-line-colors';
 import locationWardPolygons from '../data/location-ward-polygons.json';
+import locationTransit from '../data/location-transit.json';
+import { trainInterval } from '../data/service-frequency';
+import { expectedWaitMinutes } from '../lib/commute-wait';
 import { asianSpots } from '../data';
 import hkFlag from '../assets/flag-hk.svg';
 import type { ScoredResult, SortColumn, NearbySchool, AsianSpot, AsianSpotType } from '../types';
@@ -384,9 +387,11 @@ function SpotIcons({ spots, className = '' }: { spots: AsianSpot[]; className?: 
 
 function GeographyCard({
   schoolScope,
+  wards,
   className = '',
 }: {
   schoolScope: ReturnType<typeof getSchoolScope>;
+  wards: string[];
   className?: string;
 }) {
   const items: Array<{ label: string; value: string }> = [
@@ -414,6 +419,27 @@ function GeographyCard({
           </span>
         ))}
       </div>
+      {wards.length > 0 && (
+        <div className="mt-2.5 border-t border-gray-100 pt-2.5 dark:border-gray-800">
+          <div className="mb-1.5 flex items-center gap-1.5 text-[11px] font-medium text-gray-700 dark:text-gray-200">
+            <MapPin className="h-3.5 w-3.5 text-gray-400" />
+            Map area
+            <span className="rounded-full bg-blue-100 px-1.5 py-0.5 text-[10px] font-semibold text-blue-700 dark:bg-blue-500/20 dark:text-blue-300">
+              {wards.length} ward{wards.length > 1 ? 's' : ''}
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-1">
+            {wards.map(ward => (
+              <span
+                key={ward}
+                className="inline-flex items-center rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[11px] text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+              >
+                {ward}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -456,6 +482,71 @@ function RouteLine({ route }: { route: string | null }) {
   );
 }
 
+// Transit symbols beside a location name, from its actual served modes (scripts/generate-location-transit).
+// Shared height keeps the roundels and the National Rail arrow visually aligned.
+const TRANSIT_ICON_CLASS = 'h-2.5 w-auto shrink-0 lg:h-3';
+
+// Mode roundels are monochrome (ring = bar); the Underground is the only red+blue one.
+const MODE_ROUNDEL: Record<string, { ring: string; bar: string; title: string }> = {
+  tube: { ring: '#DC241F', bar: '#10069F', title: 'London Underground' },
+  overground: { ring: '#EE7C0E', bar: '#EE7C0E', title: 'London Overground' },
+  'elizabeth-line': { ring: '#6950A1', bar: '#6950A1', title: 'Elizabeth line' },
+  dlr: { ring: '#00AFAD', bar: '#00AFAD', title: 'DLR' },
+  tram: { ring: '#5FB526', bar: '#5FB526', title: 'Tram' },
+};
+
+function Roundel({ ring, bar, title }: { ring: string; bar: string; title: string }) {
+  return (
+    <svg viewBox="0 0 22 16" className={TRANSIT_ICON_CLASS} role="img" aria-label={title}>
+      <title>{title}</title>
+      <rect x="0" y="6.2" width="22" height="3.6" fill={bar} />
+      <circle cx="11" cy="8" r="5.2" fill="none" stroke={ring} strokeWidth="2.6" />
+    </svg>
+  );
+}
+
+// The official National Rail "double arrow" (British Rail symbol), drawn as strokes
+// exactly per the public SVG: two horizontal bars + a crossing zigzag, clipped by the box.
+function NationalRailIcon({ title }: { title: string }) {
+  return (
+    <svg viewBox="0 0 62 39" className={TRANSIT_ICON_CLASS} role="img" aria-label={title}>
+      <title>{title}</title>
+      <g stroke="#ED1C24" fill="none">
+        <path d="M1,-8.9 46,12.4 16,26.6 61,47.9" strokeWidth="6" />
+        <path d="M0,12.4H62m0,14.2H0" strokeWidth="6.4" />
+      </g>
+    </svg>
+  );
+}
+
+function TransitIcons({ location }: { location: string }) {
+  const modes = (locationTransit as Record<string, string[]>)[location] ?? [];
+  if (!modes.length) return null;
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      {modes.map(m =>
+        m === 'national-rail'
+          ? <NationalRailIcon key={m} title="National Rail" />
+          : MODE_ROUNDEL[m] ? <Roundel key={m} {...MODE_ROUNDEL[m]} /> : null,
+      )}
+    </span>
+  );
+}
+
+// One train-frequency row: a peak/off-peak badge followed by the interval.
+function FreqRow({ label, value, tone }: { label: string; value: string; tone: 'peak' | 'off' | 'all' }) {
+  const badge =
+    tone === 'peak' ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300'
+    : tone === 'off' ? 'bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300'
+    : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300';
+  return (
+    <div className="flex items-center gap-2">
+      <span className={`inline-flex w-16 shrink-0 justify-center rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${badge}`}>{label}</span>
+      <span className="text-[11px] font-medium text-gray-700 dark:text-gray-200">{value}</span>
+    </div>
+  );
+}
+
 function LocationDetailPanel({
   result,
   hasPartnerDestination,
@@ -470,6 +561,10 @@ function LocationDetailPanel({
   const partnerTransportMonthly = result.partnerFarePerTrip * monthlyTrips;
   const boundary = LOCATION_BOUNDARIES[result.location];
   const anchor = boundary?.anchor;
+  // The ward(s) the location's map polygon is built from (comma-joined in the data).
+  const wards = boundary?.boundaryName ? boundary.boundaryName.split(', ') : [];
+  // Train frequency for non-tube locations (undefined for turn-up-and-go tube/DLR/Elizabeth).
+  const freq = trainInterval[result.location];
   const mapQuery = anchor
     ? `${anchor.lat},${anchor.lon}`
     : `${result.anchorStation}, London`;
@@ -548,12 +643,13 @@ function LocationDetailPanel({
         </div>
 
         <div className="space-y-3 xl:col-start-2 xl:row-start-2 xl:space-y-4">
-          <div className="grid gap-2.5 sm:grid-cols-3 xl:gap-3">
+          <div className="grid gap-2.5 sm:grid-cols-[1.25fr_0.8fr_1fr] xl:gap-3">
             <div className={detailCardClass}>
               <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
                 <Route className="h-4 w-4" />
                 Commute
               </div>
+              {/* Group 1: journey time + route + when */}
               {hasPartnerDestination ? (
                 <div className="grid grid-cols-2 gap-2">
                   <div>
@@ -571,11 +667,33 @@ function LocationDetailPanel({
                   <RouteLine route={result.commuteRoute} />
                 </div>
               )}
-              <p className="mt-2 text-[11px] leading-snug text-gray-400 dark:text-gray-500">
+              <p className="mt-1.5 text-[11px] leading-snug text-gray-400 dark:text-gray-500">
                 {result.commuteIsLive || result.commuteTime2IsLive
                   ? lastMondayLabel()
                   : 'For a typical weekday morning — Monday, 09:00.'}
               </p>
+
+              {/* Group 2: train frequency */}
+              {freq && (
+                <div className="mt-3 border-t border-gray-100 pt-2.5 dark:border-gray-800">
+                  <div className="space-y-1">
+                    {freq.peak === freq.offPeak ? (
+                      <FreqRow label="All day" value={`~every ${freq.peak} min`} tone="all" />
+                    ) : (
+                      <>
+                        <FreqRow label="Peak" value={`~every ${freq.peak} min`} tone="peak" />
+                        <FreqRow label="Off-peak" value={`~every ${freq.offPeak} min`} tone="off" />
+                      </>
+                    )}
+                  </div>
+                  <p
+                    className="mt-1.5 text-[11px] leading-snug text-gray-400 dark:text-gray-500"
+                    title="Peak = weekday rush hours (~07:00–09:30 & 16:00–19:00); off-peak = weekday daytime/evenings. Half the peak gap is added as expected wait when scoring commute."
+                  >
+                    Peak wait counts toward the commute score.
+                  </p>
+                </div>
+              )}
             </div>
 
             <div className={detailCardClass}>
@@ -584,12 +702,12 @@ function LocationDetailPanel({
                 Cost
                 <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium normal-case tracking-normal text-gray-500 dark:bg-gray-800 dark:text-gray-400">
                   <CalendarClock className="h-3 w-3" />
-                  per month
+                  monthly
                 </span>
               </div>
-              <DetailStat label="Total" value={`\u00a3${Math.round(result.totalMonthly).toLocaleString()}`} />
-              <div className="mt-2 grid grid-cols-3 items-start gap-2">
+              <div className="space-y-2">
                 <DetailStat label="Rent" value={`\u00a3${result.rent.toLocaleString()}`} />
+                <DetailStat label="Tax" value={`\u00a3${result.councilTaxMonthly.toFixed(0)}`} />
                 <div>
                   <div className="text-[11px] font-medium uppercase text-gray-400 dark:text-gray-500">Transport</div>
                   <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
@@ -607,7 +725,9 @@ function LocationDetailPanel({
                     </div>
                   )}
                 </div>
-                <DetailStat label="Tax" value={`\u00a3${result.councilTaxMonthly.toFixed(0)}`} />
+                <div className="border-t border-gray-100 pt-2 dark:border-gray-800">
+                  <DetailStat label="Total" value={`\u00a3${Math.round(result.totalMonthly).toLocaleString()}`} />
+                </div>
               </div>
             </div>
 
@@ -690,7 +810,7 @@ function LocationDetailPanel({
             </div>
           )}
 
-          <GeographyCard schoolScope={schoolScope} />
+          <GeographyCard schoolScope={schoolScope} wards={wards} />
         </div>
       </div>
     </div>
@@ -1164,6 +1284,9 @@ export default function ResultsTable({
                       ? '!bg-blue-50 dark:!bg-[#131d39]'
                       : 'group-hover:!bg-gray-50 dark:group-hover:!bg-gray-700';
                   const isExpanded = expandedLocation === result.location;
+                  // Expected platform wait the score adds — keyed off the first leg of your route
+                  // (train vs tube), so it matches the lines shown for this journey.
+                  const waitMin = expectedWaitMinutes(result.location, result.commuteRoute);
                   return (
                     <tbody key={result.location}>
                       <tr
@@ -1234,6 +1357,7 @@ export default function ResultsTable({
                               : <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 lg:mt-0" />}
                             <span className="break-words leading-tight">{result.displayName}</span>
                           </button>
+                          <TransitIcons location={result.location} />
                           <LocationDataFlag result={result} />
                         </div>
                         <div className="pl-5 text-[11px] text-gray-400 dark:text-gray-500 lg:pl-[22px] lg:text-xs">{result.borough}</div>
@@ -1245,32 +1369,42 @@ export default function ResultsTable({
                           result.commuteRoute2 && `Partner: via ${result.commuteRoute2}`,
                         ].filter(Boolean).join('\n') || undefined}
                       >
-                        {result.commuteTime !== null ? (
-                          <>
-                            {result.commuteIsLive && <LiveCommuteDot />}
-                            <span className={`text-xs lg:text-sm ${result.commuteIsLive ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400'}`}>
-                              {result.commuteTime} min
-                            </span>
-                          </>
-                        ) : liveCommuteLoading && !result.commuteIsLive ? (
-                          <span className="animate-pulse text-xs text-gray-300 dark:text-gray-600 lg:text-sm">...</span>
-                        ) : (
-                          <span className="text-xs text-gray-400 lg:text-sm" title="Commute data unavailable">?</span>
-                        )}
-                        {hasPartnerDestination && <span className="text-gray-300 dark:text-gray-600 mx-1">/</span>}
-                        {hasPartnerDestination && (
-                          result.commuteTime2 !== null
-                            ? (
-                              <>
-                                {result.commuteTime2IsLive && <LiveCommuteDot tone="indigo" />}
-                                <span className="text-xs text-indigo-500 dark:text-indigo-400 lg:text-sm">
-                                  {result.commuteTime2} min
-                                </span>
-                              </>
-                            )
-                            : liveCommuteLoading2 && !result.commuteTime2IsLive
-                              ? <span className="animate-pulse text-xs text-gray-300 dark:text-gray-600 lg:text-sm">...</span>
-                            : <span className="text-xs text-gray-400 lg:text-sm" title="Partner commute data unavailable">?</span>
+                        <div>
+                          {result.commuteTime !== null ? (
+                            <>
+                              {result.commuteIsLive && <LiveCommuteDot />}
+                              <span className={`text-xs lg:text-sm ${result.commuteIsLive ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400'}`}>
+                                {result.commuteTime} min
+                              </span>
+                            </>
+                          ) : liveCommuteLoading && !result.commuteIsLive ? (
+                            <span className="animate-pulse text-xs text-gray-300 dark:text-gray-600 lg:text-sm">...</span>
+                          ) : (
+                            <span className="text-xs text-gray-400 lg:text-sm" title="Commute data unavailable">?</span>
+                          )}
+                          {hasPartnerDestination && <span className="text-gray-300 dark:text-gray-600 mx-1">/</span>}
+                          {hasPartnerDestination && (
+                            result.commuteTime2 !== null
+                              ? (
+                                <>
+                                  {result.commuteTime2IsLive && <LiveCommuteDot tone="indigo" />}
+                                  <span className="text-xs text-indigo-500 dark:text-indigo-400 lg:text-sm">
+                                    {result.commuteTime2} min
+                                  </span>
+                                </>
+                              )
+                              : liveCommuteLoading2 && !result.commuteTime2IsLive
+                                ? <span className="animate-pulse text-xs text-gray-300 dark:text-gray-600 lg:text-sm">...</span>
+                              : <span className="text-xs text-gray-400 lg:text-sm" title="Partner commute data unavailable">?</span>
+                          )}
+                        </div>
+                        {(result.commuteTime !== null || result.commuteTime2 !== null) && (
+                          <div
+                            className="mt-0.5 text-[10px] leading-none text-gray-400 dark:text-gray-500"
+                            title="Expected wait for the first service on your route (≈ half the gap between trains), added to the commute score so frequent and infrequent journeys compare fairly."
+                          >
+                            +{waitMin} wait
+                          </div>
                         )}
                       </td>
 

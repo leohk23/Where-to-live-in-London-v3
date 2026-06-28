@@ -4618,5 +4618,17 @@
     "type": "asian-food",
     "lat": 51.5118927,
     "lon": -0.130514
+  },
+  {
+    "name": "Treestone BBQ Restaurant",
+    "type": "asian-food",
+    "lat": 51.4014953,
+    "lon": -0.2562714
+  },
+  {
+    "name": "Natural Natural Ealing",
+    "type": "grocery",
+    "lat": 51.5099882,
+    "lon": -0.2864643
   }
 ]

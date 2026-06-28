@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import polygonClipping, { type Geom } from 'polygon-clipping';
 import locationData from '../src/data/locations.json';
+import { LOCATION_WARDS } from './location-wards';
 
 interface Coordinate {
   lat: number;
@@ -47,6 +49,13 @@ const LOCATION_LAD_CODES: Record<string, string> = Object.fromEntries(
 function getRings(geometry: Geometry): number[][][] {
   if (geometry.type === 'Polygon') return geometry.coordinates as number[][][];
   return (geometry.coordinates as number[][][][]).flat();
+}
+
+// Dissolve several ward geometries into one, removing the shared internal borders.
+function unionGeometries(geometries: Geometry[]): Geometry {
+  const geoms = geometries.map(g => g.coordinates as unknown as Geom);
+  const merged = polygonClipping.union(geoms[0], ...geoms.slice(1));
+  return { type: 'MultiPolygon', coordinates: merged as unknown as number[][][][] };
 }
 
 function pointInRing(point: Coordinate, ring: number[][]) {
@@ -127,6 +136,27 @@ async function main() {
     console.log(`Fetched ${ladCode}: ${collection.features.length} wards`);
   }
 
+  // LIST_WARDS=1 — dump the ward names available for each location's borough, so you can
+  // pick which ones to merge in scripts/location-wards.ts. Makes no polygon output.
+  if (process.env.LIST_WARDS === '1') {
+    const catalogue: Record<string, { ladCode: string; containing: string | null; available: string[] }> = {};
+    for (const [location, anchor] of Object.entries(LOCATION_COORDS)) {
+      const ladCode = LOCATION_LAD_CODES[location];
+      const collection = wardCollections.get(ladCode);
+      if (!collection) continue;
+      const containing = collection.features.find(feature => pointInGeometry(anchor, feature.geometry));
+      catalogue[location] = {
+        ladCode,
+        containing: containing ? getWardName(containing) : null,
+        available: collection.features.map(getWardName).sort(),
+      };
+    }
+    const cataloguePath = path.resolve(process.cwd(), 'scripts/ward-catalogue.json');
+    fs.writeFileSync(cataloguePath, `${JSON.stringify(catalogue, null, 2)}\n`, 'utf8');
+    console.log(`\nWrote ${cataloguePath} (${Object.keys(catalogue).length} locations).`);
+    return;
+  }
+
   const output: Record<string, {
     anchor: Coordinate;
     boundaryLevel: string;
@@ -140,22 +170,42 @@ async function main() {
     const collection = wardCollections.get(ladCode);
     if (!collection) throw new Error(`No ward collection for ${location}`);
 
-    const containing = collection.features.find(feature => pointInGeometry(anchor, feature.geometry));
-    const selected = containing ?? collection.features
-      .map(feature => ({ feature, distance: distanceSquared(anchor, geometryCentroid(feature.geometry)) }))
-      .sort((a, b) => a.distance - b.distance)[0]?.feature;
+    const wardList = LOCATION_WARDS[location];
+    let geometry: Geometry;
+    let boundaryName: string;
 
-    if (!selected) throw new Error(`No ward geometry for ${location}`);
+    if (wardList && wardList.length) {
+      // Merge the explicitly-listed wards into one polygon.
+      const matched = wardList.map(name => {
+        const feature = collection.features.find(f => getWardName(f).toLowerCase() === name.toLowerCase());
+        if (!feature) console.warn(`  ⚠ ${location}: ward "${name}" not found in ${ladCode} — skipped`);
+        return feature;
+      }).filter((f): f is Feature => Boolean(f));
+
+      if (!matched.length) throw new Error(`No listed wards matched for ${location}`);
+      geometry = matched.length === 1 ? matched[0].geometry : unionGeometries(matched.map(f => f.geometry));
+      boundaryName = matched.map(getWardName).join(', ');
+      console.log(`${location}: merged ${matched.length} ward(s) — ${boundaryName}`);
+    } else {
+      // Default: the single ward containing the anchor (nearest as fallback).
+      const containing = collection.features.find(feature => pointInGeometry(anchor, feature.geometry));
+      const selected = containing ?? collection.features
+        .map(feature => ({ feature, distance: distanceSquared(anchor, geometryCentroid(feature.geometry)) }))
+        .sort((a, b) => a.distance - b.distance)[0]?.feature;
+
+      if (!selected) throw new Error(`No ward geometry for ${location}`);
+      geometry = selected.geometry;
+      boundaryName = getWardName(selected);
+      console.log(`${location}: ${getWardName(selected)}${containing ? '' : ' (nearest fallback)'}`);
+    }
 
     output[location] = {
       anchor,
       boundaryLevel: 'ward',
-      boundaryName: getWardName(selected),
-      geometry: selected.geometry,
+      boundaryName,
+      geometry,
       source: 'ONS/OS ward boundary via martinjc/UK-GeoJSON',
     };
-
-    console.log(`${location}: ${getWardName(selected)}${containing ? '' : ' (nearest fallback)'}`);
   }
 
   fs.writeFileSync(OUT_PATH, `${JSON.stringify(output, null, 2)}\n`, 'utf8');

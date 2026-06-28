@@ -1,0 +1,210 @@
+{
+  "Brixton": [
+    "tube",
+    "national-rail"
+  ],
+  "Fulham": [
+    "tube"
+  ],
+  "Tooting": [
+    "tube"
+  ],
+  "Sutton": [
+    "national-rail"
+  ],
+  "New Malden": [
+    "national-rail"
+  ],
+  "Wimbledon": [
+    "tube",
+    "tram",
+    "national-rail"
+  ],
+  "Richmond": [
+    "tube",
+    "overground",
+    "national-rail"
+  ],
+  "Ealing": [
+    "tube",
+    "elizabeth-line",
+    "national-rail"
+  ],
+  "Hounslow": [
+    "tube"
+  ],
+  "Croydon": [
+    "tram",
+    "national-rail"
+  ],
+  "Wimbledon Park": [
+    "tube"
+  ],
+  "High Barnet": [
+    "tube"
+  ],
+  "Sutton Cheam": [
+    "national-rail"
+  ],
+  "Acton Common": [
+    "tube"
+  ],
+  "South Ealing": [
+    "tube"
+  ],
+  "Southfields": [
+    "tube"
+  ],
+  "Clapham": [
+    "tube",
+    "overground",
+    "national-rail"
+  ],
+  "Bethnal Green": [
+    "tube",
+    "overground",
+    "national-rail"
+  ],
+  "Stratford": [
+    "tube",
+    "overground",
+    "elizabeth-line",
+    "dlr",
+    "national-rail"
+  ],
+  "Walthamstow": [
+    "tube",
+    "overground"
+  ],
+  "Peckham": [
+    "overground",
+    "national-rail"
+  ],
+  "Hackney": [
+    "overground",
+    "national-rail"
+  ],
+  "Putney": [
+    "tube",
+    "national-rail"
+  ],
+  "Crystal Palace": [
+    "overground",
+    "national-rail"
+  ],
+  "Chiswick": [
+    "tube",
+    "overground"
+  ],
+  "Hammersmith": [
+    "tube"
+  ],
+  "Islington": [
+    "tube",
+    "overground",
+    "national-rail"
+  ],
+  "Finchley": [
+    "tube"
+  ],
+  "Greenwich": [
+    "dlr",
+    "national-rail"
+  ],
+  "Lewisham": [
+    "dlr",
+    "national-rail"
+  ],
+  "Harringay Green Lanes": [
+    "overground",
+    "national-rail"
+  ],
+  "Manor House": [
+    "tube"
+  ],
+  "Turnpike Lane": [
+    "tube"
+  ],
+  "Hendon": [
+    "tube"
+  ],
+  "Colindale": [
+    "tube"
+  ],
+  "Willesden Green": [
+    "tube"
+  ],
+  "Cricklewood": [
+    "tube",
+    "national-rail"
+  ],
+  "Golders Green": [
+    "tube"
+  ],
+  "Childs Hill": [
+    "tube",
+    "national-rail"
+  ],
+  "Shepherd's Bush": [
+    "tube",
+    "overground",
+    "national-rail"
+  ],
+  "Worcester Park": [
+    "national-rail"
+  ],
+  "Southwark": [
+    "tube",
+    "national-rail"
+  ],
+  "London Bridge": [
+    "tube",
+    "national-rail"
+  ],
+  "North Acton": [
+    "tube",
+    "elizabeth-line",
+    "national-rail"
+  ],
+  "Camden": [
+    "tube",
+    "overground"
+  ],
+  "Bloomsbury": [
+    "tube"
+  ],
+  "Waddon": [
+    "national-rail"
+  ],
+  "Balham": [
+    "tube",
+    "national-rail"
+  ],
+  "South Wimbledon": [
+    "tube",
+    "tram"
+  ],
+  "Goldhawk Road": [
+    "tube",
+    "overground",
+    "national-rail"
+  ],
+  "Stamford Brook": [
+    "tube"
+  ],
+  "Kingston": [
+    "national-rail"
+  ],
+  "Earlsfield": [
+    "national-rail"
+  ],
+  "Berrylands": [
+    "national-rail"
+  ],
+  "Twickenham": [
+    "national-rail"
+  ],
+  "Teddington": [
+    "national-rail"
+  ]
+}
