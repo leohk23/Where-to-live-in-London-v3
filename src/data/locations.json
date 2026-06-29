@@ -383,6 +383,38 @@
     "naptan": "910GCRYSTLP",
     "rent": { "1": 1289, "2": 1614, "3": 1955, "4": 2895 }
   },
+  "Bromley": {
+    "point": { "lat": 51.4, "lon": 0.0173 },
+    "ladCode": "E09000006",
+    "id": "bromley",
+    "displayName": "Bromley",
+    "comparisonName": "Bromley",
+    "anchorStation": "Bromley South Rail Station",
+    "labelScope": "area",
+    "dataConfidence": "medium",
+    "reviewNote": "Bromley town-centre comparison anchor. Rent estimated from outer south-east London comparables.",
+    "borough": "Bromley",
+    "zone": "Zone 5",
+    "station": "Bromley South Rail Station",
+    "naptan": "910GBROMLYS",
+    "rent": { "1": 1450, "2": 1850, "3": 2250, "4": 3000 }
+  },
+  "Orpington": {
+    "point": { "lat": 51.3733, "lon": 0.0891 },
+    "ladCode": "E09000006",
+    "id": "orpington",
+    "displayName": "Orpington",
+    "comparisonName": "Orpington",
+    "anchorStation": "Orpington Rail Station",
+    "labelScope": "area",
+    "dataConfidence": "medium",
+    "reviewNote": "Orpington town-centre comparison anchor. Rent estimated from outer south-east London comparables.",
+    "borough": "Bromley",
+    "zone": "Zone 6",
+    "station": "Orpington Rail Station",
+    "naptan": "910GORPNGTN",
+    "rent": { "1": 1300, "2": 1650, "3": 2050, "4": 2800 }
+  },
   "Chiswick": {
     "point": { "lat": 51.4946, "lon": -0.2678 },
     "ladCode": "E09000018",
@@ -527,6 +559,22 @@
     "naptan": "940GZZLUTPN",
     "rent": { "1": 1600, "2": 2000, "3": 2450, "4": 2950 }
   },
+  "Edmonton": {
+    "point": { "lat": 51.6249, "lon": -0.0611 },
+    "ladCode": "E09000010",
+    "id": "edmonton",
+    "displayName": "Edmonton",
+    "comparisonName": "Edmonton",
+    "anchorStation": "Edmonton Green Rail Station",
+    "labelScope": "area",
+    "dataConfidence": "medium",
+    "reviewNote": "Edmonton area comparison anchor. Rent estimated from north London outer-zone comparables.",
+    "borough": "Enfield",
+    "zone": "Zone 4",
+    "station": "Edmonton Green Rail Station",
+    "naptan": "910GEDMNGRN",
+    "rent": { "1": 1350, "2": 1700, "3": 2100, "4": 2750 }
+  },
   "Hendon": {
     "point": { "lat": 51.5832, "lon": -0.2267 },
     "ladCode": "E09000003",
@@ -606,6 +654,22 @@
     "station": "Golders Green Underground Station",
     "naptan": "940GZZLUGGN",
     "rent": { "1": 1700, "2": 2150, "3": 2750, "4": 3700 }
+  },
+  "North Finchley": {
+    "point": { "lat": 51.6180, "lon": -0.1854 },
+    "ladCode": "E09000003",
+    "id": "north-finchley",
+    "displayName": "North Finchley",
+    "comparisonName": "North Finchley",
+    "anchorStation": "Woodside Park Underground Station",
+    "labelScope": "area",
+    "dataConfidence": "medium",
+    "reviewNote": "North Finchley area comparison anchor, using Woodside Park as nearest Tube station. Rent estimated from Finchley/Barnet comparables.",
+    "borough": "Barnet",
+    "zone": "Zone 4",
+    "station": "Woodside Park Underground Station",
+    "naptan": "940GZZLUWOP",
+    "rent": { "1": 1650, "2": 2100, "3": 2600, "4": 3400 }
   },
   "Childs Hill": {
     "point": { "lat": 51.5680, "lon": -0.2010 },
@@ -750,6 +814,22 @@
     "station": "Waddon Rail Station",
     "naptan": "910GWADDON",
     "rent": { "1": 1200, "2": 1500, "3": 1800, "4": 2450 }
+  },
+  "Wallington": {
+    "point": { "lat": 51.3604, "lon": -0.1508 },
+    "ladCode": "E09000029",
+    "id": "wallington",
+    "displayName": "Wallington",
+    "comparisonName": "Wallington",
+    "anchorStation": "Wallington Rail Station",
+    "labelScope": "area",
+    "dataConfidence": "medium",
+    "reviewNote": "Wallington area comparison anchor. Rent estimated from Sutton/Croydon comparables.",
+    "borough": "Sutton",
+    "zone": "Zone 5",
+    "station": "Wallington Rail Station",
+    "naptan": "910GWALNGTN",
+    "rent": { "1": 1300, "2": 1650, "3": 2050, "4": 2700 }
   },
   "Balham": {
     "point": { "lat": 51.4433, "lon": -0.1527 },

@@ -25,6 +25,13 @@ import type { ScoredResult, SortColumn, NearbySchool, AsianSpot, AsianSpotType }
 import type { WorkLocationKey } from '../work-locations';
 
 type WorkMode = 'preset' | 'address';
+type SchoolListMode = 'outstanding' | 'good' | 'selective';
+
+const SCHOOL_LIST_MODES: Array<{ mode: SchoolListMode; label: string }> = [
+  { mode: 'outstanding', label: 'Outstanding' },
+  { mode: 'good', label: 'Good' },
+  { mode: 'selective', label: 'Selective' },
+];
 
 interface Coordinate {
   lat: number;
@@ -268,6 +275,34 @@ function SchoolPhaseBadge({
   );
 }
 
+// One phase's counts: Outstanding (green) and, where we have nearby data, Good (blue), of total.
+function SchoolCountRow({
+  phase, outstanding, good, total, radius,
+}: {
+  phase: 'Primary' | 'Secondary';
+  outstanding: number | null;
+  good: number | null;
+  total: number | null;
+  radius: string;
+}) {
+  return (
+    <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs text-gray-600 dark:text-gray-300">
+      <SchoolPhaseBadge phase={phase} />
+      <span className="font-medium">{phase}</span>
+      <span className="font-semibold text-emerald-600 dark:text-emerald-400">{outstanding ?? '–'}</span>
+      <span>Outstanding</span>
+      {good !== null && (
+        <>
+          <span className="text-gray-300 dark:text-gray-600">·</span>
+          <span className="font-semibold text-sky-600 dark:text-sky-400">{good}</span>
+          <span>Good</span>
+        </>
+      )}
+      <span className="text-gray-400 dark:text-gray-500">of {total ?? '–'} · {radius}</span>
+    </div>
+  );
+}
+
 function SchoolScopeBadges({
   primaryLabel,
   secondaryLabel,
@@ -297,10 +332,16 @@ function SchoolPreviewList({
   phase,
 }: {
   title: string;
-  schools: NearbySchool[];
+  schools: (NearbySchool & { selective?: boolean })[];
   phase?: 'Primary' | 'Secondary';
 }) {
   const visibleSchools = schools.slice(0, 5);
+
+  const SelectiveBadge = ({ selective }: { selective?: boolean }) => selective ? (
+    <span className="ml-1 inline-flex rounded bg-violet-50 px-1 py-0.5 text-[10px] font-medium leading-none text-violet-700 dark:bg-violet-500/15 dark:text-violet-200">
+      Selective
+    </span>
+  ) : null;
 
   const GenderBadge = ({ gender }: { gender: NearbySchool['genderOfEntry'] }) => {
     if (!gender) return null;
@@ -330,6 +371,7 @@ function SchoolPreviewList({
               className="text-[11px] leading-snug text-gray-500 dark:text-gray-400"
             >
               <span className="font-medium text-gray-700 dark:text-gray-200">{school.name}</span>
+              <SelectiveBadge selective={school.selective} />
               <GenderBadge gender={school.genderOfEntry} />
               <span> - {school.distanceKm}km</span>
             </div>
@@ -449,12 +491,12 @@ function formatCommute(time: number | null, isLive: boolean) {
   return `${time} min${isLive ? ' live' : ''}`;
 }
 
-// The dated slot a live result was modelled for: most recent Monday, 09:00.
+// The dated slot a live result was modelled for: most recent Monday, 08:30.
 function lastMondayLabel(): string {
   const d = new Date();
   d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
   const date = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-  return `Last Monday (${date}), 09:00.`;
+  return `Last Monday (${date}), 08:30.`;
 }
 
 // The tube/rail lines of an itinerary as colour-coded badges, shown beneath its time.
@@ -571,12 +613,46 @@ function LocationDetailPanel({
   const encodedMapQuery = encodeURIComponent(mapQuery);
   const mapSrc = `https://www.google.com/maps?q=${encodedMapQuery}&z=14&output=embed`;
   const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodedMapQuery}`;
-  const nearestPrimarySchools = result.nearestPrimaryOutstandingSchools.slice(0, 5);
-  const nearestSecondarySchools = result.nearestSecondaryOutstandingSchools.slice(0, 5);
-  const nearestGrammarSchools = result.nearestGrammarSchools.slice(0, 5);
-  const hasSchoolDetails = nearestPrimarySchools.length > 0
-    || nearestSecondarySchools.length > 0
+  // Grammar/selective schools are secondaries; in rated lists we only flag overlap,
+  // while the Selective toggle shows the dedicated selective list.
+  const grammarNames = new Set(result.nearestGrammarSchools.map(s => s.name));
+  const nearestPrimaryOutstandingSchools = result.nearestPrimaryOutstandingSchools.slice(0, 5);
+  const nearestPrimaryGoodSchools = result.nearestPrimaryGoodSchools.slice(0, 5);
+  const nearestSecondaryOutstandingSchools = result.nearestSecondaryOutstandingSchools
+    .map(s => ({ ...s, selective: grammarNames.has(s.name) }))
+    .slice(0, 5);
+  const nearestSecondaryGoodSchools = result.nearestSecondaryGoodSchools
+    .map(s => ({ ...s, selective: grammarNames.has(s.name) }))
+    .slice(0, 5);
+  const nearestSelectiveSchools = result.nearestGrammarSchools
+    .map(s => ({ ...s, selective: true }))
+    .slice(0, 5);
+  const [schoolListMode, setSchoolListMode] = useState<SchoolListMode>('outstanding');
+  const schoolListsByMode: Record<SchoolListMode, Array<{
+    title: string;
+    phase: 'Primary' | 'Secondary';
+    schools: (NearbySchool & { selective?: boolean })[];
+  }>> = {
+    outstanding: [
+      { title: 'Primary', phase: 'Primary', schools: nearestPrimaryOutstandingSchools },
+      { title: 'Secondary', phase: 'Secondary', schools: nearestSecondaryOutstandingSchools },
+    ],
+    good: [
+      { title: 'Primary', phase: 'Primary', schools: nearestPrimaryGoodSchools },
+      { title: 'Secondary', phase: 'Secondary', schools: nearestSecondaryGoodSchools },
+    ],
+    selective: [
+      { title: 'Secondary', phase: 'Secondary', schools: nearestSelectiveSchools },
+    ],
+  };
+  const activeSchoolLists = schoolListsByMode[schoolListMode];
+  const hasSchoolDetails = Object.values(schoolListsByMode).some(lists =>
+    lists.some(list => list.schools.length > 0)
+  )
     || result.grammarSchools !== null;
+  const activeSchoolListHeading = schoolListMode === 'selective'
+    ? 'Nearest selective'
+    : `Nearest ${schoolListMode === 'good' ? 'Good' : 'Outstanding'}`;
   const schoolSummary = result.outstandingSchools !== null && result.outstandingSchoolsPct !== null
     ? `${result.outstandingSchools} of ${result.schoolsTotal} Outstanding (${Math.round(result.outstandingSchoolsPct)}%)`
     : 'Unavailable';
@@ -621,7 +697,7 @@ function LocationDetailPanel({
           </span>
         </div>
 
-        <div className="flex min-h-[13rem] flex-col overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900 sm:min-h-[11rem] lg:min-h-[14rem] xl:col-start-1 xl:row-span-2 xl:row-start-1 xl:min-h-full xl:max-h-[26rem] xl:self-stretch">
+        <div className="flex min-h-[13rem] flex-col overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900 sm:min-h-[11rem] lg:min-h-[14rem] xl:col-start-1 xl:row-span-2 xl:row-start-1 xl:min-h-full xl:self-stretch">
           <iframe
             title={`${result.displayName} map`}
             src={mapSrc}
@@ -642,8 +718,9 @@ function LocationDetailPanel({
           </div>
         </div>
 
-        <div className="space-y-3 xl:col-start-2 xl:row-start-2 xl:space-y-4">
-          <div className="grid gap-2.5 sm:grid-cols-[1.25fr_0.8fr_1fr] xl:gap-3">
+        {/* Commute + Cost sit beside the map; the map's bottom aligns to these (it row-spans 1-2). */}
+        <div className="xl:col-start-2 xl:row-start-2">
+          <div className="grid gap-2.5 sm:grid-cols-[1.3fr_1fr] xl:gap-3">
             <div className={detailCardClass}>
               <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
                 <Route className="h-4 w-4" />
@@ -670,7 +747,7 @@ function LocationDetailPanel({
               <p className="mt-1.5 text-[11px] leading-snug text-gray-400 dark:text-gray-500">
                 {result.commuteIsLive || result.commuteTime2IsLive
                   ? lastMondayLabel()
-                  : 'For a typical weekday morning — Monday, 09:00.'}
+                  : 'For a typical weekday morning — Monday, 08:30.'}
               </p>
 
               {/* Group 2: train frequency */}
@@ -731,44 +808,72 @@ function LocationDetailPanel({
               </div>
             </div>
 
-            <div className={detailCardClass}>
-              <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
-                <GraduationCap className="h-4 w-4" />
-                Schools
-              </div>
-              <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{schoolSummary}</div>
-              <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
-                <span className="inline-flex items-center gap-1">
-                  <SchoolPhaseBadge phase="Primary" />
-                  <span>{result.primaryOutstandingSchools}/{result.primarySchools}</span>
-                </span>
-                <span className="inline-flex items-center gap-1">
-                  <SchoolPhaseBadge phase="Secondary" />
-                  <span>{result.secondaryOutstandingSchools}/{result.secondarySchools}</span>
-                </span>
-              </div>
+          </div>
+        </div>
+
+        {/* Schools, spots & geography run full-width below the map, so the map only needs to be
+            as tall as the header + Commute/Cost cards. */}
+        <div className="space-y-3 xl:col-span-2 xl:col-start-1 xl:row-start-3 xl:space-y-4">
+          {/* Schools — counts (Outstanding + Good) merged with the nearest Outstanding lists */}
+          <div className="rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900">
+            <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+              <GraduationCap className="h-4 w-4" />
+              Schools
+              <span
+                className="ml-auto inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium normal-case tracking-normal text-gray-500 dark:bg-gray-800 dark:text-gray-400"
+                title={schoolScope.title}
+              >
+                {schoolScope.shortLabel}
+              </span>
+            </div>
+            <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{schoolSummary}</div>
+            <div className="mt-2 space-y-1">
+              <SchoolCountRow phase="Primary" outstanding={result.primaryOutstandingSchools} good={result.primaryGoodSchools} total={result.primarySchools} radius={schoolScope.primaryLabel} />
+              <SchoolCountRow phase="Secondary" outstanding={result.secondaryOutstandingSchools} good={result.secondaryGoodSchools} total={result.secondarySchools} radius={schoolScope.secondaryLabel} />
               {result.grammarSchools !== null && (
-                <div className="mt-1 flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                <div className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-300">
                   <SchoolPhaseBadge phase="Secondary" />
-                  <span>Grammar/selective: {result.grammarSchools}</span>
+                  <span>Grammar/selective: <strong className="font-semibold">{result.grammarSchools}</strong></span>
                 </div>
               )}
             </div>
-
+            {hasSchoolDetails && (
+              <div className="mt-3 border-t border-gray-100 pt-3 dark:border-gray-800">
+                <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                    {activeSchoolListHeading}
+                  </div>
+                  <div className="inline-flex rounded-md border border-gray-200 bg-gray-50 p-0.5 text-[11px] dark:border-gray-700 dark:bg-gray-800">
+                    {SCHOOL_LIST_MODES.map(({ mode, label }) => (
+                      <button
+                        key={mode}
+                        type="button"
+                        onClick={() => setSchoolListMode(mode)}
+                        aria-pressed={schoolListMode === mode}
+                        className={`rounded px-2 py-1 font-semibold leading-none transition ${
+                          schoolListMode === mode
+                            ? 'bg-white text-gray-900 shadow-sm dark:bg-gray-900 dark:text-gray-100'
+                            : 'text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className={`grid gap-3 ${activeSchoolLists.length > 1 ? 'md:grid-cols-2' : ''}`}>
+                  {activeSchoolLists.map(list => (
+                    <SchoolPreviewList
+                      key={`${schoolListMode}-${list.title}`}
+                      title={list.title}
+                      phase={list.phase}
+                      schools={list.schools}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-
-          {hasSchoolDetails && (
-            <div className="rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900">
-              <div className="mb-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
-                Nearest Outstanding schools
-              </div>
-              <div className="grid gap-3 md:grid-cols-2">
-                <SchoolPreviewList title="Primary" phase="Primary" schools={nearestPrimarySchools} />
-                <SchoolPreviewList title="Secondary" phase="Secondary" schools={nearestSecondarySchools} />
-                <SchoolPreviewList title={`Grammar/selective (${result.grammarSchools ?? 0})`} phase="Secondary" schools={nearestGrammarSchools} />
-              </div>
-            </div>
-          )}
 
           {spots.length > 0 && (
             <div className="rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900">
@@ -851,23 +956,46 @@ export default function ResultsTable({
   const [hasHorizontalOverflow, setHasHorizontalOverflow] = useState<boolean>(true);
   const [expandedLocation, setExpandedLocation] = useState<string | null>(null);
   const rowRefs = useRef<Record<string, HTMLTableRowElement | null>>({});
+  const pendingExpandedScrollRef = useRef<string | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
   // Height of the sticky title; the sticky column headers dock directly beneath it.
   const [titleHeight, setTitleHeight] = useState(48);
+  const [headerHeight, setHeaderHeight] = useState(64);
   // At xl the column-label header leaves the vertical scroller and becomes a
   // synced floating header above it, so the scrollbar starts below the labels.
   const headerScrollRef = useRef<HTMLDivElement>(null);
   const headerTableRef = useRef<HTMLTableElement>(null);
   const [isXl, setIsXl] = useState(false);
-  // Column-header row height; an expanded row sticks just beneath it.
-  const [theadHeight, setTheadHeight] = useState(0);
-  // Firefox doesn't release a sticky <tr> at its <tbody> edge, so we drop the sticky
-  // ourselves once the expanded section has scrolled above the header.
-  const detailRowRef = useRef<HTMLTableRowElement | null>(null);
-  const [stickyReleased, setStickyReleased] = useState(false);
   const partnerDestination = getDestinationLabel(workMode2, workLocation2, officePostcode2, '');
   const hasPartnerDestination = Boolean(partnerDestination);
   const detailColSpan = 10;
+
+  const stickyRowTop = useCallback(() => {
+    const title = titleRef.current;
+    const titleTop = title ? Number.parseFloat(getComputedStyle(title).top) : 0;
+    const safeTitleTop = Number.isFinite(titleTop) ? titleTop : 0;
+    const safeTitleHeight = title?.getBoundingClientRect().height ?? titleHeight;
+    return safeTitleTop + safeTitleHeight + headerHeight;
+  }, [headerHeight, titleHeight]);
+
+  const scrollLocationRowToStart = useCallback((location: string) => {
+    const row = rowRefs.current[location];
+    if (!row) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const behavior: ScrollBehavior = reduceMotion ? 'auto' : 'smooth';
+    const topPadding = 8;
+    const targetTop = window.scrollY + row.getBoundingClientRect().top - stickyRowTop() - topPadding;
+    window.scrollTo({ top: Math.max(0, targetTop), behavior });
+  }, [stickyRowTop]);
+
+  const toggleExpandedLocation = useCallback((location: string) => {
+    setExpandedLocation(current => {
+      const next = current === location ? null : location;
+      pendingExpandedScrollRef.current = next;
+      return next;
+    });
+  }, []);
 
   const updateTableChrome = useCallback(() => {
     const el = scrollRef.current;
@@ -884,8 +1012,9 @@ export default function ResultsTable({
     setHasHorizontalOverflow(hasHorizontalOverflow);
     setCanScrollRight(hasHorizontalOverflow && hasMoreToRight);
     setTitleHeight(titleRef.current?.getBoundingClientRect().height ?? 48);
-    // 0 at xl (the in-table thead is hidden there; the floating header sits outside the scroller).
-    setTheadHeight(tableRef.current?.querySelector('thead')?.getBoundingClientRect().height ?? 0);
+    const xl = window.matchMedia('(min-width: 1280px)').matches;
+    const header = xl ? headerScrollRef.current : tableRef.current?.querySelector('thead');
+    setHeaderHeight(header?.getBoundingClientRect().height ?? 64);
   }, []);
 
   // Keep the floating header's horizontal position locked to the body scroller (cheap, runs on scroll).
@@ -958,32 +1087,6 @@ export default function ResultsTable({
     return () => mq.removeEventListener('change', update);
   }, []);
 
-  // Release the expanded row's stickiness once its detail has scrolled above the header.
-  useEffect(() => {
-    if (!expandedLocation) { setStickyReleased(false); return undefined; }
-    const update = () => {
-      const detail = detailRowRef.current;
-      if (!detail) return;
-      const xl = window.matchMedia('(min-width: 1280px)').matches;
-      // Where the sticky row docks: top of the internal scroller (xl) or below the
-      // sticky column-header row (below xl).
-      const headerBottom = xl
-        ? (scrollRef.current?.getBoundingClientRect().top ?? 0)
-        : (tableRef.current?.querySelector('thead')?.getBoundingClientRect().bottom ?? 0);
-      setStickyReleased(detail.getBoundingClientRect().bottom <= headerBottom + 1);
-    };
-    update();
-    const sc = scrollRef.current;
-    sc?.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    return () => {
-      sc?.removeEventListener('scroll', update);
-      window.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-    };
-  }, [expandedLocation]);
-
   useEffect(() => {
     const recompute = () => { updateTableChrome(); syncHeaderWidths(); };
     recompute();
@@ -991,6 +1094,8 @@ export default function ResultsTable({
     const scrollEl = scrollRef.current;
     const tableEl = tableRef.current;
     const titleEl = titleRef.current;
+    const headerScrollEl = headerScrollRef.current;
+    const headerTableEl = headerTableRef.current;
     const resizeObserver = typeof ResizeObserver === 'undefined'
       ? null
       : new ResizeObserver(recompute);
@@ -998,6 +1103,8 @@ export default function ResultsTable({
     if (scrollEl) resizeObserver?.observe(scrollEl);
     if (tableEl) resizeObserver?.observe(tableEl);
     if (titleEl) resizeObserver?.observe(titleEl);
+    if (headerScrollEl) resizeObserver?.observe(headerScrollEl);
+    if (headerTableEl) resizeObserver?.observe(headerTableEl);
     window.addEventListener('resize', recompute);
 
     return () => {
@@ -1009,16 +1116,32 @@ export default function ResultsTable({
     // fixed-layout table can't grow to reveal overflow on its own.
   }, [anyPriority, budgetEnabled, expandedLocation, hasPartnerDestination, isXl, sortedResults, sortBy, sortDirection, updateTableChrome, syncHeaderWidths]);
 
-  // Map clicks ask the table to expand and scroll to the picked location.
+  // Map clicks scroll the page to the picked row (highlighted, but not expanded).
   useEffect(() => {
     if (!focusRequest) return;
-    setExpandedLocation(focusRequest.location);
-    // Wait a frame so the expanded detail row exists before measuring scroll position.
     const frame = requestAnimationFrame(() => {
       rowRefs.current[focusRequest.location]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
     return () => cancelAnimationFrame(frame);
   }, [focusRequest]);
+
+  useEffect(() => {
+    const location = pendingExpandedScrollRef.current;
+    if (!expandedLocation || location !== expandedLocation) return undefined;
+
+    let settleFrame: number | null = null;
+    const renderFrame = requestAnimationFrame(() => {
+      settleFrame = requestAnimationFrame(() => {
+        scrollLocationRowToStart(location);
+        pendingExpandedScrollRef.current = null;
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(renderFrame);
+      if (settleFrame !== null) cancelAnimationFrame(settleFrame);
+    };
+  }, [expandedLocation, scrollLocationRowToStart]);
 
   const handleScroll = () => {
     syncHeaderScroll();
@@ -1084,46 +1207,13 @@ export default function ResultsTable({
           <div className={headerBadgeRowClass()}>
             <HeaderLevelBadge
               label={workMode === 'address' || workMode2 === 'address' ? 'Station/live' : 'Station'}
-              title="Home station to selected work station or live workplace address. Modelled for a typical weekday morning — Monday, 09:00."
+              title="Home station to selected work station or live workplace address. Modelled for a typical weekday morning — Monday, 08:30."
               tone="station"
             />
           </div>
           {hasPartnerDestination && (
             <div className="text-xs font-normal text-gray-400 dark:text-gray-500">you / partner</div>
           )}
-        </div>
-      </th>
-      <th
-        onClick={() => onSort('crime')}
-        className={thClass('crime', 'text-center')}
-        title="Borough crime rate per 1,000 residents (2024/25, Met Police). Lower is safer. London avg: 106/k."
-      >
-        <div className={headerStackClass()}>
-          <div className={headerTitleClass()}>Crime<SortIcon col="crime" /></div>
-          <div className={headerBadgeRowClass()}>
-            <HeaderLevelBadge
-              label="Borough"
-              title="Crime is currently measured at borough level."
-              tone="borough"
-            />
-          </div>
-        </div>
-      </th>
-      <th
-        onClick={() => onSort('schools')}
-        className={thClass('schools', 'text-center')}
-        title="% of nearby state primary and secondary schools rated Outstanding by Ofsted (Apr 2026). Higher is better."
-      >
-        <div className={headerStackClass()}>
-          <div className={headerTitleClass()}>Schools<SortIcon col="schools" /></div>
-          <div className={headerBadgeRowClass()}>
-            <div
-              className="inline-flex h-5 items-center rounded bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-200"
-              title="Primary schools use a 3km radius; secondary and grammar/selective schools use a 5km radius around the location anchor."
-            >
-              <SchoolScopeBadges primaryLabel="3km" secondaryLabel="5km" />
-            </div>
-          </div>
         </div>
       </th>
       <th onClick={() => onSort('rent')} className={thNarrowClass('rent')}>
@@ -1180,6 +1270,39 @@ export default function ResultsTable({
           </div>
         </div>
       </th>
+      <th
+        onClick={() => onSort('crime')}
+        className={thClass('crime', 'text-center')}
+        title="Borough crime rate per 1,000 residents (2024/25, Met Police). Lower is safer. London avg: 106/k."
+      >
+        <div className={headerStackClass()}>
+          <div className={headerTitleClass()}>Crime<SortIcon col="crime" /></div>
+          <div className={headerBadgeRowClass()}>
+            <HeaderLevelBadge
+              label="Borough"
+              title="Crime is currently measured at borough level."
+              tone="borough"
+            />
+          </div>
+        </div>
+      </th>
+      <th
+        onClick={() => onSort('schools')}
+        className={thClass('schools', 'text-center')}
+        title="% of nearby state primary and secondary schools rated Outstanding by Ofsted (Apr 2026). Higher is better."
+      >
+        <div className={headerStackClass()}>
+          <div className={headerTitleClass()}>Schools<SortIcon col="schools" /></div>
+          <div className={headerBadgeRowClass()}>
+            <div
+              className="inline-flex h-5 items-center rounded bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-200"
+              title="Primary schools use a 3km radius; secondary and grammar/selective schools use a 5km radius around the location anchor."
+            >
+              <SchoolScopeBadges primaryLabel="3km" secondaryLabel="5km" />
+            </div>
+          </div>
+        </div>
+      </th>
       <th onClick={() => onSort('asianSpots')} className={thNarrowClass('asianSpots')}>
         <div className={headerStackClass()}>
           <div className={headerTitleClass()}>Lifelines<SortIcon col="asianSpots" /></div>
@@ -1199,6 +1322,7 @@ export default function ResultsTable({
       style={{
         '--results-title-h': `${titleHeight}px`,
         '--results-header-top': `calc(var(--app-header-h, 0px) + ${titleHeight}px)`,
+        '--expanded-row-top': `calc(var(--app-header-h, 0px) + ${titleHeight + headerHeight}px)`,
       } as React.CSSProperties}
     >
       {hasHorizontalOverflow && (
@@ -1208,14 +1332,13 @@ export default function ResultsTable({
         </div>
       )}
 
-      {/* overflow-clip keeps the rounded-corner clipping without creating a scroll container,
-          so the sticky title/header stick to the page below xl. On xl the card is a tall
-          fixed-height internal scroller: the title sticks to the card top and the column
-          headers dock right beneath it (via the title-height var override). */}
-      <div className="rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900 overflow-clip xl:flex xl:flex-col xl:h-[calc(100vh-var(--app-header-h,3rem)-2.5rem)]">
+      {/* The whole page scrolls (no internal table scroller): the card grows to show every
+          row, and the title + column headers stick to the page top as you scroll.
+          overflow-clip keeps the rounded-corner clipping without creating a scroll container. */}
+      <div className="rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900 overflow-clip xl:flex xl:flex-col">
         <div
           ref={titleRef}
-          className="sticky top-[var(--app-header-h,0px)] z-40 border-b border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900 sm:p-4 xl:static xl:shrink-0"
+          className="sticky top-[var(--app-header-h,0px)] z-40 border-b border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900 sm:p-4 xl:shrink-0"
         >
           <div className="flex items-center gap-3 flex-wrap">
             <h2 className="text-lg font-semibold flex items-center">
@@ -1236,14 +1359,14 @@ export default function ResultsTable({
             </span>
           </div>
         </div>
-        <div className="relative xl:flex xl:flex-col xl:flex-1 xl:min-h-0">
+        <div className="relative xl:flex xl:flex-col">
           {/* xl floating header: the column labels live here (outside the vertical
               scroller) so the scrollbar starts strictly below them. Width-synced to the
               body columns and horizontally scroll-synced via syncHeader*. */}
           {isXl && (
             <div
               ref={headerScrollRef}
-              className="shrink-0 overflow-hidden [scrollbar-gutter:stable] [--results-header-top:0px]"
+              className="shrink-0 overflow-hidden bg-gray-50 dark:bg-gray-700 [scrollbar-gutter:stable] xl:sticky xl:top-[var(--results-header-top)] xl:z-30"
             >
               <table
                 ref={headerTableRef}
@@ -1260,8 +1383,13 @@ export default function ResultsTable({
             // At xl this is the vertical scroller; the floating header sits above it, so
             // the scrollbar starts below the labels. Below xl it only scrolls
             // horizontally when the table overflows.
-            className={`xl:flex-1 xl:min-h-0 xl:overflow-y-auto xl:[scrollbar-gutter:stable] xl:[--results-header-top:0px]${hasHorizontalOverflow ? ' overflow-x-auto overscroll-x-contain' : ''}`}
-            style={hasHorizontalOverflow ? ({ '--results-header-top': '0px' } as React.CSSProperties) : undefined}
+            className={hasHorizontalOverflow ? 'overflow-x-auto overscroll-x-contain' : undefined}
+            style={hasHorizontalOverflow
+              ? ({
+                '--results-header-top': '0px',
+                '--expanded-row-top': isXl ? '0px' : `${headerHeight}px`,
+              } as React.CSSProperties)
+              : undefined}
             ref={scrollRef}
             onScroll={handleScroll}
           >
@@ -1294,17 +1422,17 @@ export default function ResultsTable({
                         onClick={onLocationSelect ? () => onLocationSelect(result.location) : undefined}
                         onMouseEnter={() => onLocationHover?.(result.location)}
                         onMouseLeave={() => onLocationHover?.(null)}
-                        // While a row is expanded, it sticks just under the header so you can
-                        // see which location you're reading. Scoped to its own <tbody> (with the
-                        // detail row) so it releases once you scroll past its details.
-                        style={isExpanded && !stickyReleased ? { top: `calc(var(--results-header-top) + ${theadHeight}px)` } : undefined}
                         className={`border-b dark:border-gray-700 ${
+                          isExpanded
+                            ? '[&>td]:sticky [&>td]:top-[var(--expanded-row-top)] [&>td]:z-[19] [&>td]:bg-white [&>td]:shadow-[0_3px_6px_-3px_rgba(0,0,0,0.25)] dark:[&>td]:bg-gray-900'
+                            : ''
+                        } ${
                           overBudget
                             ? 'opacity-35 bg-gray-50 dark:bg-gray-800'
                             : `group ${onLocationSelect ? 'cursor-pointer' : ''}`
-                        } ${isExpanded && !stickyReleased ? 'sticky z-[15] bg-white shadow-[0_3px_6px_-3px_rgba(0,0,0,0.25)] dark:bg-gray-900' : ''}`}
+                        }`}
                       >
-                      <td className={`sticky left-0 z-10 py-2 px-1.5 text-center whitespace-nowrap min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${
+                      <td className={`sticky left-0 z-10 py-2 px-1.5 text-center whitespace-nowrap min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${isExpanded ? '!z-[19]' : ''} ${
                         overBudget
                           ? 'bg-gray-50 dark:bg-gray-800'
                           : 'bg-white dark:bg-gray-900'
@@ -1337,7 +1465,7 @@ export default function ResultsTable({
                         )}
                       </td>
 
-                      <td className={`sticky left-[44px] z-10 max-w-[40vw] px-2 py-2 align-middle shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:left-[56px] lg:max-w-none lg:whitespace-nowrap lg:px-3 lg:py-3 ${
+                      <td className={`sticky left-[44px] z-10 max-w-[40vw] px-2 py-2 align-middle shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:left-[56px] lg:max-w-none lg:whitespace-nowrap lg:px-3 lg:py-3 ${isExpanded ? '!z-[19]' : ''} ${
                         overBudget
                           ? 'bg-gray-50 dark:bg-gray-800'
                           : 'bg-white dark:bg-gray-900'
@@ -1345,9 +1473,7 @@ export default function ResultsTable({
                         <div className="flex items-center gap-2">
                           <button
                             type="button"
-                            onClick={() => setExpandedLocation(current => (
-                              current === result.location ? null : result.location
-                            ))}
+                            onClick={() => toggleExpandedLocation(result.location)}
                             className="inline-flex items-start gap-1 text-left text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-100 dark:hover:text-blue-300 lg:items-center lg:gap-1.5 lg:text-base"
                             aria-expanded={isExpanded}
                             aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${result.displayName} details`}
@@ -1408,6 +1534,16 @@ export default function ResultsTable({
                         )}
                       </td>
 
+                      <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.rent.toLocaleString()}</td>
+                      <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.transportCostMonthly.toFixed(0)}</td>
+                      <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.councilTaxMonthly.toFixed(0)}</td>
+                      <td className={`whitespace-nowrap bg-blue-50 px-1.5 py-2 text-center text-sm font-bold dark:bg-gray-800 lg:px-3 lg:py-3 lg:text-base ${
+                        overBudget
+                          ? 'text-red-400'
+                          : 'text-blue-900 dark:text-blue-300'
+                      } ${hoverCellClass}`}>
+                        &pound;{Math.round(result.totalMonthly).toLocaleString()}
+                      </td>
                       <td className={`whitespace-nowrap px-1 py-2 text-center lg:px-3 lg:py-3 ${hoverCellClass}`}>
                         {result.crimeRate !== null ? (
                           <span
@@ -1430,16 +1566,6 @@ export default function ResultsTable({
                         ) : <span className="text-xs text-gray-400 lg:text-sm">?</span>}
                       </td>
 
-                      <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.rent.toLocaleString()}</td>
-                      <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.transportCostMonthly.toFixed(0)}</td>
-                      <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.councilTaxMonthly.toFixed(0)}</td>
-                      <td className={`whitespace-nowrap bg-blue-50 px-1.5 py-2 text-center text-sm font-bold dark:bg-gray-800 lg:px-3 lg:py-3 lg:text-base ${
-                        overBudget
-                          ? 'text-red-400'
-                          : 'text-blue-900 dark:text-blue-300'
-                      } ${hoverCellClass}`}>
-                        &pound;{Math.round(result.totalMonthly).toLocaleString()}
-                      </td>
                       <td className={`px-1.5 py-2 text-center align-middle lg:px-3 lg:py-3 ${hoverCellClass}`}>
                         {(asianSpots[result.location]?.length ?? 0) > 0
                           ? <SpotIcons spots={asianSpots[result.location]} className="mx-auto max-w-[4rem] justify-center text-[11px]" />
@@ -1447,7 +1573,7 @@ export default function ResultsTable({
                       </td>
                       </tr>
                       {isExpanded && (
-                        <tr ref={detailRowRef} className="border-b dark:border-gray-700">
+                        <tr className="border-b dark:border-gray-700">
                           <td colSpan={detailColSpan} className="p-0">
                             <div style={{ position: 'sticky', left: 0, width: containerWidth || undefined }}>
                               <LocationDetailPanel

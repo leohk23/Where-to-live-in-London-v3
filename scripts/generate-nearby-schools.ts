@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import locationsJson from '../src/data/locations.json' with { type: 'json' };
+import { PRIMARY_SCHOOL_RADIUS_KM, SECONDARY_SCHOOL_RADIUS_KM } from '../src/lib/constants';
 
 type Phase = 'Primary' | 'Secondary';
 type GenderOfEntry = 'Girls' | 'Boys';
@@ -32,57 +33,16 @@ interface School extends Coordinates {
   urn: string;
   name: string;
   phase: Phase;
-  localAuthority: string;
-  postcode: string;
   outstanding: boolean;
+  good: boolean;
   grammar: boolean;
   genderOfEntry?: GenderOfEntry;
 }
 
-interface LocationSchoolStats {
-  displayName: string;
-  anchorStation: string;
-  radiusKm: number;
-  primaryRadiusKm: number;
-  secondaryRadiusKm: number;
-  primaryOutstandingSchools: number;
-  primarySchools: number;
-  secondaryOutstandingSchools: number;
-  secondarySchools: number;
-  grammarSchools: number;
-  nearestOutstandingSchools: Array<{
-    name: string;
-    phase: Phase;
-    distanceKm: number;
-    genderOfEntry?: GenderOfEntry;
-  }>;
-  nearestPrimaryOutstandingSchools: Array<{
-    name: string;
-    phase: Phase;
-    distanceKm: number;
-    genderOfEntry?: GenderOfEntry;
-  }>;
-  nearestSecondaryOutstandingSchools: Array<{
-    name: string;
-    phase: Phase;
-    distanceKm: number;
-    genderOfEntry?: GenderOfEntry;
-  }>;
-  nearestGrammarSchools: Array<{
-    name: string;
-    phase: Phase;
-    distanceKm: number;
-    genderOfEntry?: GenderOfEntry;
-  }>;
-}
-
 const OFSTED_CSV = path.resolve(process.cwd(), 'ofsted-latest-inspections-apr-2026.csv');
 const OFSTED_URL = 'https://assets.publishing.service.gov.uk/media/6a06d8adee62840dba48a304/Management_information_-_state-funded_schools_-_latest_inspections_as_at_30_Apr_2026.csv';
-const OUT_PATH = path.resolve(process.cwd(), 'src/data/location-schools.json');
+const OUT_PATH = path.resolve(process.cwd(), 'src/data/schools.json');
 const MAX_CACHED_CSV_BYTES = 50 * 1024 * 1024;
-const PRIMARY_RADIUS_KM = 3;
-const SECONDARY_RADIUS_KM = 5;
-const NEAREST_OUTSTANDING_LIMIT = 5;
 const POSTCODE_COORDS_CSV = path.resolve(process.cwd(), 'scripts/school-postcode-coords.csv');
 
 function parseCsv(content: string): Record<string, string>[] {
@@ -198,31 +158,6 @@ function inferGenderOfEntry(name: string): GenderOfEntry | undefined {
   return undefined;
 }
 
-function toNearbySchools(
-  items: Array<{ school: School; distanceKm: number }>,
-  limit = NEAREST_OUTSTANDING_LIMIT,
-) {
-  return items
-    .sort((a, b) => a.distanceKm - b.distanceKm)
-    .slice(0, limit)
-    .map(item => ({
-      name: item.school.name,
-      phase: item.school.phase,
-      distanceKm: Math.round(item.distanceKm * 10) / 10,
-      genderOfEntry: item.school.genderOfEntry,
-    }));
-}
-
-function nearestOutstandingSchools(
-  items: Array<{ school: School; distanceKm: number }>,
-  limit = NEAREST_OUTSTANDING_LIMIT,
-) {
-  return toNearbySchools(
-    items.filter(item => item.school.outstanding),
-    limit,
-  );
-}
-
 async function main() {
   const rows = parseCsv(await loadOfstedCsv()) as unknown as OfstedRow[];
   const schoolRows = rows.filter(row =>
@@ -238,9 +173,8 @@ async function main() {
       urn: row.URN,
       name: row['School name'],
       phase: row['Ofsted phase'] as Phase,
-      localAuthority: row['Local authority'],
-      postcode: row.Postcode,
       outstanding: row['Latest OEIF overall effectiveness'] === '1',
+      good: row['Latest OEIF overall effectiveness'] === '2',
       grammar: row['Admissions policy'].trim().toLowerCase() === 'selective',
       genderOfEntry: inferGenderOfEntry(row['School name']),
       ...point,
@@ -248,47 +182,27 @@ async function main() {
   });
 
   const locations = locationsJson as Record<string, LocationInfo>;
-  const output: Record<string, LocationSchoolStats> = {};
-
-  for (const [locationKey, location] of Object.entries(locations)) {
-    // Anchor on the canonical registry point (single source of truth), not a live TfL lookup.
-    const anchor: Coordinates = { lat: location.point.lat, lon: location.point.lon };
-    const schoolDistances = schools
-      .map(school => ({ school, distanceKm: distanceKm(anchor, school) }));
-    const primary = schoolDistances.filter(item =>
-      item.school.phase === 'Primary' && item.distanceKm <= PRIMARY_RADIUS_KM
-    );
-    const secondary = schoolDistances.filter(item =>
-      item.school.phase === 'Secondary' && item.distanceKm <= SECONDARY_RADIUS_KM
-    );
-    const nearby = [...primary, ...secondary];
-    const grammar = secondary.filter(item => item.school.grammar);
-    const nearestOutstanding = nearestOutstandingSchools(nearby);
-    const nearestPrimaryOutstanding = nearestOutstandingSchools(primary);
-    const nearestSecondaryOutstanding = nearestOutstandingSchools(secondary);
-    const nearestGrammar = toNearbySchools(grammar);
-
-    output[locationKey] = {
-      displayName: location.displayName,
-      anchorStation: location.station,
-      radiusKm: SECONDARY_RADIUS_KM,
-      primaryRadiusKm: PRIMARY_RADIUS_KM,
-      secondaryRadiusKm: SECONDARY_RADIUS_KM,
-      primaryOutstandingSchools: primary.filter(item => item.school.outstanding).length,
-      primarySchools: primary.length,
-      secondaryOutstandingSchools: secondary.filter(item => item.school.outstanding).length,
-      secondarySchools: secondary.length,
-      grammarSchools: grammar.length,
-      nearestOutstandingSchools: nearestOutstanding,
-      nearestPrimaryOutstandingSchools: nearestPrimaryOutstanding,
-      nearestSecondaryOutstandingSchools: nearestSecondaryOutstanding,
-      nearestGrammarSchools: nearestGrammar,
-    };
-    console.log(`${location.displayName}: ${primary.length} primary within ${PRIMARY_RADIUS_KM}km, ${secondary.length} secondary, ${grammar.length} grammar/selective within ${SECONDARY_RADIUS_KM}km`);
-  }
+  const locationEntries = Object.entries(locations);
+  const output = schools
+    .filter(school => locationEntries.some(([, location]) => {
+      const radiusKm = school.phase === 'Primary' ? PRIMARY_SCHOOL_RADIUS_KM : SECONDARY_SCHOOL_RADIUS_KM;
+      return distanceKm(location.point, school) <= radiusKm;
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name) || a.urn.localeCompare(b.urn))
+    .map(school => ({
+      urn: school.urn,
+      name: school.name,
+      phase: school.phase,
+      lat: Math.round(school.lat * 1_000_000) / 1_000_000,
+      lon: Math.round(school.lon * 1_000_000) / 1_000_000,
+      outstanding: school.outstanding,
+      good: school.good,
+      grammar: school.grammar,
+      ...(school.genderOfEntry ? { genderOfEntry: school.genderOfEntry } : {}),
+    }));
 
   fs.writeFileSync(OUT_PATH, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
-  console.log(`Wrote ${OUT_PATH} from ${schools.length}/${schoolRows.length} primary/secondary schools with geocoded postcodes`);
+  console.log(`Wrote ${OUT_PATH} with ${output.length} schools near ${locationEntries.length} canonical locations (${schools.length}/${schoolRows.length} geocoded primary/secondary schools scanned)`);
 }
 
 main().catch(error => {

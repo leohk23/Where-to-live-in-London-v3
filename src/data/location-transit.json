@@ -92,6 +92,12 @@
     "overground",
     "national-rail"
   ],
+  "Bromley": [
+    "national-rail"
+  ],
+  "Orpington": [
+    "national-rail"
+  ],
   "Chiswick": [
     "tube",
     "overground"
@@ -125,6 +131,10 @@
   "Turnpike Lane": [
     "tube"
   ],
+  "Edmonton": [
+    "overground",
+    "national-rail"
+  ],
   "Hendon": [
     "tube"
   ],
@@ -139,6 +149,9 @@
     "national-rail"
   ],
   "Golders Green": [
+    "tube"
+  ],
+  "North Finchley": [
     "tube"
   ],
   "Childs Hill": [
@@ -174,6 +187,9 @@
     "tube"
   ],
   "Waddon": [
+    "national-rail"
+  ],
+  "Wallington": [
     "national-rail"
   ],
   "Balham": [

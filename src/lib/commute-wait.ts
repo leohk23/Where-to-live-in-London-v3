@@ -29,7 +29,9 @@ function lineToMode(line: string): Mode {
 }
 
 function headwayForMode(location: string, mode: Mode): number {
-  if (mode === 'national-rail') return trainInterval[location]?.peak ?? MODE_PEAK_HEADWAY['national-rail'];
+  const explicit = trainInterval[location]?.peak;
+  if ((mode === 'national-rail' || mode === 'overground') && explicit != null) return explicit;
+  if (mode === 'national-rail') return MODE_PEAK_HEADWAY['national-rail'];
   return MODE_PEAK_HEADWAY[mode];
 }
 

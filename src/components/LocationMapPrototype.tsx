@@ -741,7 +741,12 @@ export default function LocationMapPrototype({
       gesture = null;
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mouseup', onUp);
-      if (moved) frame.addEventListener('click', swallowClick, { capture: true, once: true });
+      // Swallow ONLY the synthetic click the just-ended drag fires; if none arrives almost
+      // immediately, drop the listener so a later, deliberate ward click still registers.
+      if (moved) {
+        frame.addEventListener('click', swallowClick, { capture: true, once: true });
+        window.setTimeout(() => frame.removeEventListener('click', swallowClick, true), 300);
+      }
     };
     const onMouseDown = (event: MouseEvent) => {
       if (event.button !== 0) return;
@@ -968,7 +973,7 @@ export default function LocationMapPrototype({
       </div>
 
       <div className="mt-2 space-y-1 text-[11px] text-gray-400 dark:text-gray-500">
-        {/* Slider-dependent status on its own fixed-height line so toggling sliders never reflows the map. */}
+        {/* Variable legends share one fixed-height line so toggling scores, budget, or work pins never reflows the map. */}
         <div className="flex h-4 items-center gap-x-3 overflow-hidden whitespace-nowrap">
           {scoresActive ? (
             <span className="flex items-center gap-2">
@@ -989,6 +994,15 @@ export default function LocationMapPrototype({
               <span>Top 5 matches from the table highlighted</span>
             </span>
           )}
+          {officeMarkers.map(marker => (
+            <span key={marker.tone} className="flex shrink-0 items-center gap-1.5">
+              <Briefcase
+                className="h-3 w-3 shrink-0"
+                style={{ color: marker.tone === 'partner' ? '#6366f1' : '#e11d48' }}
+              />
+              <span>{marker.label}</span>
+            </span>
+          ))}
           {budgetEnabled && (
             <span className="flex items-center gap-1.5">
               <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-sm border border-slate-400 bg-slate-400/30" />
@@ -996,19 +1010,6 @@ export default function LocationMapPrototype({
             </span>
           )}
         </div>
-        {officeMarkers.length > 0 && (
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            {officeMarkers.map(marker => (
-              <span key={marker.tone} className="flex items-center gap-1.5">
-                <Briefcase
-                  className="h-3 w-3 shrink-0"
-                  style={{ color: marker.tone === 'partner' ? '#6366f1' : '#e11d48' }}
-                />
-                <span>{marker.label}</span>
-              </span>
-            ))}
-          </div>
-        )}
         <span className="block">Hover a row to highlight; click to zoom to a ward (click again to reset); scroll to zoom.</span>
       </div>
       </>

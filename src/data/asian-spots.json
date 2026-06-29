@@ -4630,5 +4630,11 @@
     "type": "grocery",
     "lat": 51.5099882,
     "lon": -0.2864643
+  },
+  {
+    "name": "Little Nyonya",
+    "type": "hk",
+    "lat": 51.3659565,
+    "lon": -0.1807365
   }
 ]

@@ -7,8 +7,6 @@ import { workLocations } from "../src/work-locations";
 import type { CommuteTimes, CommuteRoutes } from "../src/commute-times";
 import { summariseRoute, type TflJourney } from "../src/lib/tfl-route";
 
-type Minutes = number;
-
 interface StopPointSearchMatch {
   id?: string;
   icsId?: string;
@@ -250,7 +248,7 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<{
   const url = `${BASE}/Journey/JourneyResults/${encodeURIComponent(fromId)}/to/${encodeURIComponent(toId)}?` + qs({
     mode: modes.join(","),
     timeIs: "Departing",
-    date: getLastMonday(), time: "0900", // pin to 09:00 last Mon for consistent peak-hour results
+    date: getLastMonday(), time: "0830", // pin to 08:30 last Mon for consistent peak-hour results
   });
 
   for (let attempt = 1; attempt <= 4; attempt++) {

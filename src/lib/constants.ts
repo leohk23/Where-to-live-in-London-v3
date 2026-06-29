@@ -7,6 +7,9 @@ export const FARE_FALLBACK = 6.0;
 
 // Walk radius for counting nearby Hongkongese/East Asian spots around an anchor.
 export const ASIAN_RADIUS_KM = 1.75;
+export const PRIMARY_SCHOOL_RADIUS_KM = 3;
+export const SECONDARY_SCHOOL_RADIUS_KM = 5;
+export const NEAREST_SCHOOL_LIMIT = 5;
 
 export const CRIME_THRESHOLDS = { low: 90, medium: 120, high: 150 } as const;
 export const SCHOOL_THRESHOLDS = { high: 20, medium: 10 } as const;

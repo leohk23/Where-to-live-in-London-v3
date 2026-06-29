@@ -14,7 +14,7 @@ import type { BedroomCount, Result, ScoredResult, Priorities, SortColumn } from 
 type WorkMode = 'preset' | 'address';
 type CommuteSource = 'static' | 'live';
 const ADDRESS_WORK_ZONE = 'Zone 1';
-const LIVE_COMMUTE_CACHE_VERSION = 'v4'; // v4 adds route summaries to the cached blob
+const LIVE_COMMUTE_CACHE_VERSION = 'v5'; // v5 pins live commute requests to 08:30
 const PRIORITY_MAX = 5;
 
 function readUrlParams() {
@@ -65,7 +65,7 @@ function presetCoordsStr(loc: WorkLocationKey | ''): { lat: string; lon: string 
   return wl ? { lat: String(wl.coords.lat), lon: String(wl.coords.lon) } : null;
 }
 
-// Pin journeys to the most recent Monday at 09:00 — a representative weekday-morning peak.
+// Pin journeys to the most recent Monday at 08:30 - a representative weekday-morning peak.
 function getLastMonday(): string {
   const d = new Date();
   const daysSinceMonday = (d.getDay() + 6) % 7; // 0 if Monday, else days back to the last Monday
@@ -239,7 +239,7 @@ async function doFetchLiveCommutes(params: {
     mode: 'tube,overground,elizabeth-line,dlr,tram,national-rail',
     timeIs: 'Departing',
     date,
-    time: '0900',
+    time: '0830',
   }).toString();
   const resolvedDestination = await resolveTflDestination(destination, entries, qs);
 
@@ -424,8 +424,10 @@ export function useCalculator() {
         commuteRoute2: workMode2 === 'preset' && commuteSource2 === 'static' && workLocation2 ? getCommuteRoute(location, workLocation2) : null,
         crimeRate:    stats?.crimesPer1000 ?? null,
         primaryOutstandingSchools: schools?.primaryOutstandingSchools ?? null,
+        primaryGoodSchools: schoolsSource === 'nearby' ? nearbySchools.primaryGoodSchools ?? null : null,
         primarySchools: schools?.primarySchools ?? null,
         secondaryOutstandingSchools: schools?.secondaryOutstandingSchools ?? null,
+        secondaryGoodSchools: schoolsSource === 'nearby' ? nearbySchools.secondaryGoodSchools ?? null : null,
         secondarySchools: schools?.secondarySchools ?? null,
         grammarSchools: schoolsSource === 'nearby'
           ? nearbySchools.grammarSchools ?? nearbySchools.nearestOutstandingSchools.filter(school =>
@@ -448,9 +450,15 @@ export function useCalculator() {
           ? nearbySchools.nearestPrimaryOutstandingSchools
             ?? nearbySchools.nearestOutstandingSchools.filter(school => school.phase === 'Primary')
           : [],
+        nearestPrimaryGoodSchools: schoolsSource === 'nearby'
+          ? nearbySchools.nearestPrimaryGoodSchools ?? []
+          : [],
         nearestSecondaryOutstandingSchools: schoolsSource === 'nearby'
           ? nearbySchools.nearestSecondaryOutstandingSchools
             ?? nearbySchools.nearestOutstandingSchools.filter(school => school.phase === 'Secondary')
+          : [],
+        nearestSecondaryGoodSchools: schoolsSource === 'nearby'
+          ? nearbySchools.nearestSecondaryGoodSchools ?? []
           : [],
         nearestGrammarSchools: schoolsSource === 'nearby'
           ? nearbySchools.nearestGrammarSchools

@@ -16,6 +16,7 @@
   "Southwark":              { "crimesPer1000": 154.6, "primaryOutstandingSchools":  9, "primarySchools": 66, "secondaryOutstandingSchools": 5, "secondarySchools": 20 },
   "Hackney":                { "crimesPer1000": 150.0, "primaryOutstandingSchools": 11, "primarySchools": 50, "secondaryOutstandingSchools": 3, "secondarySchools": 16 },
   "Bromley":                { "crimesPer1000":  87.4, "primaryOutstandingSchools": 13, "primarySchools": 76, "secondaryOutstandingSchools": 2, "secondarySchools": 19 },
+  "Enfield":                { "crimesPer1000": 111.0, "primaryOutstandingSchools":  2, "primarySchools": 68, "secondaryOutstandingSchools": 0, "secondarySchools": 21 },
   "Islington":              { "crimesPer1000": 181.8, "primaryOutstandingSchools":  6, "primarySchools": 40, "secondaryOutstandingSchools": 1, "secondarySchools": 10 },
   "Greenwich":              { "crimesPer1000": 115.4, "primaryOutstandingSchools":  6, "primarySchools": 62, "secondaryOutstandingSchools": 3, "secondarySchools": 16 },
   "Lewisham":               { "crimesPer1000": 120.1, "primaryOutstandingSchools":  4, "primarySchools": 64, "secondaryOutstandingSchools": 0, "secondarySchools": 14 },

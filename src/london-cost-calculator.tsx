@@ -16,6 +16,8 @@ import {
   Smartphone,
   ALargeSmall,
   Coffee,
+  SlidersHorizontal,
+  ChevronUp,
 } from 'lucide-react';
 import { useCalculator } from './hooks/useCalculator';
 import { useDarkMode } from './hooks/useDarkMode';
@@ -60,6 +62,47 @@ function LondonCostCalculator() {
   const [pinnedLocation, setPinnedLocation] = useState<string | null>(null);
   // Set only by map clicks: asks the table to scroll to and expand this location.
   const [tableFocusRequest, setTableFocusRequest] = useState<{ location: string; requestId: number } | null>(null);
+  // User-adjustable map/table split on wide screens (fr units; the table side stays 1.55).
+  // Wider default than before so the map reads as the visual entrance.
+  const [mapFr, setMapFr] = useState<number>(() => {
+    try {
+      const n = parseFloat(localStorage.getItem('wtl-map-fr') ?? '');
+      return Number.isFinite(n) ? Math.min(1.6, Math.max(0.4, n)) : 0.85;
+    } catch { return 0.85; }
+  });
+  useEffect(() => {
+    try { localStorage.setItem('wtl-map-fr', String(mapFr)); } catch { /* storage unavailable */ }
+  }, [mapFr]);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  // Drag the gutter between the map and the table/filters to reallocate width.
+  const startMapResize = (e: React.PointerEvent) => {
+    e.preventDefault();
+    const grid = gridRef.current;
+    if (!grid) return;
+    const onMove = (ev: PointerEvent) => {
+      const rect = grid.getBoundingClientRect();
+      const f = Math.min(0.62, Math.max(0.2, (ev.clientX - rect.left) / rect.width));
+      setMapFr(Math.min(1.6, Math.max(0.4, (1.55 * f) / (1 - f))));
+    };
+    const onUp = () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      document.body.style.userSelect = '';
+    };
+    document.body.style.userSelect = 'none';
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+  };
+
+  // Once you scroll past the filters, dock a compact summary into the sticky header.
+  const [scrolledPastFilters, setScrolledPastFilters] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolledPastFilters(window.scrollY > 220);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
   const headerRef = useRef<HTMLElement>(null);
   const appCardRef = useRef<HTMLDivElement>(null);
 
@@ -184,11 +227,44 @@ function LondonCostCalculator() {
       >
         <div className="mx-auto flex max-w-[110rem] items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
           {/* Mobile: English with the Chinese tucked beneath as a small second line; sm+: one truncated line. */}
-          <h1 className="min-w-0 text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:truncate sm:text-lg lg:text-xl">
+          <h1 className="min-w-0 shrink-0 text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:truncate sm:text-lg lg:text-xl">
             <span className="block truncate sm:inline">Where to live in London?</span>
             {' '}
             <span className="block truncate text-xs font-semibold text-gray-500 dark:text-gray-400 sm:inline sm:[font-size:inherit]" lang="zh-Hant">倫敦住邊好？</span>
           </h1>
+          {/* Once scrolled past the filters, the summary docks inline here — same row, so the header
+              height (and the map size derived from it) never changes. Hidden on small screens where
+              there's no room; the map isn't sticky there anyway, so no shake to avoid. */}
+          {hasResults && scrolledPastFilters && (
+            <button
+              type="button"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="hidden min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1 text-[11px] lg:flex"
+              title="Jump back to your needs & priorities"
+            >
+              <SlidersHorizontal className="h-3.5 w-3.5 shrink-0 text-blue-600" />
+              {(() => {
+                const chip = 'inline-flex shrink-0 items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-gray-600 dark:bg-gray-800 dark:text-gray-300';
+                const lab = 'text-gray-400 dark:text-gray-500';
+                const work = calc.workMode === 'address' ? (calc.officePostcode.trim() || 'Address') : (calc.workLocation || 'Not set');
+                const partner = calc.workMode2 === 'address' ? calc.officePostcode2.trim() : calc.workLocation2;
+                const prios = (['commute', 'cost', 'safety', 'schools'] as const).filter(k => calc.priorities[k] > 0);
+                return (
+                  <>
+                    <span className={chip}><span className={lab}>Work</span><span className="max-w-[8rem] truncate font-medium">{work}</span></span>
+                    {partner && <span className={chip}><span className={lab}>Partner</span><span className="max-w-[7rem] truncate font-medium">{partner}</span></span>}
+                    <span className={chip}><span className="font-medium">{calc.bedrooms} bed</span></span>
+                    <span className={chip}><span className="font-medium">{calc.monthlyTrips} trips</span></span>
+                    {prios.length > 0
+                      ? prios.map(k => <span key={k} className={chip}><span className="font-medium capitalize text-blue-600 dark:text-blue-400">{k}</span><span className="font-semibold text-blue-600 dark:text-blue-400">{calc.priorities[k]}</span></span>)
+                      : <span className={chip}><span className={lab}>Priorities off</span></span>}
+                    {calc.budgetEnabled && <span className={chip}><span className={lab}>Budget</span><span className="font-medium">&pound;{calc.maxBudget.toLocaleString()}</span></span>}
+                    <span className="inline-flex shrink-0 items-center gap-0.5 pl-1 font-medium text-blue-600 dark:text-blue-400"><ChevronUp className="h-3.5 w-3.5" />Edit</span>
+                  </>
+                );
+              })()}
+            </button>
+          )}
           <div className="relative flex shrink-0 items-center gap-1">
             <button
               onClick={() => setActivePopover(current => current === 'share' ? null : 'share')}
@@ -301,8 +377,22 @@ function LondonCostCalculator() {
 
       <main className="mx-auto max-w-[110rem] p-4 sm:p-6">
         {hasResults ? (
-          <div className="grid gap-6 xl:grid-cols-[minmax(22rem,0.45fr)_minmax(0,1.55fr)] xl:items-start xl:gap-y-3">
-            <div className="order-2 min-w-0 xl:order-none xl:col-start-1 xl:row-span-2 xl:row-start-1 xl:sticky xl:top-[calc(var(--app-header-h,3rem)+1rem)]">
+          <div
+            ref={gridRef}
+            className="grid gap-6 xl:[grid-template-columns:var(--wtl-cols)] xl:items-start xl:gap-y-3"
+            style={{ '--wtl-cols': `minmax(22rem, ${mapFr}fr) minmax(0, 1.55fr)` } as React.CSSProperties}
+          >
+            <div className="relative order-2 min-w-0 xl:order-none xl:col-start-1 xl:row-span-2 xl:row-start-1 xl:sticky xl:top-[calc(var(--app-header-h,3rem)+1.5rem)]">
+              {/* Drag the gutter to resize the map vs the table/filters (wide screens). */}
+              <div
+                onPointerDown={startMapResize}
+                className="group absolute right-[-13px] top-0 bottom-0 z-20 hidden w-6 cursor-col-resize touch-none items-center justify-center xl:flex"
+                role="separator"
+                aria-label="Drag to resize the map"
+                title="Drag to resize the map"
+              >
+                <div className="h-16 w-1 rounded-full bg-gray-300 transition-colors group-hover:bg-blue-400 dark:bg-gray-600 dark:group-hover:bg-blue-500" />
+              </div>
               <LocationMapPrototype
                 sortedResults={calc.sortedResults}
                 selectedLocation={pinnedLocation}

@@ -60,6 +60,18 @@ export interface NearbySchool {
 
 export type NearbyOutstandingSchool = NearbySchool;
 
+export interface SchoolRecord {
+  urn: string;
+  name: string;
+  phase: 'Primary' | 'Secondary';
+  lat: number;
+  lon: number;
+  outstanding: boolean;
+  good: boolean;
+  grammar: boolean;
+  genderOfEntry?: 'Girls' | 'Boys';
+}
+
 export interface LocationSchoolStats {
   displayName: string;
   anchorStation: string;
@@ -67,13 +79,17 @@ export interface LocationSchoolStats {
   primaryRadiusKm: number;
   secondaryRadiusKm: number;
   primaryOutstandingSchools: number;
+  primaryGoodSchools: number;
   primarySchools: number;
   secondaryOutstandingSchools: number;
+  secondaryGoodSchools: number;
   secondarySchools: number;
   grammarSchools: number;
   nearestOutstandingSchools: NearbyOutstandingSchool[];
   nearestPrimaryOutstandingSchools: NearbyOutstandingSchool[];
+  nearestPrimaryGoodSchools: NearbySchool[];
   nearestSecondaryOutstandingSchools: NearbyOutstandingSchool[];
+  nearestSecondaryGoodSchools: NearbySchool[];
   nearestGrammarSchools: NearbySchool[];
 }
 
@@ -131,8 +147,10 @@ export interface Result {
   schoolsTotal: number | null;
   outstandingSchoolsPct: number | null;
   primaryOutstandingSchools: number | null;
+  primaryGoodSchools: number | null;
   primarySchools: number | null;
   secondaryOutstandingSchools: number | null;
+  secondaryGoodSchools: number | null;
   secondarySchools: number | null;
   grammarSchools: number | null;
   schoolsSource: 'nearby' | 'borough';
@@ -141,7 +159,9 @@ export interface Result {
   secondarySchoolsRadiusKm: number | null;
   nearestOutstandingSchools: NearbyOutstandingSchool[];
   nearestPrimaryOutstandingSchools: NearbyOutstandingSchool[];
+  nearestPrimaryGoodSchools: NearbySchool[];
   nearestSecondaryOutstandingSchools: NearbyOutstandingSchool[];
+  nearestSecondaryGoodSchools: NearbySchool[];
   nearestGrammarSchools: NearbySchool[];
   bedrooms: BedroomCount;
 }
