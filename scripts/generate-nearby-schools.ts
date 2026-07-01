@@ -22,6 +22,7 @@ interface OfstedRow {
   'Local authority': string;
   Postcode: string;
   'Latest OEIF overall effectiveness': string;
+  'Faith grouping': string;
 }
 
 interface Coordinates {
@@ -37,6 +38,7 @@ interface School extends Coordinates {
   good: boolean;
   grammar: boolean;
   genderOfEntry?: GenderOfEntry;
+  faith?: boolean;
 }
 
 const OFSTED_CSV = path.resolve(process.cwd(), 'ofsted-latest-inspections-apr-2026.csv');
@@ -148,7 +150,23 @@ function distanceKm(a: Coordinates, b: Coordinates): number {
   return 2 * radius * Math.asin(Math.sqrt(h));
 }
 
+// Name-based detection misses single-sex schools whose name doesn't say so — notably the boys
+// grammars and several girls grammars. Curate those so gender filtering is right where it matters.
+const GENDER_OVERRIDE: Record<string, GenderOfEntry> = {
+  'Sutton Grammar School': 'Boys',
+  "Wilson's School": 'Boys',
+  'Tiffin School': 'Boys',
+  'Wallington County Grammar School': 'Boys',
+  "Queen Elizabeth's School, Barnet": 'Boys',
+  "St Olave's and St Saviour's Grammar School": 'Boys',
+  'The Henrietta Barnett School': 'Girls',
+  'Newstead Wood School': 'Girls',
+  'Woodford County High School': 'Girls',
+  "St Michael's Catholic Grammar School": 'Girls',
+};
+
 function inferGenderOfEntry(name: string): GenderOfEntry | undefined {
+  if (GENDER_OVERRIDE[name]) return GENDER_OVERRIDE[name];
   const normalized = name.toLowerCase();
   const girls = /\bgirls?\b|\bgirls['’]\b|\bfor girls\b/.test(normalized);
   const boys = /\bboys?\b|\bboys['’]\b|\bfor boys\b/.test(normalized);
@@ -177,6 +195,9 @@ async function main() {
       good: row['Latest OEIF overall effectiveness'] === '2',
       grammar: row['Admissions policy'].trim().toLowerCase() === 'selective',
       genderOfEntry: inferGenderOfEntry(row['School name']),
+      // A faith school admits partly on religious grounds, so it's not realistically open to all —
+      // the app can filter these out. 'Faith grouping' is Non-faith / Christian / Jewish / Muslim /…
+      faith: Boolean(row['Faith grouping']?.trim()) && row['Faith grouping'].trim() !== 'Non-faith',
       ...point,
     }];
   });
@@ -199,6 +220,7 @@ async function main() {
       good: school.good,
       grammar: school.grammar,
       ...(school.genderOfEntry ? { genderOfEntry: school.genderOfEntry } : {}),
+      ...(school.faith ? { faith: true } : {}),
     }));
 
   fs.writeFileSync(OUT_PATH, `${JSON.stringify(output, null, 2)}\n`, 'utf8');

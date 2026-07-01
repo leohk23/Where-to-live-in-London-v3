@@ -13,7 +13,7 @@ import {
   Smartphone,
   Wallet,
 } from 'lucide-react';
-import { ASIAN_RADIUS_KM, CRIME_THRESHOLDS, SCHOOL_THRESHOLDS, SCORE_THRESHOLDS } from '../lib/constants';
+import { ASIAN_RADIUS_KM, CRIME_THRESHOLDS, SCORE_THRESHOLDS, PRIMARY_SCHOOL_RADIUS_KM, SECONDARY_SCHOOL_RADIUS_KM } from '../lib/constants';
 import { lineColor } from '../lib/tfl-line-colors';
 import locationWardPolygons from '../data/location-ward-polygons.json';
 import locationTransit from '../data/location-transit.json';
@@ -21,7 +21,7 @@ import { trainInterval } from '../data/service-frequency';
 import { expectedWaitMinutes } from '../lib/commute-wait';
 import { asianSpots } from '../data';
 import hkFlag from '../assets/flag-hk.svg';
-import type { ScoredResult, SortColumn, NearbySchool, AsianSpot, AsianSpotType } from '../types';
+import type { ScoredResult, SortColumn, NearbySchool, AsianSpot, AsianSpotType, SchoolScoreBreakdown, SchoolPhaseScore } from '../types';
 import type { WorkLocationKey } from '../work-locations';
 
 type WorkMode = 'preset' | 'address';
@@ -88,9 +88,11 @@ function crimeColor(rate: number) {
   return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
 }
 
-function schoolColor(pct: number) {
-  if (pct >= SCHOOL_THRESHOLDS.high) return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-  if (pct >= SCHOOL_THRESHOLDS.medium) return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+// Colour band for the 0–100 blended school score. Thresholds suit its realistic spread
+// (London areas land ~44–79; few are very low), so the bands still separate good from weak.
+function schoolScoreColor(n: number) {
+  if (n >= 65) return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+  if (n >= 52) return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
   return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
 }
 
@@ -157,15 +159,18 @@ function LiveCommuteDot({ tone = 'green' }: { tone?: 'green' | 'indigo' }) {
 function getSchoolScope(result: ScoredResult) {
   const primaryRadius = result.primarySchoolsRadiusKm ?? result.schoolsRadiusKm;
   const secondaryRadius = result.secondarySchoolsRadiusKm ?? result.schoolsRadiusKm;
+  // Grammar/selective use each school's own catchment (see grammar-catchments.ts), not one radius.
+  const grammarLabel = 'per-school catchment';
 
   if (primaryRadius !== null && secondaryRadius !== null) {
     return {
       label: `P ${primaryRadius}km / S ${secondaryRadius}km`,
-      shortLabel: `${primaryRadius}/${secondaryRadius}km`,
-      title: `Primary schools are counted within ${primaryRadius}km; secondary and grammar/selective schools are counted within ${secondaryRadius}km.`,
+      shortLabel: `${primaryRadius}–${secondaryRadius}km`,
+      title: `Primary schools are counted within ${primaryRadius}km and secondary within ${secondaryRadius}km; grammar/selective use each school's own catchment.`,
       description: `primary within ${primaryRadius}km, secondary within ${secondaryRadius}km`,
       primaryLabel: `${primaryRadius}km`,
       secondaryLabel: `${secondaryRadius}km`,
+      grammarLabel,
     };
   }
 
@@ -177,6 +182,7 @@ function getSchoolScope(result: ScoredResult) {
       description: `within ${result.schoolsRadiusKm}km`,
       primaryLabel: `${result.schoolsRadiusKm}km`,
       secondaryLabel: `${result.schoolsRadiusKm}km`,
+      grammarLabel,
     };
   }
 
@@ -187,6 +193,7 @@ function getSchoolScope(result: ScoredResult) {
     description: 'at borough level',
     primaryLabel: 'borough',
     secondaryLabel: 'borough',
+    grammarLabel: 'borough',
   };
 }
 
@@ -194,7 +201,7 @@ function getSchoolTitle(result: ScoredResult) {
   const scope = getSchoolScope(result);
   const split = `${result.primaryOutstandingSchools}/${result.primarySchools} primary (${scope.primaryLabel}), ${result.secondaryOutstandingSchools}/${result.secondarySchools} secondary (${scope.secondaryLabel})`;
   const grammar = result.grammarSchools !== null
-    ? ` Grammar/selective secondary schools: ${result.grammarSchools} (${scope.secondaryLabel}).`
+    ? ` Grammar/selective secondary schools: ${result.grammarSchools} (${scope.grammarLabel}).`
     : '';
   const nearest = result.nearestOutstandingSchools.length > 0
     ? ` Nearest Outstanding: ${result.nearestOutstandingSchools
@@ -303,26 +310,75 @@ function SchoolCountRow({
   );
 }
 
-function SchoolScopeBadges({
-  primaryLabel,
-  secondaryLabel,
-}: {
-  primaryLabel: string;
-  secondaryLabel: string;
-}) {
+// How the schools score is built, shown as a readable formula: per phase, Quality and Choice
+// combine into a phase score; the two phases are averaged and the selective bonus added to reach
+// the 0-100 figure the column shows. Same blend the ranking uses, surfaced so it's explainable.
+function SchoolScorePanel({ score }: { score: SchoolScoreBreakdown }) {
+  const FactorBar = ({ label, pct, weight, tone }: { label: string; pct: number; weight: string; tone: string }) => (
+    <div className="flex items-center gap-1.5 text-[11px] text-gray-600 dark:text-gray-300">
+      <span className="w-12 shrink-0 text-gray-500 dark:text-gray-400">{label}</span>
+      <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+        <div className={`absolute inset-y-0 left-0 rounded-full ${tone}`} style={{ width: `${pct}%` }} />
+      </div>
+      <span className="w-8 shrink-0 text-right tabular-nums">{pct}%</span>
+      <span className="w-9 shrink-0 text-right text-gray-400 dark:text-gray-500">{weight}</span>
+    </div>
+  );
+
+  const Phase = ({ phase, data }: { phase: 'Primary' | 'Secondary'; data: SchoolPhaseScore }) => (
+    <div className="space-y-1">
+      <div className="flex items-center justify-between text-[11px] font-semibold text-gray-700 dark:text-gray-200">
+        <span className="inline-flex items-center gap-1.5"><SchoolPhaseBadge phase={phase} />{phase}</span>
+        {data.score === null
+          ? <span className="font-normal text-gray-400 dark:text-gray-500">none nearby</span>
+          : <span className="tabular-nums">= {data.score}</span>}
+      </div>
+      {data.score !== null && (
+        <>
+          <FactorBar label="Quality" pct={Math.round(data.quality! * 100)} weight="× 0.6" tone="bg-emerald-500" />
+          <FactorBar label="Choice"  pct={Math.round(data.supply! * 100)}  weight="× 0.4" tone="bg-sky-500" />
+        </>
+      )}
+    </div>
+  );
+
+  const grammarPct = score.raw - score.averaged;       // exact, by construction
+  const note = 'text-gray-500 dark:text-gray-400';
+  const num = 'tabular-nums';
+
   return (
-    // Never wraps: the badge sits in fixed-height chips, so wrapping overflows them.
-    <span className="inline-flex items-center gap-1 whitespace-nowrap">
-      <span className="inline-flex items-center gap-1">
-        <SchoolPhaseBadge phase="Primary" title="Primary schools" />
-        <span>{primaryLabel}</span>
-      </span>
-      <span className="text-gray-300 dark:text-gray-600">/</span>
-      <span className="inline-flex items-center gap-1">
-        <SchoolPhaseBadge phase="Secondary" title="Secondary schools" />
-        <span>{secondaryLabel}</span>
-      </span>
-    </span>
+    <div className="border-t border-gray-100 pt-3 dark:border-gray-800 sm:border-l sm:border-t-0 sm:pl-5 sm:pt-0">
+      {/* Title height matched to the counts' summary line so both columns' bodies line up. */}
+      <div className="mb-2 flex min-h-[1.5rem] items-center text-[11px] font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+        Score factors
+      </div>
+      <div className="space-y-2.5">
+        <Phase phase="Primary" data={score.primary} />
+        <Phase phase="Secondary" data={score.secondary} />
+      </div>
+      {/* Ledger: average the two phase scores, add the selective bonus, reach the final. */}
+      <div className="mt-2.5 space-y-1 border-t border-gray-100 pt-2 text-[11px] dark:border-gray-800">
+        <div className={`flex items-center justify-between gap-2 ${note}`}>
+          <span>Average <span className="text-gray-400 dark:text-gray-500">({score.primary.score ?? 0} + {score.secondary.score ?? 0}) ÷ 2</span></span>
+          <span className={num}>{score.averaged}</span>
+        </div>
+        {grammarPct > 0 && (
+          <div className="flex items-center justify-between gap-2 text-violet-600 dark:text-violet-300">
+            <span>+ Selective bonus</span>
+            <span className={num}>+{grammarPct}</span>
+          </div>
+        )}
+        <div className="flex items-center justify-between gap-2 border-t border-gray-100 pt-1 font-bold text-gray-900 dark:border-gray-800 dark:text-gray-100">
+          <span>School score</span>
+          <span className={`text-sm ${num}`}>= {score.raw}</span>
+        </div>
+      </div>
+      <div className="mt-2 space-y-0.5 text-[10px] leading-snug text-gray-400 dark:text-gray-500">
+        <p><strong className="font-semibold text-gray-500 dark:text-gray-400">Quality</strong>: Outstanding + ½&nbsp;Good share of nearby schools.</p>
+        <p><strong className="font-semibold text-gray-500 dark:text-gray-400">Choice</strong>: strong (Outstanding + Good) schools nearby vs the best-served area.</p>
+        <p><strong className="font-semibold text-gray-500 dark:text-gray-400">Primary</strong>: weighted by distance (closer schools count more, since primary admission is distance-based), so its Quality/Choice can differ from the raw counts on the left.</p>
+      </div>
+    </div>
   );
 }
 
@@ -428,11 +484,9 @@ function SpotIcons({ spots, className = '' }: { spots: AsianSpot[]; className?: 
 }
 
 function GeographyCard({
-  schoolScope,
   wards,
   className = '',
 }: {
-  schoolScope: ReturnType<typeof getSchoolScope>;
   wards: string[];
   className?: string;
 }) {
@@ -440,7 +494,7 @@ function GeographyCard({
     { label: 'Commute', value: 'station / live' },
     { label: 'Rent', value: 'area est.' },
     { label: 'Crime & tax', value: 'borough' },
-    { label: 'Schools', value: `${schoolScope.primaryLabel} / ${schoolScope.secondaryLabel}` },
+    { label: 'Schools', value: `within ${PRIMARY_SCHOOL_RADIUS_KM}–${SECONDARY_SCHOOL_RADIUS_KM} km` },
     { label: 'East Asian spots', value: `within ${ASIAN_RADIUS_KM} km` },
   ];
   return (
@@ -651,10 +705,17 @@ function LocationDetailPanel({
   )
     || result.grammarSchools !== null;
   const activeSchoolListHeading = schoolListMode === 'selective'
-    ? 'Nearest selective'
+    ? 'Nearest Selective'
     : `Nearest ${schoolListMode === 'good' ? 'Good' : 'Outstanding'}`;
-  const schoolSummary = result.outstandingSchools !== null && result.outstandingSchoolsPct !== null
-    ? `${result.outstandingSchools} of ${result.schoolsTotal} Outstanding (${Math.round(result.outstandingSchoolsPct)}%)`
+  // Concrete counts of the schools that actually matter for the score, rather than the old
+  // "% Outstanding" share (which flattered thin areas and buried supply).
+  const goodNearby = (result.primaryGoodSchools ?? 0) + (result.secondaryGoodSchools ?? 0);
+  const schoolSummary = result.outstandingSchools !== null
+    ? [
+        `${result.outstandingSchools} Outstanding`,
+        result.primaryGoodSchools !== null || result.secondaryGoodSchools !== null ? `${goodNearby} Good` : null,
+        (result.grammarSchools ?? 0) > 0 ? `${result.grammarSchools} Selective` : null,
+      ].filter(Boolean).join(' · ') + ' nearby'
     : 'Unavailable';
   const schoolScope = getSchoolScope(result);
   const spots = asianSpots[result.location] ?? [];
@@ -826,16 +887,23 @@ function LocationDetailPanel({
                 {schoolScope.shortLabel}
               </span>
             </div>
-            <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{schoolSummary}</div>
-            <div className="mt-2 space-y-1">
-              <SchoolCountRow phase="Primary" outstanding={result.primaryOutstandingSchools} good={result.primaryGoodSchools} total={result.primarySchools} radius={schoolScope.primaryLabel} />
-              <SchoolCountRow phase="Secondary" outstanding={result.secondaryOutstandingSchools} good={result.secondaryGoodSchools} total={result.secondarySchools} radius={schoolScope.secondaryLabel} />
-              {result.grammarSchools !== null && (
-                <div className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-300">
-                  <SchoolPhaseBadge phase="Secondary" />
-                  <span>Grammar/selective: <strong className="font-semibold">{result.grammarSchools}</strong></span>
+            {/* Counts on the left, the score-factor formula on the right (it has room). Each column
+                leads with a height-matched title so their bodies line up. */}
+            <div className="mt-2 grid items-start gap-3 sm:grid-cols-2 sm:gap-5">
+              <div>
+                <div className="mb-2 flex min-h-[1.5rem] items-center text-sm font-semibold text-gray-900 dark:text-gray-100">{schoolSummary}</div>
+                <div className="space-y-1">
+                  <SchoolCountRow phase="Primary" outstanding={result.primaryOutstandingSchools} good={result.primaryGoodSchools} total={result.primarySchools} radius={schoolScope.primaryLabel} />
+                  <SchoolCountRow phase="Secondary" outstanding={result.secondaryOutstandingSchools} good={result.secondaryGoodSchools} total={result.secondarySchools} radius={schoolScope.secondaryLabel} />
+                  {result.grammarSchools !== null && (
+                    <div className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-300">
+                      <SchoolPhaseBadge phase="Secondary" />
+                      <span>Grammar/selective: <strong className="font-semibold">{result.grammarSchools}</strong> <span className="text-gray-400 dark:text-gray-500">· {schoolScope.grammarLabel}</span></span>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
+              <SchoolScorePanel score={result.schoolScore} />
             </div>
             {hasSchoolDetails && (
               <div className="mt-3 border-t border-gray-100 pt-3 dark:border-gray-800">
@@ -915,7 +983,7 @@ function LocationDetailPanel({
             </div>
           )}
 
-          <GeographyCard schoolScope={schoolScope} wards={wards} />
+          <GeographyCard wards={wards} />
         </div>
       </div>
     </div>
@@ -1017,11 +1085,17 @@ export default function ResultsTable({
     setHeaderHeight(header?.getBoundingClientRect().height ?? 64);
   }, []);
 
-  // Keep the floating header's horizontal position locked to the body scroller (cheap, runs on scroll).
+  // Keep the floating header and body scroller locked together. Both are horizontally scrollable
+  // (the header carries the always-visible scrollbar since it's sticky at the top, while the body's
+  // own scrollbar sits off-screen at the very bottom of the tall table). Only assign when the values
+  // differ, so a programmatic scroll doesn't ping-pong a second scroll event back.
   const syncHeaderScroll = useCallback(() => {
-    if (headerScrollRef.current && scrollRef.current) {
-      headerScrollRef.current.scrollLeft = scrollRef.current.scrollLeft;
-    }
+    const header = headerScrollRef.current, body = scrollRef.current;
+    if (header && body && header.scrollLeft !== body.scrollLeft) header.scrollLeft = body.scrollLeft;
+  }, []);
+  const syncBodyScroll = useCallback(() => {
+    const header = headerScrollRef.current, body = scrollRef.current;
+    if (header && body && body.scrollLeft !== header.scrollLeft) body.scrollLeft = header.scrollLeft;
   }, []);
 
   // Match each floating-header column to the body column width (= max of header/body
@@ -1289,16 +1363,16 @@ export default function ResultsTable({
       <th
         onClick={() => onSort('schools')}
         className={thClass('schools', 'text-center')}
-        title="% of nearby state primary and secondary schools rated Outstanding by Ofsted (Apr 2026). Higher is better."
+        title="School score (0–100): blends quality (Outstanding + ½ Good share) with choice (how many strong schools are nearby), primary & secondary averaged, plus a selective/grammar bonus. Expand a row for the formula. Higher is better."
       >
         <div className={headerStackClass()}>
           <div className={headerTitleClass()}>Schools<SortIcon col="schools" /></div>
           <div className={headerBadgeRowClass()}>
             <div
               className="inline-flex h-5 items-center rounded bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-200"
-              title="Primary schools use a 3km radius; secondary and grammar/selective schools use a 5km radius around the location anchor."
+              title={`Counted by radius around the location anchor: primary ${PRIMARY_SCHOOL_RADIUS_KM}km, secondary ${SECONDARY_SCHOOL_RADIUS_KM}km. Grammar/selective use each school's own catchment (varies per school).`}
             >
-              <SchoolScopeBadges primaryLabel="3km" secondaryLabel="5km" />
+              within {PRIMARY_SCHOOL_RADIUS_KM}–{SECONDARY_SCHOOL_RADIUS_KM} km
             </div>
           </div>
         </div>
@@ -1366,7 +1440,8 @@ export default function ResultsTable({
           {isXl && (
             <div
               ref={headerScrollRef}
-              className="shrink-0 overflow-hidden bg-gray-50 dark:bg-gray-700 [scrollbar-gutter:stable] xl:sticky xl:top-[var(--results-header-top)] xl:z-30"
+              onScroll={() => { syncBodyScroll(); updateTableChrome(); }}
+              className="thin-scrollbar shrink-0 overflow-x-auto overscroll-x-contain bg-gray-50 dark:bg-gray-700 [scrollbar-gutter:stable] xl:sticky xl:top-[var(--results-header-top)] xl:z-30"
             >
               <table
                 ref={headerTableRef}
@@ -1383,7 +1458,7 @@ export default function ResultsTable({
             // At xl this is the vertical scroller; the floating header sits above it, so
             // the scrollbar starts below the labels. Below xl it only scrolls
             // horizontally when the table overflows.
-            className={hasHorizontalOverflow ? 'overflow-x-auto overscroll-x-contain' : undefined}
+            className={hasHorizontalOverflow ? 'thin-scrollbar overflow-x-auto overscroll-x-contain' : undefined}
             style={hasHorizontalOverflow
               ? ({
                 '--results-header-top': '0px',
@@ -1432,7 +1507,7 @@ export default function ResultsTable({
                             : `group ${onLocationSelect ? 'cursor-pointer' : ''}`
                         }`}
                       >
-                      <td className={`sticky left-0 z-10 py-2 px-1.5 text-center whitespace-nowrap min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${isExpanded ? '!z-[19]' : ''} ${
+                      <td className={`sticky left-0 z-10 py-2 px-1.5 text-center whitespace-nowrap min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${isExpanded ? '!z-[21]' : ''} ${
                         overBudget
                           ? 'bg-gray-50 dark:bg-gray-800'
                           : 'bg-white dark:bg-gray-900'
@@ -1465,7 +1540,7 @@ export default function ResultsTable({
                         )}
                       </td>
 
-                      <td className={`sticky left-[44px] z-10 max-w-[40vw] px-2 py-2 align-middle shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:left-[56px] lg:max-w-none lg:whitespace-nowrap lg:px-3 lg:py-3 ${isExpanded ? '!z-[19]' : ''} ${
+                      <td className={`sticky left-[44px] z-10 max-w-[40vw] px-2 py-2 align-middle shadow-[2px_0_5px_-1px_rgba(0,0,0,0.08)] lg:left-[56px] lg:max-w-none lg:whitespace-nowrap lg:px-3 lg:py-3 ${isExpanded ? '!z-[21]' : ''} ${
                         overBudget
                           ? 'bg-gray-50 dark:bg-gray-800'
                           : 'bg-white dark:bg-gray-900'
@@ -1556,12 +1631,12 @@ export default function ResultsTable({
                       </td>
 
                       <td className={`whitespace-nowrap px-1 py-2 text-center lg:px-3 lg:py-3 ${hoverCellClass}`}>
-                        {result.outstandingSchools !== null && result.outstandingSchoolsPct !== null ? (
+                        {result.outstandingSchools !== null ? (
                           <span
-                            className={`rounded-full px-1.5 py-0.5 text-[11px] font-medium lg:px-2 lg:text-xs ${schoolColor(result.outstandingSchoolsPct)}`}
+                            className={`rounded-full px-1.5 py-0.5 text-[11px] font-medium lg:px-2 lg:text-xs ${schoolScoreColor(result.schoolScore.raw)}`}
                             title={getSchoolTitle(result)}
                           >
-                            {result.outstandingSchools} ({Math.round(result.outstandingSchoolsPct)}%)
+                            {result.schoolScore.raw}
                           </span>
                         ) : <span className="text-xs text-gray-400 lg:text-sm">?</span>}
                       </td>

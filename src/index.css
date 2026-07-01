@@ -55,6 +55,35 @@
   font-size: max(1rem, 1em);
 }
 
+/* Slim, subtle horizontal scrollbar for the results table's sticky header, so the always-visible
+   scroll affordance doesn't look like a chunky native bar. Firefox uses scrollbar-width/color. */
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(203 213 225) transparent; /* slate-300 thumb on transparent track */
+}
+.dark .thin-scrollbar {
+  scrollbar-color: rgb(71 85 105) transparent; /* slate-600 */
+}
+.thin-scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(203 213 225); /* slate-300 */
+  border-radius: 9999px;
+}
+.thin-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: rgb(148 163 184); /* slate-400 on hover */
+}
+.dark .thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(71 85 105); /* slate-600 */
+}
+.dark .thin-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: rgb(100 116 139); /* slate-500 */
+}
+
 body {
   background-color: #eff6ff; /* blue-50, matches gradient start */
 }

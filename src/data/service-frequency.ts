@@ -28,4 +28,6 @@ export const trainInterval: Record<string, { peak: number; offPeak: number }> = 
   "Berrylands": { peak: 30, offPeak: 30 },
   "Twickenham": { peak: 8, offPeak: 12 },
   "Teddington": { peak: 12, offPeak: 20 },
+  "Norbury": { peak: 5, offPeak: 8 },
+  "Mill Hill": { peak: 8, offPeak: 12 },
 };

@@ -70,6 +70,7 @@ export interface SchoolRecord {
   good: boolean;
   grammar: boolean;
   genderOfEntry?: 'Girls' | 'Boys';
+  faith?: boolean;
 }
 
 export interface LocationSchoolStats {
@@ -81,6 +82,11 @@ export interface LocationSchoolStats {
   primaryOutstandingSchools: number;
   primaryGoodSchools: number;
   primarySchools: number;
+  // Distance-weighted primary figures (closer schools count more), used for the primary phase
+  // score so a great primary at the edge of the radius doesn't score like one next door. The
+  // integer counts above stay as the honest "what's physically nearby" headline.
+  primaryWeightedQuality: number;  // 0..1: (Σw·Outstanding + ½·Σw·Good) / Σw·total
+  primaryWeightedStrong: number;   // Σw over Outstanding + Good primaries
   secondaryOutstandingSchools: number;
   secondaryGoodSchools: number;
   secondarySchools: number;
@@ -120,6 +126,21 @@ export interface ScoreFactor {
   weight: number;     // the priority slider value
 }
 
+export interface SchoolPhaseScore {
+  strong: number;         // count of Outstanding + Good schools nearby
+  quality: number | null; // 0..1: (Outstanding + ½·Good) / total; null if no schools of this phase
+  supply: number | null;  // 0..1: "choice" — strong-school count relative to the best-served area
+  score: number | null;   // 0-100 phase score = round(60·quality% + 40·choice%); null if none nearby
+}
+
+export interface SchoolScoreBreakdown {
+  primary: SchoolPhaseScore;
+  secondary: SchoolPhaseScore;
+  averaged: number;       // 0-100 average of the two phase scores (a missing phase counts as 0)
+  raw: number;            // 0-100 final = averaged + selective bonus. Integer-derived so the panel's
+                          // arithmetic (and the column) add up exactly. selective = raw - averaged.
+}
+
 export interface Result {
   location: string;
   displayName: string;
@@ -149,6 +170,8 @@ export interface Result {
   primaryOutstandingSchools: number | null;
   primaryGoodSchools: number | null;
   primarySchools: number | null;
+  primaryWeightedQuality: number | null; // distance-weighted; null on borough fallback
+  primaryWeightedStrong: number | null;
   secondaryOutstandingSchools: number | null;
   secondaryGoodSchools: number | null;
   secondarySchools: number | null;
@@ -169,6 +192,7 @@ export interface Result {
 export interface ScoredResult extends Result {
   compositeScore: number;
   scoreBreakdown: ScoreFactor[];
+  schoolScore: SchoolScoreBreakdown;
   commuteIsLive: boolean;
   commuteTime2IsLive: boolean;
 }

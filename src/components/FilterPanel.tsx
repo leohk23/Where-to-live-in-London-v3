@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { ChevronDown, ChevronUp, SlidersHorizontal, UserPlus, Users } from 'lucide-react';
+import { SlidersHorizontal, UserPlus, Users } from 'lucide-react';
 import WorkLocationInput, { type LiveCommuteStatus } from './WorkLocationInput';
-import { usePersistedCollapse } from '../hooks/usePersistedCollapse';
 import { BUDGET_MIN, BUDGET_MAX, BUDGET_STEP, MAX_MONTHLY_TRIPS } from '../lib/constants';
 import type { BedroomCount, Priorities } from '../types';
 import type { WorkLocationKey } from '../work-locations';
+import type { SchoolGender, SchoolFaith } from '../data';
 
 type WorkMode = 'preset' | 'address';
 type CommuteSource = 'static' | 'live';
@@ -14,7 +14,7 @@ const PRIORITY_SLIDERS: { key: keyof Priorities; label: string; tip: string }[] 
   { key: 'commute',  label: 'Commute', tip: 'Shorter commute = higher score' },
   { key: 'cost',     label: 'Cost',    tip: 'Lower total monthly cost = higher score' },
   { key: 'safety',   label: 'Safety',  tip: 'Lower crime rate = higher score' },
-  { key: 'schools',  label: 'Schools', tip: 'Higher nearby share of Outstanding primary and secondary schools = higher score' },
+  { key: 'schools',  label: 'Schools', tip: 'Nearby school quality (Outstanding + Good) and choice, primary & secondary, plus grammar access = higher score' },
 ];
 
 const SELECT_CLASS =
@@ -40,6 +40,10 @@ interface Props {
   setMonthlyTrips: (v: number) => void;
   priorities: Priorities;
   setPriorities: (fn: (p: Priorities) => Priorities) => void;
+  childGender: SchoolGender;
+  setChildGender: (g: SchoolGender) => void;
+  schoolFaith: SchoolFaith;
+  setSchoolFaith: (f: SchoolFaith) => void;
   budgetEnabled: boolean;
   setBudgetEnabled: (v: boolean) => void;
   maxBudget: number;
@@ -76,6 +80,8 @@ export default function FilterPanel({
   bedrooms, setBedrooms,
   monthlyTrips, setMonthlyTrips,
   priorities, setPriorities,
+  childGender, setChildGender,
+  schoolFaith, setSchoolFaith,
   budgetEnabled, setBudgetEnabled,
   maxBudget, setMaxBudget,
   anyPriority,
@@ -127,79 +133,16 @@ export default function FilterPanel({
   };
 
   const setupGridClass = 'grid grid-cols-1 items-start xl:grid-cols-[minmax(0,1fr)_minmax(18rem,0.9fr)] gap-4 mb-4 xl:mb-3';
-  const { collapsed, toggle } = usePersistedCollapse('wtl-collapse-filters');
-
-  // Compact chip recap of the current selections, shown while the section is collapsed.
-  // Long addresses are clamped inside their own chip so they can't push the rest out of view.
-  const workSummary = workMode === 'address'
-    ? (officePostcode.trim() || 'not set')
-    : (workLocation || 'not set');
-  const partnerSummary = workMode2 === 'address' ? officePostcode2.trim() : workLocation2;
-  const activePriorities = PRIORITY_SLIDERS.filter(({ key }) => priorities[key] > 0);
-  const chipClass =
-    'inline-flex max-w-full items-baseline gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-gray-600 dark:bg-gray-800 dark:text-gray-300';
-  const chipLabelClass = 'shrink-0 text-gray-400 dark:text-gray-500';
 
   return (
     <div className={`rounded-lg border border-gray-200 bg-white p-3 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:p-4 ${className ?? 'mb-6'}`}>
-      <div className={`flex items-center justify-between gap-3 ${collapsed ? '' : 'mb-4 xl:mb-3'}`}>
-        <div className="min-w-0 flex-1">
-          <h2 className="text-lg font-semibold flex items-center">
-            <SlidersHorizontal className="h-5 w-5 mr-2 shrink-0 text-blue-600" />
-            <span className="truncate">Your needs &amp; priorities</span>
-          </h2>
-          {collapsed && (
-            <div className="mt-1 flex flex-wrap items-center gap-1 text-[11px] leading-4">
-              <span className={chipClass} title={workSummary}>
-                <span className={chipLabelClass}>Work</span>
-                <span className="max-w-[10rem] truncate font-medium">{workSummary}</span>
-              </span>
-              {partnerSummary && (
-                <span className={chipClass} title={partnerSummary}>
-                  <span className={chipLabelClass}>Partner</span>
-                  <span className="max-w-[10rem] truncate font-medium">{partnerSummary}</span>
-                </span>
-              )}
-              <span className={chipClass}>
-                <span className="font-medium">{bedrooms} bed</span>
-              </span>
-              <span className={chipClass}>
-                <span className="font-medium">{monthlyTrips} trips/mo</span>
-              </span>
-              {activePriorities.length > 0 ? (
-                activePriorities.map(({ key, label }) => (
-                  <span key={key} className={chipClass}>
-                    <span className={chipLabelClass}>{label}</span>
-                    <span className="font-medium text-blue-600 dark:text-blue-400">{priorities[key]}</span>
-                  </span>
-                ))
-              ) : (
-                <span className={chipClass}>
-                  <span className={chipLabelClass}>Priorities off</span>
-                </span>
-              )}
-              {budgetEnabled && (
-                <span className={chipClass}>
-                  <span className={chipLabelClass}>Budget</span>
-                  <span className="font-medium">£{maxBudget.toLocaleString()}</span>
-                </span>
-              )}
-            </div>
-          )}
-        </div>
-        <button
-          type="button"
-          onClick={toggle}
-          className="shrink-0 rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-          aria-expanded={!collapsed}
-          title={collapsed ? 'Expand section' : 'Collapse section'}
-        >
-          {collapsed ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
-        </button>
+      <div className="mb-4 flex items-center gap-3 xl:mb-3">
+        <h2 className="min-w-0 flex-1 text-lg font-semibold flex items-center">
+          <SlidersHorizontal className="h-5 w-5 mr-2 shrink-0 text-blue-600" />
+          <span className="truncate">Your needs &amp; priorities</span>
+        </h2>
       </div>
 
-      {!collapsed && (
-      <>
       <div className={setupGridClass}>
         <div className="flex flex-col gap-4">
         <WorkLocationInput
@@ -319,6 +262,63 @@ export default function FilterPanel({
             </div>
           ))}
         </div>
+
+        {/* Child gender — only single-sex schools that match are counted in the Schools score. */}
+        {priorities.schools > 0 && (
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-medium text-gray-600 dark:text-gray-300">Schools for a</span>
+            <div className="inline-flex rounded-md border border-gray-200 bg-gray-50 p-0.5 text-xs dark:border-gray-700 dark:bg-gray-800">
+              {([['any', 'Any child'], ['boy', 'Son'], ['girl', 'Daughter']] as const).map(([val, label]) => (
+                <button
+                  key={val}
+                  type="button"
+                  onClick={() => setChildGender(val)}
+                  aria-pressed={childGender === val}
+                  className={`rounded px-2.5 py-1 font-semibold leading-none transition ${
+                    childGender === val
+                      ? 'bg-white text-blue-700 shadow-sm dark:bg-gray-900 dark:text-blue-300'
+                      : 'text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            {childGender !== 'any' && (
+              <span className="text-[11px] text-gray-400 dark:text-gray-500">
+                {childGender === 'boy' ? 'girls-only schools excluded' : 'boys-only schools excluded'}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Faith schools admit partly on religion, so they aren't realistically open to all — let
+            families who can't access them drop faith schools from the Schools score. */}
+        {priorities.schools > 0 && (
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-medium text-gray-600 dark:text-gray-300">Faith schools</span>
+            <div className="inline-flex rounded-md border border-gray-200 bg-gray-50 p-0.5 text-xs dark:border-gray-700 dark:bg-gray-800">
+              {([['any', 'Include'], ['secular', 'Exclude']] as const).map(([val, label]) => (
+                <button
+                  key={val}
+                  type="button"
+                  onClick={() => setSchoolFaith(val)}
+                  aria-pressed={schoolFaith === val}
+                  className={`rounded px-2.5 py-1 font-semibold leading-none transition ${
+                    schoolFaith === val
+                      ? 'bg-white text-blue-700 shadow-sm dark:bg-gray-900 dark:text-blue-300'
+                      : 'text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            {schoolFaith === 'secular' && (
+              <span className="text-[11px] text-gray-400 dark:text-gray-500">faith schools excluded</span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Budget filter */}
@@ -347,8 +347,6 @@ export default function FilterPanel({
           )}
         </div>
       </div>
-      </>
-      )}
     </div>
   );
 }

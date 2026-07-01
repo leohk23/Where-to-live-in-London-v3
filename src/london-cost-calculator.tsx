@@ -18,6 +18,7 @@ import {
   Coffee,
   SlidersHorizontal,
   ChevronUp,
+  ChevronDown,
 } from 'lucide-react';
 import { useCalculator } from './hooks/useCalculator';
 import { useDarkMode } from './hooks/useDarkMode';
@@ -97,8 +98,15 @@ function LondonCostCalculator() {
 
   // Once you scroll past the filters, dock a compact summary into the sticky header.
   const [scrolledPastFilters, setScrolledPastFilters] = useState(false);
+  // Clicking the docked summary drops the full filter panel down as an overlay, so you can tweak
+  // inputs without scrolling back to the top.
+  const [filtersOverlayOpen, setFiltersOverlayOpen] = useState(false);
   useEffect(() => {
-    const onScroll = () => setScrolledPastFilters(window.scrollY > 220);
+    const onScroll = () => setScrolledPastFilters(prev => {
+      const next = window.scrollY > 220;
+      if (!next && prev) setFiltersOverlayOpen(false);
+      return next;
+    });
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -190,6 +198,10 @@ function LondonCostCalculator() {
       setMonthlyTrips={calc.setMonthlyTrips}
       priorities={calc.priorities}
       setPriorities={calc.setPriorities}
+      schoolFaith={calc.schoolFaith}
+      setSchoolFaith={calc.setSchoolFaith}
+      childGender={calc.childGender}
+      setChildGender={calc.setChildGender}
       budgetEnabled={calc.budgetEnabled}
       setBudgetEnabled={calc.setBudgetEnabled}
       maxBudget={calc.maxBudget}
@@ -238,9 +250,10 @@ function LondonCostCalculator() {
           {hasResults && scrolledPastFilters && (
             <button
               type="button"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={() => setFiltersOverlayOpen(open => !open)}
+              aria-expanded={filtersOverlayOpen}
               className="hidden min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1 text-[11px] lg:flex"
-              title="Jump back to your needs & priorities"
+              title="Edit your needs & priorities"
             >
               <SlidersHorizontal className="h-3.5 w-3.5 shrink-0 text-blue-600" />
               {(() => {
@@ -258,8 +271,10 @@ function LondonCostCalculator() {
                     {prios.length > 0
                       ? prios.map(k => <span key={k} className={chip}><span className="font-medium capitalize text-blue-600 dark:text-blue-400">{k}</span><span className="font-semibold text-blue-600 dark:text-blue-400">{calc.priorities[k]}</span></span>)
                       : <span className={chip}><span className={lab}>Priorities off</span></span>}
+                    {calc.priorities.schools > 0 && calc.childGender !== 'any' && <span className={chip}><span className={lab}>Schools for</span><span className="font-medium">{calc.childGender === 'boy' ? 'son' : 'daughter'}</span></span>}
+                    {calc.priorities.schools > 0 && calc.schoolFaith === 'secular' && <span className={chip}><span className={lab}>No</span><span className="font-medium">faith schools</span></span>}
                     {calc.budgetEnabled && <span className={chip}><span className={lab}>Budget</span><span className="font-medium">&pound;{calc.maxBudget.toLocaleString()}</span></span>}
-                    <span className="inline-flex shrink-0 items-center gap-0.5 pl-1 font-medium text-blue-600 dark:text-blue-400"><ChevronUp className="h-3.5 w-3.5" />Edit</span>
+                    <span className="inline-flex shrink-0 items-center gap-0.5 pl-1 font-medium text-blue-600 dark:text-blue-400">{filtersOverlayOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}{filtersOverlayOpen ? 'Close' : 'Edit'}</span>
                   </>
                 );
               })()}
@@ -374,6 +389,23 @@ function LondonCostCalculator() {
           </div>
         </div>
       </header>
+
+      {/* Drops the full filter panel down from the docked header summary, overlaying the map/table,
+          so inputs can be tweaked without scrolling back to the top. Header (z-50) stays above it. */}
+      {filtersOverlayOpen && (
+        <>
+          <div
+            className="fixed inset-0 top-[var(--app-header-h,3rem)] z-[45] bg-black/20 dark:bg-black/40"
+            onClick={() => setFiltersOverlayOpen(false)}
+            aria-hidden
+          />
+          <div className="fixed inset-x-0 top-[var(--app-header-h,3rem)] z-50 px-4 pt-2 sm:px-6">
+            <div className="mx-auto max-h-[calc(100vh-var(--app-header-h,3rem)-1rem)] max-w-[110rem] overflow-y-auto">
+              {renderFilterPanel('shadow-2xl')}
+            </div>
+          </div>
+        </>
+      )}
 
       <main className="mx-auto max-w-[110rem] p-4 sm:p-6">
         {hasResults ? (

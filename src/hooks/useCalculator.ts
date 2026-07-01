@@ -2,8 +2,9 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { commuteTimes, commuteRoutes } from '../commute-times';
 import { summariseRoute, type TflJourney } from '../lib/tfl-route';
 import { locationData, councilTaxData, boroughStats, locationSchoolStats, asianSpots } from '../data';
+import type { SchoolGender, SchoolFaith } from '../data';
 import { workLocations, type WorkLocationKey } from '../work-locations';
-import { expectedWaitMinutes } from '../lib/commute-wait';
+import { expectedWaitMinutes, interchangeWaitMinutes } from '../lib/commute-wait';
 import {
   FARE_BY_ZONE_DIFF, FARE_FALLBACK,
   NULL_COMMUTE_FALLBACK, NULL_CRIME_FALLBACK,
@@ -40,6 +41,10 @@ function readUrlParams() {
     // work location, defaulting new visitors to the exact-address mode.
     wm:     (p.get('wm') === 'a' ? 'address' : p.get('wm') === 'p' ? 'preset' : p.get('work') ? 'preset' : 'address') as WorkMode,
     wm2:    (p.get('wm2') === 'a' ? 'address' : p.get('wm2') === 'p' ? 'preset' : p.get('work2') ? 'preset' : 'address') as WorkMode,
+    // Child gender for school eligibility: excludes opposite single-sex schools from scoring.
+    cg:     (p.get('cg') === 'boy' ? 'boy' : p.get('cg') === 'girl' ? 'girl' : 'any') as SchoolGender,
+    // Faith mode: 'secular' excludes faith schools from scoring.
+    sf:     (p.get('sf') === 'secular' ? 'secular' : 'any') as SchoolFaith,
   };
 }
 
@@ -274,6 +279,9 @@ export function useCalculator() {
   const [bedrooms,      setBedrooms]      = useState<BedroomCount>(url?.beds ?? 1);
   const [budgetEnabled, setBudgetEnabled] = useState<boolean>(url?.be ?? false);
   const [maxBudget,     setMaxBudget]     = useState<number>(url?.budget ?? DEFAULT_BUDGET);
+  // Which child the schools are being judged for — filters out opposite single-sex schools.
+  const [childGender,   setChildGender]   = useState<SchoolGender>(url?.cg ?? 'any');
+  const [schoolFaith,   setSchoolFaith]   = useState<SchoolFaith>(url?.sf ?? 'any');
   const [priorities, setPriorities] = useState<Priorities>({
     commute: url?.pc   ?? 0,
     cost:    url?.pco  ?? 0,
@@ -338,6 +346,8 @@ export function useCalculator() {
     if (priorities.cost)                        p.set('pco',    String(priorities.cost));
     if (priorities.safety)                      p.set('ps',     String(priorities.safety));
     if (priorities.schools)                     p.set('psch',   String(priorities.schools));
+    if (childGender !== 'any')                  p.set('cg',     childGender);
+    if (schoolFaith !== 'any')                  p.set('sf',     schoolFaith);
     if (budgetEnabled) { p.set('be', '1'); p.set('budget', String(maxBudget)); }
     if (officePostcode)  p.set('op',  officePostcode);
     if (officePostcode2) p.set('op2', officePostcode2);
@@ -345,7 +355,7 @@ export function useCalculator() {
     if (commuteSource2 === 'live') p.set('cs2', 'live');
     const qs = p.toString();
     window.history.replaceState({}, '', qs ? '?' + qs : window.location.pathname);
-  }, [workLocation, workLocation2, workMode, workMode2, bedrooms, monthlyTrips, priorities, maxBudget, budgetEnabled, officePostcode, officePostcode2, commuteSource, commuteSource2]);
+  }, [workLocation, workLocation2, workMode, workMode2, bedrooms, monthlyTrips, priorities, maxBudget, budgetEnabled, officePostcode, officePostcode2, commuteSource, commuteSource2, childGender, schoolFaith]);
 
   // Auto-switch sort column when priorities change
   useEffect(() => {
@@ -388,7 +398,7 @@ export function useCalculator() {
       const councilTaxMonthly = councilTaxData[data.borough][bedrooms] / 12;
       const totalMonthly = rent + transportCostMonthly + councilTaxMonthly;
       const stats = boroughStats[data.borough];
-      const nearbySchools = locationSchoolStats[location];
+      const nearbySchools = locationSchoolStats[location]?.[childGender]?.[schoolFaith];
       const nearbySchoolsTotal = nearbySchools
         ? nearbySchools.primarySchools + nearbySchools.secondarySchools
         : 0;
@@ -426,6 +436,8 @@ export function useCalculator() {
         primaryOutstandingSchools: schools?.primaryOutstandingSchools ?? null,
         primaryGoodSchools: schoolsSource === 'nearby' ? nearbySchools.primaryGoodSchools ?? null : null,
         primarySchools: schools?.primarySchools ?? null,
+        primaryWeightedQuality: schoolsSource === 'nearby' ? nearbySchools.primaryWeightedQuality ?? null : null,
+        primaryWeightedStrong:  schoolsSource === 'nearby' ? nearbySchools.primaryWeightedStrong ?? null : null,
         secondaryOutstandingSchools: schools?.secondaryOutstandingSchools ?? null,
         secondaryGoodSchools: schoolsSource === 'nearby' ? nearbySchools.secondaryGoodSchools ?? null : null,
         secondarySchools: schools?.secondarySchools ?? null,
@@ -473,7 +485,7 @@ export function useCalculator() {
     setSortBy(anyPriority ? 'score' : 'total');
     setSortDirection(anyPriority ? 'desc' : 'asc');
     setResults(calculated);
-  }, [workMode, workLocation, workMode2, workLocation2, commuteSource, commuteSource2, officePostcode2, monthlyTrips, bedrooms, priorities]);
+  }, [workMode, workLocation, workMode2, workLocation2, commuteSource, commuteSource2, officePostcode2, monthlyTrips, bedrooms, priorities, childGender, schoolFaith]);
 
   // force=true skips the session cache so an explicit click always recalculates.
   const fetchLiveCommutes = useCallback(async (force = false) => {
@@ -579,7 +591,59 @@ export function useCalculator() {
       commuteRoute2:      liveOn2 && r.location in liveCommuteTimes2 ? (liveCommuteRoutes2[r.location] ?? null) : r.commuteRoute2,
     }));
 
-    let scored = withLive.map(r => {
+    const norm = (val: number, arr: number[], lowerBetter: boolean) => {
+      const min = Math.min(...arr), max = Math.max(...arr);
+      if (max === min) return 50;
+      return lowerBetter ? ((max - val) / (max - min)) * 100 : ((val - min) / (max - min)) * 100;
+    };
+
+    // Schools: blend quality (Outstanding + half-credit for Good) with supply (how many strong
+    // schools are actually nearby), scored per phase then averaged so primary AND secondary both
+    // have to be decent — plus a small bump where selective/grammar exists. Supply is relative to
+    // the best-served area (sqrt for diminishing returns, so a few dense central areas don't flatten
+    // everyone else). Computed for every row (independent of the sliders) so the expanded view can
+    // always show the breakdown; the scoring below reuses these values. Replaces the old
+    // Outstanding-share-only metric.
+    // Primary uses distance-weighted figures (closer schools count more, since primary admission is
+    // distance-based); secondary stays on flat counts. Falls back to raw counts on borough data.
+    const primaryStrong   = (x: typeof withLive[number]) => x.primaryWeightedStrong ?? ((x.primaryOutstandingSchools ?? 0) + (x.primaryGoodSchools ?? 0));
+    const secondaryStrong = (x: typeof withLive[number]) => (x.secondaryOutstandingSchools ?? 0) + (x.secondaryGoodSchools ?? 0);
+    const maxPrimaryStrong   = Math.max(1, ...withLive.map(primaryStrong));
+    const maxSecondaryStrong = Math.max(1, ...withLive.map(secondaryStrong));
+    const phaseQuality = (o: number, g: number, total: number) => total ? (o + 0.5 * g) / total : 0;
+    const phaseSupply  = (strong: number, maxStrong: number) => Math.sqrt(strong / maxStrong);
+    // Selective/grammar bonus scales with how many grammar schools are nearby (not a flat bump),
+    // relative to the best-served area with sqrt for diminishing returns — so a 5-grammar borough
+    // like Sutton is rewarded over an area with one, which a flat bonus failed to do.
+    const maxGrammar = Math.max(1, ...withLive.map(x => x.grammarSchools ?? 0));
+    const grammarBonus = (x: typeof withLive[number]) => 0.25 * Math.sqrt((x.grammarSchools ?? 0) / maxGrammar);
+    // Phase score from the *displayed* rounded %s, so the on-screen "Q×0.6 + C×0.4 = N" adds up. A
+    // phase with no schools nearby scores 0 (a real gap), so averaging both phases penalises areas
+    // strong in one phase but missing the other — that's the point of weighting them equally.
+    const phaseInt = (quality: number | null, supply: number | null) =>
+      quality === null || supply === null
+        ? null
+        : Math.round(0.6 * Math.round(quality * 100) + 0.4 * Math.round(supply * 100));
+    const buildSchoolScore = (x: typeof withLive[number]): ScoredResult['schoolScore'] => {
+      const pq = x.primarySchools ? (x.primaryWeightedQuality ?? phaseQuality(x.primaryOutstandingSchools ?? 0, x.primaryGoodSchools ?? 0, x.primarySchools)) : null;
+      const ps = x.primarySchools ? phaseSupply(primaryStrong(x), maxPrimaryStrong) : null;
+      const sq = x.secondarySchools ? phaseQuality(x.secondaryOutstandingSchools ?? 0, x.secondaryGoodSchools ?? 0, x.secondarySchools) : null;
+      const ss = x.secondarySchools ? phaseSupply(secondaryStrong(x), maxSecondaryStrong) : null;
+      const pScore = phaseInt(pq, ps), sScore = phaseInt(sq, ss);
+      const averaged = Math.round(((pScore ?? 0) + (sScore ?? 0)) / 2);
+      return {
+        primary:   { strong: primaryStrong(x),   quality: pq, supply: ps, score: pScore },
+        secondary: { strong: secondaryStrong(x), quality: sq, supply: ss, score: sScore },
+        averaged,
+        raw: averaged + Math.round(grammarBonus(x) * 100),
+      };
+    };
+    // Build once per area; the composite normalises the SAME raw the column shows, so a schools-only
+    // ranking lines up exactly with the Schools column order.
+    const schoolScores = withLive.map(buildSchoolScore);
+    const allSchoolRaws = schoolScores.map(s => s.raw);
+
+    let scored = withLive.map((r, i) => {
       let compositeScore = 0;
       let scoreBreakdown: ScoredResult['scoreBreakdown'] = [];
       if (isActive) {
@@ -588,30 +652,30 @@ export function useCalculator() {
         // person's actual route (train vs tube first leg), so two equal journey times score
         // differently when one boards a service that runs every 30 min.
         const withPartnerScore = (workMode2 !== 'preset' || workLocation2);
-        const allCommutes = withLive.map(x => {
-          const e1 = (x.commuteTime ?? NULL_COMMUTE_FALLBACK) + expectedWaitMinutes(x.location, x.commuteRoute);
-          const e2 = withPartnerScore ? (x.commuteTime2 ?? NULL_COMMUTE_FALLBACK) + expectedWaitMinutes(x.location, x.commuteRoute2) : e1;
-          return withPartnerScore ? (e1 + e2) / 2 : e1;
-        });
+        // A side contributes its journey time + route-aware wait + interchange cost only when it
+        // has an actual journey; with no destination the per-location wait is meaningless noise, so
+        // a null side drops out. When BOTH sides are null (no commute destination selected at all)
+        // every location falls back to the same constant, so the commute factor is neutral rather
+        // than ranking purely by which station happens to have the longest train interval. The
+        // interchange cost makes a direct trip beat an equal-length trip with changes.
+        const sideEffective = (time: number | null, location: string, route: string | null) =>
+          time === null ? null : time + expectedWaitMinutes(location, route) + interchangeWaitMinutes(route);
+        const combineCommute = (x: typeof withLive[number]) => {
+          const sides = [sideEffective(x.commuteTime, x.location, x.commuteRoute)];
+          if (withPartnerScore) sides.push(sideEffective(x.commuteTime2, x.location, x.commuteRoute2));
+          const present = sides.filter((v): v is number => v !== null);
+          return present.length ? present.reduce((a, b) => a + b, 0) / present.length : NULL_COMMUTE_FALLBACK;
+        };
+        const allCommutes = withLive.map(combineCommute);
         const allCosts   = withLive.map(x => x.totalMonthly);
         const allCrimes  = withLive.map(x => x.crimeRate  ?? NULL_CRIME_FALLBACK);
-        const allSchools = withLive.map(x => x.outstandingSchoolsPct ?? 0);
 
-        const norm = (val: number, arr: number[], lowerBetter: boolean) => {
-          const min = Math.min(...arr), max = Math.max(...arr);
-          if (max === min) return 50;
-          return lowerBetter ? ((max - val) / (max - min)) * 100 : ((val - min) / (max - min)) * 100;
-        };
-
-        const hasPartner = workMode2 === 'address' || !!workLocation2;
-        const myE1 = (r.commuteTime ?? NULL_COMMUTE_FALLBACK) + expectedWaitMinutes(r.location, r.commuteRoute);
-        const myE2 = hasPartner ? (r.commuteTime2 ?? NULL_COMMUTE_FALLBACK) + expectedWaitMinutes(r.location, r.commuteRoute2) : myE1;
-        const myCommute = hasPartner ? (myE1 + myE2) / 2 : myE1;
+        const myCommute = combineCommute(r);
 
         const nCommute = norm(myCommute,                          allCommutes, true);
         const nCost    = norm(r.totalMonthly,                     allCosts,    true);
         const nSafety  = norm(r.crimeRate ?? NULL_CRIME_FALLBACK, allCrimes,   true);
-        const nSchools = norm(r.outstandingSchoolsPct ?? 0,       allSchools,  false);
+        const nSchools = norm(schoolScores[i].raw,                allSchoolRaws,    false);
 
         const sc = nCommute * priorities.commute
                  + nCost    * priorities.cost
@@ -626,7 +690,7 @@ export function useCalculator() {
           { key: 'schools', normalized: Math.round(nSchools), weight: priorities.schools },
         ] as ScoredResult['scoreBreakdown']).filter(factor => factor.weight > 0);
       }
-      return { ...r, compositeScore, scoreBreakdown };
+      return { ...r, compositeScore, scoreBreakdown, schoolScore: schoolScores[i] };
     });
 
     const cmp = (a: ScoredResult, b: ScoredResult): number => {
@@ -650,10 +714,11 @@ export function useCalculator() {
           return a.crimeRate - b.crimeRate;
         }
         case 'schools': {
+          // Sort by the blended school sub-score (what the column now shows); no-data rows still sink.
           if (a.outstandingSchoolsPct === null && b.outstandingSchoolsPct === null) return 0;
           if (a.outstandingSchoolsPct === null) return 1;
           if (b.outstandingSchoolsPct === null) return -1;
-          return b.outstandingSchoolsPct - a.outstandingSchoolsPct;
+          return b.schoolScore.raw - a.schoolScore.raw;
         }
         case 'asianSpots': {
           // Most spots first by default (like score/schools); 0 is a valid value, never null.
@@ -702,6 +767,8 @@ export function useCalculator() {
     bedrooms,      setBedrooms,
     monthlyTrips,  setMonthlyTrips,
     priorities,    setPriorities,
+    childGender,   setChildGender,
+    schoolFaith,   setSchoolFaith,
     budgetEnabled, setBudgetEnabled,
     maxBudget,     setMaxBudget,
     // Primary live commute

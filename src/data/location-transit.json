@@ -222,5 +222,15 @@
   ],
   "Teddington": [
     "national-rail"
+  ],
+  "Canning Town": [
+    "tube",
+    "dlr"
+  ],
+  "Norbury": [
+    "national-rail"
+  ],
+  "Mill Hill": [
+    "national-rail"
   ]
 }

@@ -7,8 +7,9 @@ export const FARE_FALLBACK = 6.0;
 
 // Walk radius for counting nearby Hongkongese/East Asian spots around an anchor.
 export const ASIAN_RADIUS_KM = 1.75;
-export const PRIMARY_SCHOOL_RADIUS_KM = 3;
+export const PRIMARY_SCHOOL_RADIUS_KM = 2;   // ~realistic primary catchment (was 3km, which tracked city density)
 export const SECONDARY_SCHOOL_RADIUS_KM = 5;
+// Grammar/selective use each school's own catchment (see src/data/grammar-catchments.ts).
 export const NEAREST_SCHOOL_LIMIT = 5;
 
 export const CRIME_THRESHOLDS = { low: 90, medium: 120, high: 150 } as const;

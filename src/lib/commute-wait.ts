@@ -51,3 +51,22 @@ export function expectedWaitMinutes(location: string, route?: string | null): nu
   const headway = firstLeg ? headwayForMode(location, lineToMode(firstLeg)) : primaryHeadway(location);
   return Math.round(headway / 2);
 }
+
+// Fixed minutes lost to a single change: walking between platforms, finding the next service,
+// re-tapping. On top of the wait for the next train.
+const INTERCHANGE_HASSLE_MIN = 4;
+
+// Time cost of the CHANGES in a journey, so a direct 35-min trip beats a 35-min trip with two
+// changes. Route legs (summariseRoute) are the non-walking boardings, so changes = legs - 1;
+// each change after the first adds hassle plus the platform wait for that leg's mode.
+// ponytail: interchange hubs are usually frequent, so this uses the mode's default headway
+// (not the origin's curated figure) — refine per-interchange only if it proves too coarse.
+export function interchangeWaitMinutes(route?: string | null): number {
+  if (!route) return 0;
+  const legs = route.split(' → ');
+  let total = 0;
+  for (let i = 1; i < legs.length; i += 1) {
+    total += INTERCHANGE_HASSLE_MIN + Math.round(MODE_PEAK_HEADWAY[lineToMode(legs[i])] / 2);
+  }
+  return total;
+}

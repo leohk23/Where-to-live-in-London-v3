@@ -69,5 +69,8 @@ export const LOCATION_WARDS: Record<string, string[]> = {
   "Berrylands": ["Berrylands", "Alexandra"],
   "Twickenham": ["Twickenham Riverside", "South Twickenham"],
   "Teddington": ["Teddington", "Hampton Wick"],
+  "Canning Town": ["Canning Town North", "Canning Town South", "Custom House"],
+  "Norbury": ["Norbury", "Bensham Manor", "Thornton Heath"],
+  "Mill Hill": ["Mill Hill", "Hale"],
   // Left as single-ward (anchor's own ward): Wimbledon Park, Childs Hill.
 };

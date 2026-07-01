@@ -974,5 +974,53 @@
     "station": "Teddington Rail Station",
     "naptan": "910GTEDNGTN",
     "rent": { "1": 1600, "2": 2050, "3": 2500, "4": 3400 }
+  },
+  "Canning Town": {
+    "point": { "lat": 51.514, "lon": 0.008 },
+    "ladCode": "E09000025",
+    "id": "canning-town",
+    "displayName": "Canning Town",
+    "comparisonName": "Canning Town",
+    "anchorStation": "Canning Town Station",
+    "labelScope": "area",
+    "dataConfidence": "medium",
+    "reviewNote": "Regeneration hub anchor (Jubilee line + DLR). Rent estimated from new-build east London comparables.",
+    "borough": "Newham",
+    "zone": "Zone 3",
+    "station": "Canning Town Station",
+    "naptan": "940GZZLUCGT",
+    "rent": { "1": 1750, "2": 2200, "3": 2650, "4": 3200 }
+  },
+  "Norbury": {
+    "point": { "lat": 51.4114, "lon": -0.1219 },
+    "ladCode": "E09000008",
+    "id": "norbury",
+    "displayName": "Norbury",
+    "comparisonName": "Norbury",
+    "anchorStation": "Norbury Rail Station",
+    "labelScope": "area",
+    "dataConfidence": "medium",
+    "reviewNote": "Station-centric comparison anchor (Southern / Thameslink). Rent estimated from Croydon/Streatham comparables.",
+    "borough": "Croydon",
+    "zone": "Zone 3",
+    "station": "Norbury Rail Station",
+    "naptan": "910GNORBURY",
+    "rent": { "1": 1250, "2": 1550, "3": 1900, "4": 2350 }
+  },
+  "Mill Hill": {
+    "point": { "lat": 51.6131, "lon": -0.2492 },
+    "ladCode": "E09000003",
+    "id": "mill-hill",
+    "displayName": "Mill Hill",
+    "comparisonName": "Mill Hill",
+    "anchorStation": "Mill Hill Broadway Rail Station",
+    "labelScope": "area",
+    "dataConfidence": "medium",
+    "reviewNote": "Mill Hill Broadway anchor (Thameslink). Rent estimated from outer north-west London comparables.",
+    "borough": "Barnet",
+    "zone": "Zone 4",
+    "station": "Mill Hill Broadway Rail Station",
+    "naptan": "910GMLHB",
+    "rent": { "1": 1350, "2": 1750, "3": 2200, "4": 2850 }
   }
 }

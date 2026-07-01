@@ -54,6 +54,8 @@ const STOPPOINT_OVERRIDES: Record<string, string> = {
   // Search returns the HUBSPB hub / "Shepherd's Bush Market" instead of the Central-line
   // station, so pin the Central-line StopPoint directly (verified in Journey Planner).
   "Shepherd's Bush Underground Station": "940GZZLUSBC",
+  // Search returns the HUBCAN hub (not accepted by Journey Planner); pin the Jubilee-line station.
+  "Canning Town Station": "940GZZLUCGT",
   "Brixton Underground Station": "940GZZLUBXN",
   "Fulham Broadway Underground Station": "940GZZLUFBY",
   "Tooting Broadway Underground Station": "940GZZLUTBY",
