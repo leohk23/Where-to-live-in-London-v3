@@ -14,12 +14,12 @@ The app helps shortlist London areas by comparing:
 - TfL commute times, including optional live exact-address commute checks
 - transport costs by fare zone
 - borough council tax
-- borough-level crime rates
+- ward-weighted crime rates with borough fallback
 - nearby primary and secondary school data around each location anchor
 
 ## Data And Privacy
 
-The app uses public or app-maintained datasets, including ONS Private Rental Market Statistics plus Hutch / Joinhutch asking-rent data (manually maintained estimate), TfL Journey Planner, Ofsted school inspection data, Met Police crime data and council tax figures.
+The app uses public or app-maintained datasets, including ONS Private Rental Market Statistics plus Hutch / Joinhutch asking-rent data (manually maintained estimate), TfL Journey Planner, Ofsted school inspection data, Police API crime data, Nomis ward population and council tax figures.
 
 No personal data or user input is collected by the author or stored on a server through this web app. Shared links can include selected filters in the URL, and live commute results may be cached temporarily in your browser session.
 

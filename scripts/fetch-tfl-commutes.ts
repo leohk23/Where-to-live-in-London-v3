@@ -7,6 +7,22 @@ import { workLocations } from "../src/work-locations";
 import type { CommuteTimes, CommuteRoutes } from "../src/commute-times";
 import { summariseRoute, type TflJourney } from "../src/lib/tfl-route";
 
+// Matrix rows are keyed by STATION, not location: each location contributes its primary station
+// plus any alternate commuting stations (multi-anchor locations). A station with a naptan resolves
+// directly; otherwise we search by station name. Single-station locations key by their own name.
+const HOME_STATIONS: Record<string, { query: string; naptan?: string }> = (() => {
+  const out: Record<string, { query: string; naptan?: string }> = {};
+  for (const [location, data] of Object.entries(locationData)) {
+    const stations = data.commuteStations?.length
+      ? data.commuteStations
+      : [{ key: location, naptan: data.naptan, station: data.station }];
+    for (const s of stations) {
+      if (!out[s.key]) out[s.key] = { query: s.station ?? location, naptan: s.naptan };
+    }
+  }
+  return out;
+})();
+
 interface StopPointSearchMatch {
   id?: string;
   icsId?: string;
@@ -48,7 +64,9 @@ const STOPPOINT_OVERRIDES: Record<string, string> = {
   "South Kensington Underground Station": "940GZZLUSKS",           // Piccadilly/Circle/District
   "Holborn Underground Station": "940GZZLUHBN",                    // Central/Piccadilly
   "London Bridge Underground Station": "940GZZLULNB",              // Jubilee/Northern
-  "Euston Underground Station": "940GZZLUEAC",                     // Victoria/Northern
+  // WAS "940GZZLUEAC" — that's Elephant & Castle, which silently poisoned every Euston time
+  // in the matrix until Jul 2026. EUS is the real Euston (Victoria/Northern).
+  "Euston Underground Station": "940GZZLUEUS",
 
   // ---- Homes (suburbs) ----
   // Search returns the HUBSPB hub / "Shepherd's Bush Market" instead of the Central-line
@@ -95,7 +113,7 @@ const APP_KEY = process.env.TFL_APP_KEY || "";
 const BASE = "https://api.tfl.gov.uk";
 const modes = ["tube", "overground", "elizabeth-line", "dlr", "tram", "national-rail"];
 
-const cacheFile = path.resolve(process.cwd(), "scripts/.tfl-stop-cache.json");
+const cacheFile = path.resolve(process.cwd(), "scripts/data/tfl-stop-cache.json");
 let STOP_CACHE: Record<string, string> = {};
 try {
   STOP_CACHE = JSON.parse(fs.readFileSync(cacheFile, "utf8"));
@@ -240,11 +258,11 @@ async function resolveStopPointId(query: string): Promise<string> {
  *  when the request could not be completed (e.g. rate-limited) — callers must NOT persist null,
  *  leaving the pair absent so a later run retries it. */
 async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<{ minutes: number; route: string | null } | null> {
-  const fromQuery = locationData[fromLabel]?.station;
+  const from = HOME_STATIONS[fromLabel];
   const toQuery = workLocations[toLabel]?.station;
-  if (!fromQuery || !toQuery) throw new Error(`Unknown labels: ${fromLabel} → ${toLabel}`);
+  if (!from || !toQuery) throw new Error(`Unknown labels: ${fromLabel} → ${toLabel}`);
 
-  const fromId = await resolveStopPointId(fromQuery);
+  const fromId = from.naptan ?? await resolveStopPointId(from.query);
   const toId = await resolveStopPointId(toQuery);
 
   const url = `${BASE}/Journey/JourneyResults/${encodeURIComponent(fromId)}/to/${encodeURIComponent(toId)}?` + qs({
@@ -288,7 +306,7 @@ async function getDurationMinutes(fromLabel: string, toLabel: string): Promise<{
 }
 
 async function main() {
-  const homeKeys = Object.keys(locationData);
+  const homeKeys = Object.keys(HOME_STATIONS);
   const workKeys = Object.keys(workLocations);
 
   // Incremental & merge-based: start from the existing matrix and only fetch the pairs

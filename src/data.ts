@@ -1,15 +1,61 @@
-import type { LocationInfo, LocationSchoolStats, SchoolRecord, NearbySchool, AsianSpot, AsianSpotRecord, BoroughStats, BedroomCount } from './types';
+import type { LocationInfo, LocationSchoolStats, SchoolRecord, NearbySchool, AsianSpot, AsianSpotRecord, BoroughStats, BedroomCount, SchoolScoreBreakdown, GeoPoint, WardCrimeDataset, CrimeSource } from './types';
 import locationsJson from './data/locations.json';
-import schoolRecordsJson from './data/schools.json';
+import schoolRecordsJson from './data/generated/schools.json';
 import asianSpotsJson from './data/asian-spots.json';
 import boroughStatsJson from './data/borough-stats.json';
-import taxDataRaw from '../counciltax.json';
-import { ASIAN_RADIUS_KM, NEAREST_SCHOOL_LIMIT, PRIMARY_SCHOOL_RADIUS_KM, SECONDARY_SCHOOL_RADIUS_KM } from './lib/constants';
+import locationWardPolygonsJson from './data/generated/location-ward-polygons.json';
+import wardCrimeJson from './data/generated/ward-crime.json';
+import taxDataRaw from './data/council-tax.json';
+import { ASIAN_RADIUS_KM, NEAREST_SCHOOL_LIMIT, PRIMARY_CHOICE_TARGET, PRIMARY_SCHOOL_RADIUS_KM, SECONDARY_CHOICE_TARGET, SECONDARY_SCHOOL_RADIUS_KM } from './lib/constants';
 import { grammarCatchmentKm, RANK_ONLY_KM } from './data/grammar-catchments';
+import { resolveLocationPoint, anchorPointsOf } from './lib/location-point';
 
-export const locationData = locationsJson as unknown as Record<string, LocationInfo>;
+// A location's `point` is derived: for multi-station locations it's the centroid of its stations,
+// so schools/spots and the map all anchor to the middle of the area (see resolveLocationPoint).
+export const locationData: Record<string, LocationInfo> = Object.fromEntries(
+  Object.entries(locationsJson as unknown as Record<string, LocationInfo>)
+    .map(([key, loc]) => [key, { ...loc, point: resolveLocationPoint(loc) }]),
+);
 export const boroughStats = boroughStatsJson as unknown as Record<string, BoroughStats>;
 export const councilTaxData = taxDataRaw as Record<string, Record<BedroomCount, number>>;
+export const wardCrime = wardCrimeJson as unknown as WardCrimeDataset;
+
+interface CrimeBoundary {
+  wards?: Array<{ code?: string }>;
+}
+
+const locationCrimeBoundaries = locationWardPolygonsJson as unknown as Record<string, CrimeBoundary>;
+
+export function crimeStatsForLocation(location: string, borough: string): {
+  crimeRate: number | null;
+  crimeSource: CrimeSource;
+  crimeWardCount: number;
+  crimePeriod: string | null;
+} {
+  const fallback = boroughStats[borough]?.crimesPer1000 ?? null;
+  const wards = locationCrimeBoundaries[location]?.wards ?? [];
+  const stats = wards.flatMap(ward => ward.code && wardCrime.wards[ward.code] ? [wardCrime.wards[ward.code]] : []);
+
+  if (wards.length && stats.length === wards.length) {
+    const crimes = stats.reduce((sum, ward) => sum + ward.crimes, 0);
+    const population = stats.reduce((sum, ward) => sum + ward.population, 0);
+    if (population > 0) {
+      return {
+        crimeRate: Math.round((crimes / population) * 1000 * 10) / 10,
+        crimeSource: 'ward',
+        crimeWardCount: stats.length,
+        crimePeriod: wardCrime.meta.period || null,
+      };
+    }
+  }
+
+  return {
+    crimeRate: fallback,
+    crimeSource: 'borough',
+    crimeWardCount: 0,
+    crimePeriod: null,
+  };
+}
 
 // asian-spots.json is a flat master list (one entry per physical spot, with
 // coordinates). Each location picks up whichever spots fall within its radius —
@@ -61,7 +107,7 @@ function toNearbySchools(
 // School counts/lists for a location within each phase-specific radius, filtered to the schools a
 // child of the given gender could actually attend (mixed always; single-sex only if it matches).
 function schoolStatsFor(
-  loc: LocationInfo,
+  loc: Pick<LocationInfo, 'displayName' | 'station'>,
   schoolDistances: Array<{ school: SchoolRecord; distanceKm: number }>,
   g: SchoolGender,
   f: SchoolFaith,
@@ -121,15 +167,73 @@ function schoolStatsFor(
   };
 }
 
+type SchoolScoreStats = Pick<LocationSchoolStats,
+  | 'primaryOutstandingSchools'
+  | 'primaryGoodSchools'
+  | 'primarySchools'
+  | 'primaryWeightedQuality'
+  | 'primaryWeightedStrong'
+  | 'secondaryOutstandingSchools'
+  | 'secondaryGoodSchools'
+  | 'secondarySchools'
+  | 'grammarSchools'
+>;
+
+const phaseQuality = (o: number, g: number, total: number) => total ? (o + 0.5 * g) / total : 0;
+const phaseSupply = (strong: number, target: number) => Math.sqrt(Math.min(strong, target) / target);
+const phaseInt = (quality: number | null, supply: number | null) =>
+  quality === null || supply === null
+    ? null
+    : Math.round(0.6 * Math.round(quality * 100) + 0.4 * Math.round(supply * 100));
+
+export function schoolScoreFromStats(stats: SchoolScoreStats, maxGrammar: number): SchoolScoreBreakdown {
+  const primaryStrong = stats.primaryWeightedStrong;
+  const secondaryStrong = stats.secondaryOutstandingSchools + stats.secondaryGoodSchools;
+  const pq = stats.primarySchools ? stats.primaryWeightedQuality : null;
+  const ps = stats.primarySchools ? phaseSupply(primaryStrong, PRIMARY_CHOICE_TARGET) : null;
+  const sq = stats.secondarySchools
+    ? phaseQuality(stats.secondaryOutstandingSchools, stats.secondaryGoodSchools, stats.secondarySchools)
+    : null;
+  const ss = stats.secondarySchools ? phaseSupply(secondaryStrong, SECONDARY_CHOICE_TARGET) : null;
+  const pScore = phaseInt(pq, ps);
+  const sScore = phaseInt(sq, ss);
+  const averaged = Math.round(((pScore ?? 0) + (sScore ?? 0)) / 2);
+  const grammarBonus = 0.25 * Math.sqrt(stats.grammarSchools / Math.max(1, maxGrammar));
+
+  return {
+    primary: { strong: primaryStrong, quality: pq, supply: ps, score: pScore },
+    secondary: { strong: secondaryStrong, quality: sq, supply: ss, score: sScore },
+    averaged,
+    raw: Math.min(100, averaged + Math.round(grammarBonus * 100)),
+  };
+}
+
+export function schoolStatsForPoint(
+  displayName: string,
+  point: GeoPoint,
+  g: SchoolGender,
+  f: SchoolFaith,
+): LocationSchoolStats {
+  return schoolStatsFor(
+    { displayName, station: displayName },
+    schoolRecords.map(school => ({ school, distanceKm: haversineKm(point, school) })),
+    g,
+    f,
+  );
+}
+
 // Computed once at module load: location -> gender -> faith mode -> stats. Distances are computed
 // once per location and just re-tallied per variant. Adding a canonical location auto-derives its
 // schools. 3 genders × 2 faith modes = 6 cheap tallies per location off one distance pass.
 export const locationSchoolStats: Record<string, Record<SchoolGender, Record<SchoolFaith, LocationSchoolStats>>> =
   Object.fromEntries(
     Object.entries(locationData).map(([key, loc]) => {
+      // Nearest-station distance: a multi-station area's catchment is the union of its stations'
+      // catchments, so a school near any one station counts at its true walking distance.
+      const anchorPoints = anchorPointsOf(loc);
       const schoolDistances = schoolRecords.map(school => ({
         school,
-        distanceKm: haversineKm(loc.point, school),
+        distanceKm: Math.min(...anchorPoints.map(p => haversineKm(p, school))),
       }));
       const forGender = (g: SchoolGender) => ({
         any:     schoolStatsFor(loc, schoolDistances, g, 'any'),
@@ -142,12 +246,17 @@ export const locationSchoolStats: Record<string, Record<SchoolGender, Record<Sch
 // Computed once at module load: location key -> spots within ASIAN_RADIUS_KM,
 // nearest first. Same shape the UI consumed before the master-list migration.
 export const asianSpots: Record<string, AsianSpot[]> = Object.fromEntries(
-  Object.entries(locationData).map(([key, loc]) => [
-    key,
-    asianSpotList
-      .map(s => ({ s, d: haversineKm(loc.point, s) }))
-      .filter(({ d }) => d <= ASIAN_RADIUS_KM)
-      .sort((a, b) => a.d - b.d)
-      .map(({ s }) => ({ name: s.name, type: s.type })),
-  ]),
+  Object.entries(locationData).map(([key, loc]) => {
+    // Nearest-station distance, same as schools: a spot near any of a multi-station area's
+    // stations counts, at its true walking distance from the closest one.
+    const anchorPoints = anchorPointsOf(loc);
+    return [
+      key,
+      asianSpotList
+        .map(s => ({ s, d: Math.min(...anchorPoints.map(p => haversineKm(p, s))) }))
+        .filter(({ d }) => d <= ASIAN_RADIUS_KM)
+        .sort((a, b) => a.d - b.d)
+        .map(({ s }) => ({ name: s.name, type: s.type })),
+    ];
+  }),
 );

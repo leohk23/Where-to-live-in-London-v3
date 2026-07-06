@@ -33,6 +33,15 @@ export interface LocationInfo {
   zone: string;
   station: string;
   naptan?: string;
+  // Optional extra commuting stations a resident could realistically use. When present, the commute
+  // score is the BEST of these (min journey + wait + interchange) — a neighbourhood spanning several
+  // stations, not a single anchor. `key` indexes the commute matrix / frequency / transit tables
+  // (single-station locations implicitly use their own name as the key). Coordinates are looked up
+  // by `naptan` from all-stations.json (see src/lib/location-point.ts) — `point` is only set to
+  // override that for a member with no station of its own (borrows a naptan for commute times but
+  // sits elsewhere, e.g. Childs Hill/Cricklewood). `point` above should be the CENTROID of these.
+  // Absent = just `station`.
+  commuteStations?: Array<{ key: string; naptan: string; station?: string; point?: GeoPoint }>;
 }
 
 export interface DatasetGeography {
@@ -49,6 +58,36 @@ export interface BoroughStats {
   primarySchools: number;
   secondaryOutstandingSchools: number;
   secondarySchools: number;
+}
+
+export type CrimeSource = 'ward' | 'borough';
+
+export interface WardCrimeEntry {
+  code: string;
+  name: string;
+  ladCode: string;
+  crimes: number;
+  population: number;
+  crimesPer1000: number;
+}
+
+export interface WardCrimeDataset {
+  meta: {
+    generatedAt: string;
+    source: string;
+    sourceUrl: string;
+    months: string[];
+    period: string;
+    populationSource: string;
+    populationSourceUrl: string;
+  };
+  wards: Record<string, WardCrimeEntry>;
+}
+
+export interface CommuteStationOption {
+  station: string;         // station key / name
+  time: number | null;     // one-way journey minutes (null if no journey)
+  route: string | null;    // e.g. "Victoria → Central"
 }
 
 export interface NearbySchool {
@@ -129,7 +168,7 @@ export interface ScoreFactor {
 export interface SchoolPhaseScore {
   strong: number;         // count of Outstanding + Good schools nearby
   quality: number | null; // 0..1: (Outstanding + ½·Good) / total; null if no schools of this phase
-  supply: number | null;  // 0..1: "choice" — strong-school count relative to the best-served area
+  supply: number | null;  // 0..1: "choice" — strong-school count capped at an "enough options" target
   score: number | null;   // 0-100 phase score = round(60·quality% + 40·choice%); null if none nearby
 }
 
@@ -137,8 +176,8 @@ export interface SchoolScoreBreakdown {
   primary: SchoolPhaseScore;
   secondary: SchoolPhaseScore;
   averaged: number;       // 0-100 average of the two phase scores (a missing phase counts as 0)
-  raw: number;            // 0-100 final = averaged + selective bonus. Integer-derived so the panel's
-                          // arithmetic (and the column) add up exactly. selective = raw - averaged.
+  raw: number;            // 0-100 capped final = averaged + selective bonus. Integer-derived so the
+                          // panel arithmetic (and the column) add up exactly. selective = raw - averaged.
 }
 
 export interface Result {
@@ -163,7 +202,18 @@ export interface Result {
   // Tube/rail lines of the itinerary, e.g. "Victoria → Central" (static matrix or live).
   commuteRoute: string | null;
   commuteRoute2: string | null;
+  // Which of the location's stations gave the best trip (the key used for the wait/frequency
+  // lookup). Equals the location name for single-station locations.
+  commuteStation: string;
+  commuteStation2: string;
+  // Every commuting station's own time+route to each work destination, so the card can show them
+  // all and flag the winner (commuteStation). One entry for single-station locations.
+  commuteOptions: CommuteStationOption[];
+  commuteOptions2: CommuteStationOption[];
   crimeRate: number | null;
+  crimeSource: CrimeSource;
+  crimeWardCount: number;
+  crimePeriod: string | null;
   outstandingSchools: number | null;
   schoolsTotal: number | null;
   outstandingSchoolsPct: number | null;

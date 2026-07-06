@@ -20,11 +20,11 @@ import {
   ChevronUp,
   ChevronDown,
 } from 'lucide-react';
-import { useCalculator } from './hooks/useCalculator';
+import { useCalculator } from './features/calculator/useCalculator';
 import { useDarkMode } from './hooks/useDarkMode';
 import FilterPanel from './components/FilterPanel';
-import LocationMapPrototype from './components/LocationMapPrototype';
-import ResultsTable from './components/ResultsTable';
+import LocationMap from './features/map/LocationMap';
+import ResultsTable from './features/results/ResultsTable';
 import { NotesContent } from './components/NotesFooter';
 import { workLocations, type WorkLocationKey } from './work-locations';
 
@@ -425,7 +425,7 @@ function LondonCostCalculator() {
               >
                 <div className="h-16 w-1 rounded-full bg-gray-300 transition-colors group-hover:bg-blue-400 dark:bg-gray-600 dark:group-hover:bg-blue-500" />
               </div>
-              <LocationMapPrototype
+              <LocationMap
                 sortedResults={calc.sortedResults}
                 selectedLocation={pinnedLocation}
                 highlightedLocation={hoveredLocation}
@@ -434,6 +434,9 @@ function LondonCostCalculator() {
                 partnerCoords={calc.workMode2 === 'address' ? calc.selectedOfficeCoords2 : presetCoords(calc.workLocation2)}
                 budgetEnabled={calc.budgetEnabled}
                 maxBudget={calc.maxBudget}
+                priorities={calc.priorities}
+                childGender={calc.childGender}
+                schoolFaith={calc.schoolFaith}
                 onLocationHover={setHoveredLocation}
                 onLocationSelect={loc => {
                   const next = pinnedLocation === loc ? null : loc;

@@ -24,6 +24,13 @@ const LINE_COLORS: Record<string, string> = {
   Overground: '#EE7C0E',
   'London Overground': '#EE7C0E',
   'National Rail': '#6F777D',
+  // National Rail operators, in their brand colours.
+  Southern: '#8CC63E',
+  Thameslink: '#E9438D',
+  'Great Northern': '#30146E',
+  Southeastern: '#002663',
+  'South Western Railway': '#24398C',
+  'Greater Anglia': '#D70428',
 };
 
 const FALLBACK = '#6F777D';

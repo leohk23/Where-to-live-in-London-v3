@@ -7,6 +7,7 @@
   "Merton":                 { "crimesPer1000":  78.2, "primaryOutstandingSchools":  4, "primarySchools": 43, "secondaryOutstandingSchools": 3, "secondarySchools":  9 },
   "Richmond upon Thames":   { "crimesPer1000":  75.5, "primaryOutstandingSchools": 10, "primarySchools": 45, "secondaryOutstandingSchools": 0, "secondarySchools": 11 },
   "Ealing":                 { "crimesPer1000": 112.9, "primaryOutstandingSchools":  9, "primarySchools": 65, "secondaryOutstandingSchools": 4, "secondarySchools": 17 },
+  "Hillingdon":             { "crimesPer1000":  95.0, "primaryOutstandingSchools":  8, "primarySchools": 66, "secondaryOutstandingSchools": 3, "secondarySchools": 18 },
   "Hounslow":               { "crimesPer1000": 112.9, "primaryOutstandingSchools":  3, "primarySchools": 49, "secondaryOutstandingSchools": 5, "secondarySchools": 21 },
   "Croydon":                { "crimesPer1000": 104.4, "primaryOutstandingSchools":  7, "primarySchools": 87, "secondaryOutstandingSchools": 1, "secondarySchools": 24 },
   "Barnet":                 { "crimesPer1000":  91.6, "primaryOutstandingSchools":  9, "primarySchools": 91, "secondaryOutstandingSchools": 3, "secondarySchools": 28 },

@@ -4,6 +4,7 @@ import {
   ArrowDown,
   CalendarClock,
   ChevronDown,
+  Clock,
   ChevronRight,
   GraduationCap,
   Home,
@@ -13,16 +14,16 @@ import {
   Smartphone,
   Wallet,
 } from 'lucide-react';
-import { ASIAN_RADIUS_KM, CRIME_THRESHOLDS, SCORE_THRESHOLDS, PRIMARY_SCHOOL_RADIUS_KM, SECONDARY_SCHOOL_RADIUS_KM } from '../lib/constants';
-import { lineColor } from '../lib/tfl-line-colors';
-import locationWardPolygons from '../data/location-ward-polygons.json';
-import locationTransit from '../data/location-transit.json';
-import { trainInterval } from '../data/service-frequency';
-import { expectedWaitMinutes } from '../lib/commute-wait';
-import { asianSpots } from '../data';
-import hkFlag from '../assets/flag-hk.svg';
-import type { ScoredResult, SortColumn, NearbySchool, AsianSpot, AsianSpotType, SchoolScoreBreakdown, SchoolPhaseScore } from '../types';
-import type { WorkLocationKey } from '../work-locations';
+import { ASIAN_RADIUS_KM, CRIME_THRESHOLDS, SCORE_THRESHOLDS, PRIMARY_SCHOOL_RADIUS_KM, SECONDARY_SCHOOL_RADIUS_KM } from '../../lib/constants';
+import { lineColor } from '../../lib/tfl-line-colors';
+import locationWardPolygons from '../../data/generated/location-ward-polygons.json';
+import locationTransit from '../../data/generated/location-transit.json';
+import { trainInterval } from '../../data/service-frequency';
+import { expectedWaitMinutes, peakHeadwayMinutes } from '../../lib/commute-wait';
+import { asianSpots } from '../../data';
+import hkFlag from '../../assets/flag-hk.svg';
+import type { ScoredResult, SortColumn, NearbySchool, AsianSpot, AsianSpotType, SchoolScoreBreakdown, SchoolPhaseScore, CommuteStationOption } from '../../types';
+import type { WorkLocationKey } from '../../work-locations';
 
 type WorkMode = 'preset' | 'address';
 type SchoolListMode = 'outstanding' | 'good' | 'selective';
@@ -88,8 +89,8 @@ function crimeColor(rate: number) {
   return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
 }
 
-// Colour band for the 0–100 blended school score. Thresholds suit its realistic spread
-// (London areas land ~44–79; few are very low), so the bands still separate good from weak.
+// Colour band for the 0–100 blended school score. Thresholds suit its realistic spread,
+// so the bands still separate good from weak.
 function schoolScoreColor(n: number) {
   if (n >= 65) return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
   if (n >= 52) return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
@@ -375,7 +376,7 @@ function SchoolScorePanel({ score }: { score: SchoolScoreBreakdown }) {
       </div>
       <div className="mt-2 space-y-0.5 text-[10px] leading-snug text-gray-400 dark:text-gray-500">
         <p><strong className="font-semibold text-gray-500 dark:text-gray-400">Quality</strong>: Outstanding + ½&nbsp;Good share of nearby schools.</p>
-        <p><strong className="font-semibold text-gray-500 dark:text-gray-400">Choice</strong>: strong (Outstanding + Good) schools nearby vs the best-served area.</p>
+        <p><strong className="font-semibold text-gray-500 dark:text-gray-400">Choice</strong>: strong (Outstanding + Good) schools nearby, capped once there are enough good options.</p>
         <p><strong className="font-semibold text-gray-500 dark:text-gray-400">Primary</strong>: weighted by distance (closer schools count more, since primary admission is distance-based), so its Quality/Choice can differ from the raw counts on the left.</p>
       </div>
     </div>
@@ -493,7 +494,7 @@ function GeographyCard({
   const items: Array<{ label: string; value: string }> = [
     { label: 'Commute', value: 'station / live' },
     { label: 'Rent', value: 'area est.' },
-    { label: 'Crime & tax', value: 'borough' },
+    { label: 'Crime & tax', value: 'ward / borough' },
     { label: 'Schools', value: `within ${PRIMARY_SCHOOL_RADIUS_KM}–${SECONDARY_SCHOOL_RADIUS_KM} km` },
     { label: 'East Asian spots', value: `within ${ASIAN_RADIUS_KM} km` },
   ];
@@ -554,6 +555,78 @@ function lastMondayLabel(): string {
 }
 
 // The tube/rail lines of an itinerary as colour-coded badges, shown beneath its time.
+// One person's commute in the expanded card. Single-station locations show the plain time + route;
+// multi-station ones list every station's route with the winning station flagged, so you can see
+// the alternatives behind the score.
+function CommuteSide({ label, time, isLive, route, options, bestStation }: {
+  label: string;
+  time: number | null;
+  isLive: boolean;
+  route: string | null;
+  options: CommuteStationOption[];
+  bestStation: string;
+}) {
+  if (options.length <= 1) {
+    return (
+      <div>
+        <DetailStat label={label} value={formatCommute(time, isLive)} />
+        <RouteLine route={route} />
+      </div>
+    );
+  }
+  // Winner first, then the rest by journey time.
+  const sorted = [...options].sort((a, b) =>
+    a.station === bestStation ? -1 : b.station === bestStation ? 1 : (a.time ?? Infinity) - (b.time ?? Infinity)
+  );
+  return (
+    <div>
+      <DetailStat label={label} value={formatCommute(time, isLive)} />
+      <div className="mt-2 space-y-2">
+        {sorted.map(o => {
+          const best = o.station === bestStation;
+          // Service frequency at this station: curated peak/off-peak where we have it, otherwise
+          // the mode headway the score itself uses — so you can judge which station suits you.
+          const curated = trainInterval[o.station];
+          const peak = curated?.peak ?? peakHeadwayMinutes(o.station, o.route);
+          // Colour the frequency like a transit board: green = turn-up-and-go, amber = short
+          // wait, red = plan around the timetable.
+          const freqTone = peak <= 7
+            ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300'
+            : peak <= 12
+              ? 'bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300'
+              : 'bg-rose-50 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300';
+          return (
+            <div
+              key={o.station}
+              className={`rounded-lg border px-2.5 py-2 ${best
+                ? 'border-blue-300 bg-blue-50/70 shadow-sm dark:border-blue-500/40 dark:bg-blue-500/10'
+                : 'border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900'}`}
+            >
+              <div className="flex items-baseline justify-between gap-2">
+                <span className="inline-flex min-w-0 items-center gap-1.5">
+                  <span className={`truncate text-xs font-semibold ${best ? 'text-blue-900 dark:text-blue-100' : 'text-gray-700 dark:text-gray-200'}`}>{o.station}</span>
+                  {best && <span className="shrink-0 rounded bg-blue-600 px-1 py-0.5 text-[9px] font-semibold uppercase leading-none text-white">Best</span>}
+                </span>
+                <span className={`shrink-0 text-sm font-semibold tabular-nums ${best ? 'text-blue-700 dark:text-blue-300' : 'text-gray-500 dark:text-gray-400'}`}>
+                  {o.time != null ? <>{o.time}<span className="ml-0.5 text-[10px] font-normal">min</span></> : '—'}
+                </span>
+              </div>
+              <RouteLine route={o.route} />
+              <div
+                className={`mt-1.5 inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[10px] font-medium leading-none ${freqTone}`}
+                title="Peak-time gap between trains at this station; half of it counts as expected wait in the commute score."
+              >
+                <Clock className="h-3 w-3" />
+                every ~{peak} min{curated && curated.offPeak !== curated.peak ? ` · off-peak ${curated.offPeak}` : ''}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function RouteLine({ route }: { route: string | null }) {
   if (!route) return null;
   const lines = route.split(' → ');
@@ -660,7 +733,8 @@ function LocationDetailPanel({
   // The ward(s) the location's map polygon is built from (comma-joined in the data).
   const wards = boundary?.boundaryName ? boundary.boundaryName.split(', ') : [];
   // Train frequency for non-tube locations (undefined for turn-up-and-go tube/DLR/Elizabeth).
-  const freq = trainInterval[result.location];
+  // Multi-station areas show per-station frequency inside the commute rows instead.
+  const freq = result.commuteOptions.length > 1 ? undefined : trainInterval[result.commuteStation];
   const mapQuery = anchor
     ? `${anchor.lat},${anchor.lon}`
     : `${result.anchorStation}, London`;
@@ -790,20 +864,14 @@ function LocationDetailPanel({
               {/* Group 1: journey time + route + when */}
               {hasPartnerDestination ? (
                 <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <DetailStat label="You" value={formatCommute(result.commuteTime, result.commuteIsLive)} />
-                    <RouteLine route={result.commuteRoute} />
-                  </div>
-                  <div>
-                    <DetailStat label="Partner" value={formatCommute(result.commuteTime2, result.commuteTime2IsLive)} />
-                    <RouteLine route={result.commuteRoute2} />
-                  </div>
+                  <CommuteSide label="You" time={result.commuteTime} isLive={result.commuteIsLive}
+                    route={result.commuteRoute} options={result.commuteOptions} bestStation={result.commuteStation} />
+                  <CommuteSide label="Partner" time={result.commuteTime2} isLive={result.commuteTime2IsLive}
+                    route={result.commuteRoute2} options={result.commuteOptions2} bestStation={result.commuteStation2} />
                 </div>
               ) : (
-                <div>
-                  <DetailStat label="You" value={formatCommute(result.commuteTime, result.commuteIsLive)} />
-                  <RouteLine route={result.commuteRoute} />
-                </div>
+                <CommuteSide label="You" time={result.commuteTime} isLive={result.commuteIsLive}
+                  route={result.commuteRoute} options={result.commuteOptions} bestStation={result.commuteStation} />
               )}
               <p className="mt-1.5 text-[11px] leading-snug text-gray-400 dark:text-gray-500">
                 {result.commuteIsLive || result.commuteTime2IsLive
@@ -1347,14 +1415,14 @@ export default function ResultsTable({
       <th
         onClick={() => onSort('crime')}
         className={thClass('crime', 'text-center')}
-        title="Borough crime rate per 1,000 residents (2024/25, Met Police). Lower is safer. London avg: 106/k."
+        title="Ward-weighted crime rate per 1,000 residents where available; borough fallback otherwise. Lower is safer. London avg: 106/k."
       >
         <div className={headerStackClass()}>
           <div className={headerTitleClass()}>Crime<SortIcon col="crime" /></div>
           <div className={headerBadgeRowClass()}>
             <HeaderLevelBadge
-              label="Borough"
-              title="Crime is currently measured at borough level."
+              label="Ward/Boro"
+              title="Crime uses generated ward-level Police API counts where available, with borough fallback."
               tone="borough"
             />
           </div>
@@ -1363,7 +1431,7 @@ export default function ResultsTable({
       <th
         onClick={() => onSort('schools')}
         className={thClass('schools', 'text-center')}
-        title="School score (0–100): blends quality (Outstanding + ½ Good share) with choice (how many strong schools are nearby), primary & secondary averaged, plus a selective/grammar bonus. Expand a row for the formula. Higher is better."
+        title="School score (0–100): blends quality (Outstanding + ½ Good share) with capped choice (how many strong schools are nearby), primary & secondary averaged, plus a selective/grammar bonus. Expand a row for the formula. Higher is better."
       >
         <div className={headerStackClass()}>
           <div className={headerTitleClass()}>Schools<SortIcon col="schools" /></div>
@@ -1489,7 +1557,7 @@ export default function ResultsTable({
                   const isExpanded = expandedLocation === result.location;
                   // Expected platform wait the score adds — keyed off the first leg of your route
                   // (train vs tube), so it matches the lines shown for this journey.
-                  const waitMin = expectedWaitMinutes(result.location, result.commuteRoute);
+                  const waitMin = expectedWaitMinutes(result.commuteStation, result.commuteRoute);
                   return (
                     <tbody key={result.location}>
                       <tr
@@ -1548,7 +1616,10 @@ export default function ResultsTable({
                         <div className="flex items-center gap-2">
                           <button
                             type="button"
-                            onClick={() => toggleExpandedLocation(result.location)}
+                            // stopPropagation: the row's own onClick pins/unpins this location on the
+                            // map (toggle) — without this, expanding an already-pinned row would also
+                            // un-pin it and zoom the map back out to all of London.
+                            onClick={event => { event.stopPropagation(); toggleExpandedLocation(result.location); }}
                             className="inline-flex items-start gap-1 text-left text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-100 dark:hover:text-blue-300 lg:items-center lg:gap-1.5 lg:text-base"
                             aria-expanded={isExpanded}
                             aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${result.displayName} details`}
@@ -1604,7 +1675,7 @@ export default function ResultsTable({
                             className="mt-0.5 text-[10px] leading-none text-gray-400 dark:text-gray-500"
                             title="Expected wait for the first service on your route (≈ half the gap between trains), added to the commute score so frequent and infrequent journeys compare fairly."
                           >
-                            +{waitMin} wait
+                            +{waitMin} min wait
                           </div>
                         )}
                       </td>
@@ -1623,7 +1694,7 @@ export default function ResultsTable({
                         {result.crimeRate !== null ? (
                           <span
                             className={`rounded-full px-1.5 py-0.5 text-[11px] font-medium lg:px-2 lg:text-xs ${crimeColor(result.crimeRate)}`}
-                            title={`${Math.round(result.crimeRate)} crimes per 1,000 residents (2024/25). London avg: 106/k.`}
+                            title={`${Math.round(result.crimeRate)} crimes per 1,000 residents${result.crimeSource === 'ward' ? ` (${result.crimePeriod}, ${result.crimeWardCount} ward${result.crimeWardCount === 1 ? '' : 's'}).` : ' (borough fallback).'} London avg: 106/k.`}
                           >
                             {Math.round(result.crimeRate)}/k
                           </span>

@@ -9,6 +9,15 @@
 // is where a location either holds frequency or drops to every 30. These are typical
 // estimates — edit freely as you verify against the timetable.
 export const trainInterval: Record<string, { peak: number; offPeak: number }> = {
+  // West London Line Overground at Shepherd's Bush runs ~every 15 min.
+  "Shepherd's Bush Overground": { peak: 15, offPeak: 15 },
+  // Sutton Loop (St Helier line, Thameslink) — ~4 tph peak, 2 tph off-peak.
+  "West Sutton": { peak: 15, offPeak: 30 },
+  "Sutton Common": { peak: 15, offPeak: 30 },
+  // Acton: North London Line ~every 8 min; West London Line ~every 15 min; Acton Main Line NR legs.
+  "Acton Central": { peak: 8, offPeak: 10 },
+  "South Acton": { peak: 15, offPeak: 30 },
+  "Acton Main Line": { peak: 10, offPeak: 15 },
   "Sutton": { peak: 6, offPeak: 10 },
   "New Malden": { peak: 10, offPeak: 15 },
   "Croydon": { peak: 3, offPeak: 5 },
@@ -23,6 +32,8 @@ export const trainInterval: Record<string, { peak: number; offPeak: number }> = 
   "Worcester Park": { peak: 10, offPeak: 20 },
   "Waddon": { peak: 15, offPeak: 30 },
   "Wallington": { peak: 15, offPeak: 30 },
+  "Balham Rail": { peak: 5, offPeak: 10 },
+  "Putney Rail": { peak: 5, offPeak: 10 },
   "Kingston": { peak: 10, offPeak: 15 },
   "Earlsfield": { peak: 8, offPeak: 15 },
   "Berrylands": { peak: 30, offPeak: 30 },

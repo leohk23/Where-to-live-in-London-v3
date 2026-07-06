@@ -3,6 +3,7 @@ import path from 'path';
 import polygonClipping, { type Geom } from 'polygon-clipping';
 import locationData from '../src/data/locations.json';
 import { LOCATION_WARDS } from './location-wards';
+import { resolveLocationPoint, pointForNaptan } from '../src/lib/location-point';
 
 interface Coordinate {
   lat: number;
@@ -12,6 +13,10 @@ interface Coordinate {
 interface Feature {
   type: 'Feature';
   properties: {
+    WD13CD?: string;
+    WD22CD?: string;
+    WD24CD?: string;
+    WD25CD?: string;
     WD13NM?: string;
     WD22NM?: string;
     WD24NM?: string;
@@ -31,15 +36,27 @@ interface FeatureCollection {
   features: Feature[];
 }
 
-const OUT_PATH = path.resolve(process.cwd(), 'src/data/location-ward-polygons.json');
+const OUT_PATH = path.resolve(process.cwd(), 'src/data/generated/location-ward-polygons.json');
 const WARD_BASE_URL = 'https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/electoral/eng/wards_by_lad';
 
 // Anchor coordinate and borough (LAD) code now come from the canonical location registry
 // (src/data/locations.json) so "where is this location" is defined in exactly one place.
-const registry = locationData as Record<string, { point: Coordinate; ladCode: string }>;
+const registry = locationData as Record<string, {
+  point: Coordinate;
+  ladCode: string;
+  commuteStations?: Array<{ key: string; naptan: string; point?: Coordinate }>;
+}>;
 
+// Anchor = the derived point (centroid of stations for multi-station locations), matching runtime.
 const LOCATION_COORDS: Record<string, Coordinate> = Object.fromEntries(
-  Object.entries(registry).map(([name, info]) => [name, { lat: info.point.lat, lon: info.point.lon }]),
+  Object.entries(registry).map(([name, info]) => [name, resolveLocationPoint(info)]),
+);
+
+// Individual station pins for multi-station locations (single-station ones just use `anchor`).
+const LOCATION_STATIONS: Record<string, Array<{ key: string; lat: number; lon: number }>> = Object.fromEntries(
+  Object.entries(registry)
+    .filter(([, info]) => (info.commuteStations?.length ?? 0) > 1)
+    .map(([name, info]) => [name, info.commuteStations!.map(s => { const p = s.point ?? pointForNaptan(s.naptan); return { key: s.key, lat: p.lat, lon: p.lon }; })]),
 );
 
 const LOCATION_LAD_CODES: Record<string, string> = Object.fromEntries(
@@ -120,6 +137,14 @@ function getWardName(feature: Feature) {
     ?? 'Ward boundary';
 }
 
+function getWardCode(feature: Feature) {
+  return feature.properties.WD25CD
+    ?? feature.properties.WD24CD
+    ?? feature.properties.WD22CD
+    ?? feature.properties.WD13CD
+    ?? getWardName(feature);
+}
+
 async function fetchWardCollection(ladCode: string): Promise<FeatureCollection> {
   const res = await fetch(`${WARD_BASE_URL}/${ladCode}.json`);
   if (!res.ok) throw new Error(`Failed to fetch ${ladCode}: HTTP ${res.status}`);
@@ -151,14 +176,64 @@ async function main() {
         available: collection.features.map(getWardName).sort(),
       };
     }
-    const cataloguePath = path.resolve(process.cwd(), 'scripts/ward-catalogue.json');
+    const cataloguePath = path.resolve(process.cwd(), 'scripts/data/ward-catalogue.json');
     fs.writeFileSync(cataloguePath, `${JSON.stringify(catalogue, null, 2)}\n`, 'utf8');
     console.log(`\nWrote ${cataloguePath} (${Object.keys(catalogue).length} locations).`);
     return;
   }
 
+  // Resolve each location's requested ward features (its explicit list, or the single ward its
+  // anchor sits in) into one flat map, so the partition below can treat every location uniformly.
+  const requestedFeatures = new Map<string, Feature[]>();
+  const fallbackFeature = new Map<string, Feature>(); // the anchor's own ward, kept as a safety net
+  for (const [location, anchor] of Object.entries(LOCATION_COORDS)) {
+    const ladCode = LOCATION_LAD_CODES[location];
+    const collection = wardCollections.get(ladCode);
+    if (!collection) throw new Error(`No ward collection for ${location}`);
+
+    const containing = collection.features.find(feature => pointInGeometry(anchor, feature.geometry))
+      ?? collection.features
+        .map(feature => ({ feature, distance: distanceSquared(anchor, geometryCentroid(feature.geometry)) }))
+        .sort((a, b) => a.distance - b.distance)[0]?.feature;
+    if (containing) fallbackFeature.set(location, containing);
+
+    const wardList = LOCATION_WARDS[location];
+    if (wardList && wardList.length) {
+      const feats = wardList.map(name => {
+        const feature = collection.features.find(f => getWardName(f).toLowerCase() === name.toLowerCase());
+        if (!feature) console.warn(`  ⚠ ${location}: ward "${name}" not found in ${ladCode} — skipped`);
+        return feature;
+      }).filter((f): f is Feature => Boolean(f));
+      requestedFeatures.set(location, feats);
+    } else if (containing) {
+      requestedFeatures.set(location, [containing]);
+    }
+  }
+
+  // Partition: give each requested ward to its single nearest anchor (ward centroid → anchor), so no
+  // two location polygons overlap. Adding a new anchor therefore just re-slices the wards nearest it
+  // away from its neighbours, instead of stacking a second fill on top.
+  const wardKey = (location: string, feature: Feature) =>
+    `${LOCATION_LAD_CODES[location]}::${getWardName(feature).toLowerCase()}`;
+  const wardOwner = new Map<string, string>();
+  const wardOwnerDist = new Map<string, number>();
+  for (const [location, feats] of requestedFeatures) {
+    const anchor = LOCATION_COORDS[location];
+    for (const feature of feats) {
+      const key = wardKey(location, feature);
+      const d2 = distanceSquared(anchor, geometryCentroid(feature.geometry));
+      if (!wardOwnerDist.has(key) || d2 < (wardOwnerDist.get(key) as number)) {
+        wardOwnerDist.set(key, d2);
+        wardOwner.set(key, location);
+      }
+    }
+  }
+
   const output: Record<string, {
     anchor: Coordinate;
+    ladCode: string;
+    stations?: Array<{ key: string; lat: number; lon: number }>;
+    wards: Array<{ code: string; name: string; centroid: Coordinate; geometry: Geometry }>;
     boundaryLevel: string;
     boundaryName: string;
     geometry: Geometry;
@@ -166,41 +241,32 @@ async function main() {
   }> = {};
 
   for (const [location, anchor] of Object.entries(LOCATION_COORDS)) {
-    const ladCode = LOCATION_LAD_CODES[location];
-    const collection = wardCollections.get(ladCode);
-    if (!collection) throw new Error(`No ward collection for ${location}`);
+    let matched = (requestedFeatures.get(location) ?? [])
+      .filter(feature => wardOwner.get(wardKey(location, feature)) === location);
 
-    const wardList = LOCATION_WARDS[location];
-    let geometry: Geometry;
-    let boundaryName: string;
-
-    if (wardList && wardList.length) {
-      // Merge the explicitly-listed wards into one polygon.
-      const matched = wardList.map(name => {
-        const feature = collection.features.find(f => getWardName(f).toLowerCase() === name.toLowerCase());
-        if (!feature) console.warn(`  ⚠ ${location}: ward "${name}" not found in ${ladCode} — skipped`);
-        return feature;
-      }).filter((f): f is Feature => Boolean(f));
-
-      if (!matched.length) throw new Error(`No listed wards matched for ${location}`);
-      geometry = matched.length === 1 ? matched[0].geometry : unionGeometries(matched.map(f => f.geometry));
-      boundaryName = matched.map(getWardName).join(', ');
-      console.log(`${location}: merged ${matched.length} ward(s) — ${boundaryName}`);
-    } else {
-      // Default: the single ward containing the anchor (nearest as fallback).
-      const containing = collection.features.find(feature => pointInGeometry(anchor, feature.geometry));
-      const selected = containing ?? collection.features
-        .map(feature => ({ feature, distance: distanceSquared(anchor, geometryCentroid(feature.geometry)) }))
-        .sort((a, b) => a.distance - b.distance)[0]?.feature;
-
-      if (!selected) throw new Error(`No ward geometry for ${location}`);
-      geometry = selected.geometry;
-      boundaryName = getWardName(selected);
-      console.log(`${location}: ${getWardName(selected)}${containing ? '' : ' (nearest fallback)'}`);
+    if (!matched.length) {
+      // Every requested ward went to a nearer anchor — fall back to the anchor's own ward. This only
+      // re-overlaps in the degenerate case of two anchors sitting inside the very same ward.
+      const fb = fallbackFeature.get(location);
+      if (!fb) throw new Error(`No ward geometry for ${location}`);
+      matched = [fb];
+      console.warn(`  ⚠ ${location}: all requested wards claimed by nearer anchors — using anchor ward "${getWardName(fb)}"`);
     }
+
+    const geometry = matched.length === 1 ? matched[0].geometry : unionGeometries(matched.map(f => f.geometry));
+    const boundaryName = matched.map(getWardName).join(', ');
+    console.log(`${location}: ${matched.length} ward(s) — ${boundaryName}`);
 
     output[location] = {
       anchor,
+      ladCode: LOCATION_LAD_CODES[location],
+      ...(LOCATION_STATIONS[location] ? { stations: LOCATION_STATIONS[location] } : {}),
+      wards: matched.map(feature => ({
+        code: getWardCode(feature),
+        name: getWardName(feature),
+        centroid: geometryCentroid(feature.geometry),
+        geometry: feature.geometry,
+      })),
       boundaryLevel: 'ward',
       boundaryName,
       geometry,

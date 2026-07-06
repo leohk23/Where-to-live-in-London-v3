@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import locationsJson from '../src/data/locations.json' with { type: 'json' };
 import { PRIMARY_SCHOOL_RADIUS_KM, SECONDARY_SCHOOL_RADIUS_KM } from '../src/lib/constants';
+import { anchorPointsOf } from '../src/lib/location-point';
 
 type Phase = 'Primary' | 'Secondary';
 type GenderOfEntry = 'Girls' | 'Boys';
@@ -41,11 +42,11 @@ interface School extends Coordinates {
   faith?: boolean;
 }
 
-const OFSTED_CSV = path.resolve(process.cwd(), 'ofsted-latest-inspections-apr-2026.csv');
+const OFSTED_CSV = path.resolve(process.cwd(), 'data/raw/ofsted-latest-inspections-apr-2026.csv');
 const OFSTED_URL = 'https://assets.publishing.service.gov.uk/media/6a06d8adee62840dba48a304/Management_information_-_state-funded_schools_-_latest_inspections_as_at_30_Apr_2026.csv';
-const OUT_PATH = path.resolve(process.cwd(), 'src/data/schools.json');
+const OUT_PATH = path.resolve(process.cwd(), 'src/data/generated/schools.json');
 const MAX_CACHED_CSV_BYTES = 50 * 1024 * 1024;
-const POSTCODE_COORDS_CSV = path.resolve(process.cwd(), 'scripts/school-postcode-coords.csv');
+const POSTCODE_COORDS_CSV = path.resolve(process.cwd(), 'scripts/data/school-postcode-coords.csv');
 
 function parseCsv(content: string): Record<string, string>[] {
   const rows: string[][] = [];
@@ -96,7 +97,7 @@ function normalizePostcode(postcode: string): string {
 }
 
 // School postcode -> coordinates, from the committed preprocessed dataset
-// (scripts/school-postcode-coords.csv). Geocoding therefore needs no network.
+// (scripts/data/school-postcode-coords.csv). Geocoding therefore needs no network.
 // Regenerate that file from a full UK postcode dataset only when new school
 // postcodes appear (see scripts/build-school-postcode-coords).
 function loadPostcodeCoords(): Map<string, Coordinates> {
@@ -207,7 +208,8 @@ async function main() {
   const output = schools
     .filter(school => locationEntries.some(([, location]) => {
       const radiusKm = school.phase === 'Primary' ? PRIMARY_SCHOOL_RADIUS_KM : SECONDARY_SCHOOL_RADIUS_KM;
-      return distanceKm(location.point, school) <= radiusKm;
+      // Match runtime: a school counts if it's within range of ANY of the location's stations.
+      return anchorPointsOf(location).some(p => distanceKm(p, school) <= radiusKm);
     }))
     .sort((a, b) => a.name.localeCompare(b.name) || a.urn.localeCompare(b.urn))
     .map(school => ({

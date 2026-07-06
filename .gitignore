@@ -24,6 +24,11 @@ dist-ssr
 *.sw?
 .vs/
 .claude/
+.agents/
+.codex/
+CLAUDE.md
+AGENTS.md
 node_modules/
 dist/
 .env
+scripts/data/ward-crime-cache.json

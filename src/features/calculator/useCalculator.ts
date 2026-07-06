@@ -1,16 +1,17 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { commuteTimes, commuteRoutes } from '../commute-times';
-import { summariseRoute, type TflJourney } from '../lib/tfl-route';
-import { locationData, councilTaxData, boroughStats, locationSchoolStats, asianSpots } from '../data';
-import type { SchoolGender, SchoolFaith } from '../data';
-import { workLocations, type WorkLocationKey } from '../work-locations';
-import { expectedWaitMinutes, interchangeWaitMinutes } from '../lib/commute-wait';
+import { commuteTimes, commuteRoutes } from '../../commute-times';
+import { summariseRoute, type TflJourney } from '../../lib/tfl-route';
+import { locationData, councilTaxData, boroughStats, locationSchoolStats, asianSpots, crimeStatsForLocation } from '../../data';
+import type { SchoolGender, SchoolFaith } from '../../data';
+import { workLocations, type WorkLocationKey } from '../../work-locations';
+import { expectedWaitMinutes, interchangeWaitMinutes } from '../../lib/commute-wait';
 import {
   FARE_BY_ZONE_DIFF, FARE_FALLBACK,
   NULL_COMMUTE_FALLBACK, NULL_CRIME_FALLBACK,
   DEFAULT_MONTHLY_TRIPS, DEFAULT_BUDGET, MAX_MONTHLY_TRIPS,
-} from '../lib/constants';
-import type { BedroomCount, Result, ScoredResult, Priorities, SortColumn } from '../types';
+  PRIMARY_CHOICE_TARGET, SECONDARY_CHOICE_TARGET,
+} from '../../lib/constants';
+import type { BedroomCount, Result, ScoredResult, Priorities, SortColumn, CommuteStationOption } from '../../types';
 
 type WorkMode = 'preset' | 'address';
 type CommuteSource = 'static' | 'live';
@@ -61,6 +62,37 @@ function getCommuteTime(homeLocation: string, workLoc: string): number | null {
 
 function getCommuteRoute(homeLocation: string, workLoc: string): string | null {
   return commuteRoutes[homeLocation]?.[workLoc] ?? null;
+}
+
+// A location's commuting stations: its explicit list, or just itself (name = matrix/frequency key).
+function stationsOf(location: string): Array<{ key: string; naptan: string | null }> {
+  const d = locationData[location];
+  return d?.commuteStations?.length
+    ? d.commuteStations.map(s => ({ key: s.key, naptan: s.naptan }))
+    : [{ key: location, naptan: d?.naptan ?? null }];
+}
+
+// Reduce a location's stations to (a) the one giving the shortest *effective* trip (journey +
+// platform wait + interchange) — how a resident actually chooses which station to walk to — and
+// (b) every station's own time/route, so the card can show them all and flag the winner. A station
+// with no journey time can't win; if none have a time, the first station stands in as "best".
+function reduceStations(
+  stations: Array<{ key: string }>,
+  timeFor: (key: string) => number | null,
+  routeFor: (key: string) => string | null,
+): { time: number | null; route: string | null; station: string; options: CommuteStationOption[] } {
+  const options: CommuteStationOption[] = stations.map(s => ({ station: s.key, time: timeFor(s.key), route: routeFor(s.key) }));
+  let best = { time: null as number | null, route: null as string | null, station: stations[0].key };
+  let bestEffective = Infinity;
+  for (const o of options) {
+    if (o.time === null) continue;
+    const effective = o.time + expectedWaitMinutes(o.station, o.route) + interchangeWaitMinutes(o.route);
+    if (effective < bestEffective) {
+      bestEffective = effective;
+      best = { time: o.time, route: o.route, station: o.station };
+    }
+  }
+  return { ...best, options };
 }
 
 
@@ -191,14 +223,31 @@ async function fetchTflJourneyDuration(
 
 async function resolveTflDestination(
   destination: string,
-  entries: Array<[string, (typeof locationData)[string]]>,
+  originNaptan: string | undefined,
   qs: string,
 ): Promise<string> {
-  const firstOrigin = entries.find(([, data]) => data.naptan)?.[1].naptan;
-  if (!firstOrigin) return destination;
-
-  const result = await fetchTflJourneyDuration(firstOrigin, destination, qs);
+  if (!originNaptan) return destination;
+  const result = await fetchTflJourneyDuration(originNaptan, destination, qs);
   return result.destination;
+}
+
+// Every commuting station across all locations, keyed for the live-times map. Single-station
+// locations contribute one entry under their own name (unchanged); multi-station ones contribute
+// one per station, so the live fetch and the best-station reduction see them all.
+function allCommuteStations(): Array<{ key: string; naptan: string | null }> {
+  const seen = new Set<string>();
+  const out: Array<{ key: string; naptan: string | null }> = [];
+  for (const [location, data] of Object.entries(locationData)) {
+    const stations = data.commuteStations?.length
+      ? data.commuteStations.map(s => ({ key: s.key, naptan: s.naptan as string | null }))
+      : [{ key: location, naptan: data.naptan ?? null }];
+    for (const s of stations) {
+      if (seen.has(s.key)) continue;
+      seen.add(s.key);
+      out.push(s);
+    }
+  }
+  return out;
 }
 
 // Core fetch logic shared by both work locations
@@ -232,10 +281,10 @@ async function doFetchLiveCommutes(params: {
     destination = `${geo.lat},${geo.lon}`;
   }
 
-  const entries = Object.entries(locationData);
+  const stations = allCommuteStations();
   setLoading(true);
   setProgress(() => 0);
-  setTotal(entries.length);
+  setTotal(stations.length);
 
   const allResults: Record<string, number | null> = {};
   const allRoutes: Record<string, string | null> = {};
@@ -246,19 +295,19 @@ async function doFetchLiveCommutes(params: {
     date,
     time: '0830',
   }).toString();
-  const resolvedDestination = await resolveTflDestination(destination, entries, qs);
+  const resolvedDestination = await resolveTflDestination(destination, stations.find(s => s.naptan)?.naptan ?? undefined, qs);
 
-  await fetchWithConcurrency(entries, 5, async ([location, data]) => {
-    if (!data.naptan) {
-      allResults[location] = null;
-      allRoutes[location] = null;
+  await fetchWithConcurrency(stations, 5, async ({ key, naptan }) => {
+    if (!naptan) {
+      allResults[key] = null;
+      allRoutes[key] = null;
     } else {
-      const result = await fetchTflJourneyDuration(data.naptan, resolvedDestination, qs);
-      allResults[location] = result.duration;
-      allRoutes[location] = result.route;
+      const result = await fetchTflJourneyDuration(naptan, resolvedDestination, qs);
+      allResults[key] = result.duration;
+      allRoutes[key] = result.route;
     }
-    updateTimes(location, allResults[location]);
-    updateRoute(location, allRoutes[location]);
+    updateTimes(key, allResults[key]);
+    updateRoute(key, allRoutes[key]);
     setProgress(p => p + 1);
   });
 
@@ -398,6 +447,7 @@ export function useCalculator() {
       const councilTaxMonthly = councilTaxData[data.borough][bedrooms] / 12;
       const totalMonthly = rent + transportCostMonthly + councilTaxMonthly;
       const stats = boroughStats[data.borough];
+      const crime = crimeStatsForLocation(location, data.borough);
       const nearbySchools = locationSchoolStats[location]?.[childGender]?.[schoolFaith];
       const nearbySchoolsTotal = nearbySchools
         ? nearbySchools.primarySchools + nearbySchools.secondarySchools
@@ -410,6 +460,13 @@ export function useCalculator() {
       const schoolsTotal = schools
         ? schools.primarySchools + schools.secondarySchools
         : null;
+      // Static commute = the location's best station for each work destination (min effective trip).
+      const stations = stationsOf(location);
+      const staticSide = (active: boolean, work: string) => active
+        ? reduceStations(stations, k => getCommuteTime(k, work), k => getCommuteRoute(k, work))
+        : { time: null, route: null, station: location, options: [] as CommuteStationOption[] };
+      const side1 = staticSide(workMode === 'preset' && commuteSource === 'static', workLocation);
+      const side2 = staticSide(Boolean(workMode2 === 'preset' && commuteSource2 === 'static' && workLocation2), workLocation2);
       return {
         location,
         displayName: data.displayName,
@@ -427,12 +484,20 @@ export function useCalculator() {
         farePerTrip,
         partnerFarePerTrip,
         // Static matrix feeds the base only for preset + static; live (and address) start
-        // null and are filled by the live fetch in sortedResults.
-        commuteTime:  workMode  === 'preset' && commuteSource  === 'static' ? getCommuteTime(location, workLocation) : null,
-        commuteTime2: workMode2 === 'preset' && commuteSource2 === 'static' && workLocation2 ? getCommuteTime(location, workLocation2) : null,
-        commuteRoute:  workMode  === 'preset' && commuteSource  === 'static' ? getCommuteRoute(location, workLocation) : null,
-        commuteRoute2: workMode2 === 'preset' && commuteSource2 === 'static' && workLocation2 ? getCommuteRoute(location, workLocation2) : null,
-        crimeRate:    stats?.crimesPer1000 ?? null,
+        // null and are filled by the live fetch in sortedResults. Multi-station locations use
+        // whichever station gave the best trip (see pickBestStation).
+        commuteTime:  side1.time,
+        commuteTime2: side2.time,
+        commuteRoute:  side1.route,
+        commuteRoute2: side2.route,
+        commuteStation:  side1.station,
+        commuteStation2: side2.station,
+        commuteOptions:  side1.options,
+        commuteOptions2: side2.options,
+        crimeRate: crime.crimeRate,
+        crimeSource: crime.crimeSource,
+        crimeWardCount: crime.crimeWardCount,
+        crimePeriod: crime.crimePeriod,
         primaryOutstandingSchools: schools?.primaryOutstandingSchools ?? null,
         primaryGoodSchools: schoolsSource === 'nearby' ? nearbySchools.primaryGoodSchools ?? null : null,
         primarySchools: schools?.primarySchools ?? null,
@@ -581,15 +646,28 @@ export function useCalculator() {
     // Address is inherently live; a preset is live only when its source toggle says so.
     const liveOn  = workMode  === 'address' || commuteSource  === 'live';
     const liveOn2 = workMode2 === 'address' || commuteSource2 === 'live';
-    const withLive = results.map(r => ({
-      ...r,
-      commuteTime:        liveOn  && r.location in liveCommuteTimes  ? liveCommuteTimes[r.location]  : r.commuteTime,
-      commuteIsLive:      liveOn  && r.location in liveCommuteTimes,
-      commuteRoute:       liveOn  && r.location in liveCommuteTimes  ? (liveCommuteRoutes[r.location]  ?? null) : r.commuteRoute,
-      commuteTime2:       liveOn2 && r.location in liveCommuteTimes2 ? liveCommuteTimes2[r.location] : r.commuteTime2,
-      commuteTime2IsLive: liveOn2 && r.location in liveCommuteTimes2,
-      commuteRoute2:      liveOn2 && r.location in liveCommuteTimes2 ? (liveCommuteRoutes2[r.location] ?? null) : r.commuteRoute2,
-    }));
+    // Live data is keyed by station, so a location's live commute is again its best station.
+    const liveSide = (on: boolean, location: string, times: Record<string, number | null>, routes: Record<string, string | null>) => {
+      if (!on || !stationsOf(location).some(s => s.key in times)) return null;
+      return reduceStations(stationsOf(location), k => (k in times ? times[k] : null), k => routes[k] ?? null);
+    };
+    const withLive = results.map(r => {
+      const l1 = liveSide(liveOn,  r.location, liveCommuteTimes,  liveCommuteRoutes);
+      const l2 = liveSide(liveOn2, r.location, liveCommuteTimes2, liveCommuteRoutes2);
+      return {
+        ...r,
+        commuteTime:        l1 ? l1.time    : r.commuteTime,
+        commuteRoute:       l1 ? l1.route   : r.commuteRoute,
+        commuteStation:     l1 ? l1.station : r.commuteStation,
+        commuteOptions:     l1 ? l1.options : r.commuteOptions,
+        commuteIsLive:      Boolean(l1),
+        commuteTime2:       l2 ? l2.time    : r.commuteTime2,
+        commuteRoute2:      l2 ? l2.route   : r.commuteRoute2,
+        commuteStation2:    l2 ? l2.station : r.commuteStation2,
+        commuteOptions2:    l2 ? l2.options : r.commuteOptions2,
+        commuteTime2IsLive: Boolean(l2),
+      };
+    });
 
     const norm = (val: number, arr: number[], lowerBetter: boolean) => {
       const min = Math.min(...arr), max = Math.max(...arr);
@@ -599,22 +677,18 @@ export function useCalculator() {
 
     // Schools: blend quality (Outstanding + half-credit for Good) with supply (how many strong
     // schools are actually nearby), scored per phase then averaged so primary AND secondary both
-    // have to be decent — plus a small bump where selective/grammar exists. Supply is relative to
-    // the best-served area (sqrt for diminishing returns, so a few dense central areas don't flatten
-    // everyone else). Computed for every row (independent of the sliders) so the expanded view can
-    // always show the breakdown; the scoring below reuses these values. Replaces the old
-    // Outstanding-share-only metric.
+    // have to be decent — plus a small bump where selective/grammar exists. Choice saturates at an
+    // "enough good options" target, so merged multi-station areas don't keep gaining just because
+    // their union catchment is wider. Computed for every row so the expanded view can always show
+    // the breakdown; the scoring below reuses these values.
     // Primary uses distance-weighted figures (closer schools count more, since primary admission is
     // distance-based); secondary stays on flat counts. Falls back to raw counts on borough data.
     const primaryStrong   = (x: typeof withLive[number]) => x.primaryWeightedStrong ?? ((x.primaryOutstandingSchools ?? 0) + (x.primaryGoodSchools ?? 0));
     const secondaryStrong = (x: typeof withLive[number]) => (x.secondaryOutstandingSchools ?? 0) + (x.secondaryGoodSchools ?? 0);
-    const maxPrimaryStrong   = Math.max(1, ...withLive.map(primaryStrong));
-    const maxSecondaryStrong = Math.max(1, ...withLive.map(secondaryStrong));
     const phaseQuality = (o: number, g: number, total: number) => total ? (o + 0.5 * g) / total : 0;
-    const phaseSupply  = (strong: number, maxStrong: number) => Math.sqrt(strong / maxStrong);
-    // Selective/grammar bonus scales with how many grammar schools are nearby (not a flat bump),
-    // relative to the best-served area with sqrt for diminishing returns — so a 5-grammar borough
-    // like Sutton is rewarded over an area with one, which a flat bonus failed to do.
+    const phaseSupply  = (strong: number, target: number) => Math.sqrt(Math.min(strong, target) / target);
+    // Selective/grammar bonus scales with nearby grammar schools (not a flat bump), with sqrt for
+    // diminishing returns so a 5-grammar borough is rewarded over an area with one.
     const maxGrammar = Math.max(1, ...withLive.map(x => x.grammarSchools ?? 0));
     const grammarBonus = (x: typeof withLive[number]) => 0.25 * Math.sqrt((x.grammarSchools ?? 0) / maxGrammar);
     // Phase score from the *displayed* rounded %s, so the on-screen "Q×0.6 + C×0.4 = N" adds up. A
@@ -626,16 +700,16 @@ export function useCalculator() {
         : Math.round(0.6 * Math.round(quality * 100) + 0.4 * Math.round(supply * 100));
     const buildSchoolScore = (x: typeof withLive[number]): ScoredResult['schoolScore'] => {
       const pq = x.primarySchools ? (x.primaryWeightedQuality ?? phaseQuality(x.primaryOutstandingSchools ?? 0, x.primaryGoodSchools ?? 0, x.primarySchools)) : null;
-      const ps = x.primarySchools ? phaseSupply(primaryStrong(x), maxPrimaryStrong) : null;
+      const ps = x.primarySchools ? phaseSupply(primaryStrong(x), PRIMARY_CHOICE_TARGET) : null;
       const sq = x.secondarySchools ? phaseQuality(x.secondaryOutstandingSchools ?? 0, x.secondaryGoodSchools ?? 0, x.secondarySchools) : null;
-      const ss = x.secondarySchools ? phaseSupply(secondaryStrong(x), maxSecondaryStrong) : null;
+      const ss = x.secondarySchools ? phaseSupply(secondaryStrong(x), SECONDARY_CHOICE_TARGET) : null;
       const pScore = phaseInt(pq, ps), sScore = phaseInt(sq, ss);
       const averaged = Math.round(((pScore ?? 0) + (sScore ?? 0)) / 2);
       return {
         primary:   { strong: primaryStrong(x),   quality: pq, supply: ps, score: pScore },
         secondary: { strong: secondaryStrong(x), quality: sq, supply: ss, score: sScore },
         averaged,
-        raw: averaged + Math.round(grammarBonus(x) * 100),
+        raw: Math.min(100, averaged + Math.round(grammarBonus(x) * 100)),
       };
     };
     // Build once per area; the composite normalises the SAME raw the column shows, so a schools-only
@@ -658,11 +732,12 @@ export function useCalculator() {
         // every location falls back to the same constant, so the commute factor is neutral rather
         // than ranking purely by which station happens to have the longest train interval. The
         // interchange cost makes a direct trip beat an equal-length trip with changes.
-        const sideEffective = (time: number | null, location: string, route: string | null) =>
-          time === null ? null : time + expectedWaitMinutes(location, route) + interchangeWaitMinutes(route);
+        // stationKey keys the wait/frequency lookup — the chosen best station, not the location.
+        const sideEffective = (time: number | null, stationKey: string, route: string | null) =>
+          time === null ? null : time + expectedWaitMinutes(stationKey, route) + interchangeWaitMinutes(route);
         const combineCommute = (x: typeof withLive[number]) => {
-          const sides = [sideEffective(x.commuteTime, x.location, x.commuteRoute)];
-          if (withPartnerScore) sides.push(sideEffective(x.commuteTime2, x.location, x.commuteRoute2));
+          const sides = [sideEffective(x.commuteTime, x.commuteStation, x.commuteRoute)];
+          if (withPartnerScore) sides.push(sideEffective(x.commuteTime2, x.commuteStation2, x.commuteRoute2));
           const present = sides.filter((v): v is number => v !== null);
           return present.length ? present.reduce((a, b) => a + b, 0) / present.length : NULL_COMMUTE_FALLBACK;
         };

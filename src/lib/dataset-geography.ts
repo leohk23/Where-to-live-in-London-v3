@@ -25,9 +25,9 @@ export const datasetGeography: DatasetGeography[] = [
   {
     key: 'crime',
     label: 'Crime',
-    geography: 'borough',
-    joinKey: 'location.borough',
-    caveat: 'Borough averages can hide street-level variation.',
+    geography: 'ward-weighted within each location polygon; borough fallback',
+    joinKey: 'ward code via generated location ward polygons',
+    caveat: 'Ward counts are more local than borough averages but still use approximate Police API street locations.',
   },
   {
     key: 'schools',

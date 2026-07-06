@@ -19,28 +19,34 @@
     "point": { "lat": 51.4804, "lon": -0.195 },
     "ladCode": "E09000013",
     "id": "fulham-broadway",
-    "displayName": "Fulham Broadway",
-    "comparisonName": "Fulham Broadway",
+    "displayName": "Fulham",
+    "comparisonName": "Fulham",
     "anchorStation": "Fulham Broadway Underground Station",
-    "labelScope": "station",
+    "labelScope": "area",
     "dataConfidence": "high",
-    "reviewNote": "Station-centric comparison anchor.",
+    "reviewNote": "Fulham area comparison anchor, using Fulham Broadway and nearby stations.",
     "borough": "Hammersmith and Fulham",
     "zone": "Zone 2",
     "station": "Fulham Broadway Underground Station",
     "naptan": "940GZZLUFBY",
-    "rent": { "1": 1895, "2": 2487, "3": 2841, "4": 4006 }
+    "rent": { "1": 1895, "2": 2487, "3": 2841, "4": 4006 },
+    "commuteStations": [
+      { "key": "Fulham", "naptan": "940GZZLUFBY" },
+      { "key": "Imperial Wharf", "naptan": "910GCSEAH", "station": "Imperial Wharf Rail Station" },
+      { "key": "Parsons Green", "naptan": "940GZZLUPSG", "station": "Parsons Green Underground Station" },
+      { "key": "West Brompton", "naptan": "910GWBRMPTN", "station": "West Brompton Rail Station" }
+    ]
   },
   "Tooting": {
     "point": { "lat": 51.4274, "lon": -0.168 },
     "ladCode": "E09000032",
     "id": "tooting-broadway",
-    "displayName": "Tooting Broadway",
-    "comparisonName": "Tooting Broadway",
+    "displayName": "Tooting",
+    "comparisonName": "Tooting",
     "anchorStation": "Tooting Broadway Underground Station",
-    "labelScope": "station",
+    "labelScope": "area",
     "dataConfidence": "high",
-    "reviewNote": "Station-centric comparison anchor.",
+    "reviewNote": "Tooting area comparison anchor, using Tooting Broadway.",
     "borough": "Wandsworth",
     "zone": "Zone 3",
     "station": "Tooting Broadway Underground Station",
@@ -61,7 +67,12 @@
     "zone": "Zone 5",
     "station": "Sutton (London) Rail Station",
     "naptan": "910GSUTTON",
-    "rent": { "1": 1227, "2": 1540, "3": 1877, "4": 2479 }
+    "rent": { "1": 1227, "2": 1540, "3": 1877, "4": 2479 },
+    "commuteStations": [
+      { "key": "Sutton", "naptan": "910GSUTTON" },
+      { "key": "West Sutton", "naptan": "910GWSUTTON", "station": "West Sutton Rail Station" },
+      { "key": "Sutton Common", "naptan": "910GSUTTONC", "station": "Sutton Common Rail Station" }
+    ]
   },
   "New Malden": {
     "point": { "lat": 51.4036, "lon": -0.2558 },
@@ -93,7 +104,13 @@
     "zone": "Zone 3",
     "station": "Wimbledon Underground Station",
     "naptan": "940GZZLUWIM",
-    "rent": { "1": 1724, "2": 2129, "3": 2531, "4": 3473 }
+    "rent": { "1": 1724, "2": 2129, "3": 2531, "4": 3473 },
+    "commuteStations": [
+      { "key": "Wimbledon", "naptan": "940GZZLUWIM" },
+      { "key": "South Wimbledon", "naptan": "940GZZLUSWN", "station": "South Wimbledon Underground Station" },
+      { "key": "Wimbledon Park", "naptan": "940GZZLUWIP", "station": "Wimbledon Park Underground Station" },
+      { "key": "Morden", "naptan": "940GZZLUMDN", "station": "Morden Underground Station" }
+    ]
   },
   "Richmond": {
     "point": { "lat": 51.4633, "lon": -0.3013 },
@@ -109,14 +126,18 @@
     "zone": "Zone 4",
     "station": "Richmond (London) Rail Station",
     "naptan": "910GRICHMND",
-    "rent": { "1": 1670, "2": 2143, "3": 2589, "4": 3805 }
+    "rent": { "1": 1670, "2": 2143, "3": 2589, "4": 3805 },
+    "commuteStations": [
+      { "key": "Richmond", "naptan": "910GRICHMND" },
+      { "key": "Richmond Underground", "naptan": "940GZZLURMD", "station": "Richmond Underground Station" }
+    ]
   },
   "Ealing": {
     "point": { "lat": 51.5152, "lon": -0.3017 },
     "ladCode": "E09000009",
     "id": "ealing-broadway",
-    "displayName": "Ealing Broadway",
-    "comparisonName": "Ealing Broadway",
+    "displayName": "Ealing",
+    "comparisonName": "Ealing",
     "anchorStation": "Ealing Broadway Underground Station",
     "labelScope": "station",
     "dataConfidence": "high",
@@ -125,30 +146,42 @@
     "zone": "Zone 3",
     "station": "Ealing Broadway Underground Station",
     "naptan": "940GZZLUEBY",
-    "rent": { "1": 1581, "2": 1974, "3": 2336, "4": 3218 }
+    "rent": { "1": 1581, "2": 1974, "3": 2336, "4": 3218 },
+    "commuteStations": [
+      { "key": "Ealing", "naptan": "940GZZLUEBY" },
+      { "key": "South Ealing", "naptan": "940GZZLUSEA", "station": "South Ealing Underground Station" },
+      { "key": "West Ealing", "naptan": "910GWEALING", "station": "West Ealing Rail Station" },
+      { "key": "Ealing Broadway", "naptan": "910GEALINGB", "station": "Ealing Broadway Rail Station" },
+      { "key": "Ealing Common", "naptan": "940GZZLUECM", "station": "Ealing Common Underground Station" },
+      { "key": "Northfields", "naptan": "940GZZLUNFD", "station": "Northfields Underground Station" }
+    ]
   },
   "Hounslow": {
     "point": { "lat": 51.4713, "lon": -0.3666 },
     "ladCode": "E09000018",
     "id": "hounslow-central",
-    "displayName": "Hounslow Central",
-    "comparisonName": "Hounslow Central",
+    "displayName": "Hounslow",
+    "comparisonName": "Hounslow",
     "anchorStation": "Hounslow Central Underground Station",
-    "labelScope": "station",
+    "labelScope": "area",
     "dataConfidence": "high",
-    "reviewNote": "Station-centric comparison anchor.",
+    "reviewNote": "Hounslow area comparison anchor, using Hounslow Central and Hounslow East.",
     "borough": "Hounslow",
     "zone": "Zone 4",
     "station": "Hounslow Central Underground Station",
     "naptan": "940GZZLUHWC",
-    "rent": { "1": 1539, "2": 1893, "3": 2175, "4": 3016 }
+    "rent": { "1": 1539, "2": 1893, "3": 2175, "4": 3016 },
+    "commuteStations": [
+      { "key": "Hounslow", "naptan": "940GZZLUHWC" },
+      { "key": "Hounslow East", "naptan": "940GZZLUHWE", "station": "Hounslow East Underground Station" }
+    ]
   },
   "Croydon": {
     "point": { "lat": 51.3757, "lon": -0.0924 },
     "ladCode": "E09000008",
     "id": "croydon",
-    "displayName": "East Croydon",
-    "comparisonName": "East Croydon",
+    "displayName": "Croydon",
+    "comparisonName": "Croydon",
     "anchorStation": "East Croydon Rail Station",
     "labelScope": "station",
     "dataConfidence": "high",
@@ -157,23 +190,12 @@
     "zone": "Zone 5",
     "station": "East Croydon Rail Station",
     "naptan": "910GECROYDN",
-    "rent": { "1": 1241, "2": 1543, "3": 1820, "4": 2631 }
-  },
-  "Wimbledon Park": {
-    "point": { "lat": 51.4346, "lon": -0.1998 },
-    "ladCode": "E09000024",
-    "id": "wimbledon-park",
-    "displayName": "Wimbledon Park",
-    "comparisonName": "Wimbledon Park",
-    "anchorStation": "Wimbledon Park Underground Station",
-    "labelScope": "station",
-    "dataConfidence": "high",
-    "reviewNote": "Station-centric comparison anchor.",
-    "borough": "Merton",
-    "zone": "Zone 3",
-    "station": "Wimbledon Park Underground Station",
-    "naptan": "940GZZLUWIP",
-    "rent": { "1": 1650, "2": 2040, "3": 2430, "4": 3300 }
+    "rent": { "1": 1241, "2": 1543, "3": 1820, "4": 2631 },
+    "commuteStations": [
+      { "key": "Croydon", "naptan": "910GECROYDN" },
+      { "key": "West Croydon", "naptan": "910GWCROYDN", "station": "West Croydon Rail Station" },
+      { "key": "Waddon", "naptan": "910GWADDON", "station": "Waddon Rail Station" }
+    ]
   },
   "High Barnet": {
     "point": { "lat": 51.6505, "lon": -0.194 },
@@ -211,8 +233,8 @@
     "point": { "lat": 51.5028, "lon": -0.2801 },
     "ladCode": "E09000009",
     "id": "acton-town",
-    "displayName": "Acton Town",
-    "comparisonName": "Acton Town",
+    "displayName": "Acton",
+    "comparisonName": "Acton",
     "anchorStation": "Acton Town Underground Station",
     "labelScope": "station",
     "dataConfidence": "high",
@@ -221,23 +243,16 @@
     "zone": "Zone 2",
     "station": "Acton Town Underground Station",
     "naptan": "940GZZLUACT",
-    "rent": { "1": 1700, "2": 2150, "3": 2550, "4": 3400 }
-  },
-  "South Ealing": {
-    "point": { "lat": 51.5008, "lon": -0.3074 },
-    "ladCode": "E09000009",
-    "id": "south-ealing",
-    "displayName": "South Ealing",
-    "comparisonName": "South Ealing",
-    "anchorStation": "South Ealing Underground Station",
-    "labelScope": "station",
-    "dataConfidence": "high",
-    "reviewNote": "Station-centric comparison anchor.",
-    "borough": "Ealing",
-    "zone": "Zone 3",
-    "station": "South Ealing Underground Station",
-    "naptan": "940GZZLUSEA",
-    "rent": { "1": 1550, "2": 1930, "3": 2280, "4": 3100 }
+    "rent": { "1": 1700, "2": 2150, "3": 2550, "4": 3400 },
+    "commuteStations": [
+      { "key": "Acton Town", "naptan": "940GZZLUACT" },
+      { "key": "North Acton", "naptan": "940GZZLUNAN", "station": "North Acton Underground Station" },
+      { "key": "Acton Central", "naptan": "910GACTNCTL", "station": "Acton Central Overground Station" },
+      { "key": "Acton Main Line", "naptan": "910GACTONML", "station": "Acton Main Line (Elizabeth line)" },
+      { "key": "South Acton", "naptan": "910GSACTON", "station": "South Acton Overground Station" },
+      { "key": "West Acton", "naptan": "940GZZLUWTA", "station": "West Acton Underground Station" },
+      { "key": "East Acton", "naptan": "940GZZLUEAN", "station": "East Acton Underground Station" }
+    ]
   },
   "Southfields": {
     "point": { "lat": 51.445, "lon": -0.2066 },
@@ -259,17 +274,22 @@
     "point": { "lat": 51.4618, "lon": -0.1383 },
     "ladCode": "E09000022",
     "id": "clapham",
-    "displayName": "Clapham Common",
-    "comparisonName": "Clapham Common",
+    "displayName": "Clapham",
+    "comparisonName": "Clapham",
     "anchorStation": "Clapham Common Underground Station",
-    "labelScope": "station",
+    "labelScope": "area",
     "dataConfidence": "high",
-    "reviewNote": "Station-centric comparison anchor.",
+    "reviewNote": "Clapham area comparison anchor, using Clapham Common and nearby rail stations.",
     "borough": "Lambeth",
     "zone": "Zone 2",
     "station": "Clapham Common Underground Station",
     "naptan": "940GZZLUCPC",
-    "rent": { "1": 1950, "2": 2600, "3": 3500, "4": 4500 }
+    "rent": { "1": 1950, "2": 2600, "3": 3500, "4": 4500 },
+    "commuteStations": [
+      { "key": "Clapham", "naptan": "940GZZLUCPC" },
+      { "key": "Clapham High Street", "naptan": "910GCLPHHS", "station": "Clapham High Street Rail Station" },
+      { "key": "Wandsworth Road", "naptan": "910GWNDSWRD", "station": "Wandsworth Road Rail Station" }
+    ]
   },
   "Bethnal Green": {
     "point": { "lat": 51.5279, "lon": -0.0556 },
@@ -285,7 +305,16 @@
     "zone": "Zone 2",
     "station": "Bethnal Green Underground Station",
     "naptan": "940GZZLUBLG",
-    "rent": { "1": 2300, "2": 3000, "3": 3900, "4": 4400 }
+    "rent": { "1": 2300, "2": 3000, "3": 3900, "4": 4400 },
+    "commuteStations": [
+      { "key": "Bethnal Green", "naptan": "940GZZLUBLG" },
+      { "key": "Bethnal Green Rail", "naptan": "910GBTHNLGR", "station": "Bethnal Green Rail Station" },
+      { "key": "Cambridge Heath (London)", "naptan": "910GCAMHTH", "station": "Cambridge Heath (London) Rail Station" },
+      { "key": "Stepney Green", "naptan": "940GZZLUSGN", "station": "Stepney Green Underground Station" },
+      { "key": "Whitechapel", "naptan": "910GWCHAPXR", "station": "Whitechapel" },
+      { "key": "Whitechapel Rail", "naptan": "910GWCHAPEL", "station": "Whitechapel Rail Station" },
+      { "key": "Whitechapel Underground", "naptan": "940GZZLUWPL", "station": "Whitechapel Underground Station" }
+    ]
   },
   "Stratford": {
     "point": { "lat": 51.5416, "lon": -0.0037 },
@@ -301,34 +330,53 @@
     "zone": "Zone 2",
     "station": "Stratford Underground Station",
     "naptan": "940GZZLUSTD",
-    "rent": { "1": 1950, "2": 2400, "3": 2900, "4": 3400 }
+    "rent": { "1": 1950, "2": 2400, "3": 2900, "4": 3400 },
+    "commuteStations": [
+      { "key": "Stratford", "naptan": "940GZZLUSTD" },
+      { "key": "Abbey Road", "naptan": "940GZZDLABR", "station": "Abbey Road DLR Station" },
+      { "key": "Maryland", "naptan": "910GMRYLAND", "station": "Maryland Rail Station" },
+      { "key": "Plaistow", "naptan": "940GZZLUPLW", "station": "Plaistow Underground Station" },
+      { "key": "Pudding Mill Lane", "naptan": "940GZZDLPUD", "station": "Pudding Mill Lane DLR Station" },
+      { "key": "Stratford (London)", "naptan": "910GSTFD", "station": "Stratford (London) Rail Station" },
+      { "key": "Stratford DLR", "naptan": "940GZZDLSTD", "station": "Stratford DLR Station" },
+      { "key": "Stratford High Street", "naptan": "940GZZDLSHS", "station": "Stratford High Street DLR Station" },
+      { "key": "Stratford International", "naptan": "940GZZDLSIT", "station": "Stratford International DLR Station" }
+    ]
   },
   "Walthamstow": {
     "point": { "lat": 51.5829, "lon": -0.0199 },
     "ladCode": "E09000031",
     "id": "walthamstow-central",
-    "displayName": "Walthamstow Central",
-    "comparisonName": "Walthamstow Central",
+    "displayName": "Walthamstow",
+    "comparisonName": "Walthamstow",
     "anchorStation": "Walthamstow Central Underground Station",
-    "labelScope": "station",
+    "labelScope": "area",
     "dataConfidence": "high",
-    "reviewNote": "Station-centric comparison anchor.",
+    "reviewNote": "Walthamstow area comparison anchor, using Walthamstow Central and nearby stations.",
     "borough": "Waltham Forest",
     "zone": "Zone 3",
     "station": "Walthamstow Central Underground Station",
     "naptan": "940GZZLUWWL",
-    "rent": { "1": 1800, "2": 2200, "3": 2800, "4": 3200 }
+    "rent": { "1": 1800, "2": 2200, "3": 2800, "4": 3200 },
+    "commuteStations": [
+      { "key": "Walthamstow", "naptan": "940GZZLUWWL" },
+      { "key": "Blackhorse Road", "naptan": "910GBLCHSRD", "station": "Blackhorse Road Rail Station" },
+      { "key": "Blackhorse Road Underground", "naptan": "940GZZLUBLR", "station": "Blackhorse Road Underground Station" },
+      { "key": "St James Street (London)", "naptan": "910GSTJMSST", "station": "St James Street (London) Rail Station" },
+      { "key": "Walthamstow Central", "naptan": "910GWLTWCEN", "station": "Walthamstow Central Rail Station" },
+      { "key": "Walthamstow Queens Road", "naptan": "910GWLTHQRD", "station": "Walthamstow Queens Road Rail Station" }
+    ]
   },
   "Peckham": {
     "point": { "lat": 51.4698, "lon": -0.0698 },
     "ladCode": "E09000028",
     "id": "peckham-rye",
-    "displayName": "Peckham Rye",
-    "comparisonName": "Peckham Rye",
+    "displayName": "Peckham",
+    "comparisonName": "Peckham",
     "anchorStation": "Peckham Rye Rail Station",
-    "labelScope": "station",
+    "labelScope": "area",
     "dataConfidence": "high",
-    "reviewNote": "Station-centric comparison anchor.",
+    "reviewNote": "Peckham area comparison anchor, using Peckham Rye.",
     "borough": "Southwark",
     "zone": "Zone 2",
     "station": "Peckham Rye Rail Station",
@@ -349,23 +397,32 @@
     "zone": "Zone 2",
     "station": "Hackney Central Rail Station",
     "naptan": "910GHACKNYC",
-    "rent": { "1": 2100, "2": 2700, "3": 3200, "4": 3700 }
+    "rent": { "1": 2100, "2": 2700, "3": 3200, "4": 3700 },
+    "commuteStations": [
+      { "key": "Hackney", "naptan": "910GHACKNYC" },
+      { "key": "Hackney Downs", "naptan": "910GHAKNYNM", "station": "Hackney Downs Rail Station" },
+      { "key": "Rectory Road", "naptan": "910GRCTRYRD", "station": "Rectory Road Rail Station" }
+    ]
   },
   "Putney": {
     "point": { "lat": 51.4592, "lon": -0.211 },
     "ladCode": "E09000032",
-    "id": "east-putney",
-    "displayName": "East Putney",
-    "comparisonName": "East Putney",
+    "id": "putney",
+    "displayName": "Putney",
+    "comparisonName": "Putney",
     "anchorStation": "East Putney Underground Station",
-    "labelScope": "station",
+    "labelScope": "area",
     "dataConfidence": "high",
-    "reviewNote": "Station-centric comparison anchor.",
+    "reviewNote": "Putney area comparison anchor, covering East Putney Underground and Putney Rail.",
     "borough": "Wandsworth",
     "zone": "Zone 2",
     "station": "East Putney Underground Station",
     "naptan": "940GZZLUEPY",
-    "rent": { "1": 1950, "2": 2500, "3": 3000, "4": 3900 }
+    "rent": { "1": 1950, "2": 2500, "3": 3000, "4": 3900 },
+    "commuteStations": [
+      { "key": "East Putney", "naptan": "940GZZLUEPY", "station": "East Putney Underground Station" },
+      { "key": "Putney Rail", "naptan": "910GPUTNEY", "station": "Putney Rail Station" }
+    ]
   },
   "Crystal Palace": {
     "point": { "lat": 51.4182, "lon": -0.0726 },
@@ -381,7 +438,12 @@
     "zone": "Zone 3",
     "station": "Crystal Palace Rail Station",
     "naptan": "910GCRYSTLP",
-    "rent": { "1": 1289, "2": 1614, "3": 1955, "4": 2895 }
+    "rent": { "1": 1289, "2": 1614, "3": 1955, "4": 2895 },
+    "commuteStations": [
+      { "key": "Crystal Palace", "naptan": "910GCRYSTLP" },
+      { "key": "Anerley", "naptan": "910GANERLEY", "station": "Anerley Rail Station" },
+      { "key": "Penge West", "naptan": "910GPENEW", "station": "Penge West Rail Station" }
+    ]
   },
   "Bromley": {
     "point": { "lat": 51.4, "lon": 0.0173 },
@@ -419,17 +481,23 @@
     "point": { "lat": 51.4946, "lon": -0.2678 },
     "ladCode": "E09000018",
     "id": "chiswick-park",
-    "displayName": "Chiswick Park",
-    "comparisonName": "Chiswick Park",
+    "displayName": "Chiswick",
+    "comparisonName": "Chiswick",
     "anchorStation": "Chiswick Park Underground Station",
-    "labelScope": "station",
+    "labelScope": "area",
     "dataConfidence": "high",
-    "reviewNote": "Station-centric comparison anchor.",
+    "reviewNote": "Chiswick area comparison anchor, using Chiswick Park and nearby stations.",
     "borough": "Hounslow",
     "zone": "Zone 3",
     "station": "Chiswick Park Underground Station",
     "naptan": "940GZZLUCWP",
-    "rent": { "1": 1900, "2": 2450, "3": 3000, "4": 3800 }
+    "rent": { "1": 1900, "2": 2450, "3": 3000, "4": 3800 },
+    "commuteStations": [
+      { "key": "Chiswick", "naptan": "940GZZLUCWP" },
+      { "key": "Gunnersbury", "naptan": "910GGNRSBRY", "station": "Gunnersbury Rail Station" },
+      { "key": "Gunnersbury Underground", "naptan": "940GZZLUGBY", "station": "Gunnersbury Underground Station" },
+      { "key": "Turnham Green", "naptan": "940GZZLUTNG", "station": "Turnham Green Underground Station" }
+    ]
   },
   "Hammersmith": {
     "point": { "lat": 51.4927, "lon": -0.2229 },
@@ -445,7 +513,15 @@
     "zone": "Zone 2",
     "station": "Hammersmith Underground Station",
     "naptan": "940GZZLUHSD",
-    "rent": { "1": 1800, "2": 2300, "3": 2700, "4": 3600 }
+    "rent": { "1": 1800, "2": 2300, "3": 2700, "4": 3600 },
+    "commuteStations": [
+      { "key": "Hammersmith", "naptan": "940GZZLUHSD" },
+      { "key": "Goldhawk Road", "naptan": "940GZZLUGHK", "station": "Goldhawk Road Underground Station" },
+      { "key": "Hammersmith (H&C Line)", "naptan": "940GZZLUHSC", "station": "Hammersmith (H&C Line) Underground Station" },
+      { "key": "Kensington (Olympia)", "naptan": "940GZZLUKOY", "station": "Kensington (Olympia) Underground Station" },
+      { "key": "Stamford Brook", "naptan": "940GZZLUSFB", "station": "Stamford Brook Underground Station" },
+      { "key": "Ravenscourt Park", "naptan": "940GZZLURVP", "station": "Ravenscourt Park Underground Station" }
+    ]
   },
   "Islington": {
     "point": { "lat": 51.5465, "lon": -0.1039 },
@@ -461,23 +537,32 @@
     "zone": "Zone 2",
     "station": "Highbury and Islington Underground Station",
     "naptan": "940GZZLUHAI",
-    "rent": { "1": 2050, "2": 2544, "3": 2835, "4": 4018 }
+    "rent": { "1": 2050, "2": 2544, "3": 2835, "4": 4018 },
+    "commuteStations": [
+      { "key": "Islington", "naptan": "940GZZLUHAI" },
+      { "key": "Highbury & Islington", "naptan": "910GHGHI", "station": "Highbury & Islington Rail Station" }
+    ]
   },
   "Finchley": {
     "point": { "lat": 51.6012, "lon": -0.1924 },
     "ladCode": "E09000003",
     "id": "finchley",
-    "displayName": "Finchley Central",
-    "comparisonName": "Finchley Central",
+    "displayName": "Finchley",
+    "comparisonName": "Finchley",
     "anchorStation": "Finchley Central Underground Station",
-    "labelScope": "station",
+    "labelScope": "area",
     "dataConfidence": "high",
-    "reviewNote": "Station-centric comparison anchor.",
+    "reviewNote": "Finchley area (Central/West/North Finchley), anchored at Finchley Central.",
     "borough": "Barnet",
     "zone": "Zone 4",
     "station": "Finchley Central Underground Station",
     "naptan": "940GZZLUFYC",
-    "rent": { "1": 1478, "2": 1832, "3": 2222, "4": 3169 }
+    "rent": { "1": 1478, "2": 1832, "3": 2222, "4": 3169 },
+    "commuteStations": [
+      { "key": "Finchley", "naptan": "940GZZLUFYC" },
+      { "key": "West Finchley", "naptan": "940GZZLUWFN", "station": "West Finchley Underground Station" },
+      { "key": "North Finchley", "naptan": "940GZZLUWOP", "station": "Woodside Park Underground Station" }
+    ]
   },
   "Greenwich": {
     "point": { "lat": 51.4781, "lon": -0.0149 },
@@ -493,7 +578,13 @@
     "zone": "Zone 2",
     "station": "Greenwich DLR Station",
     "naptan": "940GZZDLGRE",
-    "rent": { "1": 1520, "2": 1880, "3": 2177, "4": 2933 }
+    "rent": { "1": 1520, "2": 1880, "3": 2177, "4": 2933 },
+    "commuteStations": [
+      { "key": "Greenwich", "naptan": "940GZZDLGRE" },
+      { "key": "Cutty Sark (for Maritime Greenwich)", "naptan": "940GZZDLCUT", "station": "Cutty Sark (for Maritime Greenwich) DLR Station" },
+      { "key": "Deptford Bridge", "naptan": "940GZZDLDEP", "station": "Deptford Bridge DLR Station" },
+      { "key": "North Greenwich", "naptan": "940GZZLUNGW", "station": "North Greenwich Underground Station" }
+    ]
   },
   "Lewisham": {
     "point": { "lat": 51.4657, "lon": -0.0142 },
@@ -509,23 +600,32 @@
     "zone": "Zone 2",
     "station": "Lewisham Rail Station",
     "naptan": "910GLEWISHM",
-    "rent": { "1": 1437, "2": 1766, "3": 2027, "4": 2689 }
+    "rent": { "1": 1437, "2": 1766, "3": 2027, "4": 2689 },
+    "commuteStations": [
+      { "key": "Lewisham", "naptan": "910GLEWISHM" },
+      { "key": "Elverson Road", "naptan": "940GZZDLELV", "station": "Elverson Road DLR Station" },
+      { "key": "Lewisham DLR", "naptan": "940GZZDLLEW", "station": "Lewisham DLR Station" }
+    ]
   },
   "Harringay Green Lanes": {
     "point": { "lat": 51.5786, "lon": -0.0966 },
     "ladCode": "E09000014",
     "id": "harringay-green-lanes",
-    "displayName": "Harringay Green Lanes",
-    "comparisonName": "Harringay Green Lanes",
+    "displayName": "Harringay",
+    "comparisonName": "Harringay",
     "anchorStation": "Harringay Green Lanes Rail Station",
-    "labelScope": "station",
+    "labelScope": "area",
     "dataConfidence": "medium",
-    "reviewNote": "N4/N8, Haringey. Rent estimated from ONS/Hutch comparables; commute pending TfL refresh.",
+    "reviewNote": "Harringay area (Green Lanes strip + Turnpike Lane), Haringey. Rent estimated from ONS/Hutch comparables.",
     "borough": "Haringey",
     "zone": "Zone 3",
     "station": "Harringay Green Lanes Rail Station",
     "naptan": "910GHRGYGL",
-    "rent": { "1": 1700, "2": 2150, "3": 2650, "4": 3200 }
+    "rent": { "1": 1700, "2": 2150, "3": 2650, "4": 3200 },
+    "commuteStations": [
+      { "key": "Harringay Green Lanes", "naptan": "910GHRGYGL" },
+      { "key": "Turnpike Lane", "naptan": "940GZZLUTPN", "station": "Turnpike Lane Underground Station" }
+    ]
   },
   "Manor House": {
     "point": { "lat": 51.5712, "lon": -0.0958 },
@@ -541,23 +641,11 @@
     "zone": "Zone 3",
     "station": "Manor House Underground Station",
     "naptan": "940GZZLUMRH",
-    "rent": { "1": 1850, "2": 2350, "3": 2850, "4": 3400 }
-  },
-  "Turnpike Lane": {
-    "point": { "lat": 51.5904, "lon": -0.1029 },
-    "ladCode": "E09000014",
-    "id": "turnpike-lane",
-    "displayName": "Turnpike Lane",
-    "comparisonName": "Turnpike Lane",
-    "anchorStation": "Turnpike Lane Underground Station",
-    "labelScope": "station",
-    "dataConfidence": "medium",
-    "reviewNote": "N8, Haringey. Rent estimated from ONS/Hutch comparables; commute pending TfL refresh.",
-    "borough": "Haringey",
-    "zone": "Zone 3",
-    "station": "Turnpike Lane Underground Station",
-    "naptan": "940GZZLUTPN",
-    "rent": { "1": 1600, "2": 2000, "3": 2450, "4": 2950 }
+    "rent": { "1": 1850, "2": 2350, "3": 2850, "4": 3400 },
+    "commuteStations": [
+      { "key": "Manor House", "naptan": "940GZZLUMRH" },
+      { "key": "Stamford Hill", "naptan": "910GSTMFDHL", "station": "Stamford Hill Rail Station" }
+    ]
   },
   "Edmonton": {
     "point": { "lat": 51.6249, "lon": -0.0611 },
@@ -573,7 +661,11 @@
     "zone": "Zone 4",
     "station": "Edmonton Green Rail Station",
     "naptan": "910GEDMNGRN",
-    "rent": { "1": 1350, "2": 1700, "3": 2100, "4": 2750 }
+    "rent": { "1": 1350, "2": 1700, "3": 2100, "4": 2750 },
+    "commuteStations": [
+      { "key": "Edmonton", "naptan": "910GEDMNGRN" },
+      { "key": "Silver Street", "naptan": "910GSIVRST", "station": "Silver Street Rail Station" }
+    ]
   },
   "Hendon": {
     "point": { "lat": 51.5832, "lon": -0.2267 },
@@ -621,7 +713,11 @@
     "zone": "Zone 3",
     "station": "Willesden Green Underground Station",
     "naptan": "940GZZLUWIG",
-    "rent": { "1": 1750, "2": 2200, "3": 2700, "4": 3300 }
+    "rent": { "1": 1750, "2": 2200, "3": 2700, "4": 3300 },
+    "commuteStations": [
+      { "key": "Willesden Green", "naptan": "940GZZLUWIG" },
+      { "key": "Dollis Hill", "naptan": "940GZZLUDOH", "station": "Dollis Hill Underground Station" }
+    ]
   },
   "Cricklewood": {
     "point": { "lat": 51.5540, "lon": -0.2160 },
@@ -637,7 +733,11 @@
     "zone": "Zone 3",
     "station": "Cricklewood Rail Station",
     "naptan": "910GCRKLWD",
-    "rent": { "1": 1650, "2": 2050, "3": 2500, "4": 3100 }
+    "rent": { "1": 1650, "2": 2050, "3": 2500, "4": 3100 },
+    "commuteStations": [
+      { "key": "Cricklewood", "naptan": "910GCRKLWD" },
+      { "key": "Kilburn", "naptan": "940GZZLUKBN", "station": "Kilburn Underground Station" }
+    ]
   },
   "Golders Green": {
     "point": { "lat": 51.5758, "lon": -0.2030 },
@@ -653,39 +753,12 @@
     "zone": "Zone 3",
     "station": "Golders Green Underground Station",
     "naptan": "940GZZLUGGN",
-    "rent": { "1": 1700, "2": 2150, "3": 2750, "4": 3700 }
-  },
-  "North Finchley": {
-    "point": { "lat": 51.6180, "lon": -0.1854 },
-    "ladCode": "E09000003",
-    "id": "north-finchley",
-    "displayName": "North Finchley",
-    "comparisonName": "North Finchley",
-    "anchorStation": "Woodside Park Underground Station",
-    "labelScope": "area",
-    "dataConfidence": "medium",
-    "reviewNote": "North Finchley area comparison anchor, using Woodside Park as nearest Tube station. Rent estimated from Finchley/Barnet comparables.",
-    "borough": "Barnet",
-    "zone": "Zone 4",
-    "station": "Woodside Park Underground Station",
-    "naptan": "940GZZLUWOP",
-    "rent": { "1": 1650, "2": 2100, "3": 2600, "4": 3400 }
-  },
-  "Childs Hill": {
-    "point": { "lat": 51.5680, "lon": -0.2010 },
-    "ladCode": "E09000003",
-    "id": "childs-hill",
-    "displayName": "Childs Hill",
-    "comparisonName": "Childs Hill",
-    "anchorStation": "Cricklewood Rail Station",
-    "labelScope": "area",
-    "dataConfidence": "medium",
-    "reviewNote": "NW2/NW11, Barnet; no dedicated station, anchored at nearest (Cricklewood). Rent estimated from ONS/Hutch comparables; commute pending TfL refresh.",
-    "borough": "Barnet",
-    "zone": "Zone 3",
-    "station": "Cricklewood Rail Station",
-    "naptan": "910GCRKLWD",
-    "rent": { "1": 1600, "2": 2000, "3": 2500, "4": 3300 }
+    "rent": { "1": 1700, "2": 2150, "3": 2750, "4": 3700 },
+    "commuteStations": [
+      { "key": "Golders Green", "naptan": "940GZZLUGGN" },
+      { "key": "Childs Hill", "naptan": "910GCRKLWD", "station": "Cricklewood (for Childs Hill)", "point": { "lat": 51.568, "lon": -0.201 } },
+      { "key": "Brent Cross", "naptan": "940GZZLUBTX", "station": "Brent Cross Underground Station" }
+    ]
   },
   "Shepherd's Bush": {
     "point": { "lat": 51.5046, "lon": -0.2187 },
@@ -701,7 +774,12 @@
     "zone": "Zone 2",
     "station": "Shepherd's Bush Underground Station",
     "naptan": "940GZZLUSBC",
-    "rent": { "1": 1800, "2": 2300, "3": 2750, "4": 3650 }
+    "rent": { "1": 1800, "2": 2300, "3": 2750, "4": 3650 },
+    "commuteStations": [
+      { "key": "Shepherd's Bush", "naptan": "940GZZLUSBC" },
+      { "key": "Shepherd's Bush Market", "naptan": "940GZZLUSBM", "station": "Shepherd's Bush Market Underground Station" },
+      { "key": "Shepherd's Bush Overground", "naptan": "910GSHPDSB", "station": "Shepherds Bush Rail Station" }
+    ]
   },
   "Worcester Park": {
     "point": { "lat": 51.38085, "lon": -0.24545 },
@@ -733,7 +811,11 @@
     "zone": "Zone 1",
     "station": "Southwark Underground Station",
     "naptan": "940GZZLUSWK",
-    "rent": { "1": 2400, "2": 3200, "3": 4200, "4": 5500 }
+    "rent": { "1": 2400, "2": 3200, "3": 4200, "4": 5500 },
+    "commuteStations": [
+      { "key": "Southwark", "naptan": "940GZZLUSWK" },
+      { "key": "Borough", "naptan": "940GZZLUBOR", "station": "Borough Underground Station" }
+    ]
   },
   "London Bridge": {
     "point": { "lat": 51.50515, "lon": -0.0865 },
@@ -749,23 +831,11 @@
     "zone": "Zone 1",
     "station": "London Bridge Underground Station",
     "naptan": "940GZZLULNB",
-    "rent": { "1": 2500, "2": 3300, "3": 4400, "4": 5800 }
-  },
-  "North Acton": {
-    "point": { "lat": 51.51678, "lon": -0.25934 },
-    "ladCode": "E09000009",
-    "id": "north-acton",
-    "displayName": "North Acton",
-    "comparisonName": "North Acton",
-    "anchorStation": "North Acton Underground Station",
-    "labelScope": "station",
-    "dataConfidence": "medium",
-    "reviewNote": "W3, new-build cluster. Rent estimated from ONS/Hutch comparables.",
-    "borough": "Ealing",
-    "zone": "Zone 2/3",
-    "station": "North Acton Underground Station",
-    "naptan": "940GZZLUNAN",
-    "rent": { "1": 1800, "2": 2250, "3": 2700, "4": 3450 }
+    "rent": { "1": 2500, "2": 3300, "3": 4400, "4": 5800 },
+    "commuteStations": [
+      { "key": "London Bridge", "naptan": "940GZZLULNB" },
+      { "key": "Bermondsey", "naptan": "940GZZLUBMY", "station": "Bermondsey Underground Station" }
+    ]
   },
   "Camden": {
     "point": { "lat": 51.53926, "lon": -0.14253 },
@@ -781,7 +851,14 @@
     "zone": "Zone 2",
     "station": "Camden Town Underground Station",
     "naptan": "940GZZLUCTN",
-    "rent": { "1": 2150, "2": 2750, "3": 3400, "4": 4400 }
+    "rent": { "1": 2150, "2": 2750, "3": 3400, "4": 4400 },
+    "commuteStations": [
+      { "key": "Camden", "naptan": "940GZZLUCTN" },
+      { "key": "Camden Road", "naptan": "910GCMDNRD", "station": "Camden Road Rail Station" },
+      { "key": "Kentish Town", "naptan": "940GZZLUKSH", "station": "Kentish Town Underground Station" },
+      { "key": "Kentish Town West", "naptan": "910GKNTSHTW", "station": "Kentish Town West Rail Station" },
+      { "key": "Tufnell Park", "naptan": "940GZZLUTFP", "station": "Tufnell Park Underground Station" }
+    ]
   },
   "Bloomsbury": {
     "point": { "lat": 51.52306, "lon": -0.12459 },
@@ -797,23 +874,15 @@
     "zone": "Zone 1",
     "station": "Russell Square Underground Station",
     "naptan": "940GZZLURSQ",
-    "rent": { "1": 2350, "2": 3000, "3": 3800, "4": 4900 }
-  },
-  "Waddon": {
-    "point": { "lat": 51.3617, "lon": -0.1192 },
-    "ladCode": "E09000008",
-    "id": "waddon",
-    "displayName": "Waddon",
-    "comparisonName": "Waddon",
-    "anchorStation": "Waddon Rail Station",
-    "labelScope": "station",
-    "dataConfidence": "medium",
-    "reviewNote": "CR0, Purley Way/Waddon. Rent estimated from ONS/Hutch comparables.",
-    "borough": "Croydon",
-    "zone": "Zone 5",
-    "station": "Waddon Rail Station",
-    "naptan": "910GWADDON",
-    "rent": { "1": 1200, "2": 1500, "3": 1800, "4": 2450 }
+    "rent": { "1": 2350, "2": 3000, "3": 3800, "4": 4900 },
+    "commuteStations": [
+      { "key": "Bloomsbury", "naptan": "940GZZLURSQ" },
+      { "key": "Chancery Lane", "naptan": "940GZZLUCHL", "station": "Chancery Lane Underground Station" },
+      { "key": "Euston Square", "naptan": "940GZZLUESQ", "station": "Euston Square Underground Station" },
+      { "key": "Goodge Street", "naptan": "940GZZLUGDG", "station": "Goodge Street Underground Station" },
+      { "key": "Holborn", "naptan": "940GZZLUHBN", "station": "Holborn Underground Station" },
+      { "key": "Warren Street", "naptan": "940GZZLUWRR", "station": "Warren Street Underground Station" }
+    ]
   },
   "Wallington": {
     "point": { "lat": 51.3604, "lon": -0.1508 },
@@ -845,55 +914,13 @@
     "zone": "Zone 3",
     "station": "Balham Underground Station",
     "naptan": "940GZZLUBLM",
-    "rent": { "1": 1800, "2": 2300, "3": 2850, "4": 3650 }
-  },
-  "South Wimbledon": {
-    "point": { "lat": 51.4153, "lon": -0.192 },
-    "ladCode": "E09000024",
-    "id": "south-wimbledon",
-    "displayName": "South Wimbledon",
-    "comparisonName": "South Wimbledon",
-    "anchorStation": "South Wimbledon Underground Station",
-    "labelScope": "station",
-    "dataConfidence": "medium",
-    "reviewNote": "Station-centric comparison anchor. Rent estimated from Wimbledon/Wimbledon Park comparables.",
-    "borough": "Merton",
-    "zone": "Zone 3",
-    "station": "South Wimbledon Underground Station",
-    "naptan": "940GZZLUSWN",
-    "rent": { "1": 1675, "2": 2075, "3": 2475, "4": 3350 }
-  },
-  "Goldhawk Road": {
-    "point": { "lat": 51.502, "lon": -0.2267 },
-    "ladCode": "E09000013",
-    "id": "goldhawk-road",
-    "displayName": "Goldhawk Road",
-    "comparisonName": "Goldhawk Road",
-    "anchorStation": "Goldhawk Road Underground Station",
-    "labelScope": "station",
-    "dataConfidence": "medium",
-    "reviewNote": "Station-centric comparison anchor. Rent estimated from Shepherd's Bush comparables.",
-    "borough": "Hammersmith and Fulham",
-    "zone": "Zone 2",
-    "station": "Goldhawk Road Underground Station",
-    "naptan": "940GZZLUGHK",
-    "rent": { "1": 1850, "2": 2350, "3": 2800, "4": 3700 }
-  },
-  "Stamford Brook": {
-    "point": { "lat": 51.4949, "lon": -0.2457 },
-    "ladCode": "E09000013",
-    "id": "stamford-brook",
-    "displayName": "Stamford Brook",
-    "comparisonName": "Stamford Brook",
-    "anchorStation": "Stamford Brook Underground Station",
-    "labelScope": "station",
-    "dataConfidence": "medium",
-    "reviewNote": "Station-centric comparison anchor. Rent estimated from Hammersmith/Chiswick comparables.",
-    "borough": "Hammersmith and Fulham",
-    "zone": "Zone 2",
-    "station": "Stamford Brook Underground Station",
-    "naptan": "940GZZLUSFB",
-    "rent": { "1": 1850, "2": 2350, "3": 2800, "4": 3700 }
+    "rent": { "1": 1800, "2": 2300, "3": 2850, "4": 3650 },
+    "commuteStations": [
+      { "key": "Balham", "naptan": "940GZZLUBLM" },
+      { "key": "Balham Rail", "naptan": "910GBALHAM", "station": "Balham Rail Station" },
+      { "key": "Clapham South", "naptan": "940GZZLUCPS", "station": "Clapham South Underground Station" },
+      { "key": "Tooting Bec", "naptan": "940GZZLUTBC", "station": "Tooting Bec Underground Station" }
+    ]
   },
   "Kingston": {
     "point": { "lat": 51.4128, "lon": -0.3012 },
@@ -989,7 +1016,19 @@
     "zone": "Zone 3",
     "station": "Canning Town Station",
     "naptan": "940GZZLUCGT",
-    "rent": { "1": 1750, "2": 2200, "3": 2650, "4": 3200 }
+    "rent": { "1": 1750, "2": 2200, "3": 2650, "4": 3200 },
+    "commuteStations": [
+      { "key": "Canning Town", "naptan": "940GZZLUCGT" },
+      { "key": "Canning Town DLR", "naptan": "940GZZDLCGT", "station": "Canning Town DLR Station" },
+      { "key": "Custom House (for ExCel)", "naptan": "940GZZDLCUS", "station": "Custom House (for ExCel) DLR Station" },
+      { "key": "Custom House", "naptan": "910GCUSTMHS", "station": "Custom House Rail Station" },
+      { "key": "Prince Regent", "naptan": "940GZZDLPRE", "station": "Prince Regent DLR Station" },
+      { "key": "Royal Albert", "naptan": "940GZZDLRAL", "station": "Royal Albert DLR Station" },
+      { "key": "Royal Victoria", "naptan": "940GZZDLRVC", "station": "Royal Victoria DLR Station" },
+      { "key": "Star Lane", "naptan": "940GZZDLSTL", "station": "Star Lane DLR Station" },
+      { "key": "West Ham", "naptan": "940GZZDLWHM", "station": "West Ham DLR Station" },
+      { "key": "West Ham Underground", "naptan": "940GZZLUWHM", "station": "West Ham Underground Station" }
+    ]
   },
   "Norbury": {
     "point": { "lat": 51.4114, "lon": -0.1219 },
@@ -1007,6 +1046,29 @@
     "naptan": "910GNORBURY",
     "rent": { "1": 1250, "2": 1550, "3": 1900, "4": 2350 }
   },
+  "Ruislip": {
+    "point": { "lat": 51.571354, "lon": -0.421898 },
+    "ladCode": "E09000017",
+    "id": "ruislip",
+    "displayName": "Ruislip",
+    "comparisonName": "Ruislip",
+    "anchorStation": "Ruislip Underground Station",
+    "labelScope": "area",
+    "dataConfidence": "medium",
+    "reviewNote": "Ruislip area (Ruislip/Ruislip Manor/South Ruislip/West Ruislip). Rent estimated from outer north-west London comparables.",
+    "borough": "Hillingdon",
+    "zone": "Zone 6",
+    "station": "Ruislip Underground Station",
+    "naptan": "940GZZLURSP",
+    "rent": { "1": 1350, "2": 1700, "3": 2150, "4": 2850 },
+    "commuteStations": [
+      { "key": "Ruislip", "naptan": "940GZZLURSP" },
+      { "key": "Ruislip Manor", "naptan": "940GZZLURSM", "station": "Ruislip Manor Underground Station" },
+      { "key": "Ruislip Gardens", "naptan": "940GZZLURSG", "station": "Ruislip Gardens Underground Station" },
+      { "key": "South Ruislip", "naptan": "940GZZLUSRP", "station": "South Ruislip Underground Station" },
+      { "key": "West Ruislip", "naptan": "940GZZLUWRP", "station": "West Ruislip Underground Station" }
+    ]
+  },
   "Mill Hill": {
     "point": { "lat": 51.6131, "lon": -0.2492 },
     "ladCode": "E09000003",
@@ -1021,6 +1083,10 @@
     "zone": "Zone 4",
     "station": "Mill Hill Broadway Rail Station",
     "naptan": "910GMLHB",
-    "rent": { "1": 1350, "2": 1750, "3": 2200, "4": 2850 }
+    "rent": { "1": 1350, "2": 1750, "3": 2200, "4": 2850 },
+    "commuteStations": [
+      { "key": "Mill Hill", "naptan": "910GMLHB" },
+      { "key": "Mill Hill East", "naptan": "940GZZLUMHL", "station": "Mill Hill East Underground Station" }
+    ]
   }
 }

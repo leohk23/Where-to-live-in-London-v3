@@ -1,6 +1,6 @@
 /* scripts/build-school-postcode-coords.ts
  *
- * Rebuilds scripts/school-postcode-coords.csv — the lat/long of every postcode
+ * Rebuilds scripts/data/school-postcode-coords.csv — the lat/long of every postcode
  * referenced in the Ofsted schools CSV. Committing this small (~0.5 MB) lookup lets
  * generate-nearby-schools.ts geocode schools fully offline: no postcodes.io calls and
  * no ~90 MB national postcode download each time it runs.
@@ -16,8 +16,8 @@
 import fs from 'fs';
 import path from 'path';
 
-const OFSTED_CSV = path.resolve(process.cwd(), 'ofsted-latest-inspections-apr-2026.csv');
-const OUT_PATH = path.resolve(process.cwd(), 'scripts/school-postcode-coords.csv');
+const OFSTED_CSV = path.resolve(process.cwd(), 'data/raw/ofsted-latest-inspections-apr-2026.csv');
+const OUT_PATH = path.resolve(process.cwd(), 'scripts/data/school-postcode-coords.csv');
 const SOURCE_CSV = process.env.POSTCODE_CSV;
 
 const normalizePostcode = (postcode: string) => postcode.toUpperCase().replace(/\s+/g, '');

@@ -1,10 +1,11 @@
 {
   "Brixton": [
-    "tube",
-    "national-rail"
+    "tube"
   ],
   "Fulham": [
-    "tube"
+    "tube",
+    "overground",
+    "national-rail"
   ],
   "Tooting": [
     "tube"
@@ -16,9 +17,7 @@
     "national-rail"
   ],
   "Wimbledon": [
-    "tube",
-    "tram",
-    "national-rail"
+    "tube"
   ],
   "Richmond": [
     "tube",
@@ -34,11 +33,9 @@
     "tube"
   ],
   "Croydon": [
+    "overground",
     "tram",
     "national-rail"
-  ],
-  "Wimbledon Park": [
-    "tube"
   ],
   "High Barnet": [
     "tube"
@@ -47,22 +44,22 @@
     "national-rail"
   ],
   "Acton Common": [
-    "tube"
-  ],
-  "South Ealing": [
-    "tube"
+    "tube",
+    "overground",
+    "elizabeth-line",
+    "national-rail"
   ],
   "Southfields": [
     "tube"
   ],
   "Clapham": [
     "tube",
-    "overground",
-    "national-rail"
+    "overground"
   ],
   "Bethnal Green": [
     "tube",
     "overground",
+    "elizabeth-line",
     "national-rail"
   ],
   "Stratford": [
@@ -114,22 +111,22 @@
     "tube"
   ],
   "Greenwich": [
-    "dlr",
-    "national-rail"
+    "tube",
+    "dlr"
   ],
   "Lewisham": [
     "dlr",
     "national-rail"
   ],
   "Harringay Green Lanes": [
+    "tube",
     "overground",
     "national-rail"
   ],
   "Manor House": [
-    "tube"
-  ],
-  "Turnpike Lane": [
-    "tube"
+    "tube",
+    "overground",
+    "national-rail"
   ],
   "Edmonton": [
     "overground",
@@ -149,12 +146,6 @@
     "national-rail"
   ],
   "Golders Green": [
-    "tube"
-  ],
-  "North Finchley": [
-    "tube"
-  ],
-  "Childs Hill": [
     "tube",
     "national-rail"
   ],
@@ -167,17 +158,10 @@
     "national-rail"
   ],
   "Southwark": [
-    "tube",
-    "national-rail"
+    "tube"
   ],
   "London Bridge": [
-    "tube",
-    "national-rail"
-  ],
-  "North Acton": [
-    "tube",
-    "elizabeth-line",
-    "national-rail"
+    "tube"
   ],
   "Camden": [
     "tube",
@@ -186,27 +170,12 @@
   "Bloomsbury": [
     "tube"
   ],
-  "Waddon": [
-    "national-rail"
-  ],
   "Wallington": [
     "national-rail"
   ],
   "Balham": [
     "tube",
     "national-rail"
-  ],
-  "South Wimbledon": [
-    "tube",
-    "tram"
-  ],
-  "Goldhawk Road": [
-    "tube",
-    "overground",
-    "national-rail"
-  ],
-  "Stamford Brook": [
-    "tube"
   ],
   "Kingston": [
     "national-rail"
@@ -225,12 +194,17 @@
   ],
   "Canning Town": [
     "tube",
+    "elizabeth-line",
     "dlr"
   ],
   "Norbury": [
     "national-rail"
   ],
+  "Ruislip": [
+    "tube"
+  ],
   "Mill Hill": [
+    "tube",
     "national-rail"
   ]
 }

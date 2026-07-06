@@ -10,6 +10,26 @@
     "grammar": false
   },
   {
+    "urn": "146160",
+    "name": "Abbey Primary School",
+    "phase": "Primary",
+    "lat": 51.3846,
+    "lon": -0.19907,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102649",
+    "name": "Abbotsbury Primary School",
+    "phase": "Primary",
+    "lat": 51.39593,
+    "lon": -0.19487,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "100053",
     "name": "Acland Burghley School",
     "phase": "Secondary",
@@ -102,11 +122,31 @@
     "grammar": false
   },
   {
+    "urn": "100774",
+    "name": "Albion Primary School",
+    "phase": "Primary",
+    "lat": 51.49994,
+    "lon": -0.05165,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "100995",
     "name": "Alderbrook Primary School",
     "phase": "Primary",
     "lat": 51.44863,
     "lon": -0.14986,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "134369",
+    "name": "Alec Reed Academy",
+    "phase": "Secondary",
+    "lat": 51.54346,
+    "lon": -0.38243,
     "outstanding": false,
     "good": true,
     "grammar": false
@@ -167,6 +207,16 @@
     "phase": "Primary",
     "lat": 51.47485,
     "lon": -0.36097,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "100819",
+    "name": "Alfred Salter Primary School",
+    "phase": "Primary",
+    "lat": 51.4996,
+    "lon": -0.04357,
     "outstanding": false,
     "good": false,
     "grammar": false
@@ -570,6 +620,16 @@
     "grammar": false
   },
   {
+    "urn": "146214",
+    "name": "ARK John Archer Primary Academy",
+    "phase": "Primary",
+    "lat": 51.46192,
+    "lon": -0.17399,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "139815",
     "name": "Ark John Keats Academy",
     "phase": "Secondary",
@@ -655,6 +715,16 @@
     "phase": "Primary",
     "lat": 51.51259,
     "lon": -0.22937,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "130352",
+    "name": "Arnhem Wharf Primary School",
+    "phase": "Primary",
+    "lat": 51.49532,
+    "lon": -0.02655,
     "outstanding": false,
     "good": false,
     "grammar": false
@@ -840,6 +910,16 @@
     "lon": -0.26469,
     "outstanding": false,
     "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "137844",
+    "name": "Barnhill Community High School",
+    "phase": "Secondary",
+    "lat": 51.53041,
+    "lon": -0.39889,
+    "outstanding": true,
+    "good": false,
     "grammar": false
   },
   {
@@ -1149,6 +1229,17 @@
     "faith": true
   },
   {
+    "urn": "137407",
+    "name": "Bishop Ramsey Church of England School",
+    "phase": "Secondary",
+    "lat": 51.57855,
+    "lon": -0.40867,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "102052",
     "name": "Bishop Stopford's School",
     "phase": "Secondary",
@@ -1169,6 +1260,27 @@
     "good": false,
     "grammar": false,
     "faith": true
+  },
+  {
+    "urn": "102417",
+    "name": "Bishop Winnington-Ingram CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.57713,
+    "lon": -0.43368,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "137633",
+    "name": "Bishopshalt School",
+    "phase": "Secondary",
+    "lat": 51.5325,
+    "lon": -0.45998,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
   },
   {
     "urn": "137906",
@@ -1263,6 +1375,16 @@
     "faith": true
   },
   {
+    "urn": "102368",
+    "name": "Bourne Primary School",
+    "phase": "Primary",
+    "lat": 51.55332,
+    "lon": -0.39448,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "100480",
     "name": "Bousfield Primary School",
     "phase": "Primary",
@@ -1304,12 +1426,32 @@
     "grammar": false
   },
   {
+    "urn": "145718",
+    "name": "Braintcroft E-ACT Primary Academy",
+    "phase": "Primary",
+    "lat": 51.56417,
+    "lon": -0.24512,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "136669",
     "name": "Brampton Manor Academy",
     "phase": "Secondary",
     "lat": 51.52095,
     "lon": 0.0461,
     "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102711",
+    "name": "Brampton Primary School",
+    "phase": "Primary",
+    "lat": 51.52477,
+    "lon": 0.04586,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -1334,6 +1476,16 @@
     "grammar": false
   },
   {
+    "urn": "101496",
+    "name": "Brentfield Primary School",
+    "phase": "Primary",
+    "lat": 51.54702,
+    "lon": -0.26375,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "139095",
     "name": "Brentford School for Girls",
     "phase": "Secondary",
@@ -1352,6 +1504,16 @@
     "lon": -0.34097,
     "outstanding": false,
     "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "139488",
+    "name": "Brentside Primary School",
+    "phase": "Primary",
+    "lat": 51.52525,
+    "lon": -0.33944,
+    "outstanding": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1412,6 +1574,36 @@
     "lon": -0.09101,
     "outstanding": false,
     "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "141209",
+    "name": "Brook House Primary School",
+    "phase": "Primary",
+    "lat": 51.60722,
+    "lon": -0.06842,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "143628",
+    "name": "Brookfield Primary Academy",
+    "phase": "Primary",
+    "lat": 51.38083,
+    "lon": -0.21541,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "100011",
+    "name": "Brookfield Primary School",
+    "phase": "Primary",
+    "lat": 51.56339,
+    "lon": -0.14506,
+    "outstanding": false,
+    "good": false,
     "grammar": false
   },
   {
@@ -1516,6 +1708,16 @@
     "grammar": false
   },
   {
+    "urn": "102758",
+    "name": "Calverton Primary School",
+    "phase": "Primary",
+    "lat": 51.51112,
+    "lon": 0.04172,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "102085",
     "name": "Campsbourne Infant School",
     "phase": "Primary",
@@ -1569,6 +1771,16 @@
     "faith": true
   },
   {
+    "urn": "102204",
+    "name": "Cannon Lane Primary School",
+    "phase": "Primary",
+    "lat": 51.58151,
+    "lon": -0.38919,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "131773",
     "name": "Canonbury Primary School",
     "phase": "Primary",
@@ -1598,6 +1810,16 @@
     "good": false,
     "grammar": false,
     "faith": true
+  },
+  {
+    "urn": "101498",
+    "name": "Carlton Vale Infant School",
+    "phase": "Primary",
+    "lat": 51.53218,
+    "lon": -0.20089,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
   },
   {
     "urn": "102712",
@@ -1672,6 +1894,16 @@
     "good": false,
     "grammar": false,
     "genderOfEntry": "Girls"
+  },
+  {
+    "urn": "130995",
+    "name": "Central Park Primary School",
+    "phase": "Primary",
+    "lat": 51.52869,
+    "lon": 0.04243,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
   },
   {
     "urn": "102049",
@@ -1784,6 +2016,16 @@
     "grammar": false
   },
   {
+    "urn": "140260",
+    "name": "Cheam Park Farm Primary Academy",
+    "phase": "Primary",
+    "lat": 51.37433,
+    "lon": -0.21527,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "135531",
     "name": "Chelsea Academy",
     "phase": "Secondary",
@@ -1885,12 +2127,34 @@
     "grammar": false
   },
   {
+    "urn": "101147",
+    "name": "Christ Church Bentinck CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.52145,
+    "lon": -0.16638,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "100165",
     "name": "Christ Church Church of England Primary School",
     "phase": "Primary",
     "lat": 51.48744,
     "lon": 0.007,
     "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "100489",
+    "name": "Christ Church CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.48541,
+    "lon": -0.16432,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -2058,6 +2322,16 @@
     "grammar": false
   },
   {
+    "urn": "145204",
+    "name": "Churchfields Primary School",
+    "phase": "Primary",
+    "lat": 51.4056,
+    "lon": -0.04656,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "137954",
     "name": "City Heights E-ACT Academy",
     "phase": "Secondary",
@@ -2169,11 +2443,31 @@
     "grammar": false
   },
   {
+    "urn": "143882",
+    "name": "Cleves Primary School",
+    "phase": "Primary",
+    "lat": 51.53328,
+    "lon": 0.0431,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "102752",
     "name": "Colegrave Primary School",
     "phase": "Primary",
     "lat": 51.5484,
     "lon": 0.00145,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102121",
+    "name": "Coleridge Primary School",
+    "phase": "Primary",
+    "lat": 51.5764,
+    "lon": -0.12649,
     "outstanding": false,
     "good": false,
     "grammar": false
@@ -2357,6 +2651,26 @@
     "faith": true
   },
   {
+    "urn": "102375",
+    "name": "Coteford Infant School",
+    "phase": "Primary",
+    "lat": 51.58411,
+    "lon": -0.41047,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "139295",
+    "name": "Coteford Junior School",
+    "phase": "Primary",
+    "lat": 51.58763,
+    "lon": -0.41165,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "101271",
     "name": "Courtland School",
     "phase": "Primary",
@@ -2427,6 +2741,16 @@
     "grammar": false
   },
   {
+    "urn": "102129",
+    "name": "Crowland Primary School",
+    "phase": "Primary",
+    "lat": 51.58054,
+    "lon": -0.06641,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "100593",
     "name": "Crown Lane Primary School",
     "phase": "Primary",
@@ -2487,6 +2811,16 @@
     "grammar": false
   },
   {
+    "urn": "144142",
+    "name": "Curwen Primary School",
+    "phase": "Primary",
+    "lat": 51.53024,
+    "lon": 0.02085,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "144626",
     "name": "Cypress Primary School",
     "phase": "Primary",
@@ -2494,6 +2828,16 @@
     "lon": -0.08201,
     "outstanding": false,
     "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "148681",
+    "name": "Cyril Jackson Primary School",
+    "phase": "Primary",
+    "lat": 51.51036,
+    "lon": -0.02991,
+    "outstanding": false,
+    "good": false,
     "grammar": false
   },
   {
@@ -2562,6 +2906,26 @@
     "phase": "Primary",
     "lat": 51.40872,
     "lon": -0.09834,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "141035",
+    "name": "De Salis Studio College",
+    "phase": "Secondary",
+    "lat": 51.52893,
+    "lon": -0.43997,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102377",
+    "name": "Deanesfield Primary School",
+    "phase": "Primary",
+    "lat": 51.55933,
+    "lon": -0.39072,
     "outstanding": false,
     "good": false,
     "grammar": false
@@ -2737,6 +3101,16 @@
     "grammar": false
   },
   {
+    "urn": "143883",
+    "name": "Drew Primary School",
+    "phase": "Primary",
+    "lat": 51.50288,
+    "lon": 0.04706,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "144900",
     "name": "Duke's Aldridge",
     "phase": "Secondary",
@@ -2848,6 +3222,26 @@
     "grammar": false
   },
   {
+    "urn": "102091",
+    "name": "Earlsmead Primary School",
+    "phase": "Primary",
+    "lat": 51.58394,
+    "lon": -0.06875,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "144883",
+    "name": "Earlsmead Primary School",
+    "phase": "Primary",
+    "lat": 51.55703,
+    "lon": -0.3729,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "101868",
     "name": "East Acton Primary School",
     "phase": "Primary",
@@ -2863,6 +3257,16 @@
     "phase": "Secondary",
     "lat": 51.64446,
     "lon": -0.15456,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "101244",
+    "name": "Eastbury Community School",
+    "phase": "Secondary",
+    "lat": 51.54252,
+    "lon": 0.09014,
     "outstanding": false,
     "good": false,
     "grammar": false
@@ -2984,6 +3388,26 @@
     "lat": 51.52866,
     "lon": -0.06291,
     "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102759",
+    "name": "Ellen Wilkinson Primary School",
+    "phase": "Primary",
+    "lat": 51.516,
+    "lon": 0.045,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "145362",
+    "name": "Elmhurst Primary School",
+    "phase": "Primary",
+    "lat": 51.53997,
+    "lon": 0.03117,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -3184,6 +3608,36 @@
     "grammar": false
   },
   {
+    "urn": "102127",
+    "name": "Ferry Lane Primary School",
+    "phase": "Primary",
+    "lat": 51.58671,
+    "lon": -0.05936,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "102379",
+    "name": "Field End Infant School",
+    "phase": "Primary",
+    "lat": 51.56684,
+    "lon": -0.38794,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "148774",
+    "name": "Field End Junior School",
+    "phase": "Primary",
+    "lat": 51.56684,
+    "lon": -0.38794,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "101897",
     "name": "Fielding Primary School",
     "phase": "Primary",
@@ -3232,6 +3686,16 @@
     "lon": -0.06,
     "outstanding": false,
     "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "100014",
+    "name": "Fleet Primary School",
+    "phase": "Primary",
+    "lat": 51.55346,
+    "lon": -0.16094,
+    "outstanding": false,
+    "good": false,
     "grammar": false
   },
   {
@@ -3396,6 +3860,16 @@
     "grammar": false
   },
   {
+    "urn": "142703",
+    "name": "Furness Primary School",
+    "phase": "Primary",
+    "lat": 51.53377,
+    "lon": -0.23858,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "101009",
     "name": "Furzedown Primary School",
     "phase": "Primary",
@@ -3426,11 +3900,31 @@
     "grammar": false
   },
   {
+    "urn": "142875",
+    "name": "Galleywall Primary, City of London Academy",
+    "phase": "Primary",
+    "lat": 51.49042,
+    "lon": -0.06014,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "146862",
     "name": "Galliard Primary School",
     "phase": "Primary",
     "lat": 51.63796,
     "lon": -0.0591,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "145368",
+    "name": "Gallions Primary School",
+    "phase": "Primary",
+    "lat": 51.51258,
+    "lon": 0.068,
     "outstanding": true,
     "good": false,
     "grammar": false
@@ -3537,6 +4031,16 @@
     "grammar": false
   },
   {
+    "urn": "102380",
+    "name": "Glebe Primary School",
+    "phase": "Primary",
+    "lat": 51.55879,
+    "lon": -0.43729,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "100601",
     "name": "Glenbrook Primary School",
     "phase": "Primary",
@@ -3573,6 +4077,16 @@
     "lat": 51.34337,
     "lon": -0.25583,
     "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102721",
+    "name": "Godwin Junior School",
+    "phase": "Primary",
+    "lat": 51.55206,
+    "lon": 0.03031,
+    "outstanding": false,
     "good": false,
     "grammar": false
   },
@@ -3763,6 +4277,26 @@
     "phase": "Primary",
     "lat": 51.38614,
     "lon": -0.23758,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "141876",
+    "name": "Green Wrythe Primary School",
+    "phase": "Primary",
+    "lat": 51.38942,
+    "lon": -0.17851,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "101940",
+    "name": "Greenford High School",
+    "phase": "Secondary",
+    "lat": 51.53102,
+    "lon": -0.37041,
     "outstanding": false,
     "good": true,
     "grammar": false
@@ -4012,6 +4546,16 @@
     "grammar": false
   },
   {
+    "urn": "143597",
+    "name": "Halstow Primary School",
+    "phase": "Primary",
+    "lat": 51.48509,
+    "lon": 0.01518,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "136172",
     "name": "Hammersmith Academy",
     "phase": "Secondary",
@@ -4020,6 +4564,17 @@
     "outstanding": false,
     "good": false,
     "grammar": false
+  },
+  {
+    "urn": "101123",
+    "name": "Hampden Gurney CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.51681,
+    "lon": -0.16408,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
   },
   {
     "urn": "100031",
@@ -4088,6 +4643,46 @@
     "phase": "Primary",
     "lat": 51.48931,
     "lon": -0.02005,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "135004",
+    "name": "Harefield School",
+    "phase": "Secondary",
+    "lat": 51.60581,
+    "lon": -0.47517,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "100408",
+    "name": "Hargrave Park Primary School",
+    "phase": "Primary",
+    "lat": 51.56428,
+    "lon": -0.14008,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "101499",
+    "name": "Harlesden Primary School",
+    "phase": "Primary",
+    "lat": 51.53683,
+    "lon": -0.25403,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "100256",
+    "name": "Harrington Hill Primary School",
+    "phase": "Primary",
+    "lat": 51.56667,
+    "lon": -0.05444,
     "outstanding": false,
     "good": true,
     "grammar": false
@@ -4336,6 +4931,16 @@
     "grammar": false
   },
   {
+    "urn": "138446",
+    "name": "Harris Primary Academy Coleraine Park",
+    "phase": "Primary",
+    "lat": 51.59842,
+    "lon": -0.0582,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "148352",
     "name": "Harris Primary Academy Croydon",
     "phase": "Primary",
@@ -4531,6 +5136,16 @@
     "grammar": false
   },
   {
+    "urn": "136519",
+    "name": "Haydon School",
+    "phase": "Secondary",
+    "lat": 51.59492,
+    "lon": -0.41311,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "136644",
     "name": "Hayes School",
     "phase": "Secondary",
@@ -4671,6 +5286,16 @@
     "grammar": false
   },
   {
+    "urn": "137078",
+    "name": "Hewens College",
+    "phase": "Secondary",
+    "lat": 51.52893,
+    "lon": -0.43997,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "102971",
     "name": "High View Primary School",
     "phase": "Primary",
@@ -4761,6 +5386,16 @@
     "grammar": false
   },
   {
+    "urn": "102655",
+    "name": "Hillcross Primary School",
+    "phase": "Primary",
+    "lat": 51.39811,
+    "lon": -0.2106,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "136413",
     "name": "Hillyfield Primary Academy",
     "phase": "Primary",
@@ -4777,6 +5412,26 @@
     "lat": 51.3786,
     "lon": -0.33192,
     "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "101888",
+    "name": "Hobbayne Primary School",
+    "phase": "Primary",
+    "lat": 51.5161,
+    "lon": -0.33741,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "100688",
+    "name": "Holbeach Primary School",
+    "phase": "Primary",
+    "lat": 51.44791,
+    "lon": -0.02278,
+    "outstanding": false,
     "good": false,
     "grammar": false
   },
@@ -4909,6 +5564,17 @@
     "faith": true
   },
   {
+    "urn": "100723",
+    "name": "Holy Trinity Church of England Primary School",
+    "phase": "Primary",
+    "lat": 51.43531,
+    "lon": -0.05674,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "102908",
     "name": "Holy Trinity Church of England Primary School",
     "phase": "Primary",
@@ -4948,6 +5614,28 @@
     "lat": 51.42248,
     "lon": -0.195,
     "outstanding": true,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "139240",
+    "name": "Holy Trinity CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.58964,
+    "lon": -0.06937,
+    "outstanding": true,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "100032",
+    "name": "Holy Trinity CofE Primary School, NW3",
+    "phase": "Primary",
+    "lat": 51.54614,
+    "lon": -0.1779,
+    "outstanding": false,
     "good": false,
     "grammar": false,
     "faith": true
@@ -5064,6 +5752,16 @@
     "grammar": false
   },
   {
+    "urn": "100795",
+    "name": "Ilderton Primary School",
+    "phase": "Primary",
+    "lat": 51.4854,
+    "lon": -0.05351,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "100633",
     "name": "Immanuel and St Andrew Church of England Primary School",
     "phase": "Primary",
@@ -5117,6 +5815,26 @@
     "good": true,
     "grammar": false,
     "genderOfEntry": "Boys"
+  },
+  {
+    "urn": "102492",
+    "name": "Isleworth Town Primary School",
+    "phase": "Primary",
+    "lat": 51.47225,
+    "lon": -0.32853,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "101943",
+    "name": "Islip Manor High School",
+    "phase": "Secondary",
+    "lat": 51.55169,
+    "lon": -0.37507,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
   },
   {
     "urn": "102512",
@@ -5231,6 +5949,17 @@
     "grammar": false
   },
   {
+    "urn": "101534",
+    "name": "John Keble CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.53799,
+    "lon": -0.24718,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "101889",
     "name": "John Perryn Primary School",
     "phase": "Primary",
@@ -5278,6 +6007,16 @@
     "lon": -0.21517,
     "outstanding": false,
     "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "100253",
+    "name": "Jubilee Primary School",
+    "phase": "Primary",
+    "lat": 51.56607,
+    "lon": -0.06594,
+    "outstanding": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5361,6 +6100,16 @@
     "grammar": false
   },
   {
+    "urn": "100331",
+    "name": "Kenmont Primary School",
+    "phase": "Primary",
+    "lat": 51.53168,
+    "lon": -0.23557,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "140212",
     "name": "Kensington Aldridge Academy",
     "phase": "Secondary",
@@ -5400,6 +6149,16 @@
     "good": false,
     "grammar": false,
     "faith": true
+  },
+  {
+    "urn": "133343",
+    "name": "Kew Riverside Primary School",
+    "phase": "Primary",
+    "lat": 51.47419,
+    "lon": -0.27665,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
   },
   {
     "urn": "100800",
@@ -5596,6 +6355,16 @@
     "faith": true
   },
   {
+    "urn": "102388",
+    "name": "Lady Bankes Primary School",
+    "phase": "Primary",
+    "lat": 51.57092,
+    "lon": -0.40647,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "138607",
     "name": "Lady Margaret School",
     "phase": "Secondary",
@@ -5624,6 +6393,16 @@
     "lon": -0.36794,
     "outstanding": true,
     "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102094",
+    "name": "Lancasterian Primary School",
+    "phase": "Primary",
+    "lat": 51.60157,
+    "lon": -0.07181,
+    "outstanding": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5766,6 +6545,16 @@
     "phase": "Primary",
     "lat": 51.54446,
     "lon": -0.10553,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "102125",
+    "name": "Lea Valley Primary School",
+    "phase": "Primary",
+    "lat": 51.60423,
+    "lon": -0.06054,
     "outstanding": false,
     "good": true,
     "grammar": false
@@ -6129,6 +6918,16 @@
     "faith": true
   },
   {
+    "urn": "132169",
+    "name": "Malmesbury Primary School",
+    "phase": "Primary",
+    "lat": 51.38745,
+    "lon": -0.18708,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "134160",
     "name": "Malmesbury Primary School",
     "phase": "Primary",
@@ -6207,17 +7006,6 @@
     "outstanding": false,
     "good": false,
     "grammar": false
-  },
-  {
-    "urn": "101797",
-    "name": "Margaret Roper Catholic Primary School",
-    "phase": "Primary",
-    "lat": 51.34406,
-    "lon": -0.12017,
-    "outstanding": false,
-    "good": true,
-    "grammar": false,
-    "faith": true
   },
   {
     "urn": "100055",
@@ -6299,6 +7087,16 @@
     "lon": -0.02032,
     "outstanding": false,
     "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "142713",
+    "name": "Mayville Academy",
+    "phase": "Primary",
+    "lat": 51.56073,
+    "lon": 0.00481,
+    "outstanding": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6420,6 +7218,16 @@
     "grammar": false
   },
   {
+    "urn": "100803",
+    "name": "Michael Faraday School",
+    "phase": "Primary",
+    "lat": 51.48525,
+    "lon": -0.08839,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "140862",
     "name": "Michaela Community School",
     "phase": "Secondary",
@@ -6461,6 +7269,16 @@
     "faith": true
   },
   {
+    "urn": "143211",
+    "name": "Millennium Primary School",
+    "phase": "Primary",
+    "lat": 51.49316,
+    "lon": 0.01117,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "100231",
     "name": "Millfields Community School",
     "phase": "Primary",
@@ -6478,6 +7296,16 @@
     "lon": -0.03186,
     "outstanding": false,
     "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "101524",
+    "name": "Mitchell Brook Primary School",
+    "phase": "Primary",
+    "lat": 51.54748,
+    "lon": -0.25503,
+    "outstanding": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6519,6 +7347,16 @@
     "lon": -0.01451,
     "outstanding": false,
     "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "102640",
+    "name": "Morden Primary School",
+    "phase": "Primary",
+    "lat": 51.39271,
+    "lon": -0.20312,
+    "outstanding": false,
+    "good": false,
     "grammar": false
   },
   {
@@ -6704,6 +7542,16 @@
     "grammar": false
   },
   {
+    "urn": "130934",
+    "name": "Muschamp Primary School and Language Opportunity Base",
+    "phase": "Primary",
+    "lat": 51.37612,
+    "lon": -0.17399,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "100713",
     "name": "Myatt Garden Primary School",
     "phase": "Primary",
@@ -6730,6 +7578,26 @@
     "phase": "Primary",
     "lat": 51.52771,
     "lon": -0.14062,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "145367",
+    "name": "New City Primary School",
+    "phase": "Primary",
+    "lat": 51.52477,
+    "lon": 0.03799,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "100019",
+    "name": "New End Primary School",
+    "phase": "Primary",
+    "lat": 51.55814,
+    "lon": -0.17654,
     "outstanding": false,
     "good": true,
     "grammar": false
@@ -6764,6 +7632,26 @@
     "good": false,
     "grammar": false,
     "faith": true
+  },
+  {
+    "urn": "102394",
+    "name": "Newnham Infant and Nursery School",
+    "phase": "Primary",
+    "lat": 51.57368,
+    "lon": -0.39326,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102393",
+    "name": "Newnham Junior School",
+    "phase": "Primary",
+    "lat": 51.57368,
+    "lon": -0.39326,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
   },
   {
     "urn": "136551",
@@ -6860,6 +7748,16 @@
     "grammar": false
   },
   {
+    "urn": "146915",
+    "name": "North Beckton Primary School",
+    "phase": "Primary",
+    "lat": 51.51694,
+    "lon": 0.05641,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "143718",
     "name": "North Brent School",
     "phase": "Secondary",
@@ -6931,6 +7829,16 @@
     "grammar": false
   },
   {
+    "urn": "137829",
+    "name": "Northwood School",
+    "phase": "Secondary",
+    "lat": 51.60176,
+    "lon": -0.40698,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "149369",
     "name": "Notre Dame Catholic Girls' School",
     "phase": "Secondary",
@@ -6943,11 +7851,31 @@
     "faith": true
   },
   {
+    "urn": "137028",
+    "name": "Nower Hill High School",
+    "phase": "Secondary",
+    "lat": 51.59071,
+    "lon": -0.36514,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "100695",
     "name": "Oak Gardens Primary School",
     "phase": "Primary",
     "lat": 51.47179,
     "lon": -0.02849,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "102449",
+    "name": "Oak Wood School",
+    "phase": "Secondary",
+    "lat": 51.54028,
+    "lon": -0.44395,
     "outstanding": false,
     "good": true,
     "grammar": false
@@ -6980,6 +7908,16 @@
     "lon": -0.16611,
     "outstanding": false,
     "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "131407",
+    "name": "Oakthorpe Primary School",
+    "phase": "Primary",
+    "lat": 51.61451,
+    "lon": -0.09094,
+    "outstanding": false,
+    "good": false,
     "grammar": false
   },
   {
@@ -7124,6 +8062,17 @@
     "grammar": false
   },
   {
+    "urn": "100491",
+    "name": "Oratory Roman Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.49061,
+    "lon": -0.1703,
+    "outstanding": true,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "142040",
     "name": "Orchard Park High School",
     "phase": "Secondary",
@@ -7258,6 +8207,17 @@
     "faith": true
   },
   {
+    "urn": "150552",
+    "name": "Our Lady and St Philip Neri Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.42643,
+    "lon": -0.04149,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "149923",
     "name": "Our Lady Immaculate Catholic Primary School",
     "phase": "Primary",
@@ -7286,6 +8246,17 @@
     "lat": 51.56339,
     "lon": -0.2259,
     "outstanding": true,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "101545",
+    "name": "Our Lady of Lourdes Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.54077,
+    "lon": -0.26489,
+    "outstanding": false,
     "good": false,
     "grammar": false,
     "faith": true
@@ -7490,6 +8461,16 @@
     "grammar": false
   },
   {
+    "urn": "138368",
+    "name": "Parkside Studio College",
+    "phase": "Secondary",
+    "lat": 51.51999,
+    "lon": -0.42919,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "100259",
     "name": "Parkwood Primary School",
     "phase": "Primary",
@@ -7560,6 +8541,17 @@
     "grammar": false
   },
   {
+    "urn": "100837",
+    "name": "Peter Hills with St Mary's and St Paul's CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.5062,
+    "lon": -0.04257,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "143129",
     "name": "Phoenix Academy",
     "phase": "Secondary",
@@ -7620,6 +8612,36 @@
     "grammar": false
   },
   {
+    "urn": "139898",
+    "name": "Pimlico Primary",
+    "phase": "Primary",
+    "lat": 51.48818,
+    "lon": -0.1372,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "142864",
+    "name": "Pinner High School",
+    "phase": "Secondary",
+    "lat": 51.5793,
+    "lon": -0.38701,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "132812",
+    "name": "Plaistow Primary School",
+    "phase": "Primary",
+    "lat": 51.53166,
+    "lon": 0.02951,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "152267",
     "name": "Plashet, City of London Academy",
     "phase": "Secondary",
@@ -7637,6 +8659,16 @@
     "lon": -0.12003,
     "outstanding": false,
     "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "100183",
+    "name": "Plumstead Manor School",
+    "phase": "Secondary",
+    "lat": 51.48191,
+    "lon": 0.08462,
+    "outstanding": false,
+    "good": false,
     "grammar": false
   },
   {
@@ -7751,16 +8783,6 @@
     "grammar": false
   },
   {
-    "urn": "101733",
-    "name": "Purley Oaks Primary School",
-    "phase": "Primary",
-    "lat": 51.35236,
-    "lon": -0.09571,
-    "outstanding": false,
-    "good": true,
-    "grammar": false
-  },
-  {
     "urn": "137131",
     "name": "Queen Elizabeth's Girls' School",
     "phase": "Secondary",
@@ -7810,6 +8832,16 @@
     "lon": -0.07175,
     "outstanding": true,
     "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "136711",
+    "name": "Queensmead School",
+    "phase": "Secondary",
+    "lat": 51.55759,
+    "lon": -0.38924,
+    "outstanding": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7943,6 +8975,16 @@
     "grammar": false
   },
   {
+    "urn": "137648",
+    "name": "Redriff Primary, City of London Academy",
+    "phase": "Primary",
+    "lat": 51.50191,
+    "lon": -0.03667,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "100051",
     "name": "Regent High School",
     "phase": "Secondary",
@@ -8015,16 +9057,6 @@
     "grammar": false
   },
   {
-    "urn": "138178",
-    "name": "Riddlesdown Collegiate",
-    "phase": "Secondary",
-    "lat": 51.32574,
-    "lon": -0.08791,
-    "outstanding": true,
-    "good": false,
-    "grammar": false
-  },
-  {
     "urn": "138272",
     "name": "Rimon Jewish Primary School",
     "phase": "Primary",
@@ -8034,6 +9066,16 @@
     "good": false,
     "grammar": false,
     "faith": true
+  },
+  {
+    "urn": "131879",
+    "name": "Risley Avenue Primary School",
+    "phase": "Primary",
+    "lat": 51.59914,
+    "lon": -0.07666,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
   },
   {
     "urn": "139723",
@@ -8186,6 +9228,16 @@
     "grammar": false
   },
   {
+    "urn": "102740",
+    "name": "Roman Road Primary School",
+    "phase": "Primary",
+    "lat": 51.52095,
+    "lon": 0.0461,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "101031",
     "name": "Ronald Ross Primary School",
     "phase": "Primary",
@@ -8193,6 +9245,37 @@
     "lon": -0.21563,
     "outstanding": true,
     "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "137198",
+    "name": "Rooks Heath School",
+    "phase": "Secondary",
+    "lat": 51.56226,
+    "lon": -0.37188,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "100035",
+    "name": "Rosary Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.55162,
+    "lon": -0.16608,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "137077",
+    "name": "Rosedale College",
+    "phase": "Secondary",
+    "lat": 51.51999,
+    "lon": -0.42919,
+    "outstanding": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8211,6 +9294,26 @@
     "phase": "Primary",
     "lat": 51.53849,
     "lon": -0.09012,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "149605",
+    "name": "Rotherhithe Primary School",
+    "phase": "Primary",
+    "lat": 51.4924,
+    "lon": -0.04963,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102213",
+    "name": "Roxbourne Primary School",
+    "phase": "Primary",
+    "lat": 51.56824,
+    "lon": -0.38332,
     "outstanding": false,
     "good": false,
     "grammar": false
@@ -8236,6 +9339,26 @@
     "grammar": false
   },
   {
+    "urn": "102416",
+    "name": "Ruislip Gardens Primary School",
+    "phase": "Primary",
+    "lat": 51.56231,
+    "lon": -0.41921,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "140748",
+    "name": "Ruislip High School",
+    "phase": "Secondary",
+    "lat": 51.56466,
+    "lon": -0.40813,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "130302",
     "name": "Rushmore Primary School",
     "phase": "Primary",
@@ -8243,6 +9366,16 @@
     "lon": -0.04691,
     "outstanding": false,
     "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "144544",
+    "name": "Rushy Meadow Primary Academy",
+    "phase": "Primary",
+    "lat": 51.37376,
+    "lon": -0.17295,
+    "outstanding": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8288,6 +9421,17 @@
     "faith": true
   },
   {
+    "urn": "102426",
+    "name": "Sacred Heart Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.56776,
+    "lon": -0.42458,
+    "outstanding": true,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "102668",
     "name": "Sacred Heart Catholic Primary School",
     "phase": "Primary",
@@ -8306,6 +9450,28 @@
     "lon": -0.32023,
     "outstanding": false,
     "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "131520",
+    "name": "Sacred Heart Catholic Primary School, Battersea",
+    "phase": "Primary",
+    "lat": 51.46933,
+    "lon": -0.16698,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "101050",
+    "name": "Sacred Heart Catholic Primary School, Roehampton",
+    "phase": "Primary",
+    "lat": 51.45756,
+    "lon": -0.24197,
+    "outstanding": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -8420,6 +9586,16 @@
     "grammar": false
   },
   {
+    "urn": "130381",
+    "name": "Sandringham Primary School",
+    "phase": "Primary",
+    "lat": 51.54675,
+    "lon": 0.03466,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "150355",
     "name": "Saracens Bell Lane",
     "phase": "Primary",
@@ -8470,6 +9646,16 @@
     "grammar": false
   },
   {
+    "urn": "145365",
+    "name": "Scott Wilkie Primary School",
+    "phase": "Primary",
+    "lat": 51.51269,
+    "lon": 0.03711,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "100240",
     "name": "Sebright School",
     "phase": "Primary",
@@ -8511,6 +9697,16 @@
     "faith": true
   },
   {
+    "urn": "100931",
+    "name": "Seven Mills Primary School",
+    "phase": "Primary",
+    "lat": 51.49838,
+    "lon": -0.02361,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "100241",
     "name": "Shacklewell Primary School",
     "phase": "Primary",
@@ -8526,6 +9722,16 @@
     "phase": "Primary",
     "lat": 51.46876,
     "lon": -0.15662,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "145627",
+    "name": "Shaftesbury Primary School",
+    "phase": "Primary",
+    "lat": 51.53985,
+    "lon": 0.03766,
     "outstanding": false,
     "good": false,
     "grammar": false
@@ -8608,6 +9814,16 @@
     "phase": "Primary",
     "lat": 51.48329,
     "lon": -0.20915,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "137682",
+    "name": "Sir William Burrough Primary School",
+    "phase": "Primary",
+    "lat": 51.51367,
+    "lon": -0.03373,
     "outstanding": false,
     "good": false,
     "grammar": false
@@ -8724,6 +9940,16 @@
     "grammar": false
   },
   {
+    "urn": "146543",
+    "name": "South Norwood Primary",
+    "phase": "Primary",
+    "lat": 51.39541,
+    "lon": -0.07276,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "137917",
     "name": "Southborough High School",
     "phase": "Secondary",
@@ -8731,6 +9957,16 @@
     "lon": -0.3019,
     "outstanding": false,
     "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "102755",
+    "name": "Southern Road Primary School",
+    "phase": "Primary",
+    "lat": 51.53057,
+    "lon": 0.02936,
+    "outstanding": false,
+    "good": false,
     "grammar": false
   },
   {
@@ -8774,6 +10010,16 @@
     "grammar": false
   },
   {
+    "urn": "100812",
+    "name": "Southwark Park Primary School",
+    "phase": "Primary",
+    "lat": 51.49462,
+    "lon": -0.05895,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "100242",
     "name": "Southwold Primary School",
     "phase": "Primary",
@@ -8791,6 +10037,16 @@
     "lon": -0.3478,
     "outstanding": false,
     "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "121792",
+    "name": "Springfield Community Primary School",
+    "phase": "Primary",
+    "lat": 51.57516,
+    "lon": -0.06434,
+    "outstanding": true,
+    "good": false,
     "grammar": false
   },
   {
@@ -9068,6 +10324,17 @@
     "faith": true
   },
   {
+    "urn": "101125",
+    "name": "St Augustines Federated Schools: CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.53453,
+    "lon": -0.19158,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "100493",
     "name": "St Barnabas and St Philip's CofE Primary School",
     "phase": "Primary",
@@ -9222,6 +10489,28 @@
     "faith": true
   },
   {
+    "urn": "101128",
+    "name": "St Edward's Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.52333,
+    "lon": -0.1657,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "147335",
+    "name": "St Edward's Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.53311,
+    "lon": 0.03682,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "150596",
     "name": "St Elizabeth Catholic Primary School",
     "phase": "Primary",
@@ -9266,11 +10555,44 @@
     "faith": true
   },
   {
+    "urn": "100047",
+    "name": "St Eugene de Mazenod Roman Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.54097,
+    "lon": -0.1938,
+    "outstanding": true,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "101043",
     "name": "St Faith's CofE Primary School",
     "phase": "Primary",
     "lat": 51.45936,
     "lon": -0.18645,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "102149",
+    "name": "St Francis de Sales RC Infant School",
+    "phase": "Primary",
+    "lat": 51.60296,
+    "lon": -0.06899,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "102143",
+    "name": "St Francis de Sales RC Junior School",
+    "phase": "Primary",
+    "lat": 51.60296,
+    "lon": -0.06899,
     "outstanding": false,
     "good": false,
     "grammar": false,
@@ -9293,6 +10615,17 @@
     "phase": "Primary",
     "lat": 51.54866,
     "lon": 0.00589,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "101129",
+    "name": "St Gabriel's CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.48637,
+    "lon": -0.14227,
     "outstanding": false,
     "good": false,
     "grammar": false,
@@ -9350,6 +10683,17 @@
     "lon": -0.13923,
     "outstanding": false,
     "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "101130",
+    "name": "St George's Hanover Square CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.50887,
+    "lon": -0.1501,
+    "outstanding": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9705,6 +11049,28 @@
     "grammar": false
   },
   {
+    "urn": "100841",
+    "name": "St John's Roman Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.5003,
+    "lon": -0.04151,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "100439",
+    "name": "St John's Upper Holloway CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.56265,
+    "lon": -0.13163,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "100349",
     "name": "St John's Walham Green Church of England Primary School",
     "phase": "Primary",
@@ -9724,6 +11090,17 @@
     "outstanding": false,
     "good": true,
     "grammar": false
+  },
+  {
+    "urn": "103090",
+    "name": "St Joseph's Catholic Infant School",
+    "phase": "Primary",
+    "lat": 51.56461,
+    "lon": -0.02402,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
   },
   {
     "urn": "103086",
@@ -9755,6 +11132,17 @@
     "lon": 0.00602,
     "outstanding": false,
     "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "100441",
+    "name": "St Joseph's Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.56734,
+    "lon": -0.13871,
+    "outstanding": true,
+    "good": false,
     "grammar": false,
     "faith": true
   },
@@ -9814,6 +11202,28 @@
     "faith": true
   },
   {
+    "urn": "151012",
+    "name": "St Joseph's Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.49501,
+    "lon": -0.05328,
+    "outstanding": true,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "152393",
+    "name": "St Joseph's Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.51061,
+    "lon": -0.33781,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "138221",
     "name": "St Joseph's College",
     "phase": "Secondary",
@@ -9842,6 +11252,17 @@
     "lat": 51.42183,
     "lon": -0.10005,
     "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "101555",
+    "name": "St Joseph's Roman Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.54424,
+    "lon": -0.25093,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -9913,6 +11334,28 @@
     "faith": true
   },
   {
+    "urn": "100443",
+    "name": "St Luke's CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.52657,
+    "lon": -0.09192,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "101134",
+    "name": "St Luke's CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.53156,
+    "lon": -0.20279,
+    "outstanding": true,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "102604",
     "name": "St Luke's CofE Primary School",
     "phase": "Primary",
@@ -9931,6 +11374,17 @@
     "lon": 0.01378,
     "outstanding": false,
     "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "146179",
+    "name": "St Margaret Clitherow RC Primary School",
+    "phase": "Primary",
+    "lat": 51.56176,
+    "lon": -0.26091,
+    "outstanding": false,
+    "good": false,
     "grammar": false,
     "faith": true
   },
@@ -9968,6 +11422,17 @@
     "faith": true
   },
   {
+    "urn": "141119",
+    "name": "St Mark's Church of England Primary Academy",
+    "phase": "Primary",
+    "lat": 51.39917,
+    "lon": -0.07099,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "141567",
     "name": "St Mark's Church of England Primary School",
     "phase": "Primary",
@@ -9988,6 +11453,16 @@
     "good": false,
     "grammar": false,
     "faith": true
+  },
+  {
+    "urn": "101874",
+    "name": "St Mark's Primary School",
+    "phase": "Primary",
+    "lat": 51.50754,
+    "lon": -0.34179,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
   },
   {
     "urn": "100497",
@@ -10063,6 +11538,17 @@
     "lon": -0.33984,
     "outstanding": true,
     "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "101136",
+    "name": "St Mary's Bryanston Square CofE School",
+    "phase": "Primary",
+    "lat": 51.52029,
+    "lon": -0.16198,
+    "outstanding": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10177,6 +11663,17 @@
     "faith": true
   },
   {
+    "urn": "101537",
+    "name": "St Mary's CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.54835,
+    "lon": -0.25217,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "102139",
     "name": "St Mary's CofE Primary School",
     "phase": "Primary",
@@ -10194,6 +11691,17 @@
     "lat": 51.58344,
     "lon": -0.00318,
     "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "100042",
+    "name": "St Mary's Kilburn Church of England Primary School",
+    "phase": "Primary",
+    "lat": 51.54037,
+    "lon": -0.19336,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -10250,6 +11758,17 @@
     "lon": -0.17095,
     "outstanding": false,
     "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "151110",
+    "name": "St Mary's RC Primary School",
+    "phase": "Primary",
+    "lat": 51.5348,
+    "lon": -0.1981,
+    "outstanding": false,
+    "good": false,
     "grammar": false,
     "faith": true
   },
@@ -10354,6 +11873,17 @@
     "faith": true
   },
   {
+    "urn": "151010",
+    "name": "St Michael's Church of England Primary School",
+    "phase": "Primary",
+    "lat": 51.42976,
+    "lon": -0.04172,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "101049",
     "name": "St Michael's CofE Primary School",
     "phase": "Primary",
@@ -10415,6 +11945,50 @@
     "phase": "Primary",
     "lat": 51.58491,
     "lon": -0.03614,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "100958",
+    "name": "St Paul With St Luke CofE Primary Federation",
+    "phase": "Primary",
+    "lat": 51.51807,
+    "lon": -0.02936,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "105135",
+    "name": "St Paul's Academy",
+    "phase": "Secondary",
+    "lat": 51.49269,
+    "lon": 0.10401,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "139176",
+    "name": "St Paul's and All Hallows CofE Infant School",
+    "phase": "Primary",
+    "lat": 51.60271,
+    "lon": -0.06372,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "139177",
+    "name": "St Paul's and All Hallows CofE Junior School",
+    "phase": "Primary",
+    "lat": 51.60551,
+    "lon": -0.06448,
     "outstanding": false,
     "good": true,
     "grammar": false,
@@ -10519,6 +12093,17 @@
     "faith": true
   },
   {
+    "urn": "102667",
+    "name": "St Peter and Paul Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.39995,
+    "lon": -0.16678,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "100447",
     "name": "St Peter and St Paul Catholic Primary School",
     "phase": "Primary",
@@ -10526,6 +12111,28 @@
     "lon": -0.10087,
     "outstanding": false,
     "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "100839",
+    "name": "St Peter's Church of England Primary School",
+    "phase": "Primary",
+    "lat": 51.48617,
+    "lon": -0.09331,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "100960",
+    "name": "St Peter's London Docks CofE Primary School",
+    "phase": "Primary",
+    "lat": 51.50764,
+    "lon": -0.05523,
+    "outstanding": false,
+    "good": false,
     "grammar": false,
     "faith": true
   },
@@ -10717,6 +12324,38 @@
     "faith": true
   },
   {
+    "urn": "102748",
+    "name": "St Stephen's Primary School",
+    "phase": "Primary",
+    "lat": 51.53765,
+    "lon": 0.03788,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102421",
+    "name": "St Swithun Wells Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.56416,
+    "lon": -0.39207,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "102669",
+    "name": "St Teresa's Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.3897,
+    "lon": -0.18169,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "101335",
     "name": "St Theresa's Catholic Primary School",
     "phase": "Primary",
@@ -10756,6 +12395,17 @@
     "lat": 51.47578,
     "lon": -0.00581,
     "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "101143",
+    "name": "St Vincent's Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.51862,
+    "lon": -0.15269,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -10866,6 +12516,16 @@
     "grammar": false
   },
   {
+    "urn": "144235",
+    "name": "Stebon Primary School",
+    "phase": "Primary",
+    "lat": 51.5168,
+    "lon": -0.02587,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "100977",
     "name": "Stepney All Saints Church of England Secondary School",
     "phase": "Secondary",
@@ -10873,6 +12533,17 @@
     "lon": -0.04421,
     "outstanding": false,
     "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "100946",
+    "name": "Stepney Greencoat Church of England Primary School",
+    "phase": "Primary",
+    "lat": 51.51394,
+    "lon": -0.03179,
+    "outstanding": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11068,6 +12739,17 @@
     "grammar": false
   },
   {
+    "urn": "136631",
+    "name": "Swakeleys School for Girls",
+    "phase": "Secondary",
+    "lat": 51.53731,
+    "lon": -0.44506,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "genderOfEntry": "Girls"
+  },
+  {
     "urn": "100973",
     "name": "Swanlea School",
     "phase": "Secondary",
@@ -11202,6 +12884,16 @@
     "faith": true
   },
   {
+    "urn": "102369",
+    "name": "The Breakspear School",
+    "phase": "Primary",
+    "lat": 51.56992,
+    "lon": -0.45167,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "131609",
     "name": "The Bridge Academy",
     "phase": "Secondary",
@@ -11286,6 +12978,16 @@
     "grammar": false
   },
   {
+    "urn": "144699",
+    "name": "The Clara Grant Primary School",
+    "phase": "Primary",
+    "lat": 51.52178,
+    "lon": -0.01971,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "136418",
     "name": "The Compton School",
     "phase": "Secondary",
@@ -11304,6 +13006,27 @@
     "outstanding": false,
     "good": true,
     "grammar": false
+  },
+  {
+    "urn": "102087",
+    "name": "The Devonshire Hill Nursery & Primary School",
+    "phase": "Primary",
+    "lat": 51.60622,
+    "lon": -0.08165,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "137925",
+    "name": "The Douay Martyrs Catholic School",
+    "phase": "Secondary",
+    "lat": 51.55996,
+    "lon": -0.44444,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
   },
   {
     "urn": "101941",
@@ -11476,6 +13199,27 @@
     "grammar": false
   },
   {
+    "urn": "101556",
+    "name": "The Kilburn Park School Foundation",
+    "phase": "Primary",
+    "lat": 51.53215,
+    "lon": -0.19963,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "102921",
+    "name": "The King's Church of England Primary School",
+    "phase": "Primary",
+    "lat": 51.48021,
+    "lon": -0.28606,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "141862",
     "name": "The Kingston Academy",
     "phase": "Secondary",
@@ -11537,6 +13281,16 @@
     "good": false,
     "grammar": false,
     "faith": true
+  },
+  {
+    "urn": "133707",
+    "name": "The Mulberry Primary School",
+    "phase": "Primary",
+    "lat": 51.59574,
+    "lon": -0.06633,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
   },
   {
     "urn": "137393",
@@ -11694,6 +13448,16 @@
     "faith": true
   },
   {
+    "urn": "101521",
+    "name": "The Stonebridge School",
+    "phase": "Primary",
+    "lat": 51.5406,
+    "lon": -0.26367,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "136615",
     "name": "The Tiffin Girls' School",
     "phase": "Secondary",
@@ -11723,6 +13487,17 @@
     "outstanding": false,
     "good": true,
     "grammar": false
+  },
+  {
+    "urn": "137418",
+    "name": "The Ursuline Academy Ilford",
+    "phase": "Secondary",
+    "lat": 51.56269,
+    "lon": 0.07003,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
   },
   {
     "urn": "100284",
@@ -12053,6 +13828,16 @@
     "grammar": false
   },
   {
+    "urn": "143411",
+    "name": "Tweeddale Primary School",
+    "phase": "Primary",
+    "lat": 51.38402,
+    "lon": -0.1798,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "142122",
     "name": "Twickenham Primary Academy",
     "phase": "Primary",
@@ -12068,6 +13853,16 @@
     "phase": "Secondary",
     "lat": 51.44433,
     "lon": -0.36318,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "100712",
+    "name": "Twin Oaks Primary School",
+    "phase": "Primary",
+    "lat": 51.48679,
+    "lon": -0.04213,
     "outstanding": false,
     "good": true,
     "grammar": false
@@ -12094,6 +13889,16 @@
     "grammar": false
   },
   {
+    "urn": "142267",
+    "name": "Upton Cross Primary School",
+    "phase": "Primary",
+    "lat": 51.53625,
+    "lon": 0.02964,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "151350",
     "name": "Ursuline High School Wimbledon",
     "phase": "Secondary",
@@ -12103,6 +13908,26 @@
     "good": true,
     "grammar": false,
     "faith": true
+  },
+  {
+    "urn": "146375",
+    "name": "UTC Heathrow",
+    "phase": "Secondary",
+    "lat": 51.60323,
+    "lon": -0.40567,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "136768",
+    "name": "Uxbridge High School",
+    "phase": "Secondary",
+    "lat": 51.53744,
+    "lon": -0.47283,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
   },
   {
     "urn": "137242",
@@ -12180,6 +14005,16 @@
     "phase": "Primary",
     "lat": 51.53564,
     "lon": -0.11881,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "137635",
+    "name": "Vyners School",
+    "phase": "Secondary",
+    "lat": 51.55849,
+    "lon": -0.46209,
     "outstanding": false,
     "good": false,
     "grammar": false
@@ -12299,6 +14134,16 @@
     "grammar": false
   },
   {
+    "urn": "102409",
+    "name": "Warrender Primary School",
+    "phase": "Primary",
+    "lat": 51.57678,
+    "lon": -0.41357,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "147653",
     "name": "Waterside Academy",
     "phase": "Secondary",
@@ -12315,6 +14160,26 @@
     "lat": 51.60697,
     "lon": -0.26802,
     "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102124",
+    "name": "Welbourne Primary School",
+    "phase": "Primary",
+    "lat": 51.58807,
+    "lon": -0.06729,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "100927",
+    "name": "Wellington Primary School",
+    "phase": "Primary",
+    "lat": 51.52592,
+    "lon": -0.02484,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -12420,6 +14285,26 @@
     "grammar": false
   },
   {
+    "urn": "147971",
+    "name": "West Thornton Primary School",
+    "phase": "Primary",
+    "lat": 51.38779,
+    "lon": -0.12307,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "101875",
+    "name": "West Twyford Primary School",
+    "phase": "Primary",
+    "lat": 51.53415,
+    "lon": -0.28259,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "102652",
     "name": "West Wimbledon Primary School",
     "phase": "Primary",
@@ -12491,12 +14376,82 @@
     "grammar": false
   },
   {
+    "urn": "102413",
+    "name": "Whiteheath Infant & Nursery School",
+    "phase": "Primary",
+    "lat": 51.58117,
+    "lon": -0.44106,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "102400",
+    "name": "Whiteheath Junior School",
+    "phase": "Primary",
+    "lat": 51.5792,
+    "lon": -0.44063,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "101304",
     "name": "Whitings Hill Primary School",
     "phase": "Primary",
     "lat": 51.64617,
     "lon": -0.21699,
     "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102239",
+    "name": "Whitmore High School",
+    "phase": "Secondary",
+    "lat": 51.5736,
+    "lon": -0.35287,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "139317",
+    "name": "Whittingham Primary Academy",
+    "phase": "Primary",
+    "lat": 51.59845,
+    "lon": -0.03533,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "139824",
+    "name": "Wilberforce Primary",
+    "phase": "Primary",
+    "lat": 51.53184,
+    "lon": -0.2082,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "146900",
+    "name": "Wilbury Primary School",
+    "phase": "Primary",
+    "lat": 51.61287,
+    "lon": -0.085,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "102745",
+    "name": "William Davies Primary School",
+    "phase": "Primary",
+    "lat": 51.54203,
+    "lon": 0.03987,
+    "outstanding": false,
     "good": false,
     "grammar": false
   },
@@ -12582,6 +14537,16 @@
     "grammar": false
   },
   {
+    "urn": "101902",
+    "name": "Willow Tree Primary School",
+    "phase": "Primary",
+    "lat": 51.55021,
+    "lon": -0.37799,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "103100",
     "name": "Willowfield School",
     "phase": "Secondary",
@@ -12640,6 +14605,16 @@
     "phase": "Secondary",
     "lat": 51.62921,
     "lon": -0.09142,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "102751",
+    "name": "Winsor Primary School",
+    "phase": "Primary",
+    "lat": 51.50949,
+    "lon": 0.06293,
     "outstanding": false,
     "good": false,
     "grammar": false
@@ -12748,6 +14723,26 @@
     "genderOfEntry": "Girls"
   },
   {
+    "urn": "102722",
+    "name": "Woodgrange Infant School",
+    "phase": "Primary",
+    "lat": 51.55083,
+    "lon": 0.02829,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "143118",
+    "name": "Woodlands Academy",
+    "phase": "Primary",
+    "lat": 51.52278,
+    "lon": -0.32887,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "100590",
     "name": "Woodmansterne School",
     "phase": "Secondary",
@@ -12798,6 +14793,27 @@
     "grammar": false
   },
   {
+    "urn": "141163",
+    "name": "Woolwich Polytechnic School",
+    "phase": "Secondary",
+    "lat": 51.50321,
+    "lon": 0.10873,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "143686",
+    "name": "Woolwich Polytechnic School for Girls",
+    "phase": "Secondary",
+    "lat": 51.50124,
+    "lon": 0.10517,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "genderOfEntry": "Girls"
+  },
+  {
     "urn": "100341",
     "name": "Wormholt Park Primary School",
     "phase": "Primary",
@@ -12829,6 +14845,26 @@
     "faith": true
   },
   {
+    "urn": "101518",
+    "name": "Wykeham Primary School",
+    "phase": "Primary",
+    "lat": 51.56246,
+    "lon": -0.25455,
+    "outstanding": false,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "100591",
+    "name": "Wyvil Primary School and Resource Bases for Speech, Language and Communication Needs, and Autism",
+    "phase": "Primary",
+    "lat": 51.48148,
+    "lon": -0.12506,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "136922",
     "name": "Yavneh College",
     "phase": "Secondary",
@@ -12838,6 +14874,16 @@
     "good": true,
     "grammar": false,
     "faith": true
+  },
+  {
+    "urn": "100429",
+    "name": "Yerbury Primary School",
+    "phase": "Primary",
+    "lat": 51.56004,
+    "lon": -0.13168,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
   },
   {
     "urn": "133599",

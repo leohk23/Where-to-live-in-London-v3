@@ -1,5 +1,5 @@
 import { trainInterval } from '../data/service-frequency';
-import locationTransit from '../data/location-transit.json';
+import locationTransit from '../data/generated/location-transit.json';
 
 type Mode = 'tube' | 'overground' | 'elizabeth-line' | 'dlr' | 'tram' | 'national-rail';
 
@@ -47,9 +47,14 @@ function primaryHeadway(location: string): number {
 // keys off the FIRST leg's mode, so a tube trip and a train trip from the same multi-modal
 // station get different waits; otherwise it falls back to the location's most frequent mode.
 export function expectedWaitMinutes(location: string, route?: string | null): number {
+  return Math.round(peakHeadwayMinutes(location, route) / 2);
+}
+
+// The peak minutes-between-trains this station/route pair is scored with (the value halved into
+// the expected wait) — exposed so the UI can show each station's service frequency.
+export function peakHeadwayMinutes(location: string, route?: string | null): number {
   const firstLeg = route ? route.split(' → ')[0] : null;
-  const headway = firstLeg ? headwayForMode(location, lineToMode(firstLeg)) : primaryHeadway(location);
-  return Math.round(headway / 2);
+  return firstLeg ? headwayForMode(location, lineToMode(firstLeg)) : primaryHeadway(location);
 }
 
 // Fixed minutes lost to a single change: walking between platforms, finding the next service,

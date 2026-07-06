@@ -18,7 +18,7 @@ const isExcluded = (name: string) => {
 //   npm run generate-asian-amenities         # seed only NOT-yet-seeded locations
 //   DRY=1 npm run generate-asian-amenities   # preview which locations would seed
 //
-// NEW-LOCATIONS-ONLY: seeds only locations absent from scripts/asian-spots-seeded.json,
+// NEW-LOCATIONS-ONLY: seeds only locations absent from scripts/data/asian-spots-seeded.json,
 // then records them there. Existing spots and your hand-curation are never
 // touched. Excluded names (asian-spots-excluded.json) are skipped on seed.
 // To re-pull an area: remove its key from the seeded tracker, and delete its
@@ -48,7 +48,7 @@ interface AsianSpot {
 }
 
 const OUT_PATH = path.resolve(process.cwd(), 'src/data/asian-spots.json');
-const SEEDED_PATH = path.resolve(process.cwd(), 'scripts/asian-spots-seeded.json');
+const SEEDED_PATH = path.resolve(process.cwd(), 'scripts/data/asian-spots-seeded.json');
 const OVERPASS_URL = 'https://overpass-api.de/api/interpreter';
 const USER_AGENT = 'where-to-live-london/1.0 (leohk23@gmail.com)';
 const RADIUS_KM = 1.75; // ~21 min walk

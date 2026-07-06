@@ -51,9 +51,9 @@ export function NotesContent({ sortedResults }: Props) {
     },
     {
       label: 'Crime',
-      source: 'Met Police borough crime totals per 1,000 residents',
-      availability: '2024/25',
-      level: 'Borough',
+      source: 'Police API street-level crime counts; Nomis 2011 ward population',
+      availability: 'Latest 12 Police API months in generated data',
+      level: 'Ward-weighted, with borough fallback',
     },
     {
       label: 'Hongkongese & East Asian spots',
@@ -100,8 +100,8 @@ export function NotesContent({ sortedResults }: Props) {
 
       <div className="space-y-2 text-xs leading-relaxed">
         <p><strong>Transport:</strong> {minFare !== null && maxFare !== null ? <>Costs range from &pound;{minFare.toFixed(2)} to &pound;{maxFare.toFixed(2)} per trip depending on zones.</> : 'Costs depend on selected areas and fare zones.'}</p>
-        <p><strong>Crime bands:</strong> London average is 106/k; green &lt;= 90, yellow &lt;= 120, orange &lt;= 150, red &gt; 150.</p>
-        <p><strong>Schools:</strong> Grammar/selective counts use Ofsted admissions policy = Selective. Girls-only/boys-only labels are shown when explicit in the school name. The Schools column shows a blended score (0&ndash;100): quality (Outstanding + &frac12;&nbsp;Good share) plus choice (how many strong schools are nearby), primary &amp; secondary averaged, with a selective/grammar bonus that scales with count. Bands: green &gt;= 65, yellow &gt;= 52, red &lt; 52. Primary schools are weighted by distance (closer counts more, since primary admission is largely distance-based); secondary and grammar use flat counts within their catchments. Faith schools can be excluded from the score when the Schools priority is on. <em>Caveat:</em> Ofsted stopped issuing single-word overall grades for England in September 2024, so &ldquo;Outstanding/Good&rdquo; reflect each school&rsquo;s most recent graded inspection and may be several years old.</p>
+        <p><strong>Crime bands:</strong> London average is 106/k; green &lt;= 90, yellow &lt;= 120, orange &lt;= 150, red &gt; 150. Ward-level scores use generated Police API counts per 1,000 residents where available, otherwise borough fallback.</p>
+        <p><strong>Schools:</strong> Grammar/selective counts use Ofsted admissions policy = Selective. Girls-only/boys-only labels are shown when explicit in the school name. The Schools column shows a blended score (0&ndash;100): quality (Outstanding + &frac12;&nbsp;Good share) plus capped choice (how many strong schools are nearby), primary &amp; secondary averaged, with a selective/grammar bonus that scales with count. Bands: green &gt;= 65, yellow &gt;= 52, red &lt; 52. Primary schools are weighted by distance (closer counts more, since primary admission is largely distance-based); secondary and grammar use flat counts within their catchments. Faith schools can be excluded from the score when the Schools priority is on. <em>Caveat:</em> Ofsted stopped issuing single-word overall grades for England in September 2024, so &ldquo;Outstanding/Good&rdquo; reflect each school&rsquo;s most recent graded inspection and may be several years old.</p>
         <p><strong>Geography:</strong> Locations are station-centric anchors. {geographySummary}. Header badges show each metric's current source geography.</p>
         <p><strong>Live commute times:</strong> Address geocoding uses <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" className="underline">OpenStreetMap contributors</a>.</p>
       </div>
