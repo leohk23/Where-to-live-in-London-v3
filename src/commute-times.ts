@@ -1490,7 +1490,7 @@ export const commuteTimes: CommuteTimes = {
     "City Thameslink": 33,
     "Euston": 41
   },
-  "Chiswick": {
+  "Chiswick Park": {
     "King's Cross": 34,
     "Canary Wharf": 41,
     "Westminster": 25,
@@ -4632,7 +4632,7 @@ export const commuteRoutes: CommuteRoutes = {
     "City Thameslink": "Southeastern → Thameslink",
     "Euston": "Southeastern → Northern"
   },
-  "Chiswick": {
+  "Chiswick Park": {
     "City of London": "District",
     "King's Cross": "District → Victoria",
     "Westminster": "District",

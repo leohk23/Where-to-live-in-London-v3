@@ -18,6 +18,15 @@
     ]
   },
   {
+    "name": "Abbey Wood (London) Rail Station",
+    "naptan": "910GABWD",
+    "lat": 51.491062,
+    "lon": 0.121394,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Acton Central Rail Station",
     "naptan": "910GACTNCTL",
     "lat": 51.508716,
@@ -32,8 +41,8 @@
     "lat": 51.51718,
     "lon": -0.266756,
     "lines": [
-      "national-rail",
-      "elizabeth-line"
+      "elizabeth-line",
+      "national-rail"
     ]
   },
   {
@@ -43,6 +52,15 @@
     "lon": -0.280462,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Albany Park Rail Station",
+    "naptan": "910GALBNYPK",
+    "lat": 51.435453,
+    "lon": 0.125737,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -61,6 +79,15 @@
     "lon": -0.075689,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Alexandra Palace Rail Station",
+    "naptan": "910GALEXNDP",
+    "lat": 51.597924,
+    "lon": -0.120235,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -146,14 +173,12 @@
     ]
   },
   {
-    "name": "Balham",
+    "name": "Balham Rail Station",
     "naptan": "910GBALHAM",
-    "lat": 51.443259,
-    "lon": -0.152707,
+    "lat": 51.443225,
+    "lon": -0.152424,
     "lines": [
-      "bus",
-      "national-rail",
-      "tube"
+      "national-rail"
     ]
   },
   {
@@ -230,12 +255,49 @@
     ]
   },
   {
+    "name": "Barnehurst Rail Station",
+    "naptan": "910GBRNHRST",
+    "lat": 51.464959,
+    "lon": 0.159646,
+    "lines": [
+      "bus",
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Barnes Bridge Rail Station",
+    "naptan": "910GBNSBDGE",
+    "lat": 51.472009,
+    "lon": -0.25263,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Barnes Rail Station",
+    "naptan": "910GBARNES",
+    "lat": 51.467086,
+    "lon": -0.242164,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Barons Court Underground Station",
     "naptan": "940GZZLUBSC",
     "lat": 51.490311,
     "lon": -0.213427,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Battersea Park Rail Station",
+    "naptan": "910GBATRSPK",
+    "lat": 51.47696,
+    "lon": -0.147533,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -254,6 +316,25 @@
     "lon": -0.187938,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Beckenham Hill Rail Station",
+    "naptan": "910GBCKNHMH",
+    "lat": 51.424583,
+    "lon": -0.015951,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Beckenham Junction Rail Station",
+    "naptan": "910GBCKNHMJ",
+    "lat": 51.411035,
+    "lon": -0.025813,
+    "lines": [
+      "bus",
+      "national-rail"
     ]
   },
   {
@@ -284,12 +365,39 @@
     ]
   },
   {
+    "name": "Bellingham Rail Station",
+    "naptan": "910GBELNGHM",
+    "lat": 51.432913,
+    "lon": -0.019331,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Belmont Rail Station",
+    "naptan": "910GBELM",
+    "lat": 51.343815,
+    "lon": -0.198855,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Belsize Park Underground Station",
     "naptan": "940GZZLUBZP",
     "lat": 51.550311,
     "lon": -0.164648,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Belvedere Rail Station",
+    "naptan": "910GBELVEDR",
+    "lat": 51.492118,
+    "lon": 0.152286,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -330,12 +438,57 @@
     ]
   },
   {
+    "name": "Bexley Rail Station",
+    "naptan": "910GBEXLEY",
+    "lat": 51.440219,
+    "lon": 0.147903,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Bexleyheath Rail Station",
+    "naptan": "910GBXLYHTH",
+    "lat": 51.4635,
+    "lon": 0.133735,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Bickley Rail Station",
+    "naptan": "910GBICKLEY",
+    "lat": 51.400104,
+    "lon": 0.045241,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Birkbeck Rail Station",
+    "naptan": "910GBIRKBCK",
+    "lat": 51.403892,
+    "lon": -0.055739,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Blackfriars Underground Station",
     "naptan": "940GZZLUBKF",
     "lat": 51.511581,
     "lon": -0.103659,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Blackheath Rail Station",
+    "naptan": "910GBLKHTH",
+    "lat": 51.465796,
+    "lon": 0.008872,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -429,6 +582,15 @@
     ]
   },
   {
+    "name": "Bowes Park Rail Station",
+    "naptan": "910GBOWESPK",
+    "lat": 51.607012,
+    "lon": -0.120582,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Brent Cross Underground Station",
     "naptan": "940GZZLUBTX",
     "lat": 51.57665,
@@ -438,12 +600,48 @@
     ]
   },
   {
+    "name": "Brent Cross West Station",
+    "naptan": "910GBRENTX",
+    "lat": 51.568429,
+    "lon": -0.225488,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Brentford Rail Station",
+    "naptan": "910GBNTFORD",
+    "lat": 51.487547,
+    "lon": -0.309651,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Brentwood Rail Station",
     "naptan": "910GBRTWOOD",
     "lat": 51.613605,
     "lon": 0.299586,
     "lines": [
       "elizabeth-line"
+    ]
+  },
+  {
+    "name": "Brimsdown Rail Station",
+    "naptan": "910GBRIMSDN",
+    "lat": 51.655583,
+    "lon": -0.030817,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Brixton Rail Station",
+    "naptan": "910GBRIXTON",
+    "lat": 51.463299,
+    "lon": -0.114183,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -463,6 +661,15 @@
     "lines": [
       "national-rail",
       "overground"
+    ]
+  },
+  {
+    "name": "Bromley North Rail Station",
+    "naptan": "910GBROMLYN",
+    "lat": 51.408328,
+    "lon": 0.016993,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -527,8 +734,8 @@
     "lat": 51.523506,
     "lon": -0.646374,
     "lines": [
-      "national-rail",
-      "elizabeth-line"
+      "elizabeth-line",
+      "national-rail"
     ]
   },
   {
@@ -716,6 +923,52 @@
     ]
   },
   {
+    "name": "Carshalton Beeches Rail Station",
+    "naptan": "910GCRSHLTB",
+    "lat": 51.357411,
+    "lon": -0.169797,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Carshalton Rail Station",
+    "naptan": "910GCRSHLTN",
+    "lat": 51.368454,
+    "lon": -0.166368,
+    "lines": [
+      "bus",
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Castle Bar Park Rail Station",
+    "naptan": "910GCBARPAR",
+    "lat": 51.522931,
+    "lon": -0.331549,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Catford Bridge Rail Station",
+    "naptan": "910GCATFBDG",
+    "lat": 51.444741,
+    "lon": -0.024791,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Catford Rail Station",
+    "naptan": "910GCATFORD",
+    "lat": 51.444407,
+    "lon": -0.026317,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Chadwell Heath Rail Station",
     "naptan": "910GCHDWLHT",
     "lat": 51.568039,
@@ -761,10 +1014,28 @@
     ]
   },
   {
+    "name": "Charlton Rail Station",
+    "naptan": "910GCRLN",
+    "lat": 51.486813,
+    "lon": 0.031258,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Cheam Rail Station",
     "naptan": "910GCHEAM",
     "lat": 51.355479,
     "lon": -0.214167,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Chelsfield Rail Station",
+    "naptan": "910GCHLSFLD",
+    "lat": 51.356256,
+    "lon": 0.10907,
     "lines": [
       "national-rail"
     ]
@@ -789,6 +1060,24 @@
     ]
   },
   {
+    "name": "Chessington North Rail Station",
+    "naptan": "910GCHSSN",
+    "lat": 51.364041,
+    "lon": -0.300699,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Chessington South Rail Station",
+    "naptan": "910GCHSSS",
+    "lat": 51.35655,
+    "lon": -0.308157,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Chigwell Underground Station",
     "naptan": "940GZZLUCWL",
     "lat": 51.617916,
@@ -808,6 +1097,15 @@
     ]
   },
   {
+    "name": "Chislehurst Rail Station",
+    "naptan": "910GCHSLHRS",
+    "lat": 51.405557,
+    "lon": 0.057418,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Chiswick Park Underground Station",
     "naptan": "940GZZLUCWP",
     "lat": 51.494627,
@@ -817,12 +1115,30 @@
     ]
   },
   {
+    "name": "Chiswick Rail Station",
+    "naptan": "910GCHISWCK",
+    "lat": 51.481137,
+    "lon": -0.267835,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Chorleywood Underground Station",
     "naptan": "940GZZLUCYD",
     "lat": 51.654358,
     "lon": -0.518461,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "City Thameslink Rail Station",
+    "naptan": "910GCTMSLNK",
+    "lat": 51.513936,
+    "lon": -0.10359,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -891,6 +1207,15 @@
     ]
   },
   {
+    "name": "Clock House Rail Station",
+    "naptan": "910GCLOCKHS",
+    "lat": 51.408586,
+    "lon": -0.040657,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Cockfosters Underground Station",
     "naptan": "940GZZLUCKS",
     "lat": 51.65152,
@@ -918,6 +1243,24 @@
     ]
   },
   {
+    "name": "Coulsdon South Rail Station",
+    "naptan": "910GCOLSDNS",
+    "lat": 51.315838,
+    "lon": -0.137887,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Coulsdon Town Rail Station",
+    "naptan": "910GCOLSTWN",
+    "lat": 51.322043,
+    "lon": -0.134464,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Covent Garden Underground Station",
     "naptan": "940GZZLUCGN",
     "lat": 51.513093,
@@ -927,10 +1270,37 @@
     ]
   },
   {
+    "name": "Crayford Rail Station",
+    "naptan": "910GCRFD",
+    "lat": 51.44828,
+    "lon": 0.178936,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Crews Hill Rail Station",
+    "naptan": "910GCRHL",
+    "lat": 51.684486,
+    "lon": -0.106887,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Cricklewood Rail Station",
     "naptan": "910GCRKLWD",
     "lat": 51.558453,
     "lon": -0.212677,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Crofton Park Rail Station",
+    "naptan": "910GCFPK",
+    "lat": 51.455189,
+    "lon": -0.036503,
     "lines": [
       "national-rail"
     ]
@@ -1009,6 +1379,15 @@
     ]
   },
   {
+    "name": "Dagenham Dock Rail Station",
+    "naptan": "910GDGNHMDC",
+    "lat": 51.52624,
+    "lon": 0.14666,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Dagenham East Underground Station",
     "naptan": "940GZZLUDGE",
     "lat": 51.544096,
@@ -1074,6 +1453,15 @@
     ]
   },
   {
+    "name": "Deptford Rail Station",
+    "naptan": "910GDEPTFD",
+    "lat": 51.478848,
+    "lon": -0.02627,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Devons Road DLR Station",
     "naptan": "940GZZDLDEV",
     "lat": 51.522667,
@@ -1092,13 +1480,31 @@
     ]
   },
   {
+    "name": "Drayton Green Rail Station",
+    "naptan": "910GDRAYGRN",
+    "lat": 51.516617,
+    "lon": -0.330194,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Drayton Park Rail Station",
+    "naptan": "910GDRYP",
+    "lat": 51.55277,
+    "lon": -0.105509,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Ealing Broadway Rail Station",
     "naptan": "910GEALINGB",
     "lat": 51.514841,
     "lon": -0.301752,
     "lines": [
-      "national-rail",
-      "elizabeth-line"
+      "elizabeth-line",
+      "national-rail"
     ]
   },
   {
@@ -1147,14 +1553,21 @@
     ]
   },
   {
-    "name": "East Croydon",
+    "name": "East Croydon Rail Station",
     "naptan": "910GECROYDN",
-    "lat": 51.375995,
-    "lon": -0.091172,
+    "lat": 51.375454,
+    "lon": -0.09278,
     "lines": [
-      "bus",
-      "national-rail",
-      "tram"
+      "national-rail"
+    ]
+  },
+  {
+    "name": "East Dulwich Rail Station",
+    "naptan": "910GEDULWCH",
+    "lat": 51.461494,
+    "lon": -0.080572,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -1204,6 +1617,15 @@
     ]
   },
   {
+    "name": "Eden Park Rail Station",
+    "naptan": "910GEDPK",
+    "lat": 51.390091,
+    "lon": -0.026355,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Edgware Road (Bakerloo) Underground Station",
     "naptan": "940GZZLUERB",
     "lat": 51.520299,
@@ -1241,6 +1663,15 @@
     ]
   },
   {
+    "name": "Elephant & Castle Rail Station",
+    "naptan": "910GELPHNAC",
+    "lat": 51.494029,
+    "lon": -0.098725,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Elephant & Castle Underground Station",
     "naptan": "940GZZLUEAC",
     "lat": 51.494536,
@@ -1256,6 +1687,33 @@
     "lon": 0.19864,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Elmers End Rail Station",
+    "naptan": "910GELMERSE",
+    "lat": 51.398492,
+    "lon": -0.04957,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Elmstead Woods Rail Station",
+    "naptan": "910GELMW",
+    "lat": 51.417118,
+    "lon": 0.044274,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Eltham Rail Station",
+    "naptan": "910GELTHAM",
+    "lat": 51.455644,
+    "lon": 0.052472,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -1286,6 +1744,24 @@
     ]
   },
   {
+    "name": "Enfield Chase Rail Station",
+    "naptan": "910GENFC",
+    "lat": 51.653254,
+    "lon": -0.090696,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Enfield Lock Rail Station",
+    "naptan": "910GENFLDLK",
+    "lat": 51.670922,
+    "lon": -0.028532,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Enfield Town Rail Station",
     "naptan": "910GENFLDTN",
     "lat": 51.652026,
@@ -1301,6 +1777,24 @@
     "lon": 0.113767,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Erith Rail Station",
+    "naptan": "910GERITH",
+    "lat": 51.481671,
+    "lon": 0.175055,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Essex Road Rail Station",
+    "naptan": "910GESSEXRD",
+    "lat": 51.540705,
+    "lon": -0.096276,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -1331,6 +1825,15 @@
     ]
   },
   {
+    "name": "Falconwood Rail Station",
+    "naptan": "910GFALCNWD",
+    "lat": 51.459154,
+    "lon": 0.079305,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Farringdon",
     "naptan": "910GFRNDXR",
     "lat": 51.520189,
@@ -1340,12 +1843,30 @@
     ]
   },
   {
+    "name": "Farringdon Rail Station",
+    "naptan": "910GFRNDNLT",
+    "lat": 51.520167,
+    "lon": -0.105205,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Farringdon Underground Station",
     "naptan": "940GZZLUFCN",
     "lat": 51.520252,
     "lon": -0.104913,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Feltham Rail Station",
+    "naptan": "910GFELTHAM",
+    "lat": 51.447898,
+    "lon": -0.409838,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -1373,6 +1894,15 @@
     "lon": -0.179845,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Finsbury Park Rail Station",
+    "naptan": "910GFNPK",
+    "lat": 51.564302,
+    "lon": -0.106285,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -1413,6 +1943,15 @@
     ]
   },
   {
+    "name": "Fulwell Rail Station",
+    "naptan": "910GFULWELL",
+    "lat": 51.433935,
+    "lon": -0.349468,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Gallions Reach DLR Station",
     "naptan": "940GZZDLGAL",
     "lat": 51.508941,
@@ -1436,7 +1975,16 @@
     "lat": 51.581904,
     "lon": 0.205964,
     "lines": [
-      "elizabeth-line",
+      "national-rail",
+      "elizabeth-line"
+    ]
+  },
+  {
+    "name": "Gipsy Hill Rail Station",
+    "naptan": "910GGIPSYH",
+    "lat": 51.424453,
+    "lon": -0.083836,
+    "lines": [
       "national-rail"
     ]
   },
@@ -1486,6 +2034,15 @@
     ]
   },
   {
+    "name": "Gordon Hill Rail Station",
+    "naptan": "910GGORDONH",
+    "lat": 51.663335,
+    "lon": -0.09461,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Gospel Oak Rail Station",
     "naptan": "910GGOSPLOK",
     "lat": 51.555335,
@@ -1502,6 +2059,15 @@
     "lines": [
       "bus",
       "tube"
+    ]
+  },
+  {
+    "name": "Grange Park Rail Station",
+    "naptan": "910GGRPK",
+    "lat": 51.642607,
+    "lon": -0.097358,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -1523,6 +2089,15 @@
     ]
   },
   {
+    "name": "Greenford Rail Station",
+    "naptan": "910GGFORD",
+    "lat": 51.542331,
+    "lon": -0.345837,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Greenford Underground Station",
     "naptan": "940GZZLUGFD",
     "lat": 51.542424,
@@ -1541,6 +2116,24 @@
     ]
   },
   {
+    "name": "Greenwich Rail Station",
+    "naptan": "910GGNWH",
+    "lat": 51.478135,
+    "lon": -0.01334,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Grove Park Rail Station",
+    "naptan": "910GGRVPK",
+    "lat": 51.430863,
+    "lon": 0.021726,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Gunnersbury Rail Station",
     "naptan": "910GGNRSBRY",
     "lat": 51.491678,
@@ -1556,6 +2149,15 @@
     "lon": -0.275267,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Hackbridge Rail Station",
+    "naptan": "910GHKBG",
+    "lat": 51.37672,
+    "lon": -0.15329,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -1584,6 +2186,15 @@
     "lon": -0.02492,
     "lines": [
       "overground"
+    ]
+  },
+  {
+    "name": "Hadley Wood Rail Station",
+    "naptan": "910GHADLYWD",
+    "lat": 51.668497,
+    "lon": -0.176172,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -1641,6 +2252,24 @@
     ]
   },
   {
+    "name": "Hampton (London) Rail Station",
+    "naptan": "910GHAMPTON",
+    "lat": 51.415934,
+    "lon": -0.372119,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Hampton Wick Rail Station",
+    "naptan": "910GHAMWICK",
+    "lat": 51.414524,
+    "lon": -0.312489,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Hanger Lane Underground Station",
     "naptan": "940GZZLUHGR",
     "lat": 51.530177,
@@ -1695,6 +2324,15 @@
     ]
   },
   {
+    "name": "Harringay Rail Station",
+    "naptan": "910GHRGY",
+    "lat": 51.577358,
+    "lon": -0.105136,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Harrow & Wealdstone Rail Station",
     "naptan": "910GHROW",
     "lat": 51.592169,
@@ -1711,6 +2349,15 @@
     "lon": -0.335217,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Harrow-on-the-Hill Rail Station",
+    "naptan": "910GHAROOTH",
+    "lat": 51.579186,
+    "lon": -0.337225,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -1741,13 +2388,31 @@
     ]
   },
   {
+    "name": "Haydons Road Rail Station",
+    "naptan": "910GHYDNSRD",
+    "lat": 51.425448,
+    "lon": -0.188815,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Hayes (Kent) Rail Station",
+    "naptan": "910GHAYS",
+    "lat": 51.376334,
+    "lon": 0.010557,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Hayes & Harlington Rail Station",
     "naptan": "910GHAYESAH",
     "lat": 51.503096,
     "lon": -0.420683,
     "lines": [
-      "national-rail",
-      "elizabeth-line"
+      "elizabeth-line",
+      "national-rail"
     ]
   },
   {
@@ -1783,8 +2448,8 @@
     "lat": 51.470053,
     "lon": -0.490589,
     "lines": [
-      "elizabeth-line",
-      "national-rail"
+      "national-rail",
+      "elizabeth-line"
     ]
   },
   {
@@ -1802,8 +2467,8 @@
     "lat": 51.471987,
     "lon": -0.454788,
     "lines": [
-      "national-rail",
-      "elizabeth-line"
+      "elizabeth-line",
+      "national-rail"
     ]
   },
   {
@@ -1822,6 +2487,24 @@
     "lon": -0.226424,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Hendon Rail Station",
+    "naptan": "910GHDON",
+    "lat": 51.580068,
+    "lon": -0.238674,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Herne Hill Rail Station",
+    "naptan": "910GHERNEH",
+    "lat": 51.453305,
+    "lon": -0.102289,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -1898,6 +2581,15 @@
     ]
   },
   {
+    "name": "Hither Green Rail Station",
+    "naptan": "910GHTHRGRN",
+    "lat": 51.452025,
+    "lon": -0.000944,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Holborn Underground Station",
     "naptan": "940GZZLUHBN",
     "lat": 51.51758,
@@ -1953,6 +2645,15 @@
     ]
   },
   {
+    "name": "Hornsey Rail Station",
+    "naptan": "910GHRNSY",
+    "lat": 51.586461,
+    "lon": -0.111975,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Hounslow Central Underground Station",
     "naptan": "940GZZLUHWC",
     "lat": 51.471295,
@@ -1968,6 +2669,15 @@
     "lon": -0.356474,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Hounslow Rail Station",
+    "naptan": "910GHOUNSLW",
+    "lat": 51.461946,
+    "lon": -0.362277,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2036,13 +2746,31 @@
     ]
   },
   {
+    "name": "Isleworth Rail Station",
+    "naptan": "910GISLEWTH",
+    "lat": 51.474763,
+    "lon": -0.336907,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Iver Rail Station",
     "naptan": "910GIVER",
     "lat": 51.508503,
     "lon": -0.506726,
     "lines": [
-      "national-rail",
-      "elizabeth-line"
+      "elizabeth-line",
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Kenley Rail Station",
+    "naptan": "910GKNLY",
+    "lat": 51.324777,
+    "lon": -0.100925,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2101,6 +2829,24 @@
     ]
   },
   {
+    "name": "Kent House Rail Station",
+    "naptan": "910GKENTHOS",
+    "lat": 51.412215,
+    "lon": -0.045247,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Kentish Town Rail Station",
+    "naptan": "910GKNTSHTN",
+    "lat": 51.550495,
+    "lon": -0.140365,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Kentish Town Underground Station",
     "naptan": "940GZZLUKSH",
     "lat": 51.550312,
@@ -2137,6 +2883,15 @@
     ]
   },
   {
+    "name": "Kew Bridge Rail Station",
+    "naptan": "910GKEWBDGE",
+    "lat": 51.489513,
+    "lon": -0.287108,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Kew Gardens Rail Station",
     "naptan": "910GKEWGRDN",
     "lat": 51.477073,
@@ -2152,6 +2907,15 @@
     "lon": -0.285241,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Kidbrooke Rail Station",
+    "naptan": "910GKIDBROK",
+    "lat": 51.462121,
+    "lon": 0.027498,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2223,8 +2987,17 @@
     "lat": 51.501669,
     "lon": -0.160508,
     "lines": [
-      "bus",
-      "tube"
+      "tube",
+      "bus"
+    ]
+  },
+  {
+    "name": "Knockholt Rail Station",
+    "naptan": "910GKNCKHLT",
+    "lat": 51.34579,
+    "lon": 0.130847,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2234,6 +3007,15 @@
     "lon": -0.210391,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Ladywell Rail Station",
+    "naptan": "910GLDYW",
+    "lat": 51.456244,
+    "lon": -0.019041,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2269,8 +3051,8 @@
     "lat": 51.508062,
     "lon": -0.541756,
     "lines": [
-      "national-rail",
-      "elizabeth-line"
+      "elizabeth-line",
+      "national-rail"
     ]
   },
   {
@@ -2283,6 +3065,25 @@
     ]
   },
   {
+    "name": "Lea Bridge Rail Station",
+    "naptan": "910GLEABDGE",
+    "lat": 51.566548,
+    "lon": -0.036673,
+    "lines": [
+      "bus",
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Lee Rail Station",
+    "naptan": "910GLEEE",
+    "lat": 51.449755,
+    "lon": 0.013493,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Leicester Square Underground Station",
     "naptan": "940GZZLULSQ",
     "lat": 51.511386,
@@ -2292,23 +3093,21 @@
     ]
   },
   {
-    "name": "Lewisham",
-    "naptan": "910GLEWISHM",
-    "lat": 51.465081,
-    "lon": -0.013016,
-    "lines": [
-      "bus",
-      "dlr",
-      "national-rail"
-    ]
-  },
-  {
     "name": "Lewisham DLR Station",
     "naptan": "940GZZDLLEW",
     "lat": 51.464665,
     "lon": -0.012874,
     "lines": [
       "dlr"
+    ]
+  },
+  {
+    "name": "Lewisham Rail Station",
+    "naptan": "910GLEWISHM",
+    "lat": 51.465692,
+    "lon": -0.014024,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2357,6 +3156,15 @@
     ]
   },
   {
+    "name": "Limehouse Rail Station",
+    "naptan": "910GLIMHSE",
+    "lat": 51.512537,
+    "lon": -0.039803,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Liverpool Street",
     "naptan": "910GLIVSTLL",
     "lat": 51.518381,
@@ -2375,12 +3183,48 @@
     ]
   },
   {
+    "name": "London Blackfriars Rail Station",
+    "naptan": "910GBLFR",
+    "lat": 51.51181,
+    "lon": -0.103332,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "London Bridge Rail Station",
+    "naptan": "910GLNDNBDC",
+    "lat": 51.505019,
+    "lon": -0.086092,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "London Bridge Underground Station",
     "naptan": "940GZZLULNB",
     "lat": 51.505721,
     "lon": -0.088873,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "London Cannon Street Rail Station",
+    "naptan": "910GCANONST",
+    "lat": 51.511382,
+    "lon": -0.090293,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "London Charing Cross Rail Station",
+    "naptan": "910GCHRX",
+    "lat": 51.508027,
+    "lon": -0.124802,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2403,6 +3247,15 @@
     ]
   },
   {
+    "name": "London Fenchurch Street Rail Station",
+    "naptan": "910GFENCHRS",
+    "lat": 51.511646,
+    "lon": -0.078897,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "London Fields Rail Station",
     "naptan": "910GLONFLDS",
     "lat": 51.541153,
@@ -2413,14 +3266,32 @@
     ]
   },
   {
+    "name": "London King's Cross Rail Station",
+    "naptan": "910GKNGX",
+    "lat": 51.530883,
+    "lon": -0.122926,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "London Liverpool Street Rail Station",
     "naptan": "910GLIVST",
     "lat": 51.517991,
     "lon": -0.081426,
     "lines": [
+      "elizabeth-line",
       "national-rail",
-      "overground",
-      "elizabeth-line"
+      "overground"
+    ]
+  },
+  {
+    "name": "London Marylebone Rail Station",
+    "naptan": "910GMARYLBN",
+    "lat": 51.522524,
+    "lon": -0.162911,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2434,6 +3305,69 @@
     ]
   },
   {
+    "name": "London St Pancras International LL Rail Station",
+    "naptan": "910GSTPXBOX",
+    "lat": 51.532168,
+    "lon": -0.127343,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "London St Pancras International Rail Station",
+    "naptan": "910GSTPX",
+    "lat": 51.53239,
+    "lon": -0.127189,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "London St Pancras International Rail Station",
+    "naptan": "910GSTPADOM",
+    "lat": 51.532514,
+    "lon": -0.126463,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "London Victoria Rail Station",
+    "naptan": "910GVICTRIC",
+    "lat": 51.495257,
+    "lon": -0.144559,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "London Waterloo East Rail Station",
+    "naptan": "910GWLOE",
+    "lat": 51.504076,
+    "lon": -0.108898,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "London Waterloo Rail Station",
+    "naptan": "910GWATRLMN",
+    "lat": 51.503299,
+    "lon": -0.113109,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Loughborough Junction Rail Station",
+    "naptan": "910GLBGHJN",
+    "lat": 51.466298,
+    "lon": -0.102182,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Loughton Underground Station",
     "naptan": "940GZZLULGN",
     "lat": 51.641443,
@@ -2441,6 +3375,15 @@
     "lines": [
       "tube",
       "bus"
+    ]
+  },
+  {
+    "name": "Lower Sydenham Rail Station",
+    "naptan": "910GLSYDNHM",
+    "lat": 51.424831,
+    "lon": -0.033345,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2459,6 +3402,15 @@
     "lon": -0.72266,
     "lines": [
       "elizabeth-line",
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Malden Manor Rail Station",
+    "naptan": "910GMALDENM",
+    "lat": 51.38473,
+    "lon": -0.261274,
+    "lines": [
       "national-rail"
     ]
   },
@@ -2517,6 +3469,24 @@
     ]
   },
   {
+    "name": "Maze Hill Rail Station",
+    "naptan": "910GMAZEH",
+    "lat": 51.482625,
+    "lon": 0.002914,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Meridian Water Rail Station",
+    "naptan": "910GMWRWSTN",
+    "lat": 51.610102,
+    "lon": -0.050898,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Mile End Underground Station",
     "naptan": "940GZZLUMED",
     "lat": 51.525122,
@@ -2544,6 +3514,24 @@
     ]
   },
   {
+    "name": "Mitcham Eastfields Rail Station",
+    "naptan": "910GESTFLDS",
+    "lat": 51.407739,
+    "lon": -0.154646,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Mitcham Junction Rail Station",
+    "naptan": "910GMITCHMJ",
+    "lat": 51.39295,
+    "lon": -0.157757,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Monument Underground Station",
     "naptan": "940GZZLUMMT",
     "lat": 51.5107,
@@ -2562,12 +3550,30 @@
     ]
   },
   {
+    "name": "Moorgate Rail Station",
+    "naptan": "910GMRGT",
+    "lat": 51.518491,
+    "lon": -0.088943,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Moorgate Underground Station",
     "naptan": "940GZZLUMGT",
     "lat": 51.518176,
     "lon": -0.088322,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Morden South Rail Station",
+    "naptan": "910GMORDENS",
+    "lat": 51.396116,
+    "lon": -0.199461,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2589,6 +3595,33 @@
     ]
   },
   {
+    "name": "Mortlake Rail Station",
+    "naptan": "910GMRTLKE",
+    "lat": 51.468087,
+    "lon": -0.267106,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Motspur Park Rail Station",
+    "naptan": "910GMOTSPRP",
+    "lat": 51.395196,
+    "lon": -0.239531,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Mottingham Rail Station",
+    "naptan": "910GMOTNGHM",
+    "lat": 51.440218,
+    "lon": 0.050054,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Mudchute DLR Station",
     "naptan": "940GZZDLMUD",
     "lat": 51.490704,
@@ -2604,6 +3637,24 @@
     "lon": -0.249837,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "New Barnet Rail Station",
+    "naptan": "910GNBARNET",
+    "lat": 51.648575,
+    "lon": -0.172997,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "New Beckenham Rail Station",
+    "naptan": "910GNBCKNHM",
+    "lat": 51.41677,
+    "lon": -0.035273,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2627,10 +3678,28 @@
     ]
   },
   {
+    "name": "New Eltham Rail Station",
+    "naptan": "910GNWELTHM",
+    "lat": 51.43806,
+    "lon": 0.070533,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "New Malden Rail Station",
     "naptan": "910GNEWMLDN",
     "lat": 51.404075,
     "lon": -0.25594,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "New Southgate Rail Station",
+    "naptan": "910GNEWSGAT",
+    "lat": 51.614114,
+    "lon": -0.143038,
     "lines": [
       "national-rail"
     ]
@@ -2654,6 +3723,15 @@
     ]
   },
   {
+    "name": "Norbiton Rail Station",
+    "naptan": "910GNRBITON",
+    "lat": 51.412358,
+    "lon": -0.284025,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Norbury Rail Station",
     "naptan": "910GNORBURY",
     "lat": 51.411446,
@@ -2669,6 +3747,15 @@
     "lon": -0.259755,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "North Dulwich Rail Station",
+    "naptan": "910GNDULWCH",
+    "lat": 51.45451,
+    "lon": -0.087917,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2695,8 +3782,17 @@
     "lat": 51.584872,
     "lon": -0.362408,
     "lines": [
-      "tube",
-      "bus"
+      "bus",
+      "tube"
+    ]
+  },
+  {
+    "name": "North Sheen Rail Station",
+    "naptan": "910GNSHEEN",
+    "lat": 51.465155,
+    "lon": -0.287876,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2727,12 +3823,30 @@
     ]
   },
   {
+    "name": "Northolt Park Rail Station",
+    "naptan": "910GNTHOLTP",
+    "lat": 51.55754,
+    "lon": -0.359466,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Northolt Underground Station",
     "naptan": "940GZZLUNHT",
     "lat": 51.548236,
     "lon": -0.368699,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Northumberland Park Rail Station",
+    "naptan": "910GNMBRLPK",
+    "lat": 51.601969,
+    "lon": -0.053932,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2782,12 +3896,39 @@
     ]
   },
   {
+    "name": "Nunhead Rail Station",
+    "naptan": "910GNUNHEAD",
+    "lat": 51.466828,
+    "lon": -0.052273,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Oakleigh Park Rail Station",
+    "naptan": "910GOKLGHPK",
+    "lat": 51.637678,
+    "lon": -0.166209,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Oakwood Underground Station",
     "naptan": "940GZZLUOAK",
     "lat": 51.647726,
     "lon": -0.132182,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Old Street Rail Station",
+    "naptan": "910GOLDST",
+    "lat": 51.525832,
+    "lon": -0.088535,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2863,6 +4004,15 @@
     ]
   },
   {
+    "name": "Palmers Green Rail Station",
+    "naptan": "910GPALMRSG",
+    "lat": 51.618314,
+    "lon": -0.110437,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Park Royal Underground Station",
     "naptan": "940GZZLUPKR",
     "lat": 51.527123,
@@ -2891,6 +4041,15 @@
     ]
   },
   {
+    "name": "Penge East Rail Station",
+    "naptan": "910GPNGEE",
+    "lat": 51.419334,
+    "lon": -0.05422,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Penge West Rail Station",
     "naptan": "910GPENEW",
     "lat": 51.417555,
@@ -2907,6 +4066,15 @@
     "lon": -0.323446,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Petts Wood Rail Station",
+    "naptan": "910GPETSWD",
+    "lat": 51.388619,
+    "lon": 0.074481,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2943,6 +4111,24 @@
     "lon": 0.017451,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Plumstead Rail Station",
+    "naptan": "910GPLMS",
+    "lat": 51.489795,
+    "lon": 0.084257,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Ponders End Rail Station",
+    "naptan": "910GPNDRSEN",
+    "lat": 51.642256,
+    "lon": -0.03508,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -2989,6 +4175,24 @@
     "lon": -0.012755,
     "lines": [
       "dlr"
+    ]
+  },
+  {
+    "name": "Purley Oaks Rail Station",
+    "naptan": "910GPURLEYO",
+    "lat": 51.347046,
+    "lon": -0.098856,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Purley Rail Station",
+    "naptan": "910GPURLEY",
+    "lat": 51.337579,
+    "lon": -0.114035,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -3047,12 +4251,39 @@
     ]
   },
   {
+    "name": "Queenstown Road (Battersea) Rail Station",
+    "naptan": "910GQTRDBAT",
+    "lat": 51.474968,
+    "lon": -0.146678,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Queensway Underground Station",
     "naptan": "940GZZLUQWY",
     "lat": 51.510312,
     "lon": -0.187152,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Rainham (London) Rail Station",
+    "naptan": "910GRNHAME",
+    "lat": 51.516723,
+    "lon": 0.190634,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Ravensbourne Rail Station",
+    "naptan": "910GRBRN",
+    "lat": 51.414188,
+    "lon": -0.007557,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -3074,13 +4305,22 @@
     ]
   },
   {
+    "name": "Raynes Park Rail Station",
+    "naptan": "910GRAYNSPK",
+    "lat": 51.409173,
+    "lon": -0.230151,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Reading Rail Station",
     "naptan": "910GRDNGSTN",
     "lat": 51.458786,
     "lon": -0.971863,
     "lines": [
-      "elizabeth-line",
-      "national-rail"
+      "national-rail",
+      "elizabeth-line"
     ]
   },
   {
@@ -3100,6 +4340,15 @@
     "lon": 0.04536,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Reedham (Surrey) Rail Station",
+    "naptan": "910GREEDHMS",
+    "lat": 51.33112,
+    "lon": -0.123416,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -3140,6 +4389,15 @@
     ]
   },
   {
+    "name": "Riddlesdown Rail Station",
+    "naptan": "910GRDLSDWN",
+    "lat": 51.332486,
+    "lon": -0.099387,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Roding Valley Underground Station",
     "naptan": "940GZZLURVY",
     "lat": 51.617199,
@@ -3154,9 +4412,9 @@
     "lat": 51.574829,
     "lon": 0.183237,
     "lines": [
+      "elizabeth-line",
       "overground",
-      "national-rail",
-      "elizabeth-line"
+      "national-rail"
     ]
   },
   {
@@ -3232,13 +4490,31 @@
     ]
   },
   {
+    "name": "Sanderstead Rail Station",
+    "naptan": "910GSDSD",
+    "lat": 51.348283,
+    "lon": -0.093678,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Selhurst Rail Station",
+    "naptan": "910GSELHRST",
+    "lat": 51.391927,
+    "lon": -0.0883,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Seven Kings Rail Station",
     "naptan": "910GSVNKNGS",
     "lat": 51.564026,
     "lon": 0.0971,
     "lines": [
-      "national-rail",
-      "elizabeth-line"
+      "elizabeth-line",
+      "national-rail"
     ]
   },
   {
@@ -3326,12 +4602,39 @@
     ]
   },
   {
+    "name": "Shortlands Rail Station",
+    "naptan": "910GSHRTLND",
+    "lat": 51.405801,
+    "lon": 0.001784,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Sidcup Rail Station",
+    "naptan": "910GSIDCUP",
+    "lat": 51.43387,
+    "lon": 0.103795,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Silver Street Rail Station",
     "naptan": "910GSIVRST",
     "lat": 51.614688,
     "lon": -0.06724,
     "lines": [
       "overground",
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Slade Green Rail Station",
+    "naptan": "910GSLADEGN",
+    "lat": 51.467786,
+    "lon": 0.190491,
+    "lines": [
       "national-rail"
     ]
   },
@@ -3350,8 +4653,8 @@
     "lat": 51.51188,
     "lon": -0.59151,
     "lines": [
-      "national-rail",
-      "elizabeth-line"
+      "elizabeth-line",
+      "national-rail"
     ]
   },
   {
@@ -3373,12 +4676,39 @@
     ]
   },
   {
+    "name": "South Bermondsey Rail Station",
+    "naptan": "910GSBRMNDS",
+    "lat": 51.488136,
+    "lon": -0.054678,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "South Croydon Rail Station",
+    "naptan": "910GSCROYDN",
+    "lat": 51.362965,
+    "lon": -0.093457,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "South Ealing Underground Station",
     "naptan": "940GZZLUSEA",
     "lat": 51.501003,
     "lon": -0.307424,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "South Greenford Rail Station",
+    "naptan": "910GSGFORD",
+    "lat": 51.533749,
+    "lon": -0.336704,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -3427,12 +4757,30 @@
     ]
   },
   {
+    "name": "South Merton Rail Station",
+    "naptan": "910GSMERTON",
+    "lat": 51.402993,
+    "lon": -0.205157,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "South Quay DLR Station",
     "naptan": "940GZZDLSOQ",
     "lat": 51.50005,
     "lon": -0.01597,
     "lines": [
       "dlr"
+    ]
+  },
+  {
+    "name": "South Ruislip Rail Station",
+    "naptan": "910GSRUISLP",
+    "lat": 51.55692,
+    "lon": -0.399259,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -3519,12 +4867,48 @@
     ]
   },
   {
+    "name": "St Helier (London) Rail Station",
+    "naptan": "910GSHLIER",
+    "lat": 51.389901,
+    "lon": -0.198771,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "St James Street (London) Rail Station",
     "naptan": "910GSTJMSST",
     "lat": 51.580981,
     "lon": -0.032918,
     "lines": [
       "overground"
+    ]
+  },
+  {
+    "name": "St Johns (London) Rail Station",
+    "naptan": "910GSTJOHNS",
+    "lat": 51.469391,
+    "lon": -0.022719,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "St Margarets (London) Rail Station",
+    "naptan": "910GSTMGTS",
+    "lat": 51.455236,
+    "lon": -0.3202,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "St Mary Cray Rail Station",
+    "naptan": "910GSTMRYC",
+    "lat": 51.394749,
+    "lon": 0.106384,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -3677,12 +5061,75 @@
     ]
   },
   {
+    "name": "Stratford International Rail Station",
+    "naptan": "910GSTFODOM",
+    "lat": 51.544828,
+    "lon": -0.008778,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Stratford Underground Station",
     "naptan": "940GZZLUSTD",
     "lat": 51.541806,
     "lon": -0.003458,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Strawberry Hill Rail Station",
+    "naptan": "910GSTRWBYH",
+    "lat": 51.438963,
+    "lon": -0.339358,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Streatham Common Rail Station",
+    "naptan": "910GSTRHCOM",
+    "lat": 51.41873,
+    "lon": -0.13601,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Streatham Hill Rail Station",
+    "naptan": "910GSTRHILL",
+    "lat": 51.438193,
+    "lon": -0.12716,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Streatham Rail Station",
+    "naptan": "910GSTRETHM",
+    "lat": 51.425808,
+    "lon": -0.13155,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Sudbury & Harrow Road Rail Station",
+    "naptan": "910GSDBRYHR",
+    "lat": 51.554398,
+    "lon": -0.315468,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Sudbury Hill Harrow Rail Station",
+    "naptan": "910GSDBRYHH",
+    "lat": 51.558465,
+    "lon": -0.335803,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -3701,6 +5148,24 @@
     "lon": -0.315745,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Sundridge Park Rail Station",
+    "naptan": "910GSNDP",
+    "lat": 51.413782,
+    "lon": 0.021446,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Surbiton Rail Station",
+    "naptan": "910GSURBITN",
+    "lat": 51.39246,
+    "lon": -0.303958,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -3740,6 +5205,15 @@
     ]
   },
   {
+    "name": "Sydenham Hill Rail Station",
+    "naptan": "910GSYDNHMH",
+    "lat": 51.432714,
+    "lon": -0.080339,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Sydenham Rail Station",
     "naptan": "910GSYDENHM",
     "lat": 51.427248,
@@ -3750,13 +5224,22 @@
     ]
   },
   {
+    "name": "Syon Lane Rail Station",
+    "naptan": "910GSYONLA",
+    "lat": 51.481785,
+    "lon": -0.324842,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Taplow Rail Station",
     "naptan": "910GTAPLOW",
     "lat": 51.523562,
     "lon": -0.68137,
     "lines": [
-      "national-rail",
-      "elizabeth-line"
+      "elizabeth-line",
+      "national-rail"
     ]
   },
   {
@@ -3797,6 +5280,24 @@
     ]
   },
   {
+    "name": "Thornton Heath Rail Station",
+    "naptan": "910GTHTH",
+    "lat": 51.398777,
+    "lon": -0.100306,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Tolworth Rail Station",
+    "naptan": "910GTOLWTH",
+    "lat": 51.37686,
+    "lon": -0.279461,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Tooting Bec Underground Station",
     "naptan": "940GZZLUTBC",
     "lat": 51.435678,
@@ -3815,6 +5316,15 @@
     ]
   },
   {
+    "name": "Tooting Rail Station",
+    "naptan": "910GTOOTING",
+    "lat": 51.419848,
+    "lon": -0.161278,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Tottenham Court Road",
     "naptan": "910GTOTCTRD",
     "lat": 51.515698,
@@ -3830,6 +5340,15 @@
     "lon": -0.13041,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Tottenham Hale Rail Station",
+    "naptan": "910GTTNHMHL",
+    "lat": 51.58831,
+    "lon": -0.059929,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -3878,6 +5397,15 @@
     ]
   },
   {
+    "name": "Tulse Hill Rail Station",
+    "naptan": "910GTULSEH",
+    "lat": 51.439861,
+    "lon": -0.105077,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Turkey Street Rail Station",
     "naptan": "910GTURKYST",
     "lat": 51.672628,
@@ -3920,8 +5448,8 @@
     "lat": 51.475534,
     "lon": -0.863293,
     "lines": [
-      "elizabeth-line",
-      "national-rail"
+      "national-rail",
+      "elizabeth-line"
     ]
   },
   {
@@ -3989,6 +5517,15 @@
     ]
   },
   {
+    "name": "Vauxhall Rail Station",
+    "naptan": "910GVAUXHLM",
+    "lat": 51.48619,
+    "lon": -0.122889,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Vauxhall Underground Station",
     "naptan": "940GZZLUVXL",
     "lat": 51.485743,
@@ -4052,12 +5589,30 @@
     ]
   },
   {
+    "name": "Wandsworth Common Rail Station",
+    "naptan": "910GWANDCMN",
+    "lat": 51.446185,
+    "lon": -0.163386,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Wandsworth Road Rail Station",
     "naptan": "910GWNDSWRD",
     "lat": 51.470216,
     "lon": -0.13852,
     "lines": [
       "overground"
+    ]
+  },
+  {
+    "name": "Wandsworth Town Rail Station",
+    "naptan": "910GWDWTOWN",
+    "lat": 51.461048,
+    "lon": -0.188125,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -4152,6 +5707,15 @@
     ]
   },
   {
+    "name": "Welling Rail Station",
+    "naptan": "910GWELLING",
+    "lat": 51.464798,
+    "lon": 0.10169,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Wembley Central Rail Station",
     "naptan": "910GWMBY",
     "lat": 51.552325,
@@ -4177,6 +5741,15 @@
     "lon": -0.279262,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Wembley Stadium Rail Station",
+    "naptan": "910GWEMBLSM",
+    "lat": 51.554416,
+    "lon": -0.285608,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -4228,13 +5801,22 @@
     ]
   },
   {
+    "name": "West Dulwich Rail Station",
+    "naptan": "910GWDULWCH",
+    "lat": 51.440718,
+    "lon": -0.091371,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "West Ealing Rail Station",
     "naptan": "910GWEALING",
     "lat": 51.513506,
     "lon": -0.320133,
     "lines": [
-      "elizabeth-line",
-      "national-rail"
+      "national-rail",
+      "elizabeth-line"
     ]
   },
   {
@@ -4256,6 +5838,15 @@
     ]
   },
   {
+    "name": "West Ham Rail Station",
+    "naptan": "910GWHAMHL",
+    "lat": 51.528489,
+    "lon": 0.005431,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "West Ham Underground Station",
     "naptan": "940GZZLUWHM",
     "lat": 51.528136,
@@ -4271,6 +5862,15 @@
     "lon": -0.191185,
     "lines": [
       "overground"
+    ]
+  },
+  {
+    "name": "West Hampstead Thameslink Rail Station",
+    "naptan": "910GWHMPSTM",
+    "lat": 51.548476,
+    "lon": -0.191837,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -4310,6 +5910,24 @@
     ]
   },
   {
+    "name": "West Norwood Rail Station",
+    "naptan": "910GWNORWOD",
+    "lat": 51.431748,
+    "lon": -0.10383,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "West Ruislip Rail Station",
+    "naptan": "910GWRUISLP",
+    "lat": 51.569758,
+    "lon": -0.437768,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "West Ruislip Underground Station",
     "naptan": "940GZZLUWRP",
     "lat": 51.569688,
@@ -4337,12 +5955,30 @@
     ]
   },
   {
+    "name": "West Wickham Rail Station",
+    "naptan": "910GWWICKHM",
+    "lat": 51.381301,
+    "lon": -0.014432,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Westbourne Park Underground Station",
     "naptan": "940GZZLUWSP",
     "lat": 51.52111,
     "lon": -0.201065,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Westcombe Park Rail Station",
+    "naptan": "910GWCOMBEP",
+    "lat": 51.484203,
+    "lon": 0.018395,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -4410,6 +6046,15 @@
     ]
   },
   {
+    "name": "Whitton Rail Station",
+    "naptan": "910GWHTTON",
+    "lat": 51.449607,
+    "lon": -0.357681,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Willesden Green Underground Station",
     "naptan": "940GZZLUWIG",
     "lat": 51.549146,
@@ -4437,6 +6082,15 @@
     ]
   },
   {
+    "name": "Wimbledon Chase Rail Station",
+    "naptan": "910GWIMLCHS",
+    "lat": 51.409558,
+    "lon": -0.214031,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Wimbledon Park Underground Station",
     "naptan": "940GZZLUWIP",
     "lat": 51.434573,
@@ -4446,12 +6100,39 @@
     ]
   },
   {
+    "name": "Wimbledon Rail Station",
+    "naptan": "910GWDON",
+    "lat": 51.421222,
+    "lon": -0.206385,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Wimbledon Rail Station",
+    "naptan": "910GWIMBLDN",
+    "lat": 51.421222,
+    "lon": -0.206371,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Wimbledon Underground Station",
     "naptan": "940GZZLUWIM",
     "lat": 51.421207,
     "lon": -0.206573,
     "lines": [
       "tube"
+    ]
+  },
+  {
+    "name": "Winchmore Hill Rail Station",
+    "naptan": "910GWNMHILL",
+    "lat": 51.633942,
+    "lon": -0.1009,
+    "lines": [
+      "national-rail"
     ]
   },
   {
@@ -4500,6 +6181,15 @@
     ]
   },
   {
+    "name": "Woodmansterne Rail Station",
+    "naptan": "910GWDMNSTR",
+    "lat": 51.31902,
+    "lon": -0.154262,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
     "name": "Woodside Park Underground Station",
     "naptan": "940GZZLUWOP",
     "lat": 51.618014,
@@ -4525,6 +6215,24 @@
     "lon": 0.069127,
     "lines": [
       "dlr"
+    ]
+  },
+  {
+    "name": "Woolwich Arsenal Rail Station",
+    "naptan": "910GWOLWCHA",
+    "lat": 51.489909,
+    "lon": 0.069194,
+    "lines": [
+      "national-rail"
+    ]
+  },
+  {
+    "name": "Woolwich Dockyard Rail Station",
+    "naptan": "910GWOLWCDY",
+    "lat": 51.491127,
+    "lon": 0.054642,
+    "lines": [
+      "national-rail"
     ]
   },
   {

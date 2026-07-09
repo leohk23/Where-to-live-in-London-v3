@@ -1,6 +1,7 @@
 {
   "Brixton": [
-    "tube"
+    "tube",
+    "national-rail"
   ],
   "Fulham": [
     "tube",
@@ -17,7 +18,9 @@
     "national-rail"
   ],
   "Wimbledon": [
-    "tube"
+    "tube",
+    "tram",
+    "national-rail"
   ],
   "Richmond": [
     "tube",
@@ -100,7 +103,8 @@
     "overground"
   ],
   "Hammersmith": [
-    "tube"
+    "tube",
+    "overground"
   ],
   "Islington": [
     "tube",
@@ -112,7 +116,8 @@
   ],
   "Greenwich": [
     "tube",
-    "dlr"
+    "dlr",
+    "national-rail"
   ],
   "Lewisham": [
     "dlr",
@@ -158,14 +163,17 @@
     "national-rail"
   ],
   "Southwark": [
-    "tube"
+    "tube",
+    "national-rail"
   ],
   "London Bridge": [
-    "tube"
+    "tube",
+    "national-rail"
   ],
   "Camden": [
     "tube",
-    "overground"
+    "overground",
+    "national-rail"
   ],
   "Bloomsbury": [
     "tube"
@@ -201,7 +209,8 @@
     "national-rail"
   ],
   "Ruislip": [
-    "tube"
+    "tube",
+    "national-rail"
   ],
   "Mill Hill": [
     "tube",

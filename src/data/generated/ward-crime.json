@@ -1,1266 +1,1474 @@
 {
   "meta": {
-    "generatedAt": "2026-07-05T01:09:56.224Z",
-    "source": "Police API street-level all-crime counts by ward polygon",
-    "sourceUrl": "https://data.police.uk/api/crimes-street/all-crime",
+    "generatedAt": "2026-07-06T23:04:45.903Z",
+    "source": "MPS Ward Level Crime (all offences), latest 12 months",
+    "sourceUrl": "https://data.london.gov.uk/dataset/recorded_crime_summary",
     "months": [
-      "2025-05",
-      "2025-06",
-      "2025-07",
-      "2025-08",
-      "2025-09",
-      "2025-10",
-      "2025-11",
-      "2025-12",
-      "2026-01",
-      "2026-02",
-      "2026-03",
-      "2026-04"
+      "202506",
+      "202507",
+      "202508",
+      "202509",
+      "202510",
+      "202511",
+      "202512",
+      "202601",
+      "202602",
+      "202603",
+      "202604",
+      "202605"
     ],
-    "period": "2025-05 to 2026-04",
-    "populationSource": "Nomis NM_144_1 KS101EW 2011 Census ward population",
-    "populationSourceUrl": "https://www.nomisweb.co.uk/api/v01/dataset/NM_144_1"
+    "period": "2025-06 to 2026-05",
+    "populationSource": "Nomis NM_2021_1 TS001 2021 Census usual residents by 2022 ward",
+    "populationSourceUrl": "https://www.nomisweb.co.uk/api/v01/dataset/NM_2021_1"
   },
   "wards": {
-    "E05000045": {
-      "code": "E05000045",
-      "name": "Childs Hill",
-      "ladCode": "E09000003",
-      "crimes": 2865,
-      "population": 20049,
-      "crimesPer1000": 142.9
+    "E05009317": {
+      "code": "E05009317",
+      "name": "Bethnal Green",
+      "ladCode": "E09000030",
+      "crimes": 2703,
+      "population": 21090,
+      "crimesPer1000": 128.2
     },
-    "E05000046": {
-      "code": "E05000046",
-      "name": "Colindale",
-      "ladCode": "E09000003",
-      "crimes": 3511,
-      "population": 17098,
-      "crimesPer1000": 205.3
+    "E05009331": {
+      "code": "E05009331",
+      "name": "St Peter's",
+      "ladCode": "E09000030",
+      "crimes": 2303,
+      "population": 19779,
+      "crimesPer1000": 116.4
     },
-    "E05000051": {
-      "code": "E05000051",
-      "name": "Finchley Church End",
-      "ladCode": "E09000003",
-      "crimes": 1339,
-      "population": 15715,
-      "crimesPer1000": 85.2
-    },
-    "E05000053": {
-      "code": "E05000053",
-      "name": "Golders Green",
-      "ladCode": "E09000003",
-      "crimes": 1930,
-      "population": 18818,
-      "crimesPer1000": 102.6
-    },
-    "E05000054": {
-      "code": "E05000054",
-      "name": "Hale",
-      "ladCode": "E09000003",
-      "crimes": 1092,
-      "population": 17437,
-      "crimesPer1000": 62.6
-    },
-    "E05000055": {
-      "code": "E05000055",
-      "name": "Hendon",
-      "ladCode": "E09000003",
-      "crimes": 2305,
-      "population": 18472,
-      "crimesPer1000": 124.8
-    },
-    "E05000056": {
-      "code": "E05000056",
-      "name": "High Barnet",
-      "ladCode": "E09000003",
-      "crimes": 1577,
-      "population": 15307,
-      "crimesPer1000": 103
-    },
-    "E05000057": {
-      "code": "E05000057",
-      "name": "Mill Hill",
-      "ladCode": "E09000003",
-      "crimes": 1923,
-      "population": 18451,
-      "crimesPer1000": 104.2
-    },
-    "E05000060": {
-      "code": "E05000060",
-      "name": "Underhill",
-      "ladCode": "E09000003",
-      "crimes": 1064,
-      "population": 15915,
-      "crimesPer1000": 66.9
-    },
-    "E05000061": {
-      "code": "E05000061",
-      "name": "West Finchley",
-      "ladCode": "E09000003",
-      "crimes": 1835,
-      "population": 16533,
-      "crimesPer1000": 111
-    },
-    "E05000062": {
-      "code": "E05000062",
-      "name": "West Hendon",
-      "ladCode": "E09000003",
-      "crimes": 2802,
-      "population": 17402,
-      "crimesPer1000": 161
-    },
-    "E05000063": {
-      "code": "E05000063",
-      "name": "Woodhouse",
-      "ladCode": "E09000003",
-      "crimes": 1690,
-      "population": 17575,
-      "crimesPer1000": 96.2
-    },
-    "E05000088": {
-      "code": "E05000088",
-      "name": "Dollis Hill",
-      "ladCode": "E09000005",
-      "crimes": 1465,
-      "population": 13425,
-      "crimesPer1000": 109.1
-    },
-    "E05000089": {
-      "code": "E05000089",
-      "name": "Dudden Hill",
-      "ladCode": "E09000005",
-      "crimes": 2232,
-      "population": 15059,
-      "crimesPer1000": 148.2
-    },
-    "E05000095": {
-      "code": "E05000095",
-      "name": "Mapesbury",
-      "ladCode": "E09000005",
-      "crimes": 1655,
-      "population": 15529,
-      "crimesPer1000": 106.6
-    },
-    "E05000105": {
-      "code": "E05000105",
-      "name": "Willesden Green",
-      "ladCode": "E09000005",
-      "crimes": 2720,
-      "population": 15587,
-      "crimesPer1000": 174.5
-    },
-    "E05000109": {
-      "code": "E05000109",
-      "name": "Bromley Town",
-      "ladCode": "E09000006",
-      "crimes": 3635,
-      "population": 16826,
-      "crimesPer1000": 216
-    },
-    "E05000116": {
-      "code": "E05000116",
-      "name": "Crystal Palace",
-      "ladCode": "E09000006",
-      "crimes": 1608,
-      "population": 12255,
-      "crimesPer1000": 131.2
-    },
-    "E05000118": {
-      "code": "E05000118",
-      "name": "Farnborough and Crofton",
-      "ladCode": "E09000006",
-      "crimes": 1117,
-      "population": 14632,
-      "crimesPer1000": 76.3
-    },
-    "E05000122": {
-      "code": "E05000122",
-      "name": "Orpington",
-      "ladCode": "E09000006",
-      "crimes": 1728,
-      "population": 15311,
-      "crimesPer1000": 112.9
-    },
-    "E05000123": {
-      "code": "E05000123",
-      "name": "Penge and Cator",
-      "ladCode": "E09000006",
-      "crimes": 2678,
-      "population": 17326,
-      "crimesPer1000": 154.6
-    },
-    "E05000124": {
-      "code": "E05000124",
-      "name": "Petts Wood and Knoll",
-      "ladCode": "E09000006",
-      "crimes": 624,
-      "population": 13651,
-      "crimesPer1000": 45.7
-    },
-    "E05000125": {
-      "code": "E05000125",
-      "name": "Plaistow and Sundridge",
-      "ladCode": "E09000006",
-      "crimes": 1396,
-      "population": 15122,
-      "crimesPer1000": 92.3
-    },
-    "E05000126": {
-      "code": "E05000126",
-      "name": "Shortlands",
-      "ladCode": "E09000006",
-      "crimes": 401,
-      "population": 9824,
-      "crimesPer1000": 40.8
-    },
-    "E05000129": {
-      "code": "E05000129",
-      "name": "Bloomsbury",
-      "ladCode": "E09000007",
-      "crimes": 6423,
-      "population": 10892,
-      "crimesPer1000": 589.7
-    },
-    "E05000130": {
-      "code": "E05000130",
-      "name": "Camden Town with Primrose Hill",
-      "ladCode": "E09000007",
-      "crimes": 4526,
-      "population": 12613,
-      "crimesPer1000": 358.8
-    },
-    "E05000131": {
-      "code": "E05000131",
-      "name": "Cantelowes",
-      "ladCode": "E09000007",
-      "crimes": 1558,
-      "population": 11925,
-      "crimesPer1000": 130.6
-    },
-    "E05000138": {
-      "code": "E05000138",
-      "name": "Holborn and Covent Garden",
-      "ladCode": "E09000007",
-      "crimes": 7795,
-      "population": 13023,
-      "crimesPer1000": 598.6
-    },
-    "E05000139": {
-      "code": "E05000139",
-      "name": "Kentish Town",
-      "ladCode": "E09000007",
-      "crimes": 2095,
-      "population": 13417,
-      "crimesPer1000": 156.1
-    },
-    "E05000141": {
-      "code": "E05000141",
-      "name": "King's Cross",
-      "ladCode": "E09000007",
-      "crimes": 3114,
-      "population": 11843,
-      "crimesPer1000": 262.9
-    },
-    "E05000146": {
-      "code": "E05000146",
-      "name": "Addiscombe",
-      "ladCode": "E09000008",
-      "crimes": 2055,
-      "population": 16883,
-      "crimesPer1000": 121.7
-    },
-    "E05000148": {
-      "code": "E05000148",
-      "name": "Bensham Manor",
-      "ladCode": "E09000008",
-      "crimes": 1556,
-      "population": 16201,
-      "crimesPer1000": 96
-    },
-    "E05000149": {
-      "code": "E05000149",
-      "name": "Broad Green",
-      "ladCode": "E09000008",
-      "crimes": 4360,
-      "population": 18652,
-      "crimesPer1000": 233.8
-    },
-    "E05000153": {
-      "code": "E05000153",
-      "name": "Fairfield",
-      "ladCode": "E09000008",
-      "crimes": 6585,
-      "population": 16569,
-      "crimesPer1000": 397.4
-    },
-    "E05000158": {
-      "code": "E05000158",
-      "name": "Norbury",
-      "ladCode": "E09000008",
-      "crimes": 1715,
-      "population": 16476,
-      "crimesPer1000": 104.1
-    },
-    "E05000165": {
-      "code": "E05000165",
-      "name": "Thornton Heath",
-      "ladCode": "E09000008",
-      "crimes": 2045,
-      "population": 16539,
-      "crimesPer1000": 123.6
-    },
-    "E05000167": {
-      "code": "E05000167",
-      "name": "Waddon",
-      "ladCode": "E09000008",
-      "crimes": 2125,
-      "population": 17077,
-      "crimesPer1000": 124.4
-    },
-    "E05000170": {
-      "code": "E05000170",
-      "name": "Acton Central",
-      "ladCode": "E09000009",
-      "crimes": 1786,
-      "population": 15427,
-      "crimesPer1000": 115.8
-    },
-    "E05000171": {
-      "code": "E05000171",
-      "name": "Cleveland",
-      "ladCode": "E09000009",
-      "crimes": 1152,
-      "population": 14558,
-      "crimesPer1000": 79.1
-    },
-    "E05000173": {
-      "code": "E05000173",
-      "name": "Ealing Broadway",
-      "ladCode": "E09000009",
-      "crimes": 3117,
-      "population": 14029,
-      "crimesPer1000": 222.2
-    },
-    "E05000174": {
-      "code": "E05000174",
-      "name": "Ealing Common",
-      "ladCode": "E09000009",
-      "crimes": 1387,
-      "population": 14019,
-      "crimesPer1000": 98.9
-    },
-    "E05000175": {
-      "code": "E05000175",
-      "name": "East Acton",
-      "ladCode": "E09000009",
-      "crimes": 3936,
-      "population": 18706,
-      "crimesPer1000": 210.4
-    },
-    "E05000176": {
-      "code": "E05000176",
-      "name": "Elthorne",
-      "ladCode": "E09000009",
-      "crimes": 2314,
-      "population": 14539,
-      "crimesPer1000": 159.2
-    },
-    "E05000182": {
-      "code": "E05000182",
-      "name": "Northfield",
-      "ladCode": "E09000009",
-      "crimes": 855,
-      "population": 13517,
-      "crimesPer1000": 63.3
-    },
-    "E05000188": {
-      "code": "E05000188",
-      "name": "South Acton",
-      "ladCode": "E09000009",
-      "crimes": 2273,
-      "population": 14873,
-      "crimesPer1000": 152.8
-    },
-    "E05000191": {
-      "code": "E05000191",
-      "name": "Southfield",
-      "ladCode": "E09000009",
-      "crimes": 1049,
-      "population": 13474,
-      "crimesPer1000": 77.9
-    },
-    "E05000192": {
-      "code": "E05000192",
-      "name": "Walpole",
-      "ladCode": "E09000009",
-      "crimes": 1746,
-      "population": 13330,
-      "crimesPer1000": 131
-    },
-    "E05000197": {
-      "code": "E05000197",
-      "name": "Edmonton Green",
-      "ladCode": "E09000010",
-      "crimes": 3772,
-      "population": 17949,
-      "crimesPer1000": 210.2
-    },
-    "E05000204": {
-      "code": "E05000204",
-      "name": "Lower Edmonton",
-      "ladCode": "E09000010",
-      "crimes": 1818,
-      "population": 16531,
-      "crimesPer1000": 110
-    },
-    "E05000212": {
-      "code": "E05000212",
-      "name": "Upper Edmonton",
-      "ladCode": "E09000010",
-      "crimes": 3232,
-      "population": 17374,
-      "crimesPer1000": 186
-    },
-    "E05000222": {
-      "code": "E05000222",
-      "name": "Greenwich West",
-      "ladCode": "E09000011",
-      "crimes": 3073,
-      "population": 16527,
-      "crimesPer1000": 185.9
-    },
-    "E05000225": {
-      "code": "E05000225",
-      "name": "Peninsula",
-      "ladCode": "E09000011",
-      "crimes": 4426,
-      "population": 14051,
-      "crimesPer1000": 315
-    },
-    "E05000231": {
-      "code": "E05000231",
+    "E05009367": {
+      "code": "E05009367",
       "name": "Brownswood",
       "ladCode": "E09000012",
-      "crimes": 1734,
-      "population": 11091,
-      "crimesPer1000": 156.3
+      "crimes": 900,
+      "population": 9013,
+      "crimesPer1000": 99.9
     },
-    "E05000237": {
-      "code": "E05000237",
+    "E05009372": {
+      "code": "E05009372",
       "name": "Hackney Central",
       "ladCode": "E09000012",
-      "crimes": 2786,
-      "population": 12548,
-      "crimesPer1000": 222
+      "crimes": 2175,
+      "population": 12719,
+      "crimesPer1000": 171
     },
-    "E05000238": {
-      "code": "E05000238",
+    "E05009373": {
+      "code": "E05009373",
       "name": "Hackney Downs",
       "ladCode": "E09000012",
-      "crimes": 1652,
-      "population": 12921,
-      "crimesPer1000": 127.9
+      "crimes": 1250,
+      "population": 12999,
+      "crimesPer1000": 96.2
     },
-    "E05000244": {
-      "code": "E05000244",
-      "name": "New River",
-      "ladCode": "E09000012",
-      "crimes": 1971,
-      "population": 12551,
-      "crimesPer1000": 157
-    },
-    "E05000248": {
-      "code": "E05000248",
+    "E05009386": {
+      "code": "E05009386",
       "name": "Victoria",
       "ladCode": "E09000012",
-      "crimes": 1570,
-      "population": 13231,
-      "crimesPer1000": 118.7
+      "crimes": 1149,
+      "population": 12156,
+      "crimesPer1000": 94.5
     },
-    "E05000251": {
-      "code": "E05000251",
-      "name": "Askew",
-      "ladCode": "E09000013",
-      "crimes": 1346,
-      "population": 14160,
-      "crimesPer1000": 95.1
+    "E05009387": {
+      "code": "E05009387",
+      "name": "Woodberry Down",
+      "ladCode": "E09000012",
+      "crimes": 1442,
+      "population": 12113,
+      "crimesPer1000": 119
     },
-    "E05000252": {
-      "code": "E05000252",
-      "name": "Avonmore and Brook Green",
-      "ladCode": "E09000013",
-      "crimes": 1232,
-      "population": 12216,
-      "crimesPer1000": 100.9
+    "E05011095": {
+      "code": "E05011095",
+      "name": "Borough & Bankside",
+      "ladCode": "E09000028",
+      "crimes": 3610,
+      "population": 9013,
+      "crimesPer1000": 400.5
     },
-    "E05000254": {
-      "code": "E05000254",
-      "name": "Fulham Broadway",
-      "ladCode": "E09000013",
-      "crimes": 1662,
-      "population": 10996,
-      "crimesPer1000": 151.1
-    },
-    "E05000256": {
-      "code": "E05000256",
-      "name": "Hammersmith Broadway",
-      "ladCode": "E09000013",
-      "crimes": 3837,
-      "population": 11923,
-      "crimesPer1000": 321.8
-    },
-    "E05000257": {
-      "code": "E05000257",
-      "name": "Munster",
-      "ladCode": "E09000013",
-      "crimes": 731,
-      "population": 11004,
-      "crimesPer1000": 66.4
-    },
-    "E05000260": {
-      "code": "E05000260",
-      "name": "Parsons Green and Walham",
-      "ladCode": "E09000013",
-      "crimes": 1310,
-      "population": 10813,
-      "crimesPer1000": 121.2
-    },
-    "E05000261": {
-      "code": "E05000261",
-      "name": "Ravenscourt Park",
-      "ladCode": "E09000013",
-      "crimes": 1186,
-      "population": 10785,
-      "crimesPer1000": 110
-    },
-    "E05000262": {
-      "code": "E05000262",
-      "name": "Sands End",
-      "ladCode": "E09000013",
-      "crimes": 1247,
-      "population": 12760,
-      "crimesPer1000": 97.7
-    },
-    "E05000263": {
-      "code": "E05000263",
-      "name": "Shepherd's Bush Green",
-      "ladCode": "E09000013",
-      "crimes": 4587,
-      "population": 12175,
-      "crimesPer1000": 376.8
-    },
-    "E05000264": {
-      "code": "E05000264",
-      "name": "Town",
-      "ladCode": "E09000013",
-      "crimes": 1334,
-      "population": 11201,
-      "crimesPer1000": 119.1
-    },
-    "E05000265": {
-      "code": "E05000265",
-      "name": "Wormholt and White City",
-      "ladCode": "E09000013",
-      "crimes": 1095,
-      "population": 13389,
-      "crimesPer1000": 81.8
-    },
-    "E05000271": {
-      "code": "E05000271",
-      "name": "Harringay",
-      "ladCode": "E09000014",
+    "E05011098": {
+      "code": "E05011098",
+      "name": "Chaucer",
+      "ladCode": "E09000028",
       "crimes": 2195,
-      "population": 13272,
-      "crimesPer1000": 165.4
+      "population": 14732,
+      "crimesPer1000": 149
     },
-    "E05000275": {
-      "code": "E05000275",
-      "name": "Noel Park",
-      "ladCode": "E09000014",
-      "crimes": 4170,
-      "population": 13939,
-      "crimesPer1000": 299.2
+    "E05011104": {
+      "code": "E05011104",
+      "name": "London Bridge & West Bermondsey",
+      "ladCode": "E09000028",
+      "crimes": 3868,
+      "population": 15097,
+      "crimesPer1000": 256.2
     },
-    "E05000277": {
-      "code": "E05000277",
-      "name": "St Ann's",
-      "ladCode": "E09000014",
-      "crimes": 1583,
-      "population": 14638,
-      "crimesPer1000": 108.1
+    "E05011106": {
+      "code": "E05011106",
+      "name": "North Bermondsey",
+      "ladCode": "E09000028",
+      "crimes": 1633,
+      "population": 15282,
+      "crimesPer1000": 106.9
     },
-    "E05000282": {
-      "code": "E05000282",
-      "name": "West Green",
-      "ladCode": "E09000014",
-      "crimes": 1121,
-      "population": 13372,
-      "crimesPer1000": 83.8
+    "E05011110": {
+      "code": "E05011110",
+      "name": "Peckham",
+      "ladCode": "E09000028",
+      "crimes": 1641,
+      "population": 14787,
+      "crimesPer1000": 111
     },
-    "E05000334": {
-      "code": "E05000334",
-      "name": "Manor",
+    "E05011111": {
+      "code": "E05011111",
+      "name": "Peckham Rye",
+      "ladCode": "E09000028",
+      "crimes": 587,
+      "population": 10158,
+      "crimesPer1000": 57.8
+    },
+    "E05011113": {
+      "code": "E05011113",
+      "name": "Rye Lane",
+      "ladCode": "E09000028",
+      "crimes": 2266,
+      "population": 14472,
+      "crimesPer1000": 156.6
+    },
+    "E05011114": {
+      "code": "E05011114",
+      "name": "St George's",
+      "ladCode": "E09000028",
+      "crimes": 1766,
+      "population": 8456,
+      "crimesPer1000": 208.8
+    },
+    "E05011463": {
+      "code": "E05011463",
+      "name": "Addiscombe West",
+      "ladCode": "E09000008",
+      "crimes": 1355,
+      "population": 16208,
+      "crimesPer1000": 83.6
+    },
+    "E05011464": {
+      "code": "E05011464",
+      "name": "Bensham Manor",
+      "ladCode": "E09000008",
+      "crimes": 1230,
+      "population": 16938,
+      "crimesPer1000": 72.6
+    },
+    "E05011465": {
+      "code": "E05011465",
+      "name": "Broad Green",
+      "ladCode": "E09000008",
+      "crimes": 2684,
+      "population": 20222,
+      "crimesPer1000": 132.7
+    },
+    "E05011468": {
+      "code": "E05011468",
+      "name": "Fairfield",
+      "ladCode": "E09000008",
+      "crimes": 4867,
+      "population": 15345,
+      "crimesPer1000": 317.2
+    },
+    "E05011472": {
+      "code": "E05011472",
+      "name": "Norbury & Pollards Hill",
+      "ladCode": "E09000008",
+      "crimes": 1104,
+      "population": 12145,
+      "crimesPer1000": 90.9
+    },
+    "E05011473": {
+      "code": "E05011473",
+      "name": "Norbury Park",
+      "ladCode": "E09000008",
+      "crimes": 620,
+      "population": 10827,
+      "crimesPer1000": 57.3
+    },
+    "E05011475": {
+      "code": "E05011475",
+      "name": "Park Hill & Whitgift",
+      "ladCode": "E09000008",
+      "crimes": 227,
+      "population": 5787,
+      "crimesPer1000": 39.2
+    },
+    "E05011486": {
+      "code": "E05011486",
+      "name": "Thornton Heath",
+      "ladCode": "E09000008",
+      "crimes": 1552,
+      "population": 18002,
+      "crimesPer1000": 86.2
+    },
+    "E05011487": {
+      "code": "E05011487",
+      "name": "Waddon",
+      "ladCode": "E09000008",
+      "crimes": 1801,
+      "population": 18684,
+      "crimesPer1000": 96.4
+    },
+    "E05013499": {
+      "code": "E05013499",
+      "name": "Cricklewood & Mapesbury",
+      "ladCode": "E09000005",
+      "crimes": 961,
+      "population": 14151,
+      "crimesPer1000": 67.9
+    },
+    "E05013500": {
+      "code": "E05013500",
+      "name": "Dollis Hill",
+      "ladCode": "E09000005",
+      "crimes": 1955,
+      "population": 21848,
+      "crimesPer1000": 89.5
+    },
+    "E05013509": {
+      "code": "E05013509",
+      "name": "Roundwood",
+      "ladCode": "E09000005",
+      "crimes": 1705,
+      "population": 16707,
+      "crimesPer1000": 102.1
+    },
+    "E05013517": {
+      "code": "E05013517",
+      "name": "Willesden Green",
+      "ladCode": "E09000005",
+      "crimes": 2002,
+      "population": 18957,
+      "crimesPer1000": 105.6
+    },
+    "E05013520": {
+      "code": "E05013520",
+      "name": "Ealing Broadway",
+      "ladCode": "E09000009",
+      "crimes": 2156,
+      "population": 13918,
+      "crimesPer1000": 154.9
+    },
+    "E05013521": {
+      "code": "E05013521",
+      "name": "Ealing Common",
+      "ladCode": "E09000009",
+      "crimes": 1029,
+      "population": 15945,
+      "crimesPer1000": 64.5
+    },
+    "E05013522": {
+      "code": "E05013522",
+      "name": "East Acton",
+      "ladCode": "E09000009",
+      "crimes": 1226,
+      "population": 15210,
+      "crimesPer1000": 80.6
+    },
+    "E05013525": {
+      "code": "E05013525",
+      "name": "Hanwell Broadway",
+      "ladCode": "E09000009",
+      "crimes": 1351,
+      "population": 15290,
+      "crimesPer1000": 88.4
+    },
+    "E05013527": {
+      "code": "E05013527",
+      "name": "North Acton",
+      "ladCode": "E09000009",
+      "crimes": 2168,
+      "population": 19043,
+      "crimesPer1000": 113.8
+    },
+    "E05013530": {
+      "code": "E05013530",
+      "name": "Northfield",
+      "ladCode": "E09000009",
+      "crimes": 601,
+      "population": 14265,
+      "crimesPer1000": 42.1
+    },
+    "E05013535": {
+      "code": "E05013535",
+      "name": "Pitshanger",
+      "ladCode": "E09000009",
+      "crimes": 814,
+      "population": 15169,
+      "crimesPer1000": 53.7
+    },
+    "E05013536": {
+      "code": "E05013536",
+      "name": "South Acton",
+      "ladCode": "E09000009",
+      "crimes": 1805,
+      "population": 16822,
+      "crimesPer1000": 107.3
+    },
+    "E05013540": {
+      "code": "E05013540",
+      "name": "Southfield",
+      "ladCode": "E09000009",
+      "crimes": 1065,
+      "population": 16472,
+      "crimesPer1000": 64.7
+    },
+    "E05013541": {
+      "code": "E05013541",
+      "name": "Walpole",
+      "ladCode": "E09000009",
+      "crimes": 1344,
+      "population": 14756,
+      "crimesPer1000": 91.1
+    },
+    "E05013577": {
+      "code": "E05013577",
+      "name": "Ruislip",
       "ladCode": "E09000017",
-      "crimes": 645,
-      "population": 11442,
-      "crimesPer1000": 56.4
+      "crimes": 876,
+      "population": 15441,
+      "crimesPer1000": 56.7
     },
-    "E05000338": {
-      "code": "E05000338",
+    "E05013578": {
+      "code": "E05013578",
+      "name": "Ruislip Manor",
+      "ladCode": "E09000017",
+      "crimes": 421,
+      "population": 10980,
+      "crimesPer1000": 38.3
+    },
+    "E05013579": {
+      "code": "E05013579",
       "name": "South Ruislip",
       "ladCode": "E09000017",
-      "crimes": 1521,
-      "population": 12364,
-      "crimesPer1000": 123
+      "crimes": 1272,
+      "population": 16838,
+      "crimesPer1000": 75.5
     },
-    "E05000343": {
-      "code": "E05000343",
-      "name": "West Ruislip",
-      "ladCode": "E09000017",
-      "crimes": 1028,
-      "population": 10611,
-      "crimesPer1000": 96.9
+    "E05013590": {
+      "code": "E05013590",
+      "name": "Harringay",
+      "ladCode": "E09000014",
+      "crimes": 1617,
+      "population": 14568,
+      "crimesPer1000": 111
     },
-    "E05000348": {
-      "code": "E05000348",
+    "E05013591": {
+      "code": "E05013591",
+      "name": "Hermitage & Gardens",
+      "ladCode": "E09000014",
+      "crimes": 1051,
+      "population": 8437,
+      "crimesPer1000": 124.6
+    },
+    "E05013595": {
+      "code": "E05013595",
+      "name": "Noel Park",
+      "ladCode": "E09000014",
+      "crimes": 3287,
+      "population": 13714,
+      "crimesPer1000": 239.7
+    },
+    "E05013597": {
+      "code": "E05013597",
+      "name": "St Ann's",
+      "ladCode": "E09000014",
+      "crimes": 728,
+      "population": 10590,
+      "crimesPer1000": 68.7
+    },
+    "E05013603": {
+      "code": "E05013603",
+      "name": "West Green",
+      "ladCode": "E09000014",
+      "crimes": 1133,
+      "population": 14968,
+      "crimesPer1000": 75.7
+    },
+    "E05013609": {
+      "code": "E05013609",
+      "name": "Chiswick Gunnersbury",
+      "ladCode": "E09000018",
+      "crimes": 1773,
+      "population": 12697,
+      "crimesPer1000": 139.6
+    },
+    "E05013610": {
+      "code": "E05013610",
       "name": "Chiswick Homefields",
       "ladCode": "E09000018",
       "crimes": 1020,
-      "population": 11346,
-      "crimesPer1000": 89.9
+      "population": 13740,
+      "crimesPer1000": 74.2
     },
-    "E05000349": {
-      "code": "E05000349",
+    "E05013611": {
+      "code": "E05013611",
       "name": "Chiswick Riverside",
       "ladCode": "E09000018",
-      "crimes": 869,
-      "population": 11543,
-      "crimesPer1000": 75.3
+      "crimes": 627,
+      "population": 10301,
+      "crimesPer1000": 60.9
     },
-    "E05000358": {
-      "code": "E05000358",
+    "E05013620": {
+      "code": "E05013620",
       "name": "Hounslow Central",
       "ladCode": "E09000018",
-      "crimes": 4736,
-      "population": 15169,
-      "crimesPer1000": 312.2
+      "crimes": 3001,
+      "population": 10659,
+      "crimesPer1000": 281.5
     },
-    "E05000359": {
-      "code": "E05000359",
+    "E05013621": {
+      "code": "E05013621",
+      "name": "Hounslow East",
+      "ladCode": "E09000018",
+      "crimes": 809,
+      "population": 8672,
+      "crimesPer1000": 93.3
+    },
+    "E05013622": {
+      "code": "E05013622",
       "name": "Hounslow Heath",
       "ladCode": "E09000018",
-      "crimes": 1765,
-      "population": 14727,
-      "crimesPer1000": 119.8
+      "crimes": 1363,
+      "population": 16075,
+      "crimesPer1000": 84.8
     },
-    "E05000360": {
-      "code": "E05000360",
+    "E05013623": {
+      "code": "E05013623",
       "name": "Hounslow South",
       "ladCode": "E09000018",
-      "crimes": 582,
-      "population": 11408,
-      "crimesPer1000": 51
+      "crimes": 557,
+      "population": 13748,
+      "crimesPer1000": 40.5
     },
-    "E05000361": {
-      "code": "E05000361",
+    "E05013624": {
+      "code": "E05013624",
       "name": "Hounslow West",
       "ladCode": "E09000018",
-      "crimes": 1849,
-      "population": 12658,
-      "crimesPer1000": 146.1
+      "crimes": 1396,
+      "population": 15915,
+      "crimesPer1000": 87.7
     },
-    "E05000365": {
-      "code": "E05000365",
-      "name": "Turnham Green",
-      "ladCode": "E09000018",
-      "crimes": 1832,
-      "population": 11448,
-      "crimesPer1000": 160
+    "E05013628": {
+      "code": "E05013628",
+      "name": "Barnet Vale",
+      "ladCode": "E09000003",
+      "crimes": 933,
+      "population": 16869,
+      "crimesPer1000": 55.3
     },
-    "E05000366": {
-      "code": "E05000366",
+    "E05013631": {
+      "code": "E05013631",
+      "name": "Childs Hill",
+      "ladCode": "E09000003",
+      "crimes": 1862,
+      "population": 19629,
+      "crimesPer1000": 94.9
+    },
+    "E05013632": {
+      "code": "E05013632",
+      "name": "Colindale North",
+      "ladCode": "E09000003",
+      "crimes": 637,
+      "population": 12060,
+      "crimesPer1000": 52.8
+    },
+    "E05013633": {
+      "code": "E05013633",
+      "name": "Colindale South",
+      "ladCode": "E09000003",
+      "crimes": 1509,
+      "population": 19413,
+      "crimesPer1000": 77.7
+    },
+    "E05013634": {
+      "code": "E05013634",
+      "name": "Cricklewood",
+      "ladCode": "E09000003",
+      "crimes": 1361,
+      "population": 10724,
+      "crimesPer1000": 126.9
+    },
+    "E05013638": {
+      "code": "E05013638",
+      "name": "Edgwarebury",
+      "ladCode": "E09000003",
+      "crimes": 593,
+      "population": 12109,
+      "crimesPer1000": 49
+    },
+    "E05013639": {
+      "code": "E05013639",
+      "name": "Finchley Church End",
+      "ladCode": "E09000003",
+      "crimes": 1075,
+      "population": 18840,
+      "crimesPer1000": 57.1
+    },
+    "E05013642": {
+      "code": "E05013642",
+      "name": "Golders Green",
+      "ladCode": "E09000003",
+      "crimes": 934,
+      "population": 14746,
+      "crimesPer1000": 63.3
+    },
+    "E05013643": {
+      "code": "E05013643",
+      "name": "Hendon",
+      "ladCode": "E09000003",
+      "crimes": 2018,
+      "population": 21981,
+      "crimesPer1000": 91.8
+    },
+    "E05013644": {
+      "code": "E05013644",
+      "name": "High Barnet",
+      "ladCode": "E09000003",
+      "crimes": 825,
+      "population": 11930,
+      "crimesPer1000": 69.2
+    },
+    "E05013645": {
+      "code": "E05013645",
+      "name": "Mill Hill",
+      "ladCode": "E09000003",
+      "crimes": 1122,
+      "population": 18307,
+      "crimesPer1000": 61.3
+    },
+    "E05013647": {
+      "code": "E05013647",
+      "name": "Underhill",
+      "ladCode": "E09000003",
+      "crimes": 724,
+      "population": 12371,
+      "crimesPer1000": 58.5
+    },
+    "E05013648": {
+      "code": "E05013648",
+      "name": "West Finchley",
+      "ladCode": "E09000003",
+      "crimes": 1367,
+      "population": 19430,
+      "crimesPer1000": 70.4
+    },
+    "E05013649": {
+      "code": "E05013649",
+      "name": "West Hendon",
+      "ladCode": "E09000003",
+      "crimes": 2031,
+      "population": 17251,
+      "crimesPer1000": 117.7
+    },
+    "E05013651": {
+      "code": "E05013651",
+      "name": "Woodhouse",
+      "ladCode": "E09000003",
+      "crimes": 1149,
+      "population": 13914,
+      "crimesPer1000": 82.6
+    },
+    "E05013653": {
+      "code": "E05013653",
+      "name": "Bloomsbury",
+      "ladCode": "E09000007",
+      "crimes": 6396,
+      "population": 11095,
+      "crimesPer1000": 576.5
+    },
+    "E05013654": {
+      "code": "E05013654",
+      "name": "Camden Square",
+      "ladCode": "E09000007",
+      "crimes": 690,
+      "population": 7555,
+      "crimesPer1000": 91.3
+    },
+    "E05013655": {
+      "code": "E05013655",
+      "name": "Camden Town",
+      "ladCode": "E09000007",
+      "crimes": 3084,
+      "population": 6389,
+      "crimesPer1000": 482.7
+    },
+    "E05013662": {
+      "code": "E05013662",
+      "name": "Holborn & Covent Garden",
+      "ladCode": "E09000007",
+      "crimes": 5230,
+      "population": 10359,
+      "crimesPer1000": 504.9
+    },
+    "E05013663": {
+      "code": "E05013663",
+      "name": "Kentish Town North",
+      "ladCode": "E09000007",
+      "crimes": 676,
+      "population": 7156,
+      "crimesPer1000": 94.5
+    },
+    "E05013664": {
+      "code": "E05013664",
+      "name": "Kentish Town South",
+      "ladCode": "E09000007",
+      "crimes": 1320,
+      "population": 10421,
+      "crimesPer1000": 126.7
+    },
+    "E05013666": {
+      "code": "E05013666",
+      "name": "King's Cross",
+      "ladCode": "E09000007",
+      "crimes": 3077,
+      "population": 11462,
+      "crimesPer1000": 268.5
+    },
+    "E05013679": {
+      "code": "E05013679",
+      "name": "Edmonton Green",
+      "ladCode": "E09000010",
+      "crimes": 2893,
+      "population": 17132,
+      "crimesPer1000": 168.9
+    },
+    "E05013685": {
+      "code": "E05013685",
+      "name": "Lower Edmonton",
+      "ladCode": "E09000010",
+      "crimes": 1488,
+      "population": 16554,
+      "crimesPer1000": 89.9
+    },
+    "E05013694": {
+      "code": "E05013694",
+      "name": "Upper Edmonton",
+      "ladCode": "E09000010",
+      "crimes": 2505,
+      "population": 16724,
+      "crimesPer1000": 149.8
+    },
+    "E05013698": {
+      "code": "E05013698",
       "name": "Barnsbury",
       "ladCode": "E09000019",
-      "crimes": 2096,
-      "population": 12201,
-      "crimesPer1000": 171.8
+      "crimes": 1686,
+      "population": 11710,
+      "crimesPer1000": 144
     },
-    "E05000369": {
-      "code": "E05000369",
+    "E05013701": {
+      "code": "E05013701",
       "name": "Canonbury",
       "ladCode": "E09000019",
-      "crimes": 1342,
-      "population": 12072,
-      "crimesPer1000": 111.2
+      "crimes": 1132,
+      "population": 12666,
+      "crimesPer1000": 89.4
     },
-    "E05000379": {
-      "code": "E05000379",
-      "name": "St Mary's",
+    "E05013708": {
+      "code": "E05013708",
+      "name": "Laycock",
       "ladCode": "E09000019",
-      "crimes": 3398,
-      "population": 11553,
-      "crimesPer1000": 294.1
+      "crimes": 1940,
+      "population": 12442,
+      "crimesPer1000": 155.9
     },
-    "E05000380": {
-      "code": "E05000380",
-      "name": "St Peter's",
+    "E05013710": {
+      "code": "E05013710",
+      "name": "St Mary's & St James'",
       "ladCode": "E09000019",
-      "crimes": 1951,
-      "population": 11822,
-      "crimesPer1000": 165
+      "crimes": 1985,
+      "population": 11888,
+      "crimesPer1000": 167
     },
-    "E05000400": {
-      "code": "E05000400",
-      "name": "Alexandra",
-      "ladCode": "E09000021",
-      "crimes": 599,
-      "population": 9246,
-      "crimesPer1000": 64.8
+    "E05013711": {
+      "code": "E05013711",
+      "name": "St Peter's & Canalside",
+      "ladCode": "E09000019",
+      "crimes": 1448,
+      "population": 11622,
+      "crimesPer1000": 124.6
     },
-    "E05000401": {
-      "code": "E05000401",
-      "name": "Berrylands",
-      "ladCode": "E09000021",
-      "crimes": 665,
-      "population": 9437,
-      "crimesPer1000": 70.5
-    },
-    "E05000402": {
-      "code": "E05000402",
-      "name": "Beverley",
-      "ladCode": "E09000021",
-      "crimes": 1036,
-      "population": 10109,
-      "crimesPer1000": 102.5
-    },
-    "E05000403": {
-      "code": "E05000403",
-      "name": "Canbury",
-      "ladCode": "E09000021",
-      "crimes": 996,
-      "population": 12373,
-      "crimesPer1000": 80.5
-    },
-    "E05000408": {
-      "code": "E05000408",
-      "name": "Grove",
-      "ladCode": "E09000021",
-      "crimes": 4671,
-      "population": 10955,
-      "crimesPer1000": 426.4
-    },
-    "E05000409": {
-      "code": "E05000409",
-      "name": "Norbiton",
-      "ladCode": "E09000021",
-      "crimes": 789,
-      "population": 10107,
-      "crimesPer1000": 78.1
-    },
-    "E05000411": {
-      "code": "E05000411",
-      "name": "St James",
-      "ladCode": "E09000021",
-      "crimes": 519,
-      "population": 8969,
-      "crimesPer1000": 57.9
-    },
-    "E05000417": {
-      "code": "E05000417",
-      "name": "Brixton Hill",
-      "ladCode": "E09000022",
-      "crimes": 1937,
-      "population": 15842,
-      "crimesPer1000": 122.3
-    },
-    "E05000418": {
-      "code": "E05000418",
-      "name": "Clapham Common",
-      "ladCode": "E09000022",
-      "crimes": 1462,
-      "population": 12852,
-      "crimesPer1000": 113.8
-    },
-    "E05000419": {
-      "code": "E05000419",
-      "name": "Clapham Town",
-      "ladCode": "E09000022",
-      "crimes": 3103,
-      "population": 13795,
-      "crimesPer1000": 224.9
-    },
-    "E05000420": {
-      "code": "E05000420",
-      "name": "Coldharbour",
-      "ladCode": "E09000022",
-      "crimes": 4462,
-      "population": 16784,
-      "crimesPer1000": 265.8
-    },
-    "E05000421": {
-      "code": "E05000421",
-      "name": "Ferndale",
-      "ladCode": "E09000022",
-      "crimes": 2999,
-      "population": 15032,
-      "crimesPer1000": 199.5
-    },
-    "E05000446": {
-      "code": "E05000446",
+    "E05013725": {
+      "code": "E05013725",
       "name": "Ladywell",
       "ladCode": "E09000023",
-      "crimes": 1048,
-      "population": 14515,
-      "crimesPer1000": 72.2
+      "crimes": 1673,
+      "population": 15576,
+      "crimesPer1000": 107.4
     },
-    "E05000448": {
-      "code": "E05000448",
+    "E05013727": {
+      "code": "E05013727",
       "name": "Lewisham Central",
       "ladCode": "E09000023",
-      "crimes": 4902,
-      "population": 17446,
-      "crimesPer1000": 281
+      "crimes": 2238,
+      "population": 8199,
+      "crimesPer1000": 273
     },
-    "E05000451": {
-      "code": "E05000451",
+    "E05013730": {
+      "code": "E05013730",
       "name": "Rushey Green",
       "ladCode": "E09000023",
-      "crimes": 3216,
-      "population": 14916,
-      "crimesPer1000": 215.6
+      "crimes": 2758,
+      "population": 19019,
+      "crimesPer1000": 145
     },
-    "E05000455": {
-      "code": "E05000455",
-      "name": "Abbey",
-      "ladCode": "E09000024",
-      "crimes": 1010,
-      "population": 10323,
-      "crimesPer1000": 97.8
+    "E05013734": {
+      "code": "E05013734",
+      "name": "Avonmore",
+      "ladCode": "E09000013",
+      "crimes": 525,
+      "population": 7530,
+      "crimesPer1000": 69.7
     },
-    "E05000459": {
-      "code": "E05000459",
-      "name": "Dundonald",
-      "ladCode": "E09000024",
-      "crimes": 656,
-      "population": 9275,
-      "crimesPer1000": 70.7
+    "E05013735": {
+      "code": "E05013735",
+      "name": "Brook Green",
+      "ladCode": "E09000013",
+      "crimes": 1021,
+      "population": 8250,
+      "crimesPer1000": 123.8
     },
-    "E05000462": {
-      "code": "E05000462",
-      "name": "Hillside",
-      "ladCode": "E09000024",
-      "crimes": 580,
-      "population": 8977,
-      "crimesPer1000": 64.6
+    "E05013737": {
+      "code": "E05013737",
+      "name": "Coningham",
+      "ladCode": "E09000013",
+      "crimes": 1038,
+      "population": 10584,
+      "crimesPer1000": 98.1
     },
-    "E05000466": {
-      "code": "E05000466",
-      "name": "Merton Park",
-      "ladCode": "E09000024",
-      "crimes": 972,
-      "population": 9485,
-      "crimesPer1000": 102.5
+    "E05013739": {
+      "code": "E05013739",
+      "name": "Fulham Town",
+      "ladCode": "E09000013",
+      "crimes": 571,
+      "population": 7391,
+      "crimesPer1000": 77.3
     },
-    "E05000471": {
-      "code": "E05000471",
-      "name": "Trinity",
-      "ladCode": "E09000024",
-      "crimes": 1042,
-      "population": 9798,
-      "crimesPer1000": 106.3
+    "E05013740": {
+      "code": "E05013740",
+      "name": "Grove",
+      "ladCode": "E09000013",
+      "crimes": 424,
+      "population": 7247,
+      "crimesPer1000": 58.5
     },
-    "E05000472": {
-      "code": "E05000472",
-      "name": "Village",
-      "ladCode": "E09000024",
-      "crimes": 458,
-      "population": 8491,
-      "crimesPer1000": 53.9
+    "E05013741": {
+      "code": "E05013741",
+      "name": "Hammersmith Broadway",
+      "ladCode": "E09000013",
+      "crimes": 2156,
+      "population": 7850,
+      "crimesPer1000": 274.6
     },
-    "E05000474": {
-      "code": "E05000474",
-      "name": "Wimbledon Park",
-      "ladCode": "E09000024",
-      "crimes": 893,
-      "population": 11197,
-      "crimesPer1000": 79.8
+    "E05013742": {
+      "code": "E05013742",
+      "name": "Lillie",
+      "ladCode": "E09000013",
+      "crimes": 642,
+      "population": 6709,
+      "crimesPer1000": 95.7
     },
-    "E05000477": {
-      "code": "E05000477",
-      "name": "Canning Town North",
-      "ladCode": "E09000025",
-      "crimes": 2799,
-      "population": 14810,
-      "crimesPer1000": 189
+    "E05013743": {
+      "code": "E05013743",
+      "name": "Munster",
+      "ladCode": "E09000013",
+      "crimes": 649,
+      "population": 12136,
+      "crimesPer1000": 53.5
     },
-    "E05000478": {
-      "code": "E05000478",
-      "name": "Canning Town South",
-      "ladCode": "E09000025",
-      "crimes": 3079,
-      "population": 15996,
-      "crimesPer1000": 192.5
+    "E05013745": {
+      "code": "E05013745",
+      "name": "Parsons Green & Sandford",
+      "ladCode": "E09000013",
+      "crimes": 652,
+      "population": 7727,
+      "crimesPer1000": 84.4
     },
-    "E05000479": {
-      "code": "E05000479",
-      "name": "Custom House",
-      "ladCode": "E09000025",
-      "crimes": 2264,
-      "population": 13411,
-      "crimesPer1000": 168.8
+    "E05013746": {
+      "code": "E05013746",
+      "name": "Ravenscourt",
+      "ladCode": "E09000013",
+      "crimes": 819,
+      "population": 6932,
+      "crimesPer1000": 118.1
     },
-    "E05000492": {
-      "code": "E05000492",
-      "name": "Stratford and New Town",
-      "ladCode": "E09000025",
-      "crimes": 10411,
-      "population": 17768,
-      "crimesPer1000": 585.9
+    "E05013747": {
+      "code": "E05013747",
+      "name": "Sands End",
+      "ladCode": "E09000013",
+      "crimes": 731,
+      "population": 11129,
+      "crimesPer1000": 65.7
     },
-    "E05000494": {
-      "code": "E05000494",
-      "name": "West Ham",
-      "ladCode": "E09000025",
-      "crimes": 1518,
-      "population": 15551,
-      "crimesPer1000": 97.6
+    "E05013748": {
+      "code": "E05013748",
+      "name": "Shepherd's Bush Green",
+      "ladCode": "E09000013",
+      "crimes": 3046,
+      "population": 5570,
+      "crimesPer1000": 546.9
     },
-    "E05000522": {
-      "code": "E05000522",
-      "name": "Hampton Wick",
-      "ladCode": "E09000027",
-      "crimes": 582,
-      "population": 10221,
-      "crimesPer1000": 56.9
+    "E05013749": {
+      "code": "E05013749",
+      "name": "Walham Green",
+      "ladCode": "E09000013",
+      "crimes": 1162,
+      "population": 7952,
+      "crimesPer1000": 146.1
     },
-    "E05000526": {
-      "code": "E05000526",
-      "name": "North Richmond",
-      "ladCode": "E09000027",
-      "crimes": 908,
-      "population": 10649,
-      "crimesPer1000": 85.3
+    "E05013750": {
+      "code": "E05013750",
+      "name": "Wendell Park",
+      "ladCode": "E09000013",
+      "crimes": 310,
+      "population": 7419,
+      "crimesPer1000": 41.8
     },
-    "E05000528": {
-      "code": "E05000528",
-      "name": "South Richmond",
-      "ladCode": "E09000027",
-      "crimes": 1656,
-      "population": 10820,
-      "crimesPer1000": 153
+    "E05013752": {
+      "code": "E05013752",
+      "name": "White City",
+      "ladCode": "E09000013",
+      "crimes": 844,
+      "population": 10393,
+      "crimesPer1000": 81.2
     },
-    "E05000529": {
-      "code": "E05000529",
-      "name": "South Twickenham",
-      "ladCode": "E09000027",
-      "crimes": 472,
-      "population": 9987,
-      "crimesPer1000": 47.3
+    "E05013753": {
+      "code": "E05013753",
+      "name": "Wormholt",
+      "ladCode": "E09000013",
+      "crimes": 431,
+      "population": 7985,
+      "crimesPer1000": 54
     },
-    "E05000530": {
-      "code": "E05000530",
-      "name": "Teddington",
-      "ladCode": "E09000027",
-      "crimes": 749,
-      "population": 10330,
-      "crimesPer1000": 72.5
-    },
-    "E05000531": {
-      "code": "E05000531",
-      "name": "Twickenham Riverside",
-      "ladCode": "E09000027",
-      "crimes": 1206,
-      "population": 10396,
-      "crimesPer1000": 116
-    },
-    "E05000536": {
-      "code": "E05000536",
-      "name": "Cathedrals",
-      "ladCode": "E09000028",
-      "crimes": 6670,
-      "population": 14941,
-      "crimesPer1000": 446.4
-    },
-    "E05000537": {
-      "code": "E05000537",
-      "name": "Chaucer",
-      "ladCode": "E09000028",
-      "crimes": 3474,
-      "population": 15178,
-      "crimesPer1000": 228.9
-    },
-    "E05000542": {
-      "code": "E05000542",
-      "name": "Grange",
-      "ladCode": "E09000028",
-      "crimes": 3485,
-      "population": 15362,
-      "crimesPer1000": 226.9
-    },
-    "E05000546": {
-      "code": "E05000546",
-      "name": "Peckham",
-      "ladCode": "E09000028",
-      "crimes": 2342,
-      "population": 14720,
-      "crimesPer1000": 159.1
-    },
-    "E05000547": {
-      "code": "E05000547",
-      "name": "Peckham Rye",
-      "ladCode": "E09000028",
-      "crimes": 1015,
-      "population": 13518,
-      "crimesPer1000": 75.1
-    },
-    "E05000548": {
-      "code": "E05000548",
-      "name": "Riverside",
-      "ladCode": "E09000028",
-      "crimes": 3167,
-      "population": 14390,
-      "crimesPer1000": 220.1
-    },
-    "E05000553": {
-      "code": "E05000553",
-      "name": "The Lane",
-      "ladCode": "E09000028",
-      "crimes": 3394,
-      "population": 15565,
-      "crimesPer1000": 218.1
-    },
-    "E05000560": {
-      "code": "E05000560",
+    "E05013758": {
+      "code": "E05013758",
       "name": "Cheam",
       "ladCode": "E09000029",
-      "crimes": 514,
-      "population": 10285,
-      "crimesPer1000": 50
+      "crimes": 413,
+      "population": 10810,
+      "crimesPer1000": 38.2
     },
-    "E05000561": {
-      "code": "E05000561",
-      "name": "Nonsuch",
+    "E05013760": {
+      "code": "E05013760",
+      "name": "North Cheam",
       "ladCode": "E09000029",
-      "crimes": 739,
-      "population": 10641,
-      "crimesPer1000": 69.4
+      "crimes": 543,
+      "population": 11161,
+      "crimesPer1000": 48.7
     },
-    "E05000563": {
-      "code": "E05000563",
+    "E05013764": {
+      "code": "E05013764",
       "name": "Stonecot",
       "ladCode": "E09000029",
-      "crimes": 686,
-      "population": 10712,
-      "crimesPer1000": 64
+      "crimes": 428,
+      "population": 8279,
+      "crimesPer1000": 51.7
     },
-    "E05000564": {
-      "code": "E05000564",
+    "E05013765": {
+      "code": "E05013765",
       "name": "Sutton Central",
       "ladCode": "E09000029",
-      "crimes": 2351,
-      "population": 10993,
-      "crimesPer1000": 213.9
+      "crimes": 1977,
+      "population": 12566,
+      "crimesPer1000": 157.3
     },
-    "E05000565": {
-      "code": "E05000565",
+    "E05013766": {
+      "code": "E05013766",
       "name": "Sutton North",
       "ladCode": "E09000029",
-      "crimes": 782,
-      "population": 10355,
-      "crimesPer1000": 75.5
+      "crimes": 568,
+      "population": 11296,
+      "crimesPer1000": 50.3
     },
-    "E05000566": {
-      "code": "E05000566",
+    "E05013767": {
+      "code": "E05013767",
       "name": "Sutton South",
       "ladCode": "E09000029",
-      "crimes": 754,
-      "population": 9599,
-      "crimesPer1000": 78.5
+      "crimes": 635,
+      "population": 12247,
+      "crimesPer1000": 51.8
     },
-    "E05000567": {
-      "code": "E05000567",
-      "name": "Sutton West",
+    "E05013768": {
+      "code": "E05013768",
+      "name": "Sutton West & East Cheam",
       "ladCode": "E09000029",
-      "crimes": 788,
-      "population": 10536,
-      "crimesPer1000": 74.8
+      "crimes": 467,
+      "population": 10907,
+      "crimesPer1000": 42.8
     },
-    "E05000569": {
-      "code": "E05000569",
+    "E05013770": {
+      "code": "E05013770",
       "name": "Wallington North",
       "ladCode": "E09000029",
-      "crimes": 800,
-      "population": 10650,
-      "crimesPer1000": 75.1
+      "crimes": 608,
+      "population": 12236,
+      "crimesPer1000": 49.7
     },
-    "E05000570": {
-      "code": "E05000570",
+    "E05013771": {
+      "code": "E05013771",
       "name": "Wallington South",
       "ladCode": "E09000029",
-      "crimes": 925,
-      "population": 10200,
-      "crimesPer1000": 90.7
+      "crimes": 765,
+      "population": 11048,
+      "crimesPer1000": 69.2
     },
-    "E05000572": {
-      "code": "E05000572",
-      "name": "Worcester Park",
+    "E05013772": {
+      "code": "E05013772",
+      "name": "Worcester Park North",
       "ladCode": "E09000029",
-      "crimes": 687,
-      "population": 11655,
-      "crimesPer1000": 58.9
+      "crimes": 385,
+      "population": 8424,
+      "crimesPer1000": 45.7
     },
-    "E05000573": {
-      "code": "E05000573",
-      "name": "Bethnal Green North",
-      "ladCode": "E09000030",
-      "crimes": 2046,
-      "population": 13683,
-      "crimesPer1000": 149.5
+    "E05013773": {
+      "code": "E05013773",
+      "name": "Worcester Park South",
+      "ladCode": "E09000029",
+      "crimes": 216,
+      "population": 7071,
+      "crimesPer1000": 30.5
     },
-    "E05000574": {
-      "code": "E05000574",
-      "name": "Bethnal Green South",
-      "ladCode": "E09000030",
-      "crimes": 3696,
-      "population": 14166,
-      "crimesPer1000": 260.9
+    "E05013780": {
+      "code": "E05013780",
+      "name": "Hampton Wick & South Teddington",
+      "ladCode": "E09000027",
+      "crimes": 418,
+      "population": 10755,
+      "crimesPer1000": 38.9
     },
-    "E05000599": {
-      "code": "E05000599",
+    "E05013784": {
+      "code": "E05013784",
+      "name": "North Richmond",
+      "ladCode": "E09000027",
+      "crimes": 624,
+      "population": 10629,
+      "crimesPer1000": 58.7
+    },
+    "E05013786": {
+      "code": "E05013786",
+      "name": "South Richmond",
+      "ladCode": "E09000027",
+      "crimes": 1224,
+      "population": 11081,
+      "crimesPer1000": 110.5
+    },
+    "E05013787": {
+      "code": "E05013787",
+      "name": "South Twickenham",
+      "ladCode": "E09000027",
+      "crimes": 378,
+      "population": 10629,
+      "crimesPer1000": 35.6
+    },
+    "E05013788": {
+      "code": "E05013788",
+      "name": "Teddington",
+      "ladCode": "E09000027",
+      "crimes": 569,
+      "population": 10562,
+      "crimesPer1000": 53.9
+    },
+    "E05013789": {
+      "code": "E05013789",
+      "name": "Twickenham Riverside",
+      "ladCode": "E09000027",
+      "crimes": 937,
+      "population": 10992,
+      "crimesPer1000": 85.2
+    },
+    "E05013810": {
+      "code": "E05013810",
+      "name": "Abbey",
+      "ladCode": "E09000024",
+      "crimes": 599,
+      "population": 10534,
+      "crimesPer1000": 56.9
+    },
+    "E05013816": {
+      "code": "E05013816",
+      "name": "Hillside",
+      "ladCode": "E09000024",
+      "crimes": 534,
+      "population": 8242,
+      "crimesPer1000": 64.8
+    },
+    "E05013820": {
+      "code": "E05013820",
+      "name": "Merton Park",
+      "ladCode": "E09000024",
+      "crimes": 616,
+      "population": 8294,
+      "crimesPer1000": 74.3
+    },
+    "E05013825": {
+      "code": "E05013825",
+      "name": "Village",
+      "ladCode": "E09000024",
+      "crimes": 437,
+      "population": 11804,
+      "crimesPer1000": 37
+    },
+    "E05013826": {
+      "code": "E05013826",
+      "name": "Wandle",
+      "ladCode": "E09000024",
+      "crimes": 420,
+      "population": 5603,
+      "crimesPer1000": 75
+    },
+    "E05013828": {
+      "code": "E05013828",
+      "name": "Wimbledon Park",
+      "ladCode": "E09000024",
+      "crimes": 582,
+      "population": 11071,
+      "crimesPer1000": 52.6
+    },
+    "E05013829": {
+      "code": "E05013829",
+      "name": "Wimbledon Town & Dundonald",
+      "ladCode": "E09000024",
+      "crimes": 960,
+      "population": 12966,
+      "crimesPer1000": 74
+    },
+    "E05013891": {
+      "code": "E05013891",
       "name": "High Street",
       "ladCode": "E09000031",
-      "crimes": 2768,
-      "population": 14127,
-      "crimesPer1000": 195.9
+      "crimes": 1971,
+      "population": 11564,
+      "crimesPer1000": 170.4
     },
-    "E05000601": {
-      "code": "E05000601",
+    "E05013893": {
+      "code": "E05013893",
       "name": "Hoe Street",
       "ladCode": "E09000031",
-      "crimes": 1759,
-      "population": 13912,
-      "crimesPer1000": 126.4
+      "crimes": 1168,
+      "population": 14276,
+      "crimesPer1000": 81.8
     },
-    "E05000606": {
-      "code": "E05000606",
+    "E05013898": {
+      "code": "E05013898",
       "name": "Markhouse",
       "ladCode": "E09000031",
-      "crimes": 1485,
-      "population": 13636,
-      "crimesPer1000": 108.9
+      "crimes": 679,
+      "population": 9274,
+      "crimesPer1000": 73.2
     },
-    "E05000608": {
-      "code": "E05000608",
+    "E05013899": {
+      "code": "E05013899",
+      "name": "St James",
+      "ladCode": "E09000031",
+      "crimes": 960,
+      "population": 11747,
+      "crimesPer1000": 81.7
+    },
+    "E05013902": {
+      "code": "E05013902",
       "name": "William Morris",
       "ladCode": "E09000031",
-      "crimes": 1683,
-      "population": 13269,
-      "crimesPer1000": 126.8
+      "crimes": 835,
+      "population": 15059,
+      "crimesPer1000": 55.4
     },
-    "E05000610": {
-      "code": "E05000610",
+    "E05013906": {
+      "code": "E05013906",
+      "name": "Canning Town North",
+      "ladCode": "E09000025",
+      "crimes": 1632,
+      "population": 10573,
+      "crimesPer1000": 154.4
+    },
+    "E05013907": {
+      "code": "E05013907",
+      "name": "Canning Town South",
+      "ladCode": "E09000025",
+      "crimes": 1221,
+      "population": 7121,
+      "crimesPer1000": 171.5
+    },
+    "E05013908": {
+      "code": "E05013908",
+      "name": "Custom House",
+      "ladCode": "E09000025",
+      "crimes": 1692,
+      "population": 17658,
+      "crimesPer1000": 95.8
+    },
+    "E05013917": {
+      "code": "E05013917",
+      "name": "Maryland",
+      "ladCode": "E09000025",
+      "crimes": 1245,
+      "population": 12455,
+      "crimesPer1000": 100
+    },
+    "E05013920": {
+      "code": "E05013920",
+      "name": "Plaistow West & Canning Town East",
+      "ladCode": "E09000025",
+      "crimes": 1418,
+      "population": 16696,
+      "crimesPer1000": 84.9
+    },
+    "E05013923": {
+      "code": "E05013923",
+      "name": "Royal Victoria",
+      "ladCode": "E09000025",
+      "crimes": 1730,
+      "population": 14538,
+      "crimesPer1000": 119
+    },
+    "E05013924": {
+      "code": "E05013924",
+      "name": "Stratford",
+      "ladCode": "E09000025",
+      "crimes": 3121,
+      "population": 15742,
+      "crimesPer1000": 198.3
+    },
+    "E05013925": {
+      "code": "E05013925",
+      "name": "Stratford Olympic Park",
+      "ladCode": "E09000025",
+      "crimes": 4495,
+      "population": 11862,
+      "crimesPer1000": 378.9
+    },
+    "E05013927": {
+      "code": "E05013927",
+      "name": "West Ham",
+      "ladCode": "E09000025",
+      "crimes": 1139,
+      "population": 15700,
+      "crimesPer1000": 72.5
+    },
+    "E05013928": {
+      "code": "E05013928",
+      "name": "Alexandra",
+      "ladCode": "E09000021",
+      "crimes": 342,
+      "population": 6413,
+      "crimesPer1000": 53.3
+    },
+    "E05013929": {
+      "code": "E05013929",
+      "name": "Berrylands",
+      "ladCode": "E09000021",
+      "crimes": 200,
+      "population": 6112,
+      "crimesPer1000": 32.7
+    },
+    "E05013930": {
+      "code": "E05013930",
+      "name": "Canbury Gardens",
+      "ladCode": "E09000021",
+      "crimes": 421,
+      "population": 8261,
+      "crimesPer1000": 51
+    },
+    "E05013934": {
+      "code": "E05013934",
+      "name": "Green Lane & St James",
+      "ladCode": "E09000021",
+      "crimes": 298,
+      "population": 7051,
+      "crimesPer1000": 42.3
+    },
+    "E05013937": {
+      "code": "E05013937",
+      "name": "Kingston Gate",
+      "ladCode": "E09000021",
+      "crimes": 441,
+      "population": 10825,
+      "crimesPer1000": 40.7
+    },
+    "E05013938": {
+      "code": "E05013938",
+      "name": "Kingston Town",
+      "ladCode": "E09000021",
+      "crimes": 3587,
+      "population": 10289,
+      "crimesPer1000": 348.6
+    },
+    "E05013939": {
+      "code": "E05013939",
+      "name": "Motspur Park & Old Malden East",
+      "ladCode": "E09000021",
+      "crimes": 245,
+      "population": 6991,
+      "crimesPer1000": 35
+    },
+    "E05013940": {
+      "code": "E05013940",
+      "name": "New Malden Village",
+      "ladCode": "E09000021",
+      "crimes": 630,
+      "population": 9583,
+      "crimesPer1000": 65.7
+    },
+    "E05013941": {
+      "code": "E05013941",
+      "name": "Norbiton",
+      "ladCode": "E09000021",
+      "crimes": 650,
+      "population": 11187,
+      "crimesPer1000": 58.1
+    },
+    "E05013991": {
+      "code": "E05013991",
+      "name": "Bromley Town",
+      "ladCode": "E09000006",
+      "crimes": 2945,
+      "population": 15400,
+      "crimesPer1000": 191.2
+    },
+    "E05013995": {
+      "code": "E05013995",
+      "name": "Crystal Palace & Anerley",
+      "ladCode": "E09000006",
+      "crimes": 1149,
+      "population": 12029,
+      "crimesPer1000": 95.5
+    },
+    "E05013997": {
+      "code": "E05013997",
+      "name": "Farnborough & Crofton",
+      "ladCode": "E09000006",
+      "crimes": 943,
+      "population": 17703,
+      "crimesPer1000": 53.3
+    },
+    "E05014001": {
+      "code": "E05014001",
+      "name": "Orpington",
+      "ladCode": "E09000006",
+      "crimes": 1117,
+      "population": 11960,
+      "crimesPer1000": 93.4
+    },
+    "E05014002": {
+      "code": "E05014002",
+      "name": "Penge & Cator",
+      "ladCode": "E09000006",
+      "crimes": 1986,
+      "population": 18908,
+      "crimesPer1000": 105
+    },
+    "E05014003": {
+      "code": "E05014003",
+      "name": "Petts Wood & Knoll",
+      "ladCode": "E09000006",
+      "crimes": 646,
+      "population": 17260,
+      "crimesPer1000": 37.4
+    },
+    "E05014004": {
+      "code": "E05014004",
+      "name": "Plaistow",
+      "ladCode": "E09000006",
+      "crimes": 781,
+      "population": 13478,
+      "crimesPer1000": 57.9
+    },
+    "E05014005": {
+      "code": "E05014005",
+      "name": "Shortlands & Park Langley",
+      "ladCode": "E09000006",
+      "crimes": 586,
+      "population": 16210,
+      "crimesPer1000": 36.2
+    },
+    "E05014009": {
+      "code": "E05014009",
       "name": "Balham",
       "ladCode": "E09000032",
-      "crimes": 2152,
-      "population": 14751,
-      "crimesPer1000": 145.9
+      "crimes": 1741,
+      "population": 17707,
+      "crimesPer1000": 98.3
     },
-    "E05000611": {
-      "code": "E05000611",
-      "name": "Bedford",
-      "ladCode": "E09000032",
-      "crimes": 1169,
-      "population": 14575,
-      "crimesPer1000": 80.2
-    },
-    "E05000612": {
-      "code": "E05000612",
-      "name": "Earlsfield",
-      "ladCode": "E09000032",
-      "crimes": 1172,
-      "population": 15448,
-      "crimesPer1000": 75.9
-    },
-    "E05000613": {
-      "code": "E05000613",
+    "E05014011": {
+      "code": "E05014011",
       "name": "East Putney",
       "ladCode": "E09000032",
-      "crimes": 1124,
-      "population": 15022,
-      "crimesPer1000": 74.8
+      "crimes": 970,
+      "population": 16918,
+      "crimesPer1000": 57.3
     },
-    "E05000615": {
-      "code": "E05000615",
+    "E05014013": {
+      "code": "E05014013",
       "name": "Furzedown",
       "ladCode": "E09000032",
-      "crimes": 1187,
-      "population": 15504,
-      "crimesPer1000": 76.6
+      "crimes": 1074,
+      "population": 18053,
+      "crimesPer1000": 59.5
     },
-    "E05000616": {
-      "code": "E05000616",
-      "name": "Graveney",
+    "E05014020": {
+      "code": "E05014020",
+      "name": "South Balham",
       "ladCode": "E09000032",
-      "crimes": 2119,
-      "population": 15198,
-      "crimesPer1000": 139.4
+      "crimes": 656,
+      "population": 9828,
+      "crimesPer1000": 66.7
     },
-    "E05000618": {
-      "code": "E05000618",
-      "name": "Nightingale",
-      "ladCode": "E09000032",
-      "crimes": 1117,
-      "population": 14679,
-      "crimesPer1000": 76.1
-    },
-    "E05000624": {
-      "code": "E05000624",
+    "E05014021": {
+      "code": "E05014021",
       "name": "Southfields",
       "ladCode": "E09000032",
-      "crimes": 1486,
-      "population": 16256,
-      "crimesPer1000": 91.4
+      "crimes": 582,
+      "population": 12659,
+      "crimesPer1000": 46
     },
-    "E05000625": {
-      "code": "E05000625",
+    "E05014022": {
+      "code": "E05014022",
       "name": "Thamesfield",
       "ladCode": "E09000032",
-      "crimes": 1767,
-      "population": 14842,
-      "crimesPer1000": 119.1
+      "crimes": 1407,
+      "population": 16717,
+      "crimesPer1000": 84.2
     },
-    "E05000626": {
-      "code": "E05000626",
-      "name": "Tooting",
+    "E05014023": {
+      "code": "E05014023",
+      "name": "Tooting Bec",
       "ladCode": "E09000032",
-      "crimes": 1778,
-      "population": 16239,
-      "crimesPer1000": 109.5
+      "crimes": 921,
+      "population": 17028,
+      "crimesPer1000": 54.1
     },
-    "E05000627": {
-      "code": "E05000627",
+    "E05014024": {
+      "code": "E05014024",
+      "name": "Tooting Broadway",
+      "ladCode": "E09000032",
+      "crimes": 2315,
+      "population": 17218,
+      "crimesPer1000": 134.5
+    },
+    "E05014025": {
+      "code": "E05014025",
+      "name": "Trinity",
+      "ladCode": "E09000032",
+      "crimes": 565,
+      "population": 11183,
+      "crimesPer1000": 50.5
+    },
+    "E05014026": {
+      "code": "E05014026",
+      "name": "Wandle",
+      "ladCode": "E09000032",
+      "crimes": 595,
+      "population": 10585,
+      "crimesPer1000": 56.2
+    },
+    "E05014027": {
+      "code": "E05014027",
       "name": "Wandsworth Common",
       "ladCode": "E09000032",
-      "crimes": 1590,
-      "population": 15247,
-      "crimesPer1000": 104.3
+      "crimes": 1506,
+      "population": 16593,
+      "crimesPer1000": 90.8
     },
-    "E05000628": {
-      "code": "E05000628",
+    "E05014029": {
+      "code": "E05014029",
       "name": "West Hill",
       "ladCode": "E09000032",
-      "crimes": 1164,
-      "population": 16402,
-      "crimesPer1000": 71
+      "crimes": 773,
+      "population": 16815,
+      "crimesPer1000": 46
     },
-    "E05000629": {
-      "code": "E05000629",
+    "E05014030": {
+      "code": "E05014030",
       "name": "West Putney",
       "ladCode": "E09000032",
-      "crimes": 1001,
-      "population": 14742,
-      "crimesPer1000": 67.9
+      "crimes": 996,
+      "population": 16908,
+      "crimesPer1000": 58.9
+    },
+    "E05014076": {
+      "code": "E05014076",
+      "name": "East Greenwich",
+      "ladCode": "E09000011",
+      "crimes": 1197,
+      "population": 14480,
+      "crimesPer1000": 82.7
+    },
+    "E05014080": {
+      "code": "E05014080",
+      "name": "Greenwich Creekside",
+      "ladCode": "E09000011",
+      "crimes": 1105,
+      "population": 11000,
+      "crimesPer1000": 100.5
+    },
+    "E05014081": {
+      "code": "E05014081",
+      "name": "Greenwich Park",
+      "ladCode": "E09000011",
+      "crimes": 1230,
+      "population": 10554,
+      "crimesPer1000": 116.5
+    },
+    "E05014082": {
+      "code": "E05014082",
+      "name": "Greenwich Peninsula",
+      "ladCode": "E09000011",
+      "crimes": 2334,
+      "population": 11417,
+      "crimesPer1000": 204.4
+    },
+    "E05014095": {
+      "code": "E05014095",
+      "name": "Brixton Acre Lane",
+      "ladCode": "E09000022",
+      "crimes": 1877,
+      "population": 15251,
+      "crimesPer1000": 123.1
+    },
+    "E05014096": {
+      "code": "E05014096",
+      "name": "Brixton North",
+      "ladCode": "E09000022",
+      "crimes": 1609,
+      "population": 16324,
+      "crimesPer1000": 98.6
+    },
+    "E05014098": {
+      "code": "E05014098",
+      "name": "Brixton Windrush",
+      "ladCode": "E09000022",
+      "crimes": 2746,
+      "population": 9482,
+      "crimesPer1000": 289.6
+    },
+    "E05014099": {
+      "code": "E05014099",
+      "name": "Clapham Common & Abbeville",
+      "ladCode": "E09000022",
+      "crimes": 791,
+      "population": 10017,
+      "crimesPer1000": 79
+    },
+    "E05014100": {
+      "code": "E05014100",
+      "name": "Clapham East",
+      "ladCode": "E09000022",
+      "crimes": 1710,
+      "population": 9845,
+      "crimesPer1000": 173.7
+    },
+    "E05014102": {
+      "code": "E05014102",
+      "name": "Clapham Town",
+      "ladCode": "E09000022",
+      "crimes": 2410,
+      "population": 15904,
+      "crimesPer1000": 151.5
     }
   }
 }

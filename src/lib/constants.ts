@@ -26,3 +26,9 @@ export const DEFAULT_BUDGET = 3500;
 export const MAX_MONTHLY_TRIPS = 31;
 export const NULL_COMMUTE_FALLBACK = 120;
 export const NULL_CRIME_FALLBACK = 300;
+
+// Straight-line walk model for the ward-level commute layer: crow-flies distance inflated by a
+// detour factor for real streets, at a steady pace. Used to split a location's commute across its
+// wards by how far each ward centre sits from each station.
+export const WALK_DETOUR_FACTOR = 1.3;
+export const WALK_SPEED_KMH = 4.8;

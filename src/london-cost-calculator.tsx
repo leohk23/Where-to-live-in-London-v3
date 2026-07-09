@@ -60,6 +60,8 @@ function LondonCostCalculator() {
   const [activePopover, setActivePopover] = useState<PopoverName | null>(null);
   const [largeText, setLargeText] = useState<boolean>(false);
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
+  // Shared so hovering a ward on the map and in the expanded row's ward card highlight each other.
+  const [hoveredWard, setHoveredWard] = useState<string | null>(null);
   const [pinnedLocation, setPinnedLocation] = useState<string | null>(null);
   // Set only by map clicks: asks the table to scroll to and expand this location.
   const [tableFocusRequest, setTableFocusRequest] = useState<{ location: string; requestId: number } | null>(null);
@@ -171,6 +173,12 @@ function LondonCostCalculator() {
     ? 'w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] sm:w-[42rem] md:w-[48rem] lg:w-[56rem] xl:w-[64rem]'
     : 'w-[calc(100vw-2rem)] max-w-[28rem]';
   const hasResults = calc.sortedResults.length > 0;
+  // Preset+static work destination per side — opens the full curated-station pool for ward commute
+  // (matches when result.commuteOptions come from the static matrix rather than a live fetch).
+  const wardCommuteDestinations: Array<string | null> = [
+    calc.workMode === 'preset' && calc.commuteSource === 'static' && calc.workLocation ? calc.workLocation : null,
+    calc.workMode2 === 'preset' && calc.commuteSource2 === 'static' && calc.workLocation2 ? calc.workLocation2 : null,
+  ];
   const activeMapLocation = calc.sortedResults.some(result => result.location === hoveredLocation)
     ? hoveredLocation
     : calc.sortedResults.some(result => result.location === pinnedLocation)
@@ -438,6 +446,9 @@ function LondonCostCalculator() {
                 childGender={calc.childGender}
                 schoolFaith={calc.schoolFaith}
                 onLocationHover={setHoveredLocation}
+                hoveredWard={hoveredWard}
+                onWardHover={setHoveredWard}
+                commuteDestinations={wardCommuteDestinations}
                 onLocationSelect={loc => {
                   const next = pinnedLocation === loc ? null : loc;
                   setPinnedLocation(next);
@@ -465,8 +476,14 @@ function LondonCostCalculator() {
                 onSort={calc.handleSort}
                 liveCommuteLoading={calc.liveCommuteLoading}
                 liveCommuteLoading2={calc.liveCommuteLoading2}
+                priorities={calc.priorities}
+                childGender={calc.childGender}
+                schoolFaith={calc.schoolFaith}
                 selectedLocation={activeMapLocation}
                 onLocationHover={setHoveredLocation}
+                hoveredWard={hoveredWard}
+                onWardHover={setHoveredWard}
+                commuteDestinations={wardCommuteDestinations}
                 onLocationSelect={loc => setPinnedLocation(cur => cur === loc ? null : loc)}
                 focusRequest={tableFocusRequest}
               />

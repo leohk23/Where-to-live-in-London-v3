@@ -64,7 +64,7 @@ export function crimeStatsForLocation(location: string, borough: string): {
 // with no data regeneration.
 const asianSpotList = asianSpotsJson as unknown as AsianSpotRecord[];
 
-function haversineKm(a: { lat: number; lon: number }, b: { lat: number; lon: number }): number {
+export function haversineKm(a: { lat: number; lon: number }, b: { lat: number; lon: number }): number {
   const R = 6371;
   const toRad = (d: number) => (d * Math.PI) / 180;
   const dLat = toRad(b.lat - a.lat);

@@ -21,8 +21,10 @@ import locationTransit from '../../data/generated/location-transit.json';
 import { trainInterval } from '../../data/service-frequency';
 import { expectedWaitMinutes, peakHeadwayMinutes } from '../../lib/commute-wait';
 import { asianSpots } from '../../data';
+import type { SchoolGender, SchoolFaith } from '../../data';
+import { computeWardScores, wardScoreColor, wardScoreInk, type WardScore } from '../map/ward-scores';
 import hkFlag from '../../assets/flag-hk.svg';
-import type { ScoredResult, SortColumn, NearbySchool, AsianSpot, AsianSpotType, SchoolScoreBreakdown, SchoolPhaseScore, CommuteStationOption } from '../../types';
+import type { ScoredResult, SortColumn, NearbySchool, AsianSpot, AsianSpotType, SchoolScoreBreakdown, SchoolPhaseScore, CommuteStationOption, Priorities } from '../../types';
 import type { WorkLocationKey } from '../../work-locations';
 
 type WorkMode = 'preset' | 'address';
@@ -42,6 +44,8 @@ interface Coordinate {
 interface LocationBoundary {
   anchor: Coordinate;
   boundaryName: string;
+  stations?: Array<{ key: string; lat: number; lon: number }>;
+  wards?: Array<{ code?: string; name: string; centroid: Coordinate; stations?: Array<{ naptan: string; name: string; lines: string[] }> }>;
 }
 
 const LOCATION_BOUNDARIES = locationWardPolygons as Record<string, LocationBoundary>;
@@ -61,7 +65,13 @@ interface Props {
   onSort: (col: SortColumn) => void;
   liveCommuteLoading: boolean;
   liveCommuteLoading2: boolean;
+  priorities: Priorities;
+  childGender: SchoolGender;
+  schoolFaith: SchoolFaith;
   onLocationHover?: (location: string | null) => void;
+  hoveredWard?: string | null;
+  onWardHover?: (ward: string | null) => void;
+  commuteDestinations?: Array<string | null>;
   selectedLocation?: string | null;
   onLocationSelect?: (location: string) => void;
   focusRequest?: { location: string; requestId: number } | null;
@@ -541,6 +551,100 @@ function GeographyCard({
   );
 }
 
+// Per-ward scores in the expanded row — the SAME numbers and colours as the big map's ward heatmap
+// (shared computeWardScores), ranked best → worst so you can see which corner of a merged area is
+// actually strong. The composite badge uses the ward-scale palette; the muted line shows the raw
+// commute / crime / school figures behind it, matching the map's ward tooltip.
+function WardScoresCard({
+  scores,
+  wards,
+  hoveredWard,
+  onWardHover,
+  className = '',
+}: {
+  scores: Map<string, WardScore>;
+  wards: string[];
+  hoveredWard?: string | null;
+  onWardHover?: (ward: string | null) => void;
+  className?: string;
+}) {
+  const rows = wards
+    .map(name => ({ name, score: scores.get(name) }))
+    .filter((r): r is { name: string; score: WardScore } => Boolean(r.score))
+    .sort((a, b) => b.score.composite - a.score.composite);
+  const label = rows[0]?.score.label ?? 'Ward score';
+  return (
+    <div className={`flex min-h-0 flex-col rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900 ${className}`}>
+      <div className="mb-1 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+        <MapPin className="h-4 w-4" />
+        {label} by ward
+      </div>
+      {rows.length <= 1 && (
+        <div className="mb-2 text-[11px] text-gray-500 dark:text-gray-400">
+          {rows.length ? 'Single ward — no within-area split.' : 'No ward-level data for this area.'}
+        </div>
+      )}
+      <ul className="flex flex-col gap-1 overflow-y-auto">
+        {rows.map(({ name, score }) => {
+          const st = score.stats;
+          const pStrong = st.primaryOutstandingSchools + st.primaryGoodSchools;
+          const sStrong = st.secondaryOutstandingSchools + st.secondaryGoodSchools;
+          const isHovered = hoveredWard === name;
+          return (
+            <li
+              key={name}
+              onMouseEnter={() => onWardHover?.(name)}
+              onMouseLeave={() => onWardHover?.(null)}
+              className={`flex flex-col gap-1 rounded border px-2 py-1.5 ${isHovered
+                ? 'border-teal-400 bg-teal-50 dark:border-teal-500 dark:bg-teal-900/30'
+                : 'border-gray-100 bg-gray-50 dark:border-gray-800 dark:bg-gray-800/60'}`}
+            >
+              <div className="flex items-center gap-2">
+                <span
+                  className="inline-flex h-6 w-8 shrink-0 items-center justify-center rounded text-[11px] font-bold tabular-nums"
+                  style={{ backgroundColor: wardScoreColor(score.composite), color: wardScoreInk(score.composite) }}
+                >
+                  {score.composite}
+                </span>
+                <span className="min-w-0 flex-1 truncate text-xs font-medium text-gray-800 dark:text-gray-100">{name}</span>
+              </div>
+              <div className="flex flex-col gap-0.5 pl-10 text-[10px] leading-tight tabular-nums text-gray-500 dark:text-gray-400">
+                {/* Walk to the nearest useful station, not a commute total — see WardScore.nearestStation
+                    doc: the Commute card already has the precise time for that station. */}
+                {score.nearestStation !== null && score.walkToStation !== null && (
+                  <div className="flex flex-wrap items-center gap-x-1.5">
+                    <span className="w-11 shrink-0 font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">Walk</span>
+                    <span className="text-gray-700 dark:text-gray-200">{Math.round(score.walkToStation)} min</span>
+                    <span>to {score.nearestStation}</span>
+                  </div>
+                )}
+                <div className="flex flex-wrap items-center gap-x-1.5">
+                  <span className="w-11 shrink-0 font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">Crime</span>
+                  {score.crimeRate !== null ? (
+                    <span className="text-gray-700 dark:text-gray-200">{Math.round(score.crimeRate)}/1k residents</span>
+                  ) : (
+                    <span>no ward-level data</span>
+                  )}
+                </div>
+                <div className="flex flex-wrap items-center gap-x-1.5">
+                  <span className="w-11 shrink-0 font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">School</span>
+                  <span className="text-gray-700 dark:text-gray-200">
+                    Primary {pStrong}/{st.primarySchools} strong{st.primaryOutstandingSchools ? ` (${st.primaryOutstandingSchools} Outstanding)` : ''}
+                  </span>
+                  <span>
+                    · Secondary {sStrong}/{st.secondarySchools} strong{st.secondaryOutstandingSchools ? ` (${st.secondaryOutstandingSchools} Outstanding)` : ''}
+                  </span>
+                  {st.grammarSchools > 0 && <span>· {st.grammarSchools} grammar</span>}
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
 function formatCommute(time: number | null, isLive: boolean) {
   if (time === null) return 'Unavailable';
   return `${time} min${isLive ? ' live' : ''}`;
@@ -720,27 +824,49 @@ function LocationDetailPanel({
   result,
   hasPartnerDestination,
   monthlyTrips,
+  priorities,
+  childGender,
+  schoolFaith,
+  maxGrammar,
+  hoveredWard,
+  onWardHover,
+  commuteDestinations,
 }: {
   result: ScoredResult;
   hasPartnerDestination: boolean;
   monthlyTrips: number;
+  priorities: Priorities;
+  childGender: SchoolGender;
+  schoolFaith: SchoolFaith;
+  maxGrammar: number;
+  hoveredWard?: string | null;
+  onWardHover?: (ward: string | null) => void;
+  commuteDestinations?: Array<string | null>;
 }) {
   // Split the transport total into each commuter's share (partner share is 0 when none set).
   const youTransportMonthly = result.farePerTrip * monthlyTrips;
   const partnerTransportMonthly = result.partnerFarePerTrip * monthlyTrips;
   const boundary = LOCATION_BOUNDARIES[result.location];
-  const anchor = boundary?.anchor;
   // The ward(s) the location's map polygon is built from (comma-joined in the data).
   const wards = boundary?.boundaryName ? boundary.boundaryName.split(', ') : [];
+  // Per-ward scores, identical to the big map's ward heatmap (same shared helper).
+  const wardScores = boundary
+    ? computeWardScores({ boundary, location: result.location, result, priorities, childGender, schoolFaith, maxGrammar, commuteDestinations })
+    : new Map<string, WardScore>();
+  // Stations sitting inside this area's wards that we don't yet model (no journey times) — shown as
+  // "nearby" placeholders in the Commute card. Deduped by name across wards, modes merged.
+  const nearbyStations = (() => {
+    const byName = new Map<string, { name: string; lines: string[] }>();
+    for (const w of boundary?.wards ?? []) for (const s of w.stations ?? []) {
+      const ex = byName.get(s.name);
+      if (ex) ex.lines = [...new Set([...ex.lines, ...s.lines])];
+      else byName.set(s.name, { name: s.name, lines: [...s.lines] });
+    }
+    return [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
+  })();
   // Train frequency for non-tube locations (undefined for turn-up-and-go tube/DLR/Elizabeth).
   // Multi-station areas show per-station frequency inside the commute rows instead.
   const freq = result.commuteOptions.length > 1 ? undefined : trainInterval[result.commuteStation];
-  const mapQuery = anchor
-    ? `${anchor.lat},${anchor.lon}`
-    : `${result.anchorStation}, London`;
-  const encodedMapQuery = encodeURIComponent(mapQuery);
-  const mapSrc = `https://www.google.com/maps?q=${encodedMapQuery}&z=14&output=embed`;
-  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodedMapQuery}`;
   // Grammar/selective schools are secondaries; in rated lists we only flag overlap,
   // while the Selective toggle shows the dedicated selective list.
   const grammarNames = new Set(result.nearestGrammarSchools.map(s => s.name));
@@ -811,51 +937,17 @@ function LocationDetailPanel({
   return (
     <div className="bg-gray-50 px-3 py-3 dark:bg-gray-800/80 sm:px-4 sm:py-4">
       <div className="grid items-start gap-3 xl:grid-cols-[minmax(16rem,0.75fr)_minmax(0,1.25fr)] xl:gap-4">
-        <div className="flex justify-end xl:hidden">
-          <span className="rounded bg-teal-100 px-2 py-1 text-xs font-medium text-teal-800 dark:bg-teal-500/15 dark:text-teal-200">
-            Station anchor
-          </span>
-        </div>
+        <WardScoresCard
+          scores={wardScores}
+          wards={wards}
+          hoveredWard={hoveredWard}
+          onWardHover={onWardHover}
+          className="min-h-[13rem] sm:min-h-[11rem] lg:min-h-[14rem] xl:col-start-1 xl:row-start-1 xl:min-h-full xl:max-h-[32rem] xl:self-stretch"
+        />
 
-        <div className="hidden flex-wrap items-start justify-between gap-3 xl:col-start-2 xl:row-start-1 xl:flex">
-          <div>
-            <div className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
-              <MapPin className="h-5 w-5 text-teal-600 dark:text-teal-300" />
-              {result.displayName}
-            </div>
-            <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              {result.borough} - {result.zone} - {result.reviewNote ?? 'Station-centric comparison anchor.'}
-            </div>
-          </div>
-          <span className="rounded bg-teal-100 px-2 py-1 text-xs font-medium text-teal-800 dark:bg-teal-500/15 dark:text-teal-200">
-            Station anchor
-          </span>
-        </div>
-
-        <div className="flex min-h-[13rem] flex-col overflow-hidden rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900 sm:min-h-[11rem] lg:min-h-[14rem] xl:col-start-1 xl:row-span-2 xl:row-start-1 xl:min-h-full xl:self-stretch">
-          <iframe
-            title={`${result.displayName} map`}
-            src={mapSrc}
-            className="block h-52 min-h-[12rem] w-full flex-1 border-0 sm:h-44 sm:min-h-[10rem] lg:h-56 lg:min-h-[13rem] xl:h-auto xl:min-h-0"
-            loading="lazy"
-            referrerPolicy="no-referrer"
-          />
-          <div className="flex items-center justify-between gap-3 border-t border-gray-200 px-3 py-2 text-xs dark:border-gray-700">
-            <span className="truncate text-gray-500 dark:text-gray-400">{result.anchorStation}</span>
-            <a
-              href={mapLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="shrink-0 font-medium text-blue-600 hover:underline dark:text-blue-300"
-            >
-              Open map
-            </a>
-          </div>
-        </div>
-
-        {/* Commute + Cost sit beside the map; the map's bottom aligns to these (it row-spans 1-2). */}
-        <div className="xl:col-start-2 xl:row-start-2">
-          <div className="grid gap-2.5 sm:grid-cols-[1.3fr_1fr] xl:gap-3">
+        {/* Commute + Cost sit beside the ward scores. */}
+        <div className="xl:col-start-2 xl:row-start-1">
+          <div className="grid gap-2.5 sm:grid-cols-[1.75fr_1fr] xl:gap-3">
             <div className={detailCardClass}>
               <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
                 <Route className="h-4 w-4" />
@@ -900,6 +992,31 @@ function LocationDetailPanel({
                   </p>
                 </div>
               )}
+
+              {/* Stations inside the area we haven't modelled yet — placeholders, no journey time. */}
+              {nearbyStations.length > 0 && (
+                <div className="mt-3 border-t border-gray-100 pt-2.5 dark:border-gray-800">
+                  <div className="mb-1.5 text-[10px] font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                    Also nearby · no journey data yet
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {nearbyStations.map(s => (
+                      <span
+                        key={s.name}
+                        className="inline-flex items-center gap-1 rounded-md border border-dashed border-gray-300 px-1.5 py-0.5 text-[11px] text-gray-500 dark:border-gray-600 dark:text-gray-400"
+                      >
+                        <span>{s.name}</span>
+                        {s.lines.map(m =>
+                          m === 'national-rail'
+                            ? <NationalRailIcon key={m} title="National Rail" />
+                            : MODE_ROUNDEL[m] ? <Roundel key={m} {...MODE_ROUNDEL[m]} /> : null,
+                        )}
+                        <span className="text-[9px] font-semibold uppercase tracking-wide text-gray-300 dark:text-gray-600">—</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className={detailCardClass}>
@@ -942,7 +1059,7 @@ function LocationDetailPanel({
 
         {/* Schools, spots & geography run full-width below the map, so the map only needs to be
             as tall as the header + Commute/Cost cards. */}
-        <div className="space-y-3 xl:col-span-2 xl:col-start-1 xl:row-start-3 xl:space-y-4">
+        <div className="space-y-3 xl:col-span-2 xl:col-start-1 xl:row-start-2 xl:space-y-4">
           {/* Schools — counts (Outstanding + Good) merged with the nearest Outstanding lists */}
           <div className="rounded-md border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900">
             <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
@@ -1073,11 +1190,18 @@ export default function ResultsTable({
   onSort,
   liveCommuteLoading,
   liveCommuteLoading2,
+  priorities,
+  childGender,
+  schoolFaith,
   onLocationHover,
+  hoveredWard,
+  onWardHover,
+  commuteDestinations,
   selectedLocation,
   onLocationSelect,
   focusRequest,
 }: Props) {
+  const maxGrammar = Math.max(1, ...sortedResults.map(r => r.grammarSchools ?? 0));
   const SortIcon = ({ col }: { col: SortColumn }) => {
     if (sortBy !== col) return null;
     return sortDirection === 'asc'
@@ -1726,6 +1850,13 @@ export default function ResultsTable({
                                 result={result}
                                 hasPartnerDestination={hasPartnerDestination}
                                 monthlyTrips={monthlyTrips}
+                                priorities={priorities}
+                                childGender={childGender}
+                                schoolFaith={schoolFaith}
+                                maxGrammar={maxGrammar}
+                                hoveredWard={hoveredWard}
+                                onWardHover={onWardHover}
+                                commuteDestinations={commuteDestinations}
                               />
                             </div>
                           </td>

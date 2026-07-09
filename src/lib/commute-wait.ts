@@ -1,5 +1,12 @@
 import { trainInterval } from '../data/service-frequency';
 import locationTransit from '../data/generated/location-transit.json';
+import { WALK_DETOUR_FACTOR, WALK_SPEED_KMH } from './constants';
+
+// Minutes to walk a straight-line (crow-flies) distance in km, inflated by a detour factor so the
+// number approximates a real street walk. Feeds the ward-level commute layer's walk-to-station term.
+export function walkMinutes(km: number): number {
+  return (km * WALK_DETOUR_FACTOR) / (WALK_SPEED_KMH / 60);
+}
 
 type Mode = 'tube' | 'overground' | 'elizabeth-line' | 'dlr' | 'tram' | 'national-rail';
 

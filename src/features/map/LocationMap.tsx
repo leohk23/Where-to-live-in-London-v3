@@ -1,12 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Briefcase, ChevronDown, ChevronUp, MapPin, TrainFront } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { Briefcase, ChevronDown, ChevronUp, Map as MapIcon, MapPin, TrainFront } from 'lucide-react';
 import locationWardPolygons from '../../data/generated/location-ward-polygons.json';
 import allStationsJson from '../../data/generated/all-stations.json';
-import { locationData, schoolScoreFromStats, schoolStatsForPoint, wardCrime } from '../../data';
+import { locationData } from '../../data';
 import type { SchoolFaith, SchoolGender } from '../../data';
+import { computeWardScores, wardScoreColor, type WardScore } from './ward-scores';
+import { lineColor } from '../../lib/tfl-line-colors';
 import { SCORE_THRESHOLDS } from '../../lib/constants';
 import { usePersistedCollapse } from '../../hooks/usePersistedCollapse';
-import type { LocationSchoolStats, SchoolScoreBreakdown, ScoredResult, Priorities } from '../../types';
+import type { ScoredResult, Priorities } from '../../types';
 
 interface AllStation {
   name: string;
@@ -46,6 +49,9 @@ interface Props {
   childGender: SchoolGender;
   schoolFaith: SchoolFaith;
   onLocationHover?: (location: string | null) => void;
+  hoveredWard?: string | null;
+  onWardHover?: (ward: string | null) => void;
+  commuteDestinations?: Array<string | null>;
   onLocationSelect?: (location: string) => void;
   className?: string;
 }
@@ -98,15 +104,6 @@ interface Bounds {
   minY: number;
   maxX: number;
   maxY: number;
-}
-
-interface WardScore {
-  stats: LocationSchoolStats;
-  schoolScore: SchoolScoreBreakdown;
-  crimeRate: number | null;
-  safetyScore: number | null;
-  composite: number;
-  label: string;
 }
 
 const LOCATION_BOUNDARIES = locationWardPolygons as unknown as Record<string, LocationBoundary>;
@@ -347,12 +344,6 @@ function scoreHue(score: number, darkMode: boolean) {
   return darkMode ? '#f87171' : '#ef4444';
 }
 
-function schoolScoreHue(score: number, darkMode: boolean) {
-  if (score >= 65) return darkMode ? '#4ade80' : '#16a34a';
-  if (score >= 52) return darkMode ? '#facc15' : '#ca8a04';
-  return darkMode ? '#f87171' : '#ef4444';
-}
-
 function hexToRgba(hex: string, alpha: number) {
   const value = parseInt(hex.slice(1), 16);
   const r = (value >> 16) & 255;
@@ -450,6 +441,9 @@ export default function LocationMap({
   childGender,
   schoolFaith,
   onLocationHover,
+  hoveredWard = null,
+  onWardHover,
+  commuteDestinations,
   onLocationSelect,
   className = '',
 }: Props) {
@@ -462,9 +456,10 @@ export default function LocationMap({
     | { x: number; y: number; stationOnly: { name: string; lines: string[]; owner: string | null } }
     | null
   >(null);
-  const [hoveredWardKey, setHoveredWardKey] = useState<string | null>(null);
 const [renderZoom, setRenderZoom] = useState(ALL_LOCATIONS_ZOOM);
 const [showAllStations, setShowAllStations] = useState(false);
+  // The big map can switch to a plain Google map that just pins the selected area's centroid.
+  const [mapMode, setMapMode] = useState<'interactive' | 'google'>('interactive');
   const [renderViewBox, setRenderViewBox] = useState<ReturnType<typeof boundsToViewBox> | null>(null);
   const animationRef = useRef<number | null>(null);
   // Mirrors of the live render state, so the fly animation / wheel handler read fresh values
@@ -484,10 +479,12 @@ const [showAllStations, setShowAllStations] = useState(false);
     }
   };
 
+  // Tooltip coords are the raw viewport position (clientX/clientY): the tooltip renders in a portal
+  // with position:fixed so it can spill outside the map frame's overflow-hidden clip (near an edge
+  // it would otherwise be chopped). mapFrameRef is only checked so we don't fire before mount.
   const showTooltip = (event: { clientX: number; clientY: number }, result: ScoredResult, station?: string) => {
-    const rect = mapFrameRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    setTooltip({ x: event.clientX - rect.left, y: event.clientY - rect.top, result, station });
+    if (!mapFrameRef.current) return;
+    setTooltip({ x: event.clientX, y: event.clientY, result, station });
   };
   const showWardTooltip = (
     event: { clientX: number; clientY: number },
@@ -495,18 +492,16 @@ const [showAllStations, setShowAllStations] = useState(false);
     ward: LocationWard,
     score: WardScore,
   ) => {
-    const rect = mapFrameRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    setTooltip({ x: event.clientX - rect.left, y: event.clientY - rect.top, result, ward, score });
+    if (!mapFrameRef.current) return;
+    setTooltip({ x: event.clientX, y: event.clientY, result, ward, score });
   };
   // For "all stations" overlay pins — owner is the curated location this naptan already anchors,
   // if any, so the tooltip doesn't wrongly call an existing anchor "not curated yet".
   const showStationTooltip = (event: { clientX: number; clientY: number }, station: AllStation) => {
-    const rect = mapFrameRef.current?.getBoundingClientRect();
-    if (!rect) return;
+    if (!mapFrameRef.current) return;
     setTooltip({
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
+      x: event.clientX,
+      y: event.clientY,
       stationOnly: { name: station.name, lines: station.lines, owner: ANCHOR_OWNER.get(station.naptan) ?? null },
     });
   };
@@ -536,49 +531,38 @@ const [showAllStations, setShowAllStations] = useState(false);
   const selectedWardScores = useMemo(() => {
     if (!selectedBoundary?.wards?.length) return new Map<string, WardScore>();
     const maxGrammar = Math.max(1, ...sortedResults.map(result => result.grammarSchools ?? 0));
-    const base = selectedBoundary.wards.map(ward => {
-      const stats = schoolStatsForPoint(ward.name, ward.centroid, childGender, schoolFaith);
-      const schoolScore = schoolScoreFromStats(stats, maxGrammar);
-      const crimeRate = ward.code ? wardCrime.wards[ward.code]?.crimesPer1000 ?? null : null;
-      return { ward, stats, schoolScore, crimeRate };
+    return computeWardScores({
+      boundary: selectedBoundary,
+      location: selectedLocation,
+      result: selectedResult,
+      priorities,
+      childGender,
+      schoolFaith,
+      maxGrammar,
+      commuteDestinations,
     });
-    const crimeRates = base.flatMap(item => item.crimeRate === null ? [] : [item.crimeRate]);
-    const minCrime = crimeRates.length ? Math.min(...crimeRates) : 0;
-    const maxCrime = crimeRates.length ? Math.max(...crimeRates) : 0;
-    const safetyScore = (crimeRate: number | null) => {
-      if (crimeRate === null) return null;
-      if (maxCrime === minCrime) return 50;
-      return Math.round(((maxCrime - crimeRate) / (maxCrime - minCrime)) * 100);
-    };
-    const schoolWeight = priorities.schools;
-    const safetyWeight = priorities.safety;
-    return new Map(base.map(item => {
-      const safety = safetyScore(item.crimeRate);
-      const variableWeight = schoolWeight + (safety !== null ? safetyWeight : 0);
-      const composite = variableWeight > 0
-        ? Math.round((item.schoolScore.raw * schoolWeight + (safety ?? 50) * safetyWeight) / variableWeight)
-        : item.schoolScore.raw;
-      const label = safetyWeight > 0 && schoolWeight > 0
-        ? 'Ward match'
-        : safetyWeight > 0
-          ? 'Ward crime'
-          : 'School score';
-      return [item.ward.name, {
-        stats: item.stats,
-        schoolScore: item.schoolScore,
-        crimeRate: item.crimeRate,
-        safetyScore: safety,
-        composite,
-        label,
-      }];
-    }));
-  }, [selectedBoundary, sortedResults, childGender, schoolFaith, priorities.schools, priorities.safety]);
+  }, [selectedBoundary, selectedLocation, selectedResult, sortedResults, childGender, schoolFaith, priorities, commuteDestinations]);
   const hasWardSplit = Boolean(selectedResult && (selectedBoundary?.wards?.length ?? 0) > 1);
-  const wardLegendLabel = priorities.safety > 0 && priorities.schools > 0
+  const commuteLayerActive = priorities.commute > 0
+    && Boolean(selectedResult?.commuteOptions?.length || selectedResult?.commuteOptions2?.length);
+  const activeWardLayers = [
+    commuteLayerActive && 'commute',
+    priorities.safety > 0 && 'crime',
+    priorities.schools > 0 && 'schools',
+  ].filter(Boolean) as string[];
+  const wardLegendLabel = activeWardLayers.length > 1
     ? 'Ward match score'
-    : priorities.safety > 0
-      ? 'Ward crime score'
-      : 'Ward school score';
+    : activeWardLayers[0] === 'commute'
+      ? 'Ward commute score'
+      : activeWardLayers[0] === 'crime'
+        ? 'Ward crime score'
+        : 'Ward school score';
+
+  // Google-map fallback: pin the selected area's centroid; centre on London when nothing is picked.
+  const googleCenter = selectedBoundary?.anchor;
+  const googleMapSrc = googleCenter
+    ? `https://www.google.com/maps?q=${googleCenter.lat},${googleCenter.lon}&z=13&output=embed`
+    : 'https://www.google.com/maps?q=London&z=10&output=embed';
 
   // Project work-location pins into the current map space (kept screen-stable as you zoom).
   const markerRadius = viewBox.width * 0.016;
@@ -710,8 +694,8 @@ const [showAllStations, setShowAllStations] = useState(false);
   }, [selectedLocation]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    setHoveredWardKey(null);
-  }, [selectedLocation]);
+    onWardHover?.(null);
+  }, [selectedLocation]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Wheel to zoom (centred on the cursor) and two-finger pinch to zoom/pan on touch
   // screens, both clamped between the overview and street level.
@@ -935,7 +919,7 @@ const [showAllStations, setShowAllStations] = useState(false);
             </p>
           )}
         </div>
-        {!collapsed && (
+        {!collapsed && mapMode === 'interactive' && (
           <button
             type="button"
             onClick={() => setShowAllStations(v => !v)}
@@ -946,6 +930,19 @@ const [showAllStations, setShowAllStations] = useState(false);
             title={showAllStations ? 'Hide all stations' : 'Show all tube/rail stations'}
           >
             <TrainFront className="h-5 w-5" />
+          </button>
+        )}
+        {!collapsed && (
+          <button
+            type="button"
+            onClick={() => setMapMode(m => m === 'google' ? 'interactive' : 'google')}
+            className={`shrink-0 rounded p-1 ${mapMode === 'google'
+              ? 'text-teal-600 dark:text-teal-300'
+              : 'text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-200'}`}
+            aria-pressed={mapMode === 'google'}
+            title={mapMode === 'google' ? 'Back to the interactive ward map' : 'Switch to a Google map pinning the centroid'}
+          >
+            <MapIcon className="h-5 w-5" />
           </button>
         )}
         <button
@@ -966,8 +963,17 @@ const [showAllStations, setShowAllStations] = useState(false);
         className="relative h-80 min-h-[22rem] flex-1 cursor-grab overflow-hidden rounded-md border border-gray-200 bg-slate-100 active:cursor-grabbing dark:border-gray-700 dark:bg-slate-950 sm:h-[28rem] xl:h-auto"
         /* One-finger touch keeps scrolling the page; pinch is reserved for the map's own zoom. */
         style={{ touchAction: 'pan-x pan-y' }}
-        onMouseLeave={() => { onLocationHover?.(null); setTooltip(null); setHoveredWardKey(null); }}
+        onMouseLeave={() => { onLocationHover?.(null); setTooltip(null); onWardHover?.(null); }}
       >
+        {mapMode === 'google' && (
+          <iframe
+            title="Google map"
+            src={googleMapSrc}
+            className="absolute inset-0 z-30 h-full w-full border-0"
+            loading="lazy"
+            referrerPolicy="no-referrer"
+          />
+        )}
         <div
           className="absolute inset-0 bg-slate-100 dark:bg-slate-900"
           style={darkMode ? { filter: 'invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.9)' } : undefined}
@@ -1009,7 +1015,9 @@ const [showAllStations, setShowAllStations] = useState(false);
             return (
               <g
                 key={location.result.location}
-                opacity={tone.opacity}
+                /* While a ward split is in focus, fade the OTHER areas' polygons hard so the
+                   neighbouring wards clearly read as not part of the area you're inspecting. */
+                opacity={hasWardSplit && location.result.location !== selectedLocation ? tone.opacity * 0.3 : tone.opacity}
                 tabIndex={0}
                 role="button"
                 aria-label={`${location.result.displayName}, ${location.result.borough}${
@@ -1029,10 +1037,11 @@ const [showAllStations, setShowAllStations] = useState(false);
                 className="cursor-pointer focus:outline-none"
               >
                 {splitWards?.length ? splitWards.map(ward => {
-                  const wardKey = `${location.result.location}:${ward.name}`;
-                  const isHoveredWard = hoveredWardKey === wardKey;
+                  // Ward-name hover is shared with the expanded row's ward card (lifted to the
+                  // parent) so hovering either surface highlights the same ward on both.
+                  const isHoveredWard = hoveredWard === ward.name;
                   const score = selectedWardScores.get(ward.name);
-                  const hue = score ? schoolScoreHue(score.composite, darkMode) : tone.stroke;
+                  const hue = score ? wardScoreColor(score.composite) : tone.stroke;
                   return (
                     <path
                       key={ward.name}
@@ -1044,7 +1053,7 @@ const [showAllStations, setShowAllStations] = useState(false);
                       vectorEffect="non-scaling-stroke"
                       onMouseEnter={event => {
                         event.stopPropagation();
-                        setHoveredWardKey(wardKey);
+                        onWardHover?.(ward.name);
                         onLocationHover?.(location.result.location);
                         if (score) showWardTooltip(event, location.result, ward, score);
                       }}
@@ -1054,7 +1063,7 @@ const [showAllStations, setShowAllStations] = useState(false);
                       }}
                       onMouseLeave={event => {
                         event.stopPropagation();
-                        setHoveredWardKey(null);
+                        onWardHover?.(null);
                       }}
                     />
                   );
@@ -1182,9 +1191,9 @@ const [showAllStations, setShowAllStations] = useState(false);
             OpenStreetMap
           </a>
         </div>
-        {tooltip && (
+        {tooltip && createPortal((
           <div
-            className="pointer-events-none absolute z-20 w-max max-w-[15rem] -translate-y-full rounded-md bg-gray-900/95 px-2.5 py-1.5 text-white shadow-lg dark:bg-gray-100/95 dark:text-gray-900"
+            className="pointer-events-none fixed z-[60] w-max max-w-[15rem] -translate-y-full rounded-md bg-gray-900/95 px-2.5 py-1.5 text-white shadow-lg dark:bg-gray-100/95 dark:text-gray-900"
             style={{ left: tooltip.x + 12, top: tooltip.y - 6 }}
           >
             {'ward' in tooltip ? (
@@ -1196,15 +1205,23 @@ const [showAllStations, setShowAllStations] = useState(false);
                 <div className="mt-1 text-[11px] font-medium leading-tight text-amber-300 dark:text-amber-600">
                   {tooltip.score.label} {tooltip.score.composite}/100
                 </div>
-                <div className="text-[10px] leading-tight text-gray-300 dark:text-gray-500">
-                  School {tooltip.score.schoolScore.raw}/100
-                  {tooltip.score.crimeRate !== null && <> - Crime {Math.round(tooltip.score.crimeRate)}/k</>}
-                </div>
-                <div className="text-[10px] leading-tight text-gray-300 dark:text-gray-500">
-                  P {tooltip.score.stats.primaryOutstandingSchools + tooltip.score.stats.primaryGoodSchools}/{tooltip.score.stats.primarySchools} strong
-                  {' · '}
-                  S {tooltip.score.stats.secondaryOutstandingSchools + tooltip.score.stats.secondaryGoodSchools}/{tooltip.score.stats.secondarySchools} strong
-                </div>
+                {/* Walk to the nearest useful station + the line(s) boarded there as colour-coded
+                    badges — no crime/school here (the ward card carries those). */}
+                {tooltip.score.nearestStation !== null && tooltip.score.walkToStation !== null && (
+                  <div className="mt-1 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-[10px] leading-tight text-gray-200 dark:text-gray-600">
+                    <span>{Math.round(tooltip.score.walkToStation)} min walk to</span>
+                    <span className="font-semibold text-white dark:text-gray-900">{tooltip.score.nearestStation}</span>
+                    {tooltip.score.nearestStationRoute?.split(' → ').map((line, i) => {
+                      const { bg, fg } = lineColor(line);
+                      return (
+                        <span key={i} className="inline-flex items-center gap-1">
+                          {i > 0 && <span className="text-gray-400 dark:text-gray-500">&rsaquo;</span>}
+                          <span className="rounded px-1.5 py-0.5 text-[9px] font-semibold leading-none" style={{ backgroundColor: bg, color: fg }}>{line}</span>
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
               </>
             ) : 'stationOnly' in tooltip ? (
               <>
@@ -1241,7 +1258,7 @@ const [showAllStations, setShowAllStations] = useState(false);
               </>
             )}
           </div>
-        )}
+        ), document.body)}
       </div>
 
       <div className="mt-2 space-y-1 text-[11px] text-gray-400 dark:text-gray-500">
@@ -1251,13 +1268,13 @@ const [showAllStations, setShowAllStations] = useState(false);
             <span className="flex items-center gap-2">
               <span>{wardLegendLabel}:</span>
               <span className="flex items-center gap-1">
-                <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-sm bg-green-500" /> high
+                <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-sm" style={{ backgroundColor: wardScoreColor(100) }} /> high
               </span>
               <span className="flex items-center gap-1">
-                <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-sm bg-yellow-500" /> fair
+                <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-sm" style={{ backgroundColor: wardScoreColor(50) }} /> fair
               </span>
               <span className="flex items-center gap-1">
-                <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-sm bg-red-500" /> low
+                <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-sm" style={{ backgroundColor: wardScoreColor(0) }} /> low
               </span>
             </span>
           ) : scoresActive ? (

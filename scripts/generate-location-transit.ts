@@ -3,11 +3,14 @@ import fs from 'fs';
 import path from 'path';
 import locationData from '../src/data/locations.json';
 import allStations from '../src/data/generated/all-stations.json';
+import { commuteRoutes } from '../src/commute-times';
 
 // Builds src/data/generated/location-transit.json: the transit modes serving each location's area —
-// the union of its member stations' lines (from all-stations.json, no API call) plus a TfL
-// geo query for other stations within RADIUS of the anchor, plus the anchor station's own
-// mode as a guaranteed fallback. Drives the transit icons (and the frequency-note gating).
+// the union of its member stations' lines (from all-stations.json, no API call), the modes its
+// commute routes actually board (so a combined NR+tube station keyed by its Underground naptan —
+// Wimbledon — still shows the National Rail arrow when journeys use the mainline), a TfL geo query
+// for other stations within RADIUS of the anchor, plus the anchor station's own mode as a
+// guaranteed fallback. Drives the transit icons (and the frequency-note gating).
 //   npm run generate-transit
 
 type Mode = 'tube' | 'overground' | 'elizabeth-line' | 'dlr' | 'tram' | 'national-rail';
@@ -18,8 +21,32 @@ const registry = locationData as unknown as Record<string, {
   point: { lat: number; lon: number };
   anchorStation: string;
   naptan?: string;
-  commuteStations?: Array<{ naptan: string }>;
+  commuteStations?: Array<{ key: string; naptan: string }>;
 }>;
+
+// Line/operator name (first leg of a summarised route) → mode, mirroring src/lib/commute-wait.ts.
+const TUBE_LINES = new Set(['Bakerloo', 'Central', 'Circle', 'District', 'Hammersmith & City', 'Jubilee', 'Metropolitan', 'Northern', 'Piccadilly', 'Victoria', 'Waterloo & City', 'Tube']);
+const OVERGROUND_LINES = new Set(['Liberty', 'Lioness', 'Mildmay', 'Suffragette', 'Weaver', 'Windrush', 'Overground', 'London Overground']);
+function lineToMode(line: string): Mode {
+  if (TUBE_LINES.has(line)) return 'tube';
+  if (OVERGROUND_LINES.has(line)) return 'overground';
+  if (line === 'Elizabeth line') return 'elizabeth-line';
+  if (line === 'DLR') return 'dlr';
+  if (line === 'Tram' || line === 'London Trams') return 'tram';
+  return 'national-rail';
+}
+const routes = commuteRoutes as Record<string, Record<string, string | null>>;
+
+// The modes a station key actually boards first across all its destinations — a station may be
+// both NR and tube, and which one appears in journeys depends on where you're going.
+function routeModesFor(key: string): Mode[] {
+  const dests = routes[key];
+  if (!dests) return [];
+  const modes = Object.values(dests)
+    .filter((r): r is string => Boolean(r))
+    .map(r => lineToMode(r.split(' → ')[0]));
+  return [...new Set(modes)];
+}
 const LINES_BY_NAPTAN = new Map(
   (allStations as Array<{ naptan: string; lines: string[] }>).map(s => [s.naptan, s.lines]),
 );
@@ -57,9 +84,12 @@ async function main() {
     }
     // Union in every member station's lines — a 9-station area's centroid can sit >700m
     // from all of them (Canning Town), so the geo query alone misses the members' own modes.
-    const memberNaptans = info.commuteStations?.map(s => s.naptan) ?? (info.naptan ? [info.naptan] : []);
-    for (const naptan of memberNaptans) {
+    const members = info.commuteStations ?? (info.naptan ? [{ key: name, naptan: info.naptan }] : []);
+    for (const { key, naptan } of members) {
       for (const m of LINES_BY_NAPTAN.get(naptan) ?? []) if (KEEP.includes(m as Mode)) modes.add(m as Mode);
+      // …and the modes its journeys actually board: all-stations.json reports only the tube mode
+      // for an Underground-naptan'd combined station, but the routes reveal it's on National Rail.
+      for (const m of routeModesFor(key)) modes.add(m);
     }
     const base = anchorMode(info.anchorStation);
     if (base) modes.add(base);

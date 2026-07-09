@@ -493,7 +493,7 @@
     "naptan": "940GZZLUCWP",
     "rent": { "1": 1900, "2": 2450, "3": 3000, "4": 3800 },
     "commuteStations": [
-      { "key": "Chiswick", "naptan": "940GZZLUCWP" },
+      { "key": "Chiswick Park", "naptan": "940GZZLUCWP", "station": "Chiswick Park Underground Station" },
       { "key": "Gunnersbury", "naptan": "910GGNRSBRY", "station": "Gunnersbury Rail Station" },
       { "key": "Gunnersbury Underground", "naptan": "940GZZLUGBY", "station": "Gunnersbury Underground Station" },
       { "key": "Turnham Green", "naptan": "940GZZLUTNG", "station": "Turnham Green Underground Station" }

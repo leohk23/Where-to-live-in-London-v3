@@ -2,8 +2,21 @@ import fs from 'fs';
 import path from 'path';
 import polygonClipping, { type Geom } from 'polygon-clipping';
 import locationData from '../src/data/locations.json';
+import allStationsJson from '../src/data/generated/all-stations.json';
 import { LOCATION_WARDS } from './location-wards';
 import { resolveLocationPoint, pointForNaptan } from '../src/lib/location-point';
+
+interface AllStation { naptan: string; name: string; lat: number; lon: number; lines: string[] }
+const ALL_STATIONS = allStationsJson as AllStation[];
+
+// Naptans already curated as commute anchors somewhere — excluded from each ward's "extra stations"
+// (those already carry journey times). What's left is the not-yet-modelled stations, surfaced as
+// nearby placeholders in the commute card.
+const CURATED_NAPTANS = new Set<string>();
+for (const loc of Object.values(locationData as Record<string, { naptan?: string; commuteStations?: Array<{ naptan: string }> }>)) {
+  if (loc.naptan) CURATED_NAPTANS.add(loc.naptan);
+  for (const s of loc.commuteStations ?? []) CURATED_NAPTANS.add(s.naptan);
+}
 
 interface Coordinate {
   lat: number;
@@ -37,7 +50,13 @@ interface FeatureCollection {
 }
 
 const OUT_PATH = path.resolve(process.cwd(), 'src/data/generated/location-ward-polygons.json');
-const WARD_BASE_URL = 'https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/electoral/eng/wards_by_lad';
+// 2022 ward boundaries (WD22CD/WD22NM) from the ONS Open Geography Portal, queried per borough.
+// This is the vintage the 2021 Census (ward population) and MPS ward-level crime are keyed on,
+// so ward codes join cleanly downstream (see generate-ward-crime.ts).
+const WARD_BOUNDARY_URL = (ladCode: string) =>
+  'https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/'
+  + 'Wards_December_2022_Boundaries_UK_BGC/FeatureServer/0/query'
+  + `?where=LAD22CD%3D%27${ladCode}%27&outFields=WD22CD,WD22NM&f=geojson&resultRecordCount=2000`;
 
 // Anchor coordinate and borough (LAD) code now come from the canonical location registry
 // (src/data/locations.json) so "where is this location" is defined in exactly one place.
@@ -106,6 +125,36 @@ function pointInGeometry(point: Coordinate, geometry: Geometry) {
   });
 }
 
+function geometryBBox(geometry: Geometry) {
+  let minLat = 90, maxLat = -90, minLon = 180, maxLon = -180;
+  for (const ring of getRings(geometry)) for (const [lon, lat] of ring) {
+    if (lat < minLat) minLat = lat;
+    if (lat > maxLat) maxLat = lat;
+    if (lon < minLon) minLon = lon;
+    if (lon > maxLon) maxLon = lon;
+  }
+  return { minLat, maxLat, minLon, maxLon };
+}
+
+// Uncurated stations whose point falls inside a ward polygon — the "nearby, no journey data yet"
+// placeholders. bbox pre-filter keeps the all-stations sweep cheap; names lose the " Station" noise.
+function stationsInWard(geometry: Geometry): Array<{ naptan: string; name: string; lines: string[] }> {
+  const bb = geometryBBox(geometry);
+  // Keyed by display name so a station reached by two modes on two naptans (NR + tram Wimbledon)
+  // shows once with both modes, not twice.
+  const byName = new Map<string, { naptan: string; name: string; lines: string[] }>();
+  for (const st of ALL_STATIONS) {
+    if (CURATED_NAPTANS.has(st.naptan)) continue;
+    if (st.lat < bb.minLat || st.lat > bb.maxLat || st.lon < bb.minLon || st.lon > bb.maxLon) continue;
+    if (!pointInGeometry({ lat: st.lat, lon: st.lon }, geometry)) continue;
+    const name = st.name.replace(/ (Underground|Rail|DLR) Station$/, '').replace(/ Station$/, '');
+    const existing = byName.get(name);
+    if (existing) existing.lines = [...new Set([...existing.lines, ...st.lines])];
+    else byName.set(name, { naptan: st.naptan, name, lines: [...st.lines] });
+  }
+  return [...byName.values()];
+}
+
 function ringCentroid(ring: number[][]): Coordinate {
   const totals = ring.reduce(
     (acc, coord) => ({ lon: acc.lon + coord[0], lat: acc.lat + coord[1] }),
@@ -146,9 +195,20 @@ function getWardCode(feature: Feature) {
 }
 
 async function fetchWardCollection(ladCode: string): Promise<FeatureCollection> {
-  const res = await fetch(`${WARD_BASE_URL}/${ladCode}.json`);
-  if (!res.ok) throw new Error(`Failed to fetch ${ladCode}: HTTP ${res.status}`);
-  return await res.json() as FeatureCollection;
+  // The ONS ArcGIS service occasionally returns a transient "service unavailable" HTML body;
+  // retry with backoff and only accept a real JSON FeatureCollection.
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    try {
+      const res = await fetch(WARD_BOUNDARY_URL(ladCode));
+      const text = await res.text();
+      if (res.ok && text.trimStart().startsWith('{')) {
+        const json = JSON.parse(text) as FeatureCollection;
+        if (json.features?.length) return json;
+      }
+    } catch { /* retry */ }
+    await new Promise(resolve => setTimeout(resolve, 800 * (attempt + 1)));
+  }
+  throw new Error(`Failed to fetch 2022 wards for ${ladCode} after retries`);
 }
 
 async function main() {
@@ -233,7 +293,7 @@ async function main() {
     anchor: Coordinate;
     ladCode: string;
     stations?: Array<{ key: string; lat: number; lon: number }>;
-    wards: Array<{ code: string; name: string; centroid: Coordinate; geometry: Geometry }>;
+    wards: Array<{ code: string; name: string; centroid: Coordinate; geometry: Geometry; stations: Array<{ naptan: string; name: string; lines: string[] }> }>;
     boundaryLevel: string;
     boundaryName: string;
     geometry: Geometry;
@@ -266,6 +326,7 @@ async function main() {
         name: getWardName(feature),
         centroid: geometryCentroid(feature.geometry),
         geometry: feature.geometry,
+        stations: stationsInWard(feature.geometry),
       })),
       boundaryLevel: 'ward',
       boundaryName,
