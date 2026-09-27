@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { locationData } from "../src/data";
 import { workLocations } from "../src/work-locations";
+import wardPolygons from "../src/data/generated/location-ward-polygons.json";
 import type { CommuteTimes, CommuteRoutes } from "../src/commute-times";
 import { summariseRoute, type TflJourney } from "../src/lib/tfl-route";
 
@@ -18,6 +19,16 @@ const HOME_STATIONS: Record<string, { query: string; naptan?: string }> = (() =>
       : [{ key: location, naptan: data.naptan, station: data.station }];
     for (const s of stations) {
       if (!out[s.key]) out[s.key] = { query: s.station ?? location, naptan: s.naptan };
+    }
+  }
+  // Plus the "nearby" stations assigned to curated wards but not yet modelled (see
+  // generate-location-ward-polygons `stationsInWard`). Fetching them gives the ward-level commute
+  // and the Commute card's "nearby" list real times, WITHOUT promoting them to a location's own
+  // commuteStations (which would drag its headline/schools/centroid). Keyed by name; a name that
+  // already belongs to a curated station is the same complex, so skip it. Naptan drives the lookup.
+  for (const d of Object.values(wardPolygons as Record<string, { wards?: Array<{ stations?: Array<{ naptan: string; name: string }> }> }>)) {
+    for (const w of d.wards ?? []) for (const s of w.stations ?? []) {
+      if (!out[s.name]) out[s.name] = { query: s.name, naptan: s.naptan };
     }
   }
   return out;

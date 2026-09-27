@@ -19,6 +19,7 @@ import { lineColor } from '../../lib/tfl-line-colors';
 import locationWardPolygons from '../../data/generated/location-ward-polygons.json';
 import locationTransit from '../../data/generated/location-transit.json';
 import { trainInterval } from '../../data/service-frequency';
+import { commuteTimes } from '../../commute-times';
 import { expectedWaitMinutes, peakHeadwayMinutes } from '../../lib/commute-wait';
 import { asianSpots } from '../../data';
 import type { SchoolGender, SchoolFaith } from '../../data';
@@ -227,26 +228,21 @@ function getSchoolTitle(result: ScoredResult) {
   return `${result.outstandingSchools} of ${result.schoolsTotal} schools Outstanding at borough level: ${split} (Ofsted Apr 2026).`;
 }
 
+// A metric's source-geography tag under the column title (Station / Area / Borough / Ward …). One
+// quiet, uniform "caption" style for every column — the geography is read from the label + tooltip,
+// so it doesn't need a per-source colour (a row of five different hues just read as noise). `tone`
+// is kept in the props for callers but no longer drives colour.
 function HeaderLevelBadge({
   label,
   title,
-  tone = 'mixed',
 }: {
   label: string;
   title: string;
   tone?: 'station' | 'area' | 'borough' | 'zone' | 'mixed';
 }) {
-  const toneClass = {
-    station: 'bg-teal-100 text-teal-800 dark:bg-teal-500/15 dark:text-teal-200',
-    area: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-200',
-    borough: 'bg-rose-100 text-rose-800 dark:bg-rose-500/15 dark:text-rose-200',
-    zone: 'bg-slate-200 text-slate-700 dark:bg-slate-500/20 dark:text-slate-200',
-    mixed: 'bg-zinc-100 text-zinc-600 dark:bg-zinc-500/20 dark:text-zinc-200',
-  }[tone];
-
   return (
     <span
-      className={`inline-flex h-5 items-center rounded px-1 py-0.5 text-[9px] font-medium leading-none no-underline lg:px-1.5 lg:text-[10px] ${toneClass}`}
+      className="inline-flex h-5 items-center rounded border border-gray-200/80 bg-white/60 px-1 py-0.5 text-[9px] font-medium uppercase tracking-wide leading-none text-gray-500 no-underline dark:border-gray-600/60 dark:bg-white/5 dark:text-gray-400 lg:px-1.5 lg:text-[10px]"
       title={title}
     >
       {label}
@@ -853,14 +849,22 @@ function LocationDetailPanel({
   const wardScores = boundary
     ? computeWardScores({ boundary, location: result.location, result, priorities, childGender, schoolFaith, maxGrammar, commuteDestinations })
     : new Map<string, WardScore>();
-  // Stations sitting inside this area's wards that we don't yet model (no journey times) — shown as
-  // "nearby" placeholders in the Commute card. Deduped by name across wards, modes merged.
+  // Stations sitting inside this area's wards that aren't one of its own commute anchors — shown as
+  // a "nearby" list in the Commute card. Deduped by name across wards (modes merged), each carrying
+  // its best fetched journey time to the active work destination(s) (null in live/address mode,
+  // where the static matrix isn't in play — same gate as the ward-level pool).
   const nearbyStations = (() => {
-    const byName = new Map<string, { name: string; lines: string[] }>();
+    const dests = (commuteDestinations ?? []).filter((d): d is string => Boolean(d));
+    const byName = new Map<string, { name: string; lines: string[]; time: number | null }>();
     for (const w of boundary?.wards ?? []) for (const s of w.stations ?? []) {
       const ex = byName.get(s.name);
-      if (ex) ex.lines = [...new Set([...ex.lines, ...s.lines])];
-      else byName.set(s.name, { name: s.name, lines: [...s.lines] });
+      if (ex) { ex.lines = [...new Set([...ex.lines, ...s.lines])]; continue; }
+      let time: number | null = null;
+      for (const dest of dests) {
+        const t = commuteTimes[s.name]?.[dest];
+        if (t != null && (time === null || t < time)) time = t;
+      }
+      byName.set(s.name, { name: s.name, lines: [...s.lines], time });
     }
     return [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
   })();
@@ -993,11 +997,13 @@ function LocationDetailPanel({
                 </div>
               )}
 
-              {/* Stations inside the area we haven't modelled yet — placeholders, no journey time. */}
+              {/* Other stations inside the area — not this location's own anchors, but a resident on
+                  its edge might use them. Shown with their own journey time (a ward closer to one of
+                  these picks it up in the ward-level commute); "—" when unmodelled or in live mode. */}
               {nearbyStations.length > 0 && (
                 <div className="mt-3 border-t border-gray-100 pt-2.5 dark:border-gray-800">
                   <div className="mb-1.5 text-[10px] font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500">
-                    Also nearby · no journey data yet
+                    Also nearby
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {nearbyStations.map(s => (
@@ -1011,7 +1017,9 @@ function LocationDetailPanel({
                             ? <NationalRailIcon key={m} title="National Rail" />
                             : MODE_ROUNDEL[m] ? <Roundel key={m} {...MODE_ROUNDEL[m]} /> : null,
                         )}
-                        <span className="text-[9px] font-semibold uppercase tracking-wide text-gray-300 dark:text-gray-600">—</span>
+                        {s.time !== null
+                          ? <span className="text-[10px] font-semibold tabular-nums text-gray-600 dark:text-gray-300">{s.time} min</span>
+                          : <span className="text-[9px] font-semibold uppercase tracking-wide text-gray-300 dark:text-gray-600">—</span>}
                       </span>
                     ))}
                   </div>

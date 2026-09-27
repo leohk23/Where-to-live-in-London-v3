@@ -8,14 +8,17 @@ import type { SchoolFaith, SchoolGender } from '../../data';
 import { expectedWaitMinutes, interchangeWaitMinutes, walkMinutes } from '../../lib/commute-wait';
 import { pointForNaptan } from '../../lib/location-point';
 import { commuteTimes, commuteRoutes } from '../../commute-times';
+import wardPolygons from '../../data/generated/location-ward-polygons.json';
 import type { LocationSchoolStats, SchoolScoreBreakdown, ScoredResult, Priorities } from '../../types';
 
 interface Coordinate { lat: number; lon: number }
 
-// Coordinates of every curated commute station, keyed by the name the commute matrix uses. A ward's
-// commute walk term measures to the real platform, not the area centroid, and — crucially — lets a
-// ward reach for the nearest USEFUL station across ALL curated areas, not just its own location's
-// (so an Acton ward hugging Chiswick can walk to Turnham Green instead of trekking to Acton Town).
+// Coordinates of every commute-matrix station, keyed by the name the matrix uses. A ward's commute
+// walk term measures to the real platform, not the area centroid, and — crucially — lets a ward
+// reach for the nearest USEFUL station across ALL areas, not just its own location's (so an Acton
+// ward hugging Chiswick walks to Turnham Green instead of trekking to Acton Town). Includes both
+// curated commute stations and the "nearby" stations assigned to wards (fetched but not promoted
+// to any location's own commuteStations — see fetch-tfl-commutes / stationsInWard).
 const STATION_COORDS: Map<string, Coordinate> = (() => {
   const m = new Map<string, Coordinate>();
   for (const [name, loc] of Object.entries(locationData)) {
@@ -26,6 +29,11 @@ const STATION_COORDS: Map<string, Coordinate> = (() => {
       }
     } else if (loc.naptan) {
       try { m.set(name, loc.point ?? pointForNaptan(loc.naptan)); } catch { /* skip */ }
+    }
+  }
+  for (const d of Object.values(wardPolygons as Record<string, { wards?: Array<{ stations?: Array<{ naptan: string; name: string }> }> }>)) {
+    for (const w of d.wards ?? []) for (const s of w.stations ?? []) {
+      if (!m.has(s.name)) { try { m.set(s.name, pointForNaptan(s.naptan)); } catch { /* skip */ } }
     }
   }
   return m;
