@@ -74,7 +74,8 @@ interface Props {
   onWardHover?: (ward: string | null) => void;
   commuteDestinations?: Array<string | null>;
   selectedLocation?: string | null;
-  onLocationSelect?: (location: string) => void;
+  // Pins the location on the map (null clears it). The table keeps it in step with the expanded row.
+  onLocationSelect?: (location: string | null) => void;
   focusRequest?: { location: string; requestId: number } | null;
 }
 
@@ -1257,13 +1258,13 @@ export default function ResultsTable({
     window.scrollTo({ top: Math.max(0, targetTop), behavior });
   }, [stickyRowTop]);
 
+  // One click = select + expand: expanding a row pins it on the map (zoom in), collapsing unpins it.
   const toggleExpandedLocation = useCallback((location: string) => {
-    setExpandedLocation(current => {
-      const next = current === location ? null : location;
-      pendingExpandedScrollRef.current = next;
-      return next;
-    });
-  }, []);
+    const next = expandedLocation === location ? null : location;
+    pendingExpandedScrollRef.current = next;
+    setExpandedLocation(next);
+    onLocationSelect?.(next);
+  }, [expandedLocation, onLocationSelect]);
 
   const updateTableChrome = useCallback(() => {
     const el = scrollRef.current;
@@ -1694,7 +1695,7 @@ export default function ResultsTable({
                     <tbody key={result.location}>
                       <tr
                         ref={el => { rowRefs.current[result.location] = el; }}
-                        onClick={onLocationSelect ? () => onLocationSelect(result.location) : undefined}
+                        onClick={() => toggleExpandedLocation(result.location)}
                         onMouseEnter={() => onLocationHover?.(result.location)}
                         onMouseLeave={() => onLocationHover?.(null)}
                         className={`border-b dark:border-gray-700 ${
@@ -1704,7 +1705,7 @@ export default function ResultsTable({
                         } ${
                           overBudget
                             ? 'opacity-35 bg-gray-50 dark:bg-gray-800'
-                            : `group ${onLocationSelect ? 'cursor-pointer' : ''}`
+                            : 'group cursor-pointer'
                         }`}
                       >
                       <td className={`sticky left-0 z-10 py-2 px-1.5 text-center whitespace-nowrap min-w-[44px] w-[44px] overflow-hidden lg:py-3 lg:px-3 lg:min-w-[56px] lg:w-[56px] ${isExpanded ? '!z-[21]' : ''} ${
@@ -1748,9 +1749,7 @@ export default function ResultsTable({
                         <div className="flex items-center gap-2">
                           <button
                             type="button"
-                            // stopPropagation: the row's own onClick pins/unpins this location on the
-                            // map (toggle) — without this, expanding an already-pinned row would also
-                            // un-pin it and zoom the map back out to all of London.
+                            // Same action as the row click; stopPropagation so it doesn't fire twice.
                             onClick={event => { event.stopPropagation(); toggleExpandedLocation(result.location); }}
                             className="inline-flex items-start gap-1 text-left text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-100 dark:hover:text-blue-300 lg:items-center lg:gap-1.5 lg:text-base"
                             aria-expanded={isExpanded}

@@ -484,7 +484,7 @@ function LondonCostCalculator() {
                 hoveredWard={hoveredWard}
                 onWardHover={setHoveredWard}
                 commuteDestinations={wardCommuteDestinations}
-                onLocationSelect={loc => setPinnedLocation(cur => cur === loc ? null : loc)}
+                onLocationSelect={setPinnedLocation}
                 focusRequest={tableFocusRequest}
               />
             </div>
