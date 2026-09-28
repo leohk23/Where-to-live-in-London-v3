@@ -1524,7 +1524,7 @@ export default function ResultsTable({
           <div className={headerBadgeRowClass()}>
             <HeaderLevelBadge
               label="Borough"
-              title="Council tax uses borough-level Band D rates scaled by bedroom count."
+              title="Council tax uses borough-level Band D rates, scaled by statutory band ratios (1-bed B, 2-bed D, 3-bed E, 4-bed F)."
               tone="borough"
             />
           </div>

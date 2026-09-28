@@ -46,7 +46,7 @@ export function NotesContent({ sortedResults }: Props) {
     {
       label: 'Council tax',
       source: 'Borough Band D council tax rates, including GLA precept',
-      availability: '2025/26 tax year',
+      availability: '2026/27 tax year',
       level: 'Borough',
     },
     {

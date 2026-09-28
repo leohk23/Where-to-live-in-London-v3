@@ -17,7 +17,16 @@ export const locationData: Record<string, LocationInfo> = Object.fromEntries(
     .map(([key, loc]) => [key, { ...loc, point: resolveLocationPoint(loc) }]),
 );
 export const boroughStats = boroughStatsJson as unknown as Record<string, BoroughStats>;
-export const councilTaxData = taxDataRaw as Record<string, Record<BedroomCount, number>>;
+// council-tax.json holds 2026/27 area Band D (incl. GLA precept; gov.uk "Council Tax levels set by
+// local authorities" Table 9). Other bands are statutory ninths of D.
+// ponytail: bedrooms→band is a rough proxy (1→B, 2→D, 3→E, 4→F); real banding is by 1991 value.
+const BAND_RATIO_BY_BEDROOMS: Record<BedroomCount, number> = { 1: 7 / 9, 2: 1, 3: 11 / 9, 4: 13 / 9 };
+export const councilTaxData: Record<string, Record<BedroomCount, number>> = Object.fromEntries(
+  Object.entries(taxDataRaw as Record<string, number>).map(([borough, bandD]) => [
+    borough,
+    Object.fromEntries(Object.entries(BAND_RATIO_BY_BEDROOMS).map(([beds, r]) => [beds, bandD * r])) as Record<BedroomCount, number>,
+  ]),
+);
 export const wardCrime = wardCrimeJson as unknown as WardCrimeDataset;
 
 interface CrimeBoundary {

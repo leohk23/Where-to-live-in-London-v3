@@ -20,7 +20,7 @@ export const datasetGeography: DatasetGeography[] = [
     label: 'Council tax',
     geography: 'borough',
     joinKey: 'location.borough',
-    caveat: 'Uses borough-level Band D rates scaled by bedroom count.',
+    caveat: 'Uses borough-level Band D rates, scaled by statutory band ratios (1-bed B, 2-bed D, 3-bed E, 4-bed F).',
   },
   {
     key: 'crime',
