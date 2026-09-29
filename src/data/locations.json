@@ -13,7 +13,7 @@
     "zone": "Zone 2",
     "station": "Brixton Underground Station",
     "naptan": "940GZZLUBXN",
-    "rent": { "1": 1876, "2": 2336, "3": 2675, "4": 3731 }
+    "rent": { "1": 1886, "2": 2347, "3": 2688, "4": 3727 }
   },
   "Fulham": {
     "point": { "lat": 51.4804, "lon": -0.195 },
@@ -29,7 +29,7 @@
     "zone": "Zone 2",
     "station": "Fulham Broadway Underground Station",
     "naptan": "940GZZLUFBY",
-    "rent": { "1": 1895, "2": 2487, "3": 2841, "4": 4006 },
+    "rent": { "1": 1989, "2": 2607, "3": 2975, "4": 4159 },
     "commuteStations": [
       { "key": "Fulham", "naptan": "940GZZLUFBY" },
       { "key": "Imperial Wharf", "naptan": "910GCSEAH", "station": "Imperial Wharf Rail Station" },
@@ -51,7 +51,7 @@
     "zone": "Zone 3",
     "station": "Tooting Broadway Underground Station",
     "naptan": "940GZZLUTBY",
-    "rent": { "1": 1700, "2": 2150, "3": 2700, "4": 3400 }
+    "rent": { "1": 1724, "2": 2179, "3": 2731, "4": 3407 }
   },
   "Sutton": {
     "point": { "lat": 51.3594, "lon": -0.1919 },
@@ -67,7 +67,7 @@
     "zone": "Zone 5",
     "station": "Sutton (London) Rail Station",
     "naptan": "910GSUTTON",
-    "rent": { "1": 1227, "2": 1540, "3": 1877, "4": 2479 },
+    "rent": { "1": 1244, "2": 1560, "3": 1905, "4": 2501 },
     "commuteStations": [
       { "key": "Sutton", "naptan": "910GSUTTON" },
       { "key": "West Sutton", "naptan": "910GWSUTTON", "station": "West Sutton Rail Station" },
@@ -88,7 +88,7 @@
     "zone": "Zone 4",
     "station": "New Malden Rail Station",
     "naptan": "910GNEWMLDN",
-    "rent": { "1": 1385, "2": 1763, "3": 2162, "4": 2868 }
+    "rent": { "1": 1371, "2": 1744, "3": 2143, "4": 2820 }
   },
   "Wimbledon": {
     "point": { "lat": 51.4214, "lon": -0.2064 },
@@ -104,7 +104,7 @@
     "zone": "Zone 3",
     "station": "Wimbledon Underground Station",
     "naptan": "940GZZLUWIM",
-    "rent": { "1": 1724, "2": 2129, "3": 2531, "4": 3473 },
+    "rent": { "1": 1803, "2": 2227, "3": 2649, "4": 3596 },
     "commuteStations": [
       { "key": "Wimbledon", "naptan": "940GZZLUWIM" },
       { "key": "South Wimbledon", "naptan": "940GZZLUSWN", "station": "South Wimbledon Underground Station" },
@@ -126,7 +126,7 @@
     "zone": "Zone 4",
     "station": "Richmond (London) Rail Station",
     "naptan": "910GRICHMND",
-    "rent": { "1": 1670, "2": 2143, "3": 2589, "4": 3805 },
+    "rent": { "1": 1750, "2": 2244, "3": 2711, "4": 3947 },
     "commuteStations": [
       { "key": "Richmond", "naptan": "910GRICHMND" },
       { "key": "Richmond Underground", "naptan": "940GZZLURMD", "station": "Richmond Underground Station" }
@@ -146,7 +146,7 @@
     "zone": "Zone 3",
     "station": "Ealing Broadway Underground Station",
     "naptan": "940GZZLUEBY",
-    "rent": { "1": 1581, "2": 1974, "3": 2336, "4": 3218 },
+    "rent": { "1": 1628, "2": 2032, "3": 2407, "4": 3289 },
     "commuteStations": [
       { "key": "Ealing", "naptan": "940GZZLUEBY" },
       { "key": "South Ealing", "naptan": "940GZZLUSEA", "station": "South Ealing Underground Station" },
@@ -170,7 +170,7 @@
     "zone": "Zone 4",
     "station": "Hounslow Central Underground Station",
     "naptan": "940GZZLUHWC",
-    "rent": { "1": 1539, "2": 1893, "3": 2175, "4": 3016 },
+    "rent": { "1": 1584, "2": 1948, "3": 2244, "4": 3081 },
     "commuteStations": [
       { "key": "Hounslow", "naptan": "940GZZLUHWC" },
       { "key": "Hounslow East", "naptan": "940GZZLUHWE", "station": "Hounslow East Underground Station" }
@@ -190,7 +190,7 @@
     "zone": "Zone 5",
     "station": "East Croydon Rail Station",
     "naptan": "910GECROYDN",
-    "rent": { "1": 1241, "2": 1543, "3": 1820, "4": 2631 },
+    "rent": { "1": 1269, "2": 1579, "3": 1866, "4": 2678 },
     "commuteStations": [
       { "key": "Croydon", "naptan": "910GECROYDN" },
       { "key": "West Croydon", "naptan": "910GWCROYDN", "station": "West Croydon Rail Station" },
@@ -211,7 +211,7 @@
     "zone": "Zone 5",
     "station": "High Barnet Underground Station",
     "naptan": "940GZZLUHBT",
-    "rent": { "1": 1478, "2": 1832, "3": 2222, "4": 3169 }
+    "rent": { "1": 1502, "2": 1860, "3": 2259, "4": 3199 }
   },
   "Sutton Cheam": {
     "point": { "lat": 51.3555, "lon": -0.2143 },
@@ -227,7 +227,7 @@
     "zone": "Zone 5",
     "station": "Cheam Rail Station",
     "naptan": "910GCHEAM",
-    "rent": { "1": 1350, "2": 1700, "3": 2100, "4": 2700 }
+    "rent": { "1": 1368, "2": 1722, "3": 2132, "4": 2724 }
   },
   "Acton Common": {
     "point": { "lat": 51.5028, "lon": -0.2801 },
@@ -243,7 +243,7 @@
     "zone": "Zone 2",
     "station": "Acton Town Underground Station",
     "naptan": "940GZZLUACT",
-    "rent": { "1": 1700, "2": 2150, "3": 2550, "4": 3400 },
+    "rent": { "1": 1751, "2": 2213, "3": 2627, "4": 3475 },
     "commuteStations": [
       { "key": "Acton Town", "naptan": "940GZZLUACT" },
       { "key": "North Acton", "naptan": "940GZZLUNAN", "station": "North Acton Underground Station" },
@@ -268,7 +268,7 @@
     "zone": "Zone 3",
     "station": "Southfields Underground Station",
     "naptan": "940GZZLUSFS",
-    "rent": { "1": 1650, "2": 2075, "3": 2375, "4": 3250 }
+    "rent": { "1": 1673, "2": 2103, "3": 2402, "4": 3257 }
   },
   "Clapham": {
     "point": { "lat": 51.4618, "lon": -0.1383 },
@@ -284,7 +284,7 @@
     "zone": "Zone 2",
     "station": "Clapham Common Underground Station",
     "naptan": "940GZZLUCPC",
-    "rent": { "1": 1950, "2": 2600, "3": 3500, "4": 4500 },
+    "rent": { "1": 1960, "2": 2612, "3": 3516, "4": 4495 },
     "commuteStations": [
       { "key": "Clapham", "naptan": "940GZZLUCPC" },
       { "key": "Clapham High Street", "naptan": "910GCLPHHS", "station": "Clapham High Street Rail Station" },
@@ -305,7 +305,7 @@
     "zone": "Zone 2",
     "station": "Bethnal Green Underground Station",
     "naptan": "940GZZLUBLG",
-    "rent": { "1": 2300, "2": 3000, "3": 3900, "4": 4400 },
+    "rent": { "1": 2362, "2": 3083, "3": 4012, "4": 4508 },
     "commuteStations": [
       { "key": "Bethnal Green", "naptan": "940GZZLUBLG" },
       { "key": "Bethnal Green Rail", "naptan": "910GBTHNLGR", "station": "Bethnal Green Rail Station" },
@@ -330,7 +330,7 @@
     "zone": "Zone 2",
     "station": "Stratford Underground Station",
     "naptan": "940GZZLUSTD",
-    "rent": { "1": 1950, "2": 2400, "3": 2900, "4": 3400 },
+    "rent": { "1": 1977, "2": 2435, "3": 2952, "4": 3447 },
     "commuteStations": [
       { "key": "Stratford", "naptan": "940GZZLUSTD" },
       { "key": "Abbey Road", "naptan": "940GZZDLABR", "station": "Abbey Road DLR Station" },
@@ -357,7 +357,7 @@
     "zone": "Zone 3",
     "station": "Walthamstow Central Underground Station",
     "naptan": "940GZZLUWWL",
-    "rent": { "1": 1800, "2": 2200, "3": 2800, "4": 3200 },
+    "rent": { "1": 1826, "2": 2230, "3": 2844, "4": 3233 },
     "commuteStations": [
       { "key": "Walthamstow", "naptan": "940GZZLUWWL" },
       { "key": "Blackhorse Road", "naptan": "910GBLCHSRD", "station": "Blackhorse Road Rail Station" },
@@ -381,7 +381,7 @@
     "zone": "Zone 2",
     "station": "Peckham Rye Rail Station",
     "naptan": "910GPCKHMRY",
-    "rent": { "1": 1700, "2": 2100, "3": 2700, "4": 3400 }
+    "rent": { "1": 1775, "2": 2191, "3": 2818, "4": 3537 }
   },
   "Hackney": {
     "point": { "lat": 51.5471, "lon": -0.056 },
@@ -397,7 +397,7 @@
     "zone": "Zone 2",
     "station": "Hackney Central Rail Station",
     "naptan": "910GHACKNYC",
-    "rent": { "1": 2100, "2": 2700, "3": 3200, "4": 3700 },
+    "rent": { "1": 2168, "2": 2789, "3": 3306, "4": 3798 },
     "commuteStations": [
       { "key": "Hackney", "naptan": "910GHACKNYC" },
       { "key": "Hackney Downs", "naptan": "910GHAKNYNM", "station": "Hackney Downs Rail Station" },
@@ -418,7 +418,7 @@
     "zone": "Zone 2",
     "station": "East Putney Underground Station",
     "naptan": "940GZZLUEPY",
-    "rent": { "1": 1950, "2": 2500, "3": 3000, "4": 3900 },
+    "rent": { "1": 1977, "2": 2534, "3": 3035, "4": 3908 },
     "commuteStations": [
       { "key": "East Putney", "naptan": "940GZZLUEPY", "station": "East Putney Underground Station" },
       { "key": "Putney Rail", "naptan": "910GPUTNEY", "station": "Putney Rail Station" }
@@ -438,7 +438,7 @@
     "zone": "Zone 3",
     "station": "Crystal Palace Rail Station",
     "naptan": "910GCRYSTLP",
-    "rent": { "1": 1289, "2": 1614, "3": 1955, "4": 2895 },
+    "rent": { "1": 1317, "2": 1647, "3": 1998, "4": 2937 },
     "commuteStations": [
       { "key": "Crystal Palace", "naptan": "910GCRYSTLP" },
       { "key": "Anerley", "naptan": "910GANERLEY", "station": "Anerley Rail Station" },
@@ -459,7 +459,7 @@
     "zone": "Zone 5",
     "station": "Bromley South Rail Station",
     "naptan": "910GBROMLYS",
-    "rent": { "1": 1450, "2": 1850, "3": 2250, "4": 3000 }
+    "rent": { "1": 1481, "2": 1888, "3": 2299, "4": 3044 }
   },
   "Orpington": {
     "point": { "lat": 51.3733, "lon": 0.0891 },
@@ -475,7 +475,7 @@
     "zone": "Zone 6",
     "station": "Orpington Rail Station",
     "naptan": "910GORPNGTN",
-    "rent": { "1": 1300, "2": 1650, "3": 2050, "4": 2800 }
+    "rent": { "1": 1328, "2": 1683, "3": 2095, "4": 2841 }
   },
   "Chiswick": {
     "point": { "lat": 51.4946, "lon": -0.2678 },
@@ -491,7 +491,7 @@
     "zone": "Zone 3",
     "station": "Chiswick Park Underground Station",
     "naptan": "940GZZLUCWP",
-    "rent": { "1": 1900, "2": 2450, "3": 3000, "4": 3800 },
+    "rent": { "1": 1956, "2": 2521, "3": 3095, "4": 3882 },
     "commuteStations": [
       { "key": "Chiswick Park", "naptan": "940GZZLUCWP", "station": "Chiswick Park Underground Station" },
       { "key": "Gunnersbury", "naptan": "910GGNRSBRY", "station": "Gunnersbury Rail Station" },
@@ -513,7 +513,7 @@
     "zone": "Zone 2",
     "station": "Hammersmith Underground Station",
     "naptan": "940GZZLUHSD",
-    "rent": { "1": 1800, "2": 2300, "3": 2700, "4": 3600 },
+    "rent": { "1": 1889, "2": 2411, "3": 2827, "4": 3738 },
     "commuteStations": [
       { "key": "Hammersmith", "naptan": "940GZZLUHSD" },
       { "key": "Goldhawk Road", "naptan": "940GZZLUGHK", "station": "Goldhawk Road Underground Station" },
@@ -537,7 +537,7 @@
     "zone": "Zone 2",
     "station": "Highbury and Islington Underground Station",
     "naptan": "940GZZLUHAI",
-    "rent": { "1": 2050, "2": 2544, "3": 2835, "4": 4018 },
+    "rent": { "1": 2175, "2": 2694, "3": 3001, "4": 4227 },
     "commuteStations": [
       { "key": "Islington", "naptan": "940GZZLUHAI" },
       { "key": "Highbury & Islington", "naptan": "910GHGHI", "station": "Highbury & Islington Rail Station" }
@@ -557,7 +557,7 @@
     "zone": "Zone 4",
     "station": "Finchley Central Underground Station",
     "naptan": "940GZZLUFYC",
-    "rent": { "1": 1478, "2": 1832, "3": 2222, "4": 3169 },
+    "rent": { "1": 1502, "2": 1860, "3": 2259, "4": 3199 },
     "commuteStations": [
       { "key": "Finchley", "naptan": "940GZZLUFYC" },
       { "key": "West Finchley", "naptan": "940GZZLUWFN", "station": "West Finchley Underground Station" },
@@ -578,7 +578,7 @@
     "zone": "Zone 2",
     "station": "Greenwich DLR Station",
     "naptan": "940GZZDLGRE",
-    "rent": { "1": 1520, "2": 1880, "3": 2177, "4": 2933 },
+    "rent": { "1": 1574, "2": 1947, "3": 2260, "4": 3026 },
     "commuteStations": [
       { "key": "Greenwich", "naptan": "940GZZDLGRE" },
       { "key": "Cutty Sark (for Maritime Greenwich)", "naptan": "940GZZDLCUT", "station": "Cutty Sark (for Maritime Greenwich) DLR Station" },
@@ -600,7 +600,7 @@
     "zone": "Zone 2",
     "station": "Lewisham Rail Station",
     "naptan": "910GLEWISHM",
-    "rent": { "1": 1437, "2": 1766, "3": 2027, "4": 2689 },
+    "rent": { "1": 1457, "2": 1790, "3": 2058, "4": 2716 },
     "commuteStations": [
       { "key": "Lewisham", "naptan": "910GLEWISHM" },
       { "key": "Elverson Road", "naptan": "940GZZDLELV", "station": "Elverson Road DLR Station" },
@@ -621,7 +621,7 @@
     "zone": "Zone 3",
     "station": "Harringay Green Lanes Rail Station",
     "naptan": "910GHRGYGL",
-    "rent": { "1": 1700, "2": 2150, "3": 2650, "4": 3200 },
+    "rent": { "1": 1716, "2": 2169, "3": 2679, "4": 3210 },
     "commuteStations": [
       { "key": "Harringay Green Lanes", "naptan": "910GHRGYGL" },
       { "key": "Turnpike Lane", "naptan": "940GZZLUTPN", "station": "Turnpike Lane Underground Station" }
@@ -641,7 +641,7 @@
     "zone": "Zone 3",
     "station": "Manor House Underground Station",
     "naptan": "940GZZLUMRH",
-    "rent": { "1": 1850, "2": 2350, "3": 2850, "4": 3400 },
+    "rent": { "1": 1910, "2": 2428, "3": 2944, "4": 3490 },
     "commuteStations": [
       { "key": "Manor House", "naptan": "940GZZLUMRH" },
       { "key": "Stamford Hill", "naptan": "910GSTMFDHL", "station": "Stamford Hill Rail Station" }
@@ -661,7 +661,7 @@
     "zone": "Zone 4",
     "station": "Edmonton Green Rail Station",
     "naptan": "910GEDMNGRN",
-    "rent": { "1": 1350, "2": 1700, "3": 2100, "4": 2750 },
+    "rent": { "1": 1410, "2": 1771, "3": 2194, "4": 2850 },
     "commuteStations": [
       { "key": "Edmonton", "naptan": "910GEDMNGRN" },
       { "key": "Silver Street", "naptan": "910GSIVRST", "station": "Silver Street Rail Station" }
@@ -681,7 +681,7 @@
     "zone": "Zone 3",
     "station": "Hendon Central Underground Station",
     "naptan": "940GZZLUHCL",
-    "rent": { "1": 1550, "2": 1950, "3": 2350, "4": 3100 }
+    "rent": { "1": 1575, "2": 1980, "3": 2389, "4": 3129 }
   },
   "Colindale": {
     "point": { "lat": 51.5955, "lon": -0.2504 },
@@ -697,7 +697,7 @@
     "zone": "Zone 4",
     "station": "Colindale Underground Station",
     "naptan": "940GZZLUCND",
-    "rent": { "1": 1600, "2": 2000, "3": 2400, "4": 3000 }
+    "rent": { "1": 1626, "2": 2031, "3": 2440, "4": 3028 }
   },
   "Willesden Green": {
     "point": { "lat": 51.5492, "lon": -0.2215 },
@@ -713,7 +713,7 @@
     "zone": "Zone 3",
     "station": "Willesden Green Underground Station",
     "naptan": "940GZZLUWIG",
-    "rent": { "1": 1750, "2": 2200, "3": 2700, "4": 3300 },
+    "rent": { "1": 1827, "2": 2299, "3": 2828, "4": 3425 },
     "commuteStations": [
       { "key": "Willesden Green", "naptan": "940GZZLUWIG" },
       { "key": "Dollis Hill", "naptan": "940GZZLUDOH", "station": "Dollis Hill Underground Station" }
@@ -733,7 +733,7 @@
     "zone": "Zone 3",
     "station": "Cricklewood Rail Station",
     "naptan": "910GCRKLWD",
-    "rent": { "1": 1650, "2": 2050, "3": 2500, "4": 3100 },
+    "rent": { "1": 1723, "2": 2142, "3": 2619, "4": 3217 },
     "commuteStations": [
       { "key": "Cricklewood", "naptan": "910GCRKLWD" },
       { "key": "Kilburn", "naptan": "940GZZLUKBN", "station": "Kilburn Underground Station" }
@@ -753,7 +753,7 @@
     "zone": "Zone 3",
     "station": "Golders Green Underground Station",
     "naptan": "940GZZLUGGN",
-    "rent": { "1": 1700, "2": 2150, "3": 2750, "4": 3700 },
+    "rent": { "1": 1727, "2": 2183, "3": 2796, "4": 3735 },
     "commuteStations": [
       { "key": "Golders Green", "naptan": "940GZZLUGGN" },
       { "key": "Childs Hill", "naptan": "910GCRKLWD", "station": "Cricklewood (for Childs Hill)", "point": { "lat": 51.568, "lon": -0.201 } },
@@ -774,7 +774,7 @@
     "zone": "Zone 2",
     "station": "Shepherd's Bush Underground Station",
     "naptan": "940GZZLUSBC",
-    "rent": { "1": 1800, "2": 2300, "3": 2750, "4": 3650 },
+    "rent": { "1": 1889, "2": 2411, "3": 2880, "4": 3789 },
     "commuteStations": [
       { "key": "Shepherd's Bush", "naptan": "940GZZLUSBC" },
       { "key": "Shepherd's Bush Market", "naptan": "940GZZLUSBM", "station": "Shepherd's Bush Market Underground Station" },
@@ -795,7 +795,7 @@
     "zone": "Zone 4",
     "station": "Worcester Park Rail Station",
     "naptan": "910GWRCSTRP",
-    "rent": { "1": 1400, "2": 1750, "3": 2150, "4": 2800 }
+    "rent": { "1": 1419, "2": 1772, "3": 2182, "4": 2825 }
   },
   "Southwark": {
     "point": { "lat": 51.5036, "lon": -0.1052 },
@@ -811,7 +811,7 @@
     "zone": "Zone 1",
     "station": "Southwark Underground Station",
     "naptan": "940GZZLUSWK",
-    "rent": { "1": 2400, "2": 3200, "3": 4200, "4": 5500 },
+    "rent": { "1": 2506, "2": 3339, "3": 4384, "4": 5722 },
     "commuteStations": [
       { "key": "Southwark", "naptan": "940GZZLUSWK" },
       { "key": "Borough", "naptan": "940GZZLUBOR", "station": "Borough Underground Station" }
@@ -831,7 +831,7 @@
     "zone": "Zone 1",
     "station": "London Bridge Underground Station",
     "naptan": "940GZZLULNB",
-    "rent": { "1": 2500, "2": 3300, "3": 4400, "4": 5800 },
+    "rent": { "1": 2610, "2": 3443, "3": 4593, "4": 6034 },
     "commuteStations": [
       { "key": "London Bridge", "naptan": "940GZZLULNB" },
       { "key": "Bermondsey", "naptan": "940GZZLUBMY", "station": "Bermondsey Underground Station" }
@@ -851,7 +851,7 @@
     "zone": "Zone 2",
     "station": "Camden Town Underground Station",
     "naptan": "940GZZLUCTN",
-    "rent": { "1": 2150, "2": 2750, "3": 3400, "4": 4400 },
+    "rent": { "1": 2266, "2": 2897, "3": 3578, "4": 4588 },
     "commuteStations": [
       { "key": "Camden", "naptan": "940GZZLUCTN" },
       { "key": "Camden Road", "naptan": "910GCMDNRD", "station": "Camden Road Rail Station" },
@@ -874,7 +874,7 @@
     "zone": "Zone 1",
     "station": "Russell Square Underground Station",
     "naptan": "940GZZLURSQ",
-    "rent": { "1": 2350, "2": 3000, "3": 3800, "4": 4900 },
+    "rent": { "1": 2477, "2": 3161, "3": 3999, "4": 5110 },
     "commuteStations": [
       { "key": "Bloomsbury", "naptan": "940GZZLURSQ" },
       { "key": "Chancery Lane", "naptan": "940GZZLUCHL", "station": "Chancery Lane Underground Station" },
@@ -898,7 +898,7 @@
     "zone": "Zone 5",
     "station": "Wallington Rail Station",
     "naptan": "910GWALNGTN",
-    "rent": { "1": 1300, "2": 1650, "3": 2050, "4": 2700 }
+    "rent": { "1": 1318, "2": 1671, "3": 2081, "4": 2724 }
   },
   "Balham": {
     "point": { "lat": 51.4433, "lon": -0.1527 },
@@ -914,7 +914,7 @@
     "zone": "Zone 3",
     "station": "Balham Underground Station",
     "naptan": "940GZZLUBLM",
-    "rent": { "1": 1800, "2": 2300, "3": 2850, "4": 3650 },
+    "rent": { "1": 1825, "2": 2331, "3": 2883, "4": 3658 },
     "commuteStations": [
       { "key": "Balham", "naptan": "940GZZLUBLM" },
       { "key": "Balham Rail", "naptan": "910GBALHAM", "station": "Balham Rail Station" },
@@ -936,7 +936,7 @@
     "zone": "Zone 6",
     "station": "Kingston Rail Station",
     "naptan": "910GKGSTON",
-    "rent": { "1": 1500, "2": 1900, "3": 2300, "4": 3000 }
+    "rent": { "1": 1485, "2": 1880, "3": 2280, "4": 2950 }
   },
   "Earlsfield": {
     "point": { "lat": 51.4423, "lon": -0.1877 },
@@ -952,7 +952,7 @@
     "zone": "Zone 3",
     "station": "Earlsfield Rail Station",
     "naptan": "910GERLFLD",
-    "rent": { "1": 1675, "2": 2100, "3": 2450, "4": 3250 }
+    "rent": { "1": 1699, "2": 2128, "3": 2478, "4": 3257 }
   },
   "Berrylands": {
     "point": { "lat": 51.399, "lon": -0.2807 },
@@ -968,7 +968,7 @@
     "zone": "Zone 5",
     "station": "Berrylands Rail Station",
     "naptan": "910GBRLANDS",
-    "rent": { "1": 1350, "2": 1700, "3": 2050, "4": 2700 }
+    "rent": { "1": 1336, "2": 1682, "3": 2032, "4": 2655 }
   },
   "Twickenham": {
     "point": { "lat": 51.45, "lon": -0.3304 },
@@ -984,7 +984,7 @@
     "zone": "Zone 5",
     "station": "Twickenham Rail Station",
     "naptan": "910GTWCKNHM",
-    "rent": { "1": 1550, "2": 1975, "3": 2400, "4": 3300 }
+    "rent": { "1": 1624, "2": 2068, "3": 2513, "4": 3423 }
   },
   "Teddington": {
     "point": { "lat": 51.4245, "lon": -0.3327 },
@@ -1000,7 +1000,7 @@
     "zone": "Zone 6",
     "station": "Teddington Rail Station",
     "naptan": "910GTEDNGTN",
-    "rent": { "1": 1600, "2": 2050, "3": 2500, "4": 3400 }
+    "rent": { "1": 1677, "2": 2147, "3": 2618, "4": 3527 }
   },
   "Canning Town": {
     "point": { "lat": 51.514, "lon": 0.008 },
@@ -1016,7 +1016,7 @@
     "zone": "Zone 3",
     "station": "Canning Town Station",
     "naptan": "940GZZLUCGT",
-    "rent": { "1": 1750, "2": 2200, "3": 2650, "4": 3200 },
+    "rent": { "1": 1774, "2": 2232, "3": 2698, "4": 3244 },
     "commuteStations": [
       { "key": "Canning Town", "naptan": "940GZZLUCGT" },
       { "key": "Canning Town DLR", "naptan": "940GZZDLCGT", "station": "Canning Town DLR Station" },
@@ -1044,7 +1044,7 @@
     "zone": "Zone 3",
     "station": "Norbury Rail Station",
     "naptan": "910GNORBURY",
-    "rent": { "1": 1250, "2": 1550, "3": 1900, "4": 2350 }
+    "rent": { "1": 1278, "2": 1586, "3": 1948, "4": 2392 }
   },
   "Ruislip": {
     "point": { "lat": 51.571354, "lon": -0.421898 },
@@ -1060,7 +1060,7 @@
     "zone": "Zone 6",
     "station": "Ruislip Underground Station",
     "naptan": "940GZZLURSP",
-    "rent": { "1": 1350, "2": 1700, "3": 2150, "4": 2850 },
+    "rent": { "1": 1373, "2": 1729, "3": 2192, "4": 2886 },
     "commuteStations": [
       { "key": "Ruislip", "naptan": "940GZZLURSP" },
       { "key": "Ruislip Manor", "naptan": "940GZZLURSM", "station": "Ruislip Manor Underground Station" },
@@ -1083,7 +1083,7 @@
     "zone": "Zone 4",
     "station": "Mill Hill Broadway Rail Station",
     "naptan": "910GMLHB",
-    "rent": { "1": 1350, "2": 1750, "3": 2200, "4": 2850 },
+    "rent": { "1": 1372, "2": 1777, "3": 2237, "4": 2877 },
     "commuteStations": [
       { "key": "Mill Hill", "naptan": "910GMLHB" },
       { "key": "Mill Hill East", "naptan": "940GZZLUMHL", "station": "Mill Hill East Underground Station" }

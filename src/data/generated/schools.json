@@ -5,7 +5,7 @@
     "phase": "Primary",
     "lat": 51.53781,
     "lon": -0.13066,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -16,7 +16,7 @@
     "lat": 51.3846,
     "lon": -0.19907,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -26,7 +26,7 @@
     "lat": 51.39593,
     "lon": -0.19487,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -36,7 +36,7 @@
     "lat": 51.5574,
     "lon": -0.14029,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -46,7 +46,7 @@
     "lat": 51.50249,
     "lon": -0.2736,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -67,7 +67,7 @@
     "lat": 51.47488,
     "lon": -0.02749,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -77,7 +77,7 @@
     "lat": 51.5003,
     "lon": -0.21835,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -87,7 +87,7 @@
     "lat": 51.36045,
     "lon": -0.10965,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -107,7 +107,7 @@
     "lat": 51.59529,
     "lon": -0.18933,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -158,7 +158,7 @@
     "lat": 51.41379,
     "lon": -0.04668,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -168,7 +168,7 @@
     "lat": 51.42028,
     "lon": -0.04713,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -198,7 +198,7 @@
     "lat": 51.59524,
     "lon": -0.11534,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -208,7 +208,7 @@
     "lat": 51.47485,
     "lon": -0.36097,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -218,7 +218,7 @@
     "lat": 51.4996,
     "lon": -0.04357,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -228,7 +228,7 @@
     "lat": 51.37323,
     "lon": -0.19236,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -239,7 +239,7 @@
     "lat": 51.36506,
     "lon": -0.15871,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -272,7 +272,7 @@
     "lat": 51.47286,
     "lon": -0.21362,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -283,7 +283,7 @@
     "lat": 51.41283,
     "lon": -0.08701,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -305,7 +305,7 @@
     "lat": 51.62966,
     "lon": -0.16915,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -316,7 +316,7 @@
     "lat": 51.41901,
     "lon": -0.18369,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -327,7 +327,7 @@
     "lat": 51.56223,
     "lon": -0.20012,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -349,7 +349,7 @@
     "lat": 51.51985,
     "lon": -0.13863,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -370,7 +370,7 @@
     "lat": 51.45421,
     "lon": -0.18621,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -391,7 +391,7 @@
     "lat": 51.54321,
     "lon": -0.29324,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -400,7 +400,7 @@
     "phase": "Primary",
     "lat": 51.56204,
     "lon": -0.10062,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -410,7 +410,7 @@
     "phase": "Primary",
     "lat": 51.47989,
     "lon": -0.07837,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -421,7 +421,7 @@
     "lat": 51.55389,
     "lon": -0.2203,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -431,7 +431,7 @@
     "lat": 51.38918,
     "lon": -0.22138,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -440,7 +440,7 @@
     "phase": "Primary",
     "lat": 51.4916,
     "lon": -0.10996,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -452,7 +452,7 @@
     "lat": 51.36914,
     "lon": -0.08379,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -463,7 +463,7 @@
     "lat": 51.44383,
     "lon": -0.34062,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -504,7 +504,7 @@
     "lat": 51.47803,
     "lon": -0.09959,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -515,7 +515,7 @@
     "lat": 51.51534,
     "lon": -0.23185,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -535,7 +535,7 @@
     "lat": 51.45617,
     "lon": -0.16828,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -556,7 +556,7 @@
     "lat": 51.50665,
     "lon": -0.25971,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -596,7 +596,7 @@
     "lat": 51.53272,
     "lon": -0.21592,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -656,7 +656,7 @@
     "lat": 51.37795,
     "lon": -0.09036,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -675,7 +675,7 @@
     "phase": "Primary",
     "lat": 51.50483,
     "lon": -0.26642,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -706,7 +706,7 @@
     "lat": 51.48709,
     "lon": -0.07948,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -716,7 +716,7 @@
     "lat": 51.51259,
     "lon": -0.22937,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -726,7 +726,7 @@
     "lat": 51.49532,
     "lon": -0.02655,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -745,7 +745,7 @@
     "phase": "Primary",
     "lat": 51.48182,
     "lon": -0.17791,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -766,7 +766,7 @@
     "lat": 51.46971,
     "lon": -0.02596,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -796,7 +796,7 @@
     "lat": 51.36961,
     "lon": -0.25024,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -806,7 +806,7 @@
     "lat": 51.60771,
     "lon": -0.30326,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -869,7 +869,7 @@
     "lat": 51.35736,
     "lon": -0.13866,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -888,7 +888,7 @@
     "phase": "Primary",
     "lat": 51.57575,
     "lon": -0.00096,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -949,7 +949,7 @@
     "lat": 51.44403,
     "lon": -0.18235,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -979,7 +979,7 @@
     "lat": 51.45684,
     "lon": -0.03779,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -989,7 +989,7 @@
     "lat": 51.59184,
     "lon": -0.25768,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -1000,7 +1000,7 @@
     "lat": 51.61805,
     "lon": -0.27119,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -1041,7 +1041,7 @@
     "lat": 51.59276,
     "lon": -0.09365,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1101,7 +1101,7 @@
     "lat": 51.54649,
     "lon": -0.04514,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1111,7 +1111,7 @@
     "lat": 51.45874,
     "lon": -0.0868,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1121,7 +1121,7 @@
     "lat": 51.55789,
     "lon": -0.08461,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1131,7 +1131,7 @@
     "lat": 51.40392,
     "lon": -0.09827,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1170,7 +1170,7 @@
     "phase": "Primary",
     "lat": 51.51268,
     "lon": -0.05858,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -1224,7 +1224,7 @@
     "lat": 51.38244,
     "lon": 0.045,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -1246,7 +1246,7 @@
     "lat": 51.65694,
     "lon": -0.05444,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -1256,7 +1256,7 @@
     "phase": "Secondary",
     "lat": 51.42497,
     "lon": -0.11874,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -1268,7 +1268,7 @@
     "lat": 51.57713,
     "lon": -0.43368,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -1279,7 +1279,7 @@
     "lat": 51.5325,
     "lon": -0.45998,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1289,7 +1289,7 @@
     "lat": 51.34515,
     "lon": -0.26544,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1298,7 +1298,7 @@
     "phase": "Primary",
     "lat": 51.60079,
     "lon": -0.24093,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -1310,7 +1310,7 @@
     "lat": 51.51055,
     "lon": -0.05431,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1340,7 +1340,7 @@
     "lat": 51.40849,
     "lon": -0.16618,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1369,7 +1369,7 @@
     "phase": "Secondary",
     "lat": 51.4276,
     "lon": -0.00171,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -1381,7 +1381,7 @@
     "lat": 51.55332,
     "lon": -0.39448,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1412,7 +1412,7 @@
     "lat": 51.52339,
     "lon": -0.0095,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1441,7 +1441,7 @@
     "phase": "Secondary",
     "lat": 51.52095,
     "lon": 0.0461,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -1482,7 +1482,7 @@
     "lat": 51.54702,
     "lon": -0.26375,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1492,7 +1492,7 @@
     "lat": 51.48535,
     "lon": -0.30639,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Girls"
   },
@@ -1503,7 +1503,7 @@
     "lat": 51.52469,
     "lon": -0.34097,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1553,7 +1553,7 @@
     "lat": 51.39039,
     "lon": -0.09262,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1593,7 +1593,7 @@
     "lat": 51.38083,
     "lon": -0.21541,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1603,7 +1603,7 @@
     "lat": 51.56339,
     "lon": -0.14506,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1633,7 +1633,7 @@
     "lat": 51.47806,
     "lon": -0.0888,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1674,7 +1674,7 @@
     "lat": 51.3996,
     "lon": -0.24795,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1684,7 +1684,7 @@
     "lat": 51.43805,
     "lon": -0.18008,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1694,7 +1694,7 @@
     "lat": 51.55745,
     "lon": 0.01653,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1724,7 +1724,7 @@
     "lat": 51.59047,
     "lon": -0.12212,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1734,7 +1734,7 @@
     "lat": 51.59047,
     "lon": -0.12212,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1765,7 +1765,7 @@
     "phase": "Primary",
     "lat": 51.49024,
     "lon": -0.00534,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -1777,7 +1777,7 @@
     "lat": 51.58151,
     "lon": -0.38919,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1787,7 +1787,7 @@
     "lat": 51.54501,
     "lon": -0.10156,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1828,7 +1828,7 @@
     "lat": 51.53674,
     "lon": -0.00592,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1849,7 +1849,7 @@
     "lat": 51.36963,
     "lon": -0.1693,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Girls"
   },
@@ -1860,7 +1860,7 @@
     "lat": 51.48226,
     "lon": -0.25603,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1870,7 +1870,7 @@
     "lat": 51.51615,
     "lon": -0.03841,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1879,7 +1879,7 @@
     "phase": "Secondary",
     "lat": 51.52525,
     "lon": -0.08585,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "genderOfEntry": "Boys"
@@ -1891,7 +1891,7 @@
     "lat": 51.52739,
     "lon": -0.02857,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Girls"
   },
@@ -1902,7 +1902,7 @@
     "lat": 51.52869,
     "lon": 0.04243,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1932,7 +1932,7 @@
     "lat": 51.59944,
     "lon": -0.01374,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1942,7 +1942,7 @@
     "lat": 51.59814,
     "lon": -0.01394,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1962,7 +1962,7 @@
     "lat": 51.4547,
     "lon": -0.34535,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1972,7 +1972,7 @@
     "lat": 51.46463,
     "lon": -0.35505,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1982,7 +1982,7 @@
     "lat": 51.37608,
     "lon": -0.23858,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -1992,7 +1992,7 @@
     "lat": 51.37453,
     "lon": -0.23738,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2002,7 +2002,7 @@
     "lat": 51.36484,
     "lon": -0.21965,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2011,7 +2011,7 @@
     "phase": "Secondary",
     "lat": 51.36589,
     "lon": -0.21846,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2021,7 +2021,7 @@
     "phase": "Primary",
     "lat": 51.37433,
     "lon": -0.21527,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2053,7 +2053,7 @@
     "lat": 51.44466,
     "lon": -0.15549,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2062,7 +2062,7 @@
     "phase": "Primary",
     "lat": 51.38394,
     "lon": -0.10545,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2083,7 +2083,7 @@
     "lat": 51.47697,
     "lon": -0.0379,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2093,7 +2093,7 @@
     "lat": 51.5622,
     "lon": -0.2069,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2132,7 +2132,7 @@
     "phase": "Primary",
     "lat": 51.52145,
     "lon": -0.16638,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -2144,7 +2144,7 @@
     "lat": 51.48744,
     "lon": 0.007,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -2177,7 +2177,7 @@
     "lat": 51.39185,
     "lon": -0.28663,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -2188,7 +2188,7 @@
     "lat": 51.5183,
     "lon": -0.07142,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -2199,7 +2199,7 @@
     "lat": 51.40432,
     "lon": -0.26566,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -2232,7 +2232,7 @@
     "lat": 51.47616,
     "lon": -0.109,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -2243,7 +2243,7 @@
     "lat": 51.53077,
     "lon": -0.14439,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -2254,7 +2254,7 @@
     "lat": 51.44537,
     "lon": -0.12171,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -2265,7 +2265,7 @@
     "lat": 51.56688,
     "lon": -0.11396,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -2287,7 +2287,7 @@
     "lat": 51.45875,
     "lon": -0.28826,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -2298,7 +2298,7 @@
     "lat": 51.59356,
     "lon": -0.18211,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2367,7 +2367,7 @@
     "phase": "Secondary",
     "lat": 51.53594,
     "lon": -0.09786,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2388,7 +2388,7 @@
     "lat": 51.5353,
     "lon": -0.08363,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2418,7 +2418,7 @@
     "phase": "Secondary",
     "lat": 51.58516,
     "lon": -0.29329,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2429,7 +2429,7 @@
     "lat": 51.5657,
     "lon": -0.21766,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2439,7 +2439,7 @@
     "lat": 51.5734,
     "lon": -0.21915,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2448,7 +2448,7 @@
     "phase": "Primary",
     "lat": 51.53328,
     "lon": 0.0431,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2458,7 +2458,7 @@
     "phase": "Primary",
     "lat": 51.5484,
     "lon": 0.00145,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2468,7 +2468,7 @@
     "phase": "Primary",
     "lat": 51.5764,
     "lon": -0.12649,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2479,7 +2479,7 @@
     "lat": 51.59014,
     "lon": -0.24609,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2488,7 +2488,7 @@
     "phase": "Primary",
     "lat": 51.42216,
     "lon": -0.326,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2520,7 +2520,7 @@
     "phase": "Primary",
     "lat": 51.51464,
     "lon": -0.20365,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2541,7 +2541,7 @@
     "lat": 51.56586,
     "lon": 0.00553,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Girls"
   },
@@ -2563,7 +2563,7 @@
     "lat": 51.39538,
     "lon": -0.2476,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Boys"
   },
@@ -2585,7 +2585,7 @@
     "lat": 51.41567,
     "lon": -0.26536,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2615,7 +2615,7 @@
     "lat": 51.58255,
     "lon": -0.04017,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2625,7 +2625,7 @@
     "lat": 51.60866,
     "lon": -0.23261,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2657,7 +2657,7 @@
     "lat": 51.58411,
     "lon": -0.41047,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2667,7 +2667,7 @@
     "lat": 51.58763,
     "lon": -0.41165,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2707,7 +2707,7 @@
     "lat": 51.47156,
     "lon": -0.09488,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2716,7 +2716,7 @@
     "phase": "Primary",
     "lat": 51.38413,
     "lon": 0.07743,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2726,7 +2726,7 @@
     "phase": "Primary",
     "lat": 51.38413,
     "lon": 0.07743,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2737,7 +2737,7 @@
     "lat": 51.65367,
     "lon": -0.17719,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2746,7 +2746,7 @@
     "phase": "Primary",
     "lat": 51.58054,
     "lon": -0.06641,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2757,7 +2757,7 @@
     "lat": 51.4234,
     "lon": -0.10902,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2767,7 +2767,7 @@
     "lat": 51.49529,
     "lon": -0.01183,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2777,7 +2777,7 @@
     "lat": 51.37217,
     "lon": -0.25597,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2787,7 +2787,7 @@
     "lat": 51.35102,
     "lon": -0.21866,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2796,7 +2796,7 @@
     "phase": "Primary",
     "lat": 51.51423,
     "lon": -0.00495,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2836,7 +2836,7 @@
     "phase": "Primary",
     "lat": 51.51036,
     "lon": -0.02991,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2877,7 +2877,7 @@
     "lat": 51.36584,
     "lon": 0.06355,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2906,7 +2906,7 @@
     "phase": "Primary",
     "lat": 51.40872,
     "lon": -0.09834,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2917,7 +2917,7 @@
     "lat": 51.52893,
     "lon": -0.43997,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2927,7 +2927,7 @@
     "lat": 51.55933,
     "lon": -0.39072,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2956,7 +2956,7 @@
     "phase": "Primary",
     "lat": 51.45613,
     "lon": -0.30996,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -2987,7 +2987,7 @@
     "lat": 51.48749,
     "lon": -0.03702,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -2997,7 +2997,7 @@
     "lat": 51.51,
     "lon": -0.26885,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3007,7 +3007,7 @@
     "lat": 51.35365,
     "lon": -0.18849,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3037,7 +3037,7 @@
     "lat": 51.38039,
     "lon": -0.23158,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3047,7 +3047,7 @@
     "lat": 51.51924,
     "lon": -0.36623,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3067,7 +3067,7 @@
     "lat": 51.41449,
     "lon": -0.10206,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3097,7 +3097,7 @@
     "lat": 51.55155,
     "lon": -0.10573,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3117,7 +3117,7 @@
     "lat": 51.60491,
     "lon": -0.06334,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3167,7 +3167,7 @@
     "lat": 51.56305,
     "lon": -0.24202,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3177,7 +3177,7 @@
     "lat": 51.49673,
     "lon": -0.31242,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -3187,7 +3187,7 @@
     "phase": "Primary",
     "lat": 51.49477,
     "lon": -0.23071,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -3198,7 +3198,7 @@
     "lat": 51.60299,
     "lon": -0.11032,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3217,7 +3217,7 @@
     "phase": "Primary",
     "lat": 51.44113,
     "lon": -0.18519,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -3228,7 +3228,7 @@
     "lat": 51.58394,
     "lon": -0.06875,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3248,7 +3248,7 @@
     "lat": 51.51143,
     "lon": -0.25614,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3258,7 +3258,7 @@
     "lat": 51.64446,
     "lon": -0.15456,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3268,7 +3268,7 @@
     "lat": 51.54252,
     "lon": 0.09014,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3298,7 +3298,7 @@
     "lat": 51.60916,
     "lon": -0.27381,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3308,7 +3308,7 @@
     "lat": 51.57865,
     "lon": -0.02299,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3318,7 +3318,7 @@
     "lat": 51.48046,
     "lon": -0.38182,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3348,7 +3348,7 @@
     "lat": 51.47037,
     "lon": -0.04844,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3377,7 +3377,7 @@
     "phase": "Secondary",
     "lat": 51.53292,
     "lon": -0.11357,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -3388,7 +3388,7 @@
     "lat": 51.52866,
     "lon": -0.06291,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3418,7 +3418,7 @@
     "lat": 51.38734,
     "lon": -0.10562,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3428,7 +3428,7 @@
     "lat": 51.38734,
     "lon": -0.10562,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3438,7 +3438,7 @@
     "lat": 51.66389,
     "lon": -0.25803,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3448,7 +3448,7 @@
     "lat": 51.45091,
     "lon": 0.04578,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3457,7 +3457,7 @@
     "phase": "Secondary",
     "lat": 51.50026,
     "lon": -0.32986,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -3468,7 +3468,7 @@
     "lat": 51.5519,
     "lon": -0.1948,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -3501,7 +3501,7 @@
     "lat": 51.653,
     "lon": -0.08319,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3511,7 +3511,7 @@
     "lat": 51.51276,
     "lon": -0.07091,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -3522,7 +3522,7 @@
     "lat": 51.49064,
     "lon": -0.08832,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -3533,7 +3533,7 @@
     "lat": 51.36296,
     "lon": -0.27536,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3564,7 +3564,7 @@
     "lat": 51.62719,
     "lon": -0.25841,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3593,7 +3593,7 @@
     "phase": "Secondary",
     "lat": 51.49963,
     "lon": -0.38651,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -3643,7 +3643,7 @@
     "phase": "Primary",
     "lat": 51.50144,
     "lon": -0.32082,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -3654,7 +3654,7 @@
     "lat": 51.62222,
     "lon": -0.18164,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -3675,7 +3675,7 @@
     "lat": 51.62402,
     "lon": -0.08434,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3695,7 +3695,7 @@
     "lat": 51.55346,
     "lon": -0.16094,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3715,7 +3715,7 @@
     "lat": 51.44723,
     "lon": -0.18887,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3724,7 +3724,7 @@
     "phase": "Secondary",
     "lat": 51.54935,
     "lon": 0.02217,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -3765,7 +3765,7 @@
     "lat": 51.65677,
     "lon": -0.21172,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3795,7 +3795,7 @@
     "lat": 51.59452,
     "lon": -0.00396,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3805,7 +3805,7 @@
     "lat": 51.50099,
     "lon": -0.10325,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3815,7 +3815,7 @@
     "lat": 51.6162,
     "lon": -0.15499,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3825,7 +3825,7 @@
     "lat": 51.61459,
     "lon": -0.20306,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3835,7 +3835,7 @@
     "lat": 51.47778,
     "lon": -0.21523,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3876,7 +3876,7 @@
     "lat": 51.42196,
     "lon": -0.15312,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3896,7 +3896,7 @@
     "lat": 51.52462,
     "lon": 0.00566,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3905,7 +3905,7 @@
     "phase": "Primary",
     "lat": 51.49042,
     "lon": -0.06014,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -3936,7 +3936,7 @@
     "lat": 51.58552,
     "lon": -0.19852,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3946,7 +3946,7 @@
     "lat": 51.58552,
     "lon": -0.19852,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3956,7 +3956,7 @@
     "lat": 51.42197,
     "lon": -0.18478,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3987,7 +3987,7 @@
     "lat": 51.48813,
     "lon": -0.00763,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4016,7 +4016,7 @@
     "phase": "Secondary",
     "lat": 51.58006,
     "lon": -0.06529,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4027,7 +4027,7 @@
     "lat": 51.55182,
     "lon": -0.23108,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4047,7 +4047,7 @@
     "lat": 51.453,
     "lon": -0.13215,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4066,7 +4066,7 @@
     "phase": "Primary",
     "lat": 51.5294,
     "lon": -0.05129,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4087,7 +4087,7 @@
     "lat": 51.55206,
     "lon": 0.03031,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4096,7 +4096,7 @@
     "phase": "Primary",
     "lat": 51.6042,
     "lon": -0.25739,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4107,7 +4107,7 @@
     "lat": 51.39435,
     "lon": -0.12175,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4137,7 +4137,7 @@
     "phase": "Primary",
     "lat": 51.45479,
     "lon": -0.02827,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4148,7 +4148,7 @@
     "lat": 51.41217,
     "lon": -0.15651,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4157,7 +4157,7 @@
     "phase": "Primary",
     "lat": 51.55462,
     "lon": -0.15296,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4188,7 +4188,7 @@
     "lat": 51.38962,
     "lon": -0.27668,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4218,7 +4218,7 @@
     "lat": 51.5039,
     "lon": -0.30556,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4227,7 +4227,7 @@
     "phase": "Primary",
     "lat": 51.4142,
     "lon": -0.14173,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4238,7 +4238,7 @@
     "lat": 51.55559,
     "lon": -0.08388,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4318,7 +4318,7 @@
     "lat": 51.37643,
     "lon": -0.18316,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4328,7 +4328,7 @@
     "lat": 51.50386,
     "lon": -0.2366,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4348,7 +4348,7 @@
     "phase": "Secondary",
     "lat": 51.4384,
     "lon": -0.31296,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4378,7 +4378,7 @@
     "phase": "Primary",
     "lat": 51.48501,
     "lon": -0.27181,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4389,7 +4389,7 @@
     "lat": 51.4654,
     "lon": -0.08287,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4399,7 +4399,7 @@
     "lat": 51.46407,
     "lon": -0.37287,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4409,7 +4409,7 @@
     "lat": 51.46908,
     "lon": -0.3303,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -4442,7 +4442,7 @@
     "lat": 51.57316,
     "lon": 0.00315,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4462,7 +4462,7 @@
     "lat": 51.46768,
     "lon": -0.04275,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4471,7 +4471,7 @@
     "phase": "Primary",
     "lat": 51.46768,
     "lon": -0.04275,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4492,7 +4492,7 @@
     "lat": 51.42791,
     "lon": 0.01646,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4512,7 +4512,7 @@
     "lat": 51.52465,
     "lon": -0.0591,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4562,7 +4562,7 @@
     "lat": 51.50165,
     "lon": -0.2349,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4604,7 +4604,7 @@
     "lat": 51.42903,
     "lon": -0.3741,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4693,7 +4693,7 @@
     "phase": "Secondary",
     "lat": 51.47325,
     "lon": -0.15951,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4703,7 +4703,7 @@
     "phase": "Secondary",
     "lat": 51.39975,
     "lon": -0.0258,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4713,7 +4713,7 @@
     "phase": "Secondary",
     "lat": 51.49326,
     "lon": -0.07093,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4733,7 +4733,7 @@
     "phase": "Secondary",
     "lat": 51.54869,
     "lon": -0.0071,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4773,7 +4773,7 @@
     "phase": "Secondary",
     "lat": 51.39157,
     "lon": -0.18025,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4794,7 +4794,7 @@
     "lat": 51.47378,
     "lon": -0.07405,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4843,7 +4843,7 @@
     "phase": "Secondary",
     "lat": 51.59132,
     "lon": -0.06026,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4874,7 +4874,7 @@
     "phase": "Secondary",
     "lat": 51.41167,
     "lon": -0.07682,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4884,7 +4884,7 @@
     "phase": "Secondary",
     "lat": 51.41689,
     "lon": -0.04341,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "genderOfEntry": "Girls"
@@ -4906,7 +4906,7 @@
     "phase": "Secondary",
     "lat": 51.37955,
     "lon": -0.10362,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4917,7 +4917,7 @@
     "lat": 51.36919,
     "lon": -0.16641,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4927,7 +4927,7 @@
     "lat": 51.53956,
     "lon": -0.23345,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4936,7 +4936,7 @@
     "phase": "Primary",
     "lat": 51.59842,
     "lon": -0.0582,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4957,7 +4957,7 @@
     "lat": 51.41633,
     "lon": -0.05896,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -4966,7 +4966,7 @@
     "phase": "Primary",
     "lat": 51.45492,
     "lon": -0.07673,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4976,7 +4976,7 @@
     "phase": "Primary",
     "lat": 51.35868,
     "lon": -0.09644,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4986,7 +4986,7 @@
     "phase": "Primary",
     "lat": 51.41233,
     "lon": -0.04862,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -4996,7 +4996,7 @@
     "phase": "Primary",
     "lat": 51.40237,
     "lon": -0.13752,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -5007,7 +5007,7 @@
     "lat": 51.38038,
     "lon": 0.11321,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5017,7 +5017,7 @@
     "lat": 51.47621,
     "lon": -0.06577,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5026,7 +5026,7 @@
     "phase": "Primary",
     "lat": 51.58769,
     "lon": -0.08567,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -5036,7 +5036,7 @@
     "phase": "Primary",
     "lat": 51.36332,
     "lon": -0.1178,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -5046,7 +5046,7 @@
     "phase": "Primary",
     "lat": 51.40194,
     "lon": 0.00174,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -5067,7 +5067,7 @@
     "lat": 51.51389,
     "lon": -0.06619,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5077,7 +5077,7 @@
     "lat": 51.40782,
     "lon": -0.18087,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5111,7 +5111,7 @@
     "lat": 51.58205,
     "lon": -0.21633,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -5122,7 +5122,7 @@
     "lat": 51.54484,
     "lon": -0.15435,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5132,7 +5132,7 @@
     "lat": 51.5427,
     "lon": -0.14351,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5162,7 +5162,7 @@
     "lat": 51.62239,
     "lon": -0.07503,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5172,7 +5172,7 @@
     "lat": 51.59764,
     "lon": -0.11929,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5182,7 +5182,7 @@
     "lat": 51.46959,
     "lon": -0.14297,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5191,7 +5191,7 @@
     "phase": "Primary",
     "lat": 51.36503,
     "lon": -0.09784,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -5241,7 +5241,7 @@
     "phase": "Primary",
     "lat": 51.47865,
     "lon": -0.12589,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -5262,7 +5262,7 @@
     "lat": 51.64668,
     "lon": -0.04945,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5302,7 +5302,7 @@
     "lat": 51.36248,
     "lon": -0.12965,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5321,7 +5321,7 @@
     "phase": "Secondary",
     "lat": 51.5528,
     "lon": -0.10153,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -5352,7 +5352,7 @@
     "lat": 51.58144,
     "lon": -0.13313,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5361,7 +5361,7 @@
     "phase": "Secondary",
     "lat": 51.64872,
     "lon": -0.10816,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -5392,7 +5392,7 @@
     "lat": 51.39811,
     "lon": -0.2106,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5402,7 +5402,7 @@
     "lat": 51.59221,
     "lon": -0.03399,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5432,7 +5432,7 @@
     "lat": 51.44791,
     "lon": -0.02278,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5452,7 +5452,7 @@
     "lat": 51.46731,
     "lon": -0.05258,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5471,7 +5471,7 @@
     "phase": "Primary",
     "lat": 51.57079,
     "lon": -0.08144,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -5482,7 +5482,7 @@
     "lat": 51.47595,
     "lon": -0.19749,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -5526,7 +5526,7 @@
     "lat": 51.36628,
     "lon": 0.09154,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -5570,7 +5570,7 @@
     "lat": 51.43531,
     "lon": -0.05674,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -5580,7 +5580,7 @@
     "phase": "Primary",
     "lat": 51.46341,
     "lon": -0.28581,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -5592,7 +5592,7 @@
     "lat": 51.3677,
     "lon": -0.14669,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -5636,7 +5636,7 @@
     "lat": 51.54614,
     "lon": -0.1779,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -5667,7 +5667,7 @@
     "lat": 51.58187,
     "lon": -0.11492,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Girls"
   },
@@ -5678,7 +5678,7 @@
     "lat": 51.46423,
     "lon": -0.22122,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5718,7 +5718,7 @@
     "lat": 51.36487,
     "lon": -0.10159,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5728,7 +5728,7 @@
     "lat": 51.53378,
     "lon": -0.08068,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5737,7 +5737,7 @@
     "phase": "Primary",
     "lat": 51.52777,
     "lon": -0.10614,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -5757,7 +5757,7 @@
     "phase": "Primary",
     "lat": 51.4854,
     "lon": -0.05351,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -5767,7 +5767,7 @@
     "phase": "Primary",
     "lat": 51.41935,
     "lon": -0.13154,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -5789,7 +5789,7 @@
     "phase": "Primary",
     "lat": 51.45524,
     "lon": -0.13005,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -5801,7 +5801,7 @@
     "lat": 51.53951,
     "lon": -0.20805,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -5823,7 +5823,7 @@
     "lat": 51.47225,
     "lon": -0.32853,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5833,7 +5833,7 @@
     "lat": 51.55169,
     "lon": -0.37507,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5853,7 +5853,7 @@
     "lat": 51.46064,
     "lon": -0.04662,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5863,7 +5863,7 @@
     "lat": 51.41095,
     "lon": -0.06921,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5873,7 +5873,7 @@
     "lat": 51.47688,
     "lon": -0.00936,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5935,7 +5935,7 @@
     "lat": 51.46951,
     "lon": -0.15277,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -5996,7 +5996,7 @@
     "lat": 51.3843,
     "lon": -0.08043,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6006,7 +6006,7 @@
     "lat": 51.40625,
     "lon": -0.21517,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6026,7 +6026,7 @@
     "lat": 51.45241,
     "lon": -0.11388,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6066,7 +6066,7 @@
     "lat": 51.57557,
     "lon": -0.02838,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6096,7 +6096,7 @@
     "lat": 51.47499,
     "lon": -0.0508,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6115,7 +6115,7 @@
     "phase": "Secondary",
     "lat": 51.51431,
     "lon": -0.21532,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -6135,7 +6135,7 @@
     "phase": "Primary",
     "lat": 51.49363,
     "lon": -0.20218,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -6145,7 +6145,7 @@
     "phase": "Primary",
     "lat": 51.54972,
     "lon": -0.13927,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -6157,7 +6157,7 @@
     "lat": 51.47419,
     "lon": -0.27665,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6167,7 +6167,7 @@
     "lat": 51.48583,
     "lon": -0.10513,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6177,7 +6177,7 @@
     "lat": 51.54053,
     "lon": -0.19708,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6187,7 +6187,7 @@
     "lat": 51.40525,
     "lon": -0.29506,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6197,7 +6197,7 @@
     "lat": 51.40453,
     "lon": -0.27466,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6207,7 +6207,7 @@
     "lat": 51.53722,
     "lon": -0.12646,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6217,7 +6217,7 @@
     "lat": 51.5843,
     "lon": -0.27048,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6227,7 +6227,7 @@
     "lat": 51.58968,
     "lon": -0.27472,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6277,7 +6277,7 @@
     "lat": 51.65137,
     "lon": -0.06122,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6287,7 +6287,7 @@
     "lat": 51.42685,
     "lon": -0.09004,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6297,7 +6297,7 @@
     "lat": 51.37872,
     "lon": -0.27373,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6307,7 +6307,7 @@
     "lat": 51.51611,
     "lon": -0.0643,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6317,7 +6317,7 @@
     "lat": 51.36783,
     "lon": -0.1039,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -6350,7 +6350,7 @@
     "lat": 51.56,
     "lon": -0.14944,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -6412,7 +6412,7 @@
     "lat": 51.53222,
     "lon": 0.06523,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6431,7 +6431,7 @@
     "phase": "Primary",
     "lat": 51.47222,
     "lon": -0.18892,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -6442,7 +6442,7 @@
     "lat": 51.38892,
     "lon": -0.01897,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Boys"
   },
@@ -6483,7 +6483,7 @@
     "phase": "Primary",
     "lat": 51.4953,
     "lon": -0.21814,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -6495,7 +6495,7 @@
     "lat": 51.42214,
     "lon": -0.29632,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6505,7 +6505,7 @@
     "lat": 51.62511,
     "lon": -0.07022,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -6536,7 +6536,7 @@
     "lat": 51.5285,
     "lon": -0.06284,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6586,7 +6586,7 @@
     "lat": 51.54453,
     "lon": -0.2469,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6596,7 +6596,7 @@
     "lat": 51.57443,
     "lon": 0.00757,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6616,7 +6616,7 @@
     "lat": 51.61772,
     "lon": -0.08154,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6635,7 +6635,7 @@
     "phase": "Primary",
     "lat": 51.59604,
     "lon": -0.10198,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -6646,7 +6646,7 @@
     "lat": 51.46315,
     "lon": -0.25773,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6655,7 +6655,7 @@
     "phase": "Primary",
     "lat": 51.60183,
     "lon": -0.11586,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -6686,7 +6686,7 @@
     "lat": 51.42015,
     "lon": -0.156,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6695,7 +6695,7 @@
     "phase": "Primary",
     "lat": 51.49496,
     "lon": -0.29735,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -6706,7 +6706,7 @@
     "lat": 51.53144,
     "lon": 0.02465,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6716,7 +6716,7 @@
     "lat": 51.49806,
     "lon": -0.30838,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6746,7 +6746,7 @@
     "lat": 51.44391,
     "lon": -0.40108,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6785,7 +6785,7 @@
     "phase": "Primary",
     "lat": 51.53756,
     "lon": -0.05903,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -6806,7 +6806,7 @@
     "lat": 51.40985,
     "lon": -0.14904,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6836,7 +6836,7 @@
     "lat": 51.48344,
     "lon": -0.23976,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6882,7 +6882,7 @@
     "lat": 51.46961,
     "lon": -0.0871,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6903,7 +6903,7 @@
     "lat": 51.38612,
     "lon": -0.2597,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6924,7 +6924,7 @@
     "lat": 51.38745,
     "lon": -0.18708,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6934,17 +6934,7 @@
     "lat": 51.52725,
     "lon": -0.0296,
     "outstanding": false,
-    "good": false,
-    "grammar": false
-  },
-  {
-    "urn": "101554",
-    "name": "Malorees Junior School",
-    "phase": "Primary",
-    "lat": 51.54156,
-    "lon": -0.21473,
-    "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6973,7 +6963,7 @@
     "phase": "Primary",
     "lat": 51.36401,
     "lon": -0.18819,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -7004,7 +6994,7 @@
     "lat": 51.39499,
     "lon": -0.30693,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7014,7 +7004,7 @@
     "lat": 51.52979,
     "lon": -0.13325,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -7035,7 +7025,7 @@
     "lat": 51.52293,
     "lon": -0.01237,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7044,7 +7034,7 @@
     "phase": "Primary",
     "lat": 51.46136,
     "lon": -0.29025,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -7085,7 +7075,7 @@
     "phase": "Primary",
     "lat": 51.51159,
     "lon": -0.02032,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -7106,7 +7096,7 @@
     "lat": 51.43327,
     "lon": -0.31495,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7136,7 +7126,7 @@
     "lat": 51.60782,
     "lon": -0.26358,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -7147,7 +7137,7 @@
     "lat": 51.56243,
     "lon": -0.23967,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Girls",
     "faith": true
@@ -7204,7 +7194,7 @@
     "lat": 51.41353,
     "lon": -0.1889,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7213,7 +7203,7 @@
     "phase": "Primary",
     "lat": 51.40977,
     "lon": -0.20137,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -7224,7 +7214,7 @@
     "lat": 51.48525,
     "lon": -0.08839,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7233,7 +7223,7 @@
     "phase": "Secondary",
     "lat": 51.56233,
     "lon": -0.27817,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -7254,7 +7244,7 @@
     "lat": 51.62775,
     "lon": -0.24633,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7264,7 +7254,7 @@
     "lat": 51.6099,
     "lon": -0.20755,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -7274,7 +7264,7 @@
     "phase": "Primary",
     "lat": 51.49316,
     "lon": 0.01117,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -7285,7 +7275,7 @@
     "lat": 51.55587,
     "lon": -0.05095,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7295,7 +7285,7 @@
     "lat": 51.5838,
     "lon": -0.03186,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7356,7 +7346,7 @@
     "lat": 51.39271,
     "lon": -0.20312,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7366,7 +7356,7 @@
     "lat": 51.5286,
     "lon": -0.1,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7375,7 +7365,7 @@
     "phase": "Primary",
     "lat": 51.54695,
     "lon": -0.0509,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -7435,7 +7425,7 @@
     "phase": "Primary",
     "lat": 51.54721,
     "lon": -0.02451,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -7466,7 +7456,7 @@
     "phase": "Primary",
     "lat": 51.53385,
     "lon": -0.05535,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -7507,7 +7497,7 @@
     "lat": 51.51585,
     "lon": -0.07098,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7528,7 +7518,7 @@
     "lat": 51.51853,
     "lon": -0.04221,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7538,7 +7528,7 @@
     "lat": 51.534,
     "lon": -0.02643,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7558,7 +7548,7 @@
     "lat": 51.47104,
     "lon": -0.0309,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7609,7 +7599,7 @@
     "lat": 51.54234,
     "lon": -0.24316,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7629,7 +7619,7 @@
     "lat": 51.53762,
     "lon": -0.23919,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -7640,7 +7630,7 @@
     "lat": 51.57368,
     "lon": -0.39326,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7713,7 +7703,7 @@
     "lat": 51.41084,
     "lon": -0.11212,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Girls"
   },
@@ -7724,7 +7714,7 @@
     "lat": 51.41008,
     "lon": -0.12812,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7734,7 +7724,7 @@
     "lat": 51.56745,
     "lon": -0.00306,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7744,7 +7734,7 @@
     "lat": 51.48562,
     "lon": -0.20331,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7774,7 +7764,7 @@
     "lat": 51.52591,
     "lon": -0.31803,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7784,7 +7774,7 @@
     "lat": 51.58572,
     "lon": -0.10619,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7794,7 +7784,7 @@
     "lat": 51.54482,
     "lon": -0.21201,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -7825,7 +7815,7 @@
     "lat": 51.56266,
     "lon": -0.06506,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7834,7 +7824,7 @@
     "phase": "Secondary",
     "lat": 51.60176,
     "lon": -0.40698,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -7897,7 +7887,7 @@
     "lat": 51.52924,
     "lon": -0.06172,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7917,7 +7907,7 @@
     "lat": 51.61451,
     "lon": -0.09094,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7937,7 +7927,7 @@
     "lat": 51.64249,
     "lon": -0.03796,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7947,7 +7937,7 @@
     "lat": 51.4686,
     "lon": -0.22657,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7957,7 +7947,7 @@
     "lat": 51.38287,
     "lon": -0.06325,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7967,7 +7957,7 @@
     "lat": 51.50253,
     "lon": 0.02649,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7988,7 +7978,7 @@
     "lat": 51.50071,
     "lon": -0.11141,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -7998,7 +7988,7 @@
     "lat": 51.55011,
     "lon": 0.01779,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8038,7 +8028,7 @@
     "lat": 51.53077,
     "lon": -0.03667,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8079,7 +8069,7 @@
     "lat": 51.38428,
     "lon": -0.0404,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8099,7 +8089,7 @@
     "lat": 51.37283,
     "lon": 0.1162,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8109,7 +8099,7 @@
     "lat": 51.40774,
     "lon": 0.07361,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8129,7 +8119,7 @@
     "lat": 51.4101,
     "lon": 0.03083,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8138,7 +8128,7 @@
     "phase": "Secondary",
     "lat": 51.45097,
     "lon": -0.31906,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -8159,7 +8149,7 @@
     "lat": 51.52079,
     "lon": -0.06483,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8169,7 +8159,7 @@
     "lat": 51.58967,
     "lon": -0.00738,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -8180,7 +8170,7 @@
     "lat": 51.48995,
     "lon": -0.31093,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -8202,7 +8192,7 @@
     "lat": 51.51014,
     "lon": -0.01953,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -8213,7 +8203,7 @@
     "lat": 51.42643,
     "lon": -0.04149,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -8257,7 +8247,7 @@
     "lat": 51.54077,
     "lon": -0.26489,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -8323,7 +8313,7 @@
     "lat": 51.35224,
     "lon": -0.19568,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8354,7 +8344,7 @@
     "lat": 51.5595,
     "lon": -0.11456,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8364,7 +8354,7 @@
     "lat": 51.59917,
     "lon": -0.19777,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -8447,7 +8437,7 @@
     "lat": 51.48415,
     "lon": -0.17798,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8457,7 +8447,7 @@
     "lat": 51.57708,
     "lon": -0.23101,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8477,7 +8467,7 @@
     "lat": 51.56507,
     "lon": -0.09931,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8517,7 +8507,7 @@
     "lat": 51.41636,
     "lon": -0.19783,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8558,7 +8548,7 @@
     "lat": 51.51309,
     "lon": -0.23784,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8567,7 +8557,7 @@
     "phase": "Primary",
     "lat": 51.48614,
     "lon": -0.06721,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -8598,7 +8588,7 @@
     "lat": 51.48048,
     "lon": -0.05594,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8617,7 +8607,7 @@
     "phase": "Primary",
     "lat": 51.48818,
     "lon": -0.1372,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -8627,7 +8617,7 @@
     "phase": "Secondary",
     "lat": 51.5793,
     "lon": -0.38701,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -8688,7 +8678,7 @@
     "lat": 51.40374,
     "lon": -0.19962,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8697,7 +8687,7 @@
     "phase": "Primary",
     "lat": 51.53361,
     "lon": 0.01905,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -8708,7 +8698,7 @@
     "lat": 51.45165,
     "lon": -0.02978,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8717,7 +8707,7 @@
     "phase": "Secondary",
     "lat": 51.45931,
     "lon": -0.026,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -8728,7 +8718,7 @@
     "lat": 51.46363,
     "lon": -0.01613,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8738,7 +8728,7 @@
     "lat": 51.56592,
     "lon": -0.2889,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8789,7 +8779,7 @@
     "lat": 51.65176,
     "lon": -0.19679,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Girls"
   },
@@ -8806,12 +8796,12 @@
   },
   {
     "urn": "143212",
-    "name": "Queen's Manor School and Special Needs Unit",
+    "name": "Queen's Manor School",
     "phase": "Primary",
     "lat": 51.47984,
     "lon": -0.22177,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8821,7 +8811,7 @@
     "lat": 51.54056,
     "lon": -0.21864,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8861,7 +8851,7 @@
     "lat": 51.62668,
     "lon": -0.1697,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8881,7 +8871,7 @@
     "lat": 51.39477,
     "lon": 0.03276,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8891,7 +8881,7 @@
     "lat": 51.53168,
     "lon": 0.0091,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8901,7 +8891,7 @@
     "lat": 51.36944,
     "lon": 0.03564,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8911,7 +8901,7 @@
     "lat": 51.51975,
     "lon": 0.02273,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8931,7 +8921,7 @@
     "lat": 51.4034,
     "lon": -0.23817,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8941,7 +8931,7 @@
     "lat": 51.61309,
     "lon": -0.0611,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -8950,7 +8940,7 @@
     "phase": "Secondary",
     "lat": 51.44353,
     "lon": -0.41113,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -8970,7 +8960,7 @@
     "phase": "Primary",
     "lat": 51.4775,
     "lon": -0.11512,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -8991,7 +8981,7 @@
     "lat": 51.53301,
     "lon": -0.1332,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9021,7 +9011,7 @@
     "phase": "Secondary",
     "lat": 51.42866,
     "lon": -0.20527,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -9032,7 +9022,7 @@
     "lat": 51.44809,
     "lon": -0.12696,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9063,7 +9053,7 @@
     "lat": 51.56833,
     "lon": -0.20196,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9083,7 +9073,7 @@
     "phase": "Primary",
     "lat": 51.56664,
     "lon": -0.01924,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -9114,7 +9104,7 @@
     "lat": 51.54508,
     "lon": -0.12014,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9134,7 +9124,7 @@
     "lat": 51.38647,
     "lon": -0.08209,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9154,7 +9144,7 @@
     "lat": 51.36538,
     "lon": -0.19682,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9163,7 +9153,7 @@
     "phase": "Primary",
     "lat": 51.4194,
     "lon": -0.08983,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -9174,7 +9164,7 @@
     "lat": 51.58998,
     "lon": -0.27248,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9184,7 +9174,7 @@
     "lat": 51.58998,
     "lon": -0.27248,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9194,7 +9184,7 @@
     "lat": 51.59875,
     "lon": -0.02633,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9204,7 +9194,7 @@
     "lat": 51.5383,
     "lon": 0.00083,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9214,7 +9204,7 @@
     "lat": 51.58305,
     "lon": -0.11919,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9224,7 +9214,7 @@
     "lat": 51.58305,
     "lon": -0.11919,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9254,7 +9244,7 @@
     "lat": 51.56226,
     "lon": -0.37188,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9264,7 +9254,7 @@
     "lat": 51.55162,
     "lon": -0.16608,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9295,7 +9285,7 @@
     "lat": 51.53849,
     "lon": -0.09012,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9305,7 +9295,7 @@
     "lat": 51.4924,
     "lon": -0.04963,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9315,7 +9305,7 @@
     "lat": 51.56824,
     "lon": -0.38332,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9345,7 +9335,7 @@
     "lat": 51.56231,
     "lon": -0.41921,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9365,7 +9355,7 @@
     "lat": 51.55527,
     "lon": -0.04691,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9384,7 +9374,7 @@
     "phase": "Secondary",
     "lat": 51.4094,
     "lon": -0.20869,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -9416,7 +9406,7 @@
     "lat": 51.55022,
     "lon": -0.11365,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9438,7 +9428,7 @@
     "lat": 51.40036,
     "lon": -0.24066,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9449,7 +9439,7 @@
     "lat": 51.42139,
     "lon": -0.32023,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9492,7 +9482,7 @@
     "phase": "Secondary",
     "lat": 51.49358,
     "lon": -0.22335,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -9504,7 +9494,7 @@
     "lat": 51.44689,
     "lon": -0.20856,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9515,7 +9505,7 @@
     "lat": 51.53833,
     "lon": -0.24611,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Girls",
     "faith": true
@@ -9527,7 +9517,7 @@
     "lat": 51.51222,
     "lon": -0.21698,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9538,7 +9528,7 @@
     "lat": 51.47598,
     "lon": -0.10241,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9549,7 +9539,7 @@
     "lat": 51.47471,
     "lon": -0.17196,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9560,7 +9550,7 @@
     "lat": 51.50275,
     "lon": -0.09317,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9571,7 +9561,7 @@
     "lat": 51.49124,
     "lon": 0.06119,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9582,7 +9572,7 @@
     "lat": 51.53812,
     "lon": -0.20686,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9591,7 +9581,7 @@
     "phase": "Primary",
     "lat": 51.54675,
     "lon": 0.03466,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -9661,7 +9651,7 @@
     "phase": "Primary",
     "lat": 51.53336,
     "lon": -0.06548,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -9682,7 +9672,7 @@
     "lat": 51.42318,
     "lon": -0.16757,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9712,7 +9702,7 @@
     "phase": "Primary",
     "lat": 51.55282,
     "lon": -0.07152,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -9723,7 +9713,7 @@
     "lat": 51.46876,
     "lon": -0.15662,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9732,7 +9722,7 @@
     "phase": "Primary",
     "lat": 51.53985,
     "lon": 0.03766,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -9763,7 +9753,7 @@
     "phase": "Primary",
     "lat": 51.44695,
     "lon": -0.20375,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -9815,7 +9805,7 @@
     "lat": 51.48329,
     "lon": -0.20915,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9865,7 +9855,7 @@
     "lat": 51.51174,
     "lon": -0.13439,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -9886,7 +9876,7 @@
     "lat": 51.48791,
     "lon": -0.08927,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9896,7 +9886,7 @@
     "lat": 51.60422,
     "lon": -0.01441,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9905,7 +9895,7 @@
     "phase": "Primary",
     "lat": 51.57809,
     "lon": -0.02773,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -9916,7 +9906,7 @@
     "lat": 51.58261,
     "lon": -0.08226,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9966,7 +9956,7 @@
     "lat": 51.53057,
     "lon": 0.02936,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -9986,7 +9976,7 @@
     "lat": 51.4452,
     "lon": -0.1971,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -10006,7 +9996,7 @@
     "lat": 51.4453,
     "lon": -0.21609,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -10076,7 +10066,7 @@
     "lat": 51.42191,
     "lon": -0.29316,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10120,7 +10110,7 @@
     "lat": 51.52017,
     "lon": -0.11117,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10131,7 +10121,7 @@
     "lat": 51.48168,
     "lon": -0.01277,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10153,7 +10143,7 @@
     "lat": 51.54921,
     "lon": -0.23655,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10164,7 +10154,7 @@
     "lat": 51.62541,
     "lon": -0.15315,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10175,7 +10165,7 @@
     "lat": 51.53818,
     "lon": -0.11462,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10208,7 +10198,7 @@
     "lat": 51.46835,
     "lon": -0.12235,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10219,7 +10209,7 @@
     "lat": 51.63,
     "lon": -0.19641,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10262,7 +10252,7 @@
     "phase": "Secondary",
     "lat": 51.6163,
     "lon": -0.10799,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "genderOfEntry": "Girls",
@@ -10286,7 +10276,7 @@
     "lat": 51.40999,
     "lon": -0.05905,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10297,7 +10287,7 @@
     "lat": 51.54068,
     "lon": 0.02435,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10363,7 +10353,7 @@
     "lat": 51.44495,
     "lon": -0.1352,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10418,7 +10408,7 @@
     "lat": 51.52172,
     "lon": -0.21394,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10439,7 +10429,7 @@
     "phase": "Primary",
     "lat": 51.51366,
     "lon": -0.11973,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -10462,7 +10452,7 @@
     "lat": 51.3554,
     "lon": -0.21987,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10473,7 +10463,7 @@
     "lat": 51.62928,
     "lon": -0.05565,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10484,7 +10474,7 @@
     "lat": 51.49216,
     "lon": -0.02423,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10572,13 +10562,13 @@
     "lat": 51.45936,
     "lon": -0.18645,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
   {
-    "urn": "102149",
-    "name": "St Francis de Sales RC Infant School",
+    "urn": "151947",
+    "name": "St Francis De Sales Catholic Infant School",
     "phase": "Primary",
     "lat": 51.60296,
     "lon": -0.06899,
@@ -10588,8 +10578,8 @@
     "faith": true
   },
   {
-    "urn": "102143",
-    "name": "St Francis de Sales RC Junior School",
+    "urn": "151946",
+    "name": "St Francis De Sales Catholic Junior School",
     "phase": "Primary",
     "lat": 51.60296,
     "lon": -0.06899,
@@ -10605,7 +10595,7 @@
     "lat": 51.48003,
     "lon": -0.06708,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10616,7 +10606,7 @@
     "lat": 51.54866,
     "lon": 0.00589,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10627,7 +10617,7 @@
     "lat": 51.48637,
     "lon": -0.14227,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10659,7 +10649,7 @@
     "phase": "Secondary",
     "lat": 51.5329,
     "lon": -0.18797,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -10682,7 +10672,7 @@
     "lat": 51.47717,
     "lon": -0.13923,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10725,7 +10715,7 @@
     "phase": "Secondary",
     "lat": 51.58229,
     "lon": -0.30269,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -10737,7 +10727,7 @@
     "lat": 51.46713,
     "lon": -0.11431,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10753,8 +10743,8 @@
     "faith": true
   },
   {
-    "urn": "102144",
-    "name": "St Ignatius RC Primary School",
+    "urn": "152263",
+    "name": "St Ignatius Catholic Primary School",
     "phase": "Primary",
     "lat": 51.57638,
     "lon": -0.07307,
@@ -10781,7 +10771,7 @@
     "lat": 51.47435,
     "lon": -0.07311,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10792,7 +10782,7 @@
     "lat": 51.60079,
     "lon": -0.24093,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10803,7 +10793,7 @@
     "lat": 51.49784,
     "lon": -0.06776,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10814,7 +10804,7 @@
     "lat": 51.54991,
     "lon": 0.01739,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10824,7 +10814,7 @@
     "phase": "Primary",
     "lat": 51.43707,
     "lon": -0.3476,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -10858,7 +10848,7 @@
     "lat": 51.55661,
     "lon": -0.0961,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10891,7 +10881,7 @@
     "lat": 51.53397,
     "lon": -0.10405,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10913,7 +10903,7 @@
     "lat": 51.41599,
     "lon": -0.30999,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10923,7 +10913,7 @@
     "phase": "Primary",
     "lat": 51.53091,
     "lon": -0.08404,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -10968,7 +10958,7 @@
     "lat": 51.46314,
     "lon": -0.07174,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10979,7 +10969,7 @@
     "lat": 51.46805,
     "lon": -0.10854,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -10990,7 +10980,7 @@
     "lat": 51.40414,
     "lon": -0.29962,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11001,7 +10991,7 @@
     "lat": 51.53002,
     "lon": -0.05438,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11012,7 +11002,7 @@
     "lat": 51.41522,
     "lon": -0.0552,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11023,7 +11013,7 @@
     "lat": 51.62654,
     "lon": -0.17833,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11055,7 +11045,7 @@
     "lat": 51.5003,
     "lon": -0.04151,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11066,7 +11056,7 @@
     "lat": 51.56265,
     "lon": -0.13163,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11098,7 +11088,7 @@
     "lat": 51.56461,
     "lon": -0.02402,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11109,7 +11099,7 @@
     "lat": 51.56916,
     "lon": -0.01657,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11120,7 +11110,7 @@
     "lat": 51.4592,
     "lon": -0.20045,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11175,7 +11165,7 @@
     "lat": 51.41198,
     "lon": 0.02591,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11241,7 +11231,7 @@
     "lat": 51.42238,
     "lon": -0.09992,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11251,7 +11241,7 @@
     "phase": "Primary",
     "lat": 51.42183,
     "lon": -0.10005,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -11274,7 +11264,7 @@
     "lat": 51.51619,
     "lon": -0.12187,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11306,7 +11296,7 @@
     "phase": "Primary",
     "lat": 51.42684,
     "lon": -0.13638,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -11329,7 +11319,7 @@
     "lat": 51.55801,
     "lon": -0.19437,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11340,7 +11330,7 @@
     "lat": 51.52657,
     "lon": -0.09192,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11384,7 +11374,7 @@
     "lat": 51.56176,
     "lon": -0.26091,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11428,7 +11418,7 @@
     "lat": 51.39917,
     "lon": -0.07099,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11450,7 +11440,7 @@
     "lat": 51.56435,
     "lon": -0.12094,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11461,7 +11451,7 @@
     "lat": 51.50754,
     "lon": -0.34179,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -11471,7 +11461,7 @@
     "lat": 51.50191,
     "lon": -0.19187,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11482,7 +11472,7 @@
     "lat": 51.51371,
     "lon": -0.05293,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11493,7 +11483,7 @@
     "lat": 51.53237,
     "lon": -0.13447,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11504,7 +11494,7 @@
     "lat": 51.54838,
     "lon": -0.22901,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11559,7 +11549,7 @@
     "lat": 51.38062,
     "lon": -0.09803,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11581,7 +11571,7 @@
     "lat": 51.4989,
     "lon": -0.21599,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11614,7 +11604,7 @@
     "lat": 51.46938,
     "lon": -0.32711,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11647,7 +11637,7 @@
     "lat": 51.53936,
     "lon": -0.09988,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11674,23 +11664,12 @@
     "faith": true
   },
   {
-    "urn": "102139",
-    "name": "St Mary's CofE Primary School",
-    "phase": "Primary",
-    "lat": 51.58596,
-    "lon": -0.11523,
-    "outstanding": false,
-    "good": true,
-    "grammar": false,
-    "faith": true
-  },
-  {
     "urn": "144238",
     "name": "St Mary's CofE Primary School",
     "phase": "Primary",
     "lat": 51.58344,
     "lon": -0.00318,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -11778,7 +11757,7 @@
     "phase": "Primary",
     "lat": 51.45934,
     "lon": -0.13832,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -11790,7 +11769,7 @@
     "lat": 51.46421,
     "lon": -0.00044,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11801,7 +11780,7 @@
     "lat": 51.3871,
     "lon": -0.30006,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11812,7 +11791,7 @@
     "lat": 51.41421,
     "lon": -0.24553,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11834,7 +11813,7 @@
     "lat": 51.5525,
     "lon": -0.07934,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11855,7 +11834,7 @@
     "phase": "Secondary",
     "lat": 51.50045,
     "lon": -0.06791,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -11901,7 +11880,7 @@
     "lat": 51.59939,
     "lon": -0.11293,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11922,7 +11901,7 @@
     "phase": "Secondary",
     "lat": 51.3673,
     "lon": 0.10425,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": true,
     "genderOfEntry": "Boys",
@@ -11935,7 +11914,7 @@
     "lat": 51.54927,
     "lon": -0.14281,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11957,7 +11936,7 @@
     "lat": 51.51807,
     "lon": -0.02936,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -11979,7 +11958,7 @@
     "lat": 51.60271,
     "lon": -0.06372,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12001,7 +11980,7 @@
     "lat": 51.59705,
     "lon": -0.11452,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12012,7 +11991,7 @@
     "lat": 51.54138,
     "lon": -0.16372,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12033,7 +12012,7 @@
     "phase": "Primary",
     "lat": 51.49063,
     "lon": -0.2272,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -12045,7 +12024,7 @@
     "lat": 51.4848,
     "lon": -0.30494,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12067,7 +12046,7 @@
     "lat": 51.41662,
     "lon": -0.2875,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12121,7 +12100,7 @@
     "lat": 51.48617,
     "lon": -0.09331,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12131,7 +12110,7 @@
     "phase": "Primary",
     "lat": 51.50764,
     "lon": -0.05523,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -12142,7 +12121,7 @@
     "phase": "Primary",
     "lat": 51.49205,
     "lon": -0.24096,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -12154,7 +12133,7 @@
     "lat": 51.35948,
     "lon": -0.08997,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12175,7 +12154,7 @@
     "phase": "Secondary",
     "lat": 51.44749,
     "lon": -0.33453,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -12198,7 +12177,7 @@
     "lat": 51.43695,
     "lon": -0.31975,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12208,7 +12187,7 @@
     "phase": "Primary",
     "lat": 51.58252,
     "lon": -0.26694,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -12231,7 +12210,7 @@
     "lat": 51.45994,
     "lon": -0.01032,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12242,7 +12221,7 @@
     "lat": 51.46247,
     "lon": -0.09766,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12252,7 +12231,7 @@
     "phase": "Primary",
     "lat": 51.51637,
     "lon": -0.01736,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -12275,7 +12254,7 @@
     "lat": 51.5585,
     "lon": -0.05997,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12286,7 +12265,7 @@
     "lat": 51.45611,
     "lon": -0.32302,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12297,7 +12276,7 @@
     "lat": 51.47979,
     "lon": -0.12258,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12351,7 +12330,7 @@
     "lat": 51.3897,
     "lon": -0.18169,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12362,7 +12341,7 @@
     "lat": 51.59459,
     "lon": -0.18809,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12378,7 +12357,7 @@
     "faith": true
   },
   {
-    "urn": "100357",
+    "urn": "152441",
     "name": "St Thomas of Canterbury Catholic Primary School",
     "phase": "Primary",
     "lat": 51.4818,
@@ -12400,24 +12379,13 @@
     "faith": true
   },
   {
-    "urn": "101143",
-    "name": "St Vincent's Catholic Primary School",
-    "phase": "Primary",
-    "lat": 51.51862,
-    "lon": -0.15269,
-    "outstanding": true,
-    "good": false,
-    "grammar": false,
-    "faith": true
-  },
-  {
     "urn": "101334",
     "name": "St Vincent's Catholic Primary School",
     "phase": "Primary",
     "lat": 51.61711,
     "lon": -0.22342,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12433,13 +12401,24 @@
     "faith": true
   },
   {
+    "urn": "152442",
+    "name": "St Vincent's Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.51862,
+    "lon": -0.15269,
+    "outstanding": true,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "142226",
     "name": "St. Mary's Catholic Junior School",
     "phase": "Primary",
     "lat": 51.37997,
     "lon": -0.09542,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -12449,7 +12428,7 @@
     "phase": "Primary",
     "lat": 51.53787,
     "lon": -0.06473,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -12482,7 +12461,7 @@
     "lat": 51.35485,
     "lon": -0.16397,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12492,7 +12471,7 @@
     "lat": 51.43372,
     "lon": -0.34457,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12502,7 +12481,7 @@
     "lat": 51.52146,
     "lon": 0.00723,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12531,7 +12510,7 @@
     "phase": "Secondary",
     "lat": 51.51625,
     "lon": -0.04421,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -12563,7 +12542,7 @@
     "phase": "Primary",
     "lat": 51.40294,
     "lon": -0.05825,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -12594,7 +12573,7 @@
     "lat": 51.55789,
     "lon": -0.08461,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12604,7 +12583,7 @@
     "lat": 51.5858,
     "lon": -0.0355,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12624,7 +12603,7 @@
     "lat": 51.48719,
     "lon": -0.28124,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12634,7 +12613,7 @@
     "lat": 51.53263,
     "lon": 0.00737,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12644,7 +12623,7 @@
     "lat": 51.54075,
     "lon": 0.02309,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12654,7 +12633,7 @@
     "lat": 51.56777,
     "lon": -0.10721,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12674,7 +12653,7 @@
     "lat": 51.47174,
     "lon": -0.19936,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12694,7 +12673,7 @@
     "lat": 51.59157,
     "lon": -0.23235,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12713,7 +12692,7 @@
     "phase": "Primary",
     "lat": 51.48874,
     "lon": -0.083,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -12735,7 +12714,7 @@
     "lat": 51.45153,
     "lon": -0.18606,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12776,7 +12755,7 @@
     "lat": 51.43423,
     "lon": -0.05892,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12795,7 +12774,7 @@
     "phase": "Primary",
     "lat": 51.44273,
     "lon": -0.13777,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -12848,7 +12827,7 @@
     "phase": "Secondary",
     "lat": 51.59144,
     "lon": -0.16924,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -12869,7 +12848,7 @@
     "lat": 51.46554,
     "lon": -0.07428,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12900,7 +12879,7 @@
     "lat": 51.53557,
     "lon": -0.07267,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12931,7 +12910,7 @@
     "phase": "Secondary",
     "lat": 51.52522,
     "lon": -0.35202,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -12954,7 +12933,7 @@
     "lat": 51.49671,
     "lon": -0.06265,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12984,7 +12963,7 @@
     "lat": 51.52178,
     "lon": -0.01971,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -12993,7 +12972,7 @@
     "phase": "Secondary",
     "lat": 51.60852,
     "lon": -0.16106,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -13014,7 +12993,7 @@
     "lat": 51.60622,
     "lon": -0.08165,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13024,7 +13003,7 @@
     "lat": 51.55996,
     "lon": -0.44444,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -13034,7 +13013,7 @@
     "phase": "Secondary",
     "lat": 51.51706,
     "lon": -0.28649,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "genderOfEntry": "Girls"
@@ -13133,7 +13112,7 @@
     "lat": 51.39681,
     "lon": -0.29905,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13163,7 +13142,7 @@
     "phase": "Primary",
     "lat": 51.58255,
     "lon": -0.24825,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -13174,7 +13153,7 @@
     "lat": 51.5554,
     "lon": 0.00796,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13184,7 +13163,7 @@
     "lat": 51.34549,
     "lon": -0.13386,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -13225,7 +13204,7 @@
     "phase": "Secondary",
     "lat": 51.42373,
     "lon": -0.30192,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -13267,7 +13246,7 @@
     "lat": 51.36926,
     "lon": -0.10921,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -13278,7 +13257,7 @@
     "lat": 51.36926,
     "lon": -0.10921,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -13289,7 +13268,7 @@
     "lat": 51.59574,
     "lon": -0.06633,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13318,7 +13297,7 @@
     "phase": "Primary",
     "lat": 51.54972,
     "lon": -0.05211,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -13371,7 +13350,7 @@
     "lat": 51.63745,
     "lon": -0.07198,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13422,7 +13401,7 @@
     "lat": 51.39827,
     "lon": -0.14143,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13431,7 +13410,7 @@
     "phase": "Secondary",
     "lat": 51.52221,
     "lon": -0.15217,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -13442,7 +13421,7 @@
     "phase": "Secondary",
     "lat": 51.47125,
     "lon": -0.05662,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -13475,7 +13454,7 @@
     "lat": 51.63889,
     "lon": -0.20038,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13495,7 +13474,7 @@
     "lat": 51.56269,
     "lon": 0.07003,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -13536,7 +13515,7 @@
     "phase": "Primary",
     "lat": 51.59606,
     "lon": -0.08162,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -13547,7 +13526,7 @@
     "lat": 51.59508,
     "lon": -0.02466,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13556,7 +13535,7 @@
     "phase": "Primary",
     "lat": 51.58972,
     "lon": -0.00414,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -13566,7 +13545,7 @@
     "phase": "Primary",
     "lat": 51.52174,
     "lon": -0.06485,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -13587,7 +13566,7 @@
     "lat": 51.57514,
     "lon": -0.02207,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13607,7 +13586,7 @@
     "lat": 51.34406,
     "lon": -0.12017,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -13618,7 +13597,7 @@
     "lat": 51.46609,
     "lon": 0.02633,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13628,7 +13607,7 @@
     "lat": 51.47212,
     "lon": -0.2042,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13638,7 +13617,7 @@
     "lat": 51.54033,
     "lon": -0.10949,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13690,7 +13669,7 @@
     "lat": 51.3828,
     "lon": -0.29316,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13699,7 +13678,7 @@
     "phase": "Primary",
     "lat": 51.42683,
     "lon": -0.16216,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -13709,7 +13688,7 @@
     "phase": "Primary",
     "lat": 51.54967,
     "lon": -0.13284,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -13720,7 +13699,7 @@
     "lat": 51.50159,
     "lon": -0.07701,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13750,7 +13729,7 @@
     "lat": 51.45654,
     "lon": -0.11957,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -13772,7 +13751,7 @@
     "lat": 51.45523,
     "lon": 0.00751,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -13814,7 +13793,7 @@
     "lat": 51.55445,
     "lon": -0.12957,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13824,7 +13803,7 @@
     "lat": 51.44971,
     "lon": -0.36712,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13843,7 +13822,7 @@
     "phase": "Primary",
     "lat": 51.44544,
     "lon": -0.34032,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -13926,7 +13905,7 @@
     "lat": 51.53744,
     "lon": -0.47283,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13936,7 +13915,7 @@
     "lat": 51.40644,
     "lon": 0.00844,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -13985,7 +13964,7 @@
     "phase": "Secondary",
     "lat": 51.51016,
     "lon": -0.37335,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -14006,7 +13985,7 @@
     "lat": 51.53564,
     "lon": -0.11881,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14015,7 +13994,7 @@
     "phase": "Secondary",
     "lat": 51.55849,
     "lon": -0.46209,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -14025,7 +14004,7 @@
     "phase": "Secondary",
     "lat": 51.43944,
     "lon": -0.351,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -14035,7 +14014,7 @@
     "phase": "Secondary",
     "lat": 51.36902,
     "lon": -0.14918,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": true,
     "genderOfEntry": "Boys"
@@ -14047,7 +14026,7 @@
     "lat": 51.348,
     "lon": -0.14885,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": true,
     "genderOfEntry": "Girls"
   },
@@ -14068,7 +14047,7 @@
     "lat": 51.49408,
     "lon": -0.11288,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14078,7 +14057,7 @@
     "lat": 51.59949,
     "lon": -0.02438,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -14089,7 +14068,7 @@
     "lat": 51.59949,
     "lon": -0.02438,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14098,7 +14077,7 @@
     "phase": "Secondary",
     "lat": 51.58529,
     "lon": -0.01375,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "genderOfEntry": "Girls"
@@ -14110,7 +14089,7 @@
     "lat": 51.5757,
     "lon": 0.03574,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14140,7 +14119,7 @@
     "lat": 51.57678,
     "lon": -0.41357,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14160,7 +14139,7 @@
     "lat": 51.60697,
     "lon": -0.26802,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14190,7 +14169,7 @@
     "lat": 51.47209,
     "lon": -0.37836,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14230,7 +14209,7 @@
     "lat": 51.58483,
     "lon": -0.09367,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14240,7 +14219,7 @@
     "lat": 51.53704,
     "lon": 0.01153,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -14251,7 +14230,7 @@
     "lat": 51.55068,
     "lon": -0.19951,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14261,7 +14240,7 @@
     "lat": 51.45558,
     "lon": -0.19904,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14280,7 +14259,7 @@
     "phase": "Primary",
     "lat": 51.49477,
     "lon": -0.23071,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -14301,7 +14280,7 @@
     "lat": 51.53415,
     "lon": -0.28259,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14331,7 +14310,7 @@
     "lat": 51.47708,
     "lon": -0.17191,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14341,7 +14320,7 @@
     "lat": 51.48205,
     "lon": -0.37528,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14361,7 +14340,7 @@
     "lat": 51.49796,
     "lon": -0.13938,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -14392,7 +14371,7 @@
     "lat": 51.5792,
     "lon": -0.44063,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14411,7 +14390,7 @@
     "phase": "Secondary",
     "lat": 51.5736,
     "lon": -0.35287,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -14422,7 +14401,7 @@
     "lat": 51.59845,
     "lon": -0.03533,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14432,7 +14411,7 @@
     "lat": 51.53184,
     "lon": -0.2082,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14452,7 +14431,7 @@
     "lat": 51.54203,
     "lon": 0.03987,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14462,7 +14441,7 @@
     "lat": 51.52449,
     "lon": -0.06671,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14482,7 +14461,7 @@
     "lat": 51.4004,
     "lon": -0.13261,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14511,7 +14490,7 @@
     "phase": "Secondary",
     "lat": 51.53769,
     "lon": -0.34841,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -14522,7 +14501,7 @@
     "phase": "Primary",
     "lat": 51.54241,
     "lon": -0.10145,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -14532,7 +14511,7 @@
     "phase": "Primary",
     "lat": 51.56505,
     "lon": -0.0204,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -14553,7 +14532,7 @@
     "lat": 51.58566,
     "lon": -0.03937,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14585,7 +14564,7 @@
     "lat": 51.41884,
     "lon": -0.22151,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "faith": true
   },
@@ -14595,7 +14574,7 @@
     "phase": "Primary",
     "lat": 51.43884,
     "lon": -0.196,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },
@@ -14606,7 +14585,7 @@
     "lat": 51.62921,
     "lon": -0.09142,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14616,7 +14595,7 @@
     "lat": 51.50949,
     "lon": 0.06293,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14626,7 +14605,7 @@
     "lat": 51.39931,
     "lon": -0.11472,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false,
     "genderOfEntry": "Boys"
   },
@@ -14698,7 +14677,7 @@
     "lat": 51.33078,
     "lon": -0.13932,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14708,7 +14687,7 @@
     "lat": 51.60887,
     "lon": -0.25294,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14729,7 +14708,7 @@
     "lat": 51.55083,
     "lon": 0.02829,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14749,7 +14728,7 @@
     "lat": 51.41314,
     "lon": -0.13493,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14769,7 +14748,7 @@
     "lat": 51.62393,
     "lon": -0.19371,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14779,7 +14758,7 @@
     "lat": 51.38485,
     "lon": -0.07461,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14799,7 +14778,7 @@
     "lat": 51.50321,
     "lon": 0.10873,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14830,7 +14809,7 @@
     "lat": 51.46571,
     "lon": -0.32563,
     "outstanding": false,
-    "good": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -14839,7 +14818,7 @@
     "phase": "Secondary",
     "lat": 51.61256,
     "lon": -0.16813,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false,
     "faith": true
@@ -14850,7 +14829,7 @@
     "phase": "Primary",
     "lat": 51.56246,
     "lon": -0.25455,
-    "outstanding": false,
+    "outstanding": true,
     "good": false,
     "grammar": false
   },

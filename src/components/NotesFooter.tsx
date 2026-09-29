@@ -28,7 +28,7 @@ export function NotesContent({ sortedResults }: Props) {
     {
       label: 'Rent',
       source: 'ONS Private Rental Market Statistics; Hutch / Joinhutch asking-rent data',
-      availability: 'ONS January 2026 release; asking-rent snapshot in app data',
+      availability: 'Rolled forward to Aug 2026 by borough ONS rent index (Sep 2026 release)',
       level: 'Location-level market estimate',
     },
     {
@@ -51,8 +51,8 @@ export function NotesContent({ sortedResults }: Props) {
     },
     {
       label: 'Crime',
-      source: 'Police API street-level crime counts; Nomis 2011 ward population',
-      availability: 'Latest 12 Police API months in generated data',
+      source: 'MPS Ward Level Crime (all offences); 2021 Census ward population',
+      availability: 'Sep 2025 – Aug 2026',
       level: 'Ward-weighted, with borough fallback',
     },
     {
@@ -64,7 +64,7 @@ export function NotesContent({ sortedResults }: Props) {
     {
       label: 'Schools',
       source: 'Ofsted state-school inspection data',
-      availability: 'Latest inspections as at 30 April 2026',
+      availability: 'Latest inspections as at 31 August 2026',
       level: '2km primary (distance-weighted) / 5km secondary radius around each location anchor; grammar/selective per each school’s own catchment',
     },
   ];

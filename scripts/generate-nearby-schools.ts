@@ -42,8 +42,14 @@ interface School extends Coordinates {
   faith?: boolean;
 }
 
-const OFSTED_CSV = path.resolve(process.cwd(), 'data/raw/ofsted-latest-inspections-apr-2026.csv');
-const OFSTED_URL = 'https://assets.publishing.service.gov.uk/media/6a06d8adee62840dba48a304/Management_information_-_state-funded_schools_-_latest_inspections_as_at_30_Apr_2026.csv';
+const OFSTED_CSV = path.resolve(process.cwd(), 'data/raw/ofsted-latest-inspections-aug-2026.csv');
+const OFSTED_URL = 'https://assets.publishing.service.gov.uk/media/6aa0175392e72b8ac437ef37/Management_information_-_state-funded_schools_-_latest_inspections_as_at_31_August_2026.csv';
+// Fallback grades: the current MI leaves "Latest OEIF overall effectiveness" blank for ~40% of
+// schools (e.g. last graded before the Sept 2019 OEIF, or inspected under the report-card framework
+// with no overall grade). The Aug 2024 outcomes file — the last with an overall-effectiveness
+// judgement — still carries their Outstanding/Good grade, so use it when the current one is blank.
+const OFSTED_2024_CSV = path.resolve(process.cwd(), 'data/raw/ofsted-outcomes-aug-2024.csv');
+const OFSTED_2024_URL = 'https://assets.publishing.service.gov.uk/media/673f1b064a6dd5b06db95a5b/State_funded_schools_inspections_and_outcomes_as_at_31_August_2024.csv';
 const OUT_PATH = path.resolve(process.cwd(), 'src/data/generated/schools.json');
 const MAX_CACHED_CSV_BYTES = 50 * 1024 * 1024;
 const POSTCODE_COORDS_CSV = path.resolve(process.cwd(), 'scripts/data/school-postcode-coords.csv');
@@ -116,22 +122,22 @@ function loadPostcodeCoords(): Map<string, Coordinates> {
   return out;
 }
 
-async function loadOfstedCsv(): Promise<string> {
-  if (fs.existsSync(OFSTED_CSV)) {
-    console.log(`Using cached Ofsted CSV: ${OFSTED_CSV}`);
-    return fs.readFileSync(OFSTED_CSV, 'utf8');
+async function loadOfstedCsv(csvPath = OFSTED_CSV, url = OFSTED_URL): Promise<string> {
+  if (fs.existsSync(csvPath)) {
+    console.log(`Using cached Ofsted CSV: ${csvPath}`);
+    return fs.readFileSync(csvPath, 'utf8');
   }
 
-  console.log('Downloading Ofsted latest inspections CSV...');
-  const res = await fetch(OFSTED_URL);
+  console.log(`Downloading Ofsted CSV ${url}...`);
+  const res = await fetch(url);
   if (!res.ok) throw new Error(`Ofsted CSV HTTP ${res.status}`);
   const text = await res.text();
   const bytes = Buffer.byteLength(text, 'utf8');
   const sizeMb = (bytes / 1024 / 1024).toFixed(1);
 
   if (bytes <= MAX_CACHED_CSV_BYTES) {
-    fs.writeFileSync(OFSTED_CSV, text, 'utf8');
-    console.log(`Cached Ofsted CSV: ${OFSTED_CSV} (${sizeMb} MB)`);
+    fs.writeFileSync(csvPath, text, 'utf8');
+    console.log(`Cached Ofsted CSV: ${csvPath} (${sizeMb} MB)`);
   } else {
     console.log(`Skipped caching Ofsted CSV because it is ${sizeMb} MB`);
   }
@@ -184,6 +190,14 @@ async function main() {
     && row.Postcode.trim()
   );
   const postcodeCoordinates = loadPostcodeCoords();
+  const grade2024 = new Map(
+    (parseCsv(await loadOfstedCsv(OFSTED_2024_CSV, OFSTED_2024_URL)) as Record<string, string>[])
+      .map(row => [row.URN, row['Overall effectiveness']]),
+  );
+  const gradeOf = (row: OfstedRow) => {
+    const current = row['Latest OEIF overall effectiveness'];
+    return /^[1-4]$/.test(current) ? current : grade2024.get(row.URN);
+  };
 
   const schools: School[] = schoolRows.flatMap(row => {
     const point = postcodeCoordinates.get(normalizePostcode(row.Postcode));
@@ -192,8 +206,8 @@ async function main() {
       urn: row.URN,
       name: row['School name'],
       phase: row['Ofsted phase'] as Phase,
-      outstanding: row['Latest OEIF overall effectiveness'] === '1',
-      good: row['Latest OEIF overall effectiveness'] === '2',
+      outstanding: gradeOf(row) === '1',
+      good: gradeOf(row) === '2',
       grammar: row['Admissions policy'].trim().toLowerCase() === 'selective',
       genderOfEntry: inferGenderOfEntry(row['School name']),
       // A faith school admits partly on religious grounds, so it's not realistically open to all —

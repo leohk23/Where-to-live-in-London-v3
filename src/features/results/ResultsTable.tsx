@@ -223,10 +223,10 @@ function getSchoolTitle(result: ScoredResult) {
     : '';
 
   if (result.schoolsSource === 'nearby') {
-    return `${result.outstandingSchools} of ${result.schoolsTotal} schools Outstanding around ${result.anchorStation}: ${split}. ${scope.title} Ofsted Apr 2026.${grammar}${nearest}`;
+    return `${result.outstandingSchools} of ${result.schoolsTotal} schools Outstanding around ${result.anchorStation}: ${split}. ${scope.title} Ofsted Aug 2026.${grammar}${nearest}`;
   }
 
-  return `${result.outstandingSchools} of ${result.schoolsTotal} schools Outstanding at borough level: ${split} (Ofsted Apr 2026).`;
+  return `${result.outstandingSchools} of ${result.schoolsTotal} schools Outstanding at borough level: ${split} (Ofsted Aug 2026).`;
 }
 
 // A metric's source-geography tag under the column title (Station / Area / Borough / Ward …). One
