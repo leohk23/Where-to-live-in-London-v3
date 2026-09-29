@@ -46,7 +46,7 @@ export function NotesContent({ sortedResults }: Props) {
     {
       label: 'Council tax',
       source: 'Borough Band D council tax rates, including GLA precept',
-      availability: '2026/27 tax year',
+      availability: '2026/27 tax year; Wandsworth includes its proposed +£958 Band D rise from April 2027 (not yet final)',
       level: 'Borough',
     },
     {

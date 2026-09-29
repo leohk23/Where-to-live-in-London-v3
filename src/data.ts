@@ -21,11 +21,18 @@ export const boroughStats = boroughStatsJson as unknown as Record<string, Boroug
 // local authorities" Table 9). Other bands are statutory ninths of D.
 // ponytail: bedrooms→band is a rough proxy (1→B, 2→D, 3→E, 4→F); real banding is by 1991 value.
 const BAND_RATIO_BY_BEDROOMS: Record<BedroomCount, number> = { 1: 7 / 9, 2: 1, 3: 11 / 9, 4: 13 / 9 };
+// Forward-looking Band D uplifts (£/yr) for announced rises not yet in force. Wandsworth: proposed
+// +£958 from April 2027 (~94%, Fair Funding cut; referendum cap waived) — final vote Mar 2027.
+// Drop an entry once the official figure for that year lands in council-tax.json.
+const COUNCIL_TAX_FORWARD_UPLIFT: Record<string, number> = { Wandsworth: 958 };
 export const councilTaxData: Record<string, Record<BedroomCount, number>> = Object.fromEntries(
-  Object.entries(taxDataRaw as Record<string, number>).map(([borough, bandD]) => [
-    borough,
-    Object.fromEntries(Object.entries(BAND_RATIO_BY_BEDROOMS).map(([beds, r]) => [beds, bandD * r])) as Record<BedroomCount, number>,
-  ]),
+  Object.entries(taxDataRaw as Record<string, number>).map(([borough, officialBandD]) => {
+    const bandD = officialBandD + (COUNCIL_TAX_FORWARD_UPLIFT[borough] ?? 0);
+    return [
+      borough,
+      Object.fromEntries(Object.entries(BAND_RATIO_BY_BEDROOMS).map(([beds, r]) => [beds, bandD * r])) as Record<BedroomCount, number>,
+    ];
+  }),
 );
 export const wardCrime = wardCrimeJson as unknown as WardCrimeDataset;
 
