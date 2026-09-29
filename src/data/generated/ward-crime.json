@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-09-29T08:46:55.972Z",
+    "generatedAt": "2026-09-29T21:30:49.983Z",
     "source": "MPS Ward Level Crime (all offences), latest 12 months",
     "sourceUrl": "https://data.london.gov.uk/dataset/recorded_crime_summary",
     "months": [
@@ -29,6 +29,22 @@
       "crimes": 2789,
       "population": 21090,
       "crimesPer1000": 132.2
+    },
+    "E05009318": {
+      "code": "E05009318",
+      "name": "Blackwall & Cubitt Town",
+      "ladCode": "E09000030",
+      "crimes": 1911,
+      "population": 21426,
+      "crimesPer1000": 89.2
+    },
+    "E05009323": {
+      "code": "E05009323",
+      "name": "Canary Wharf",
+      "ladCode": "E09000030",
+      "crimes": 2863,
+      "population": 17976,
+      "crimesPer1000": 159.3
     },
     "E05009331": {
       "code": "E05009331",
@@ -237,6 +253,38 @@
       "crimes": 1752,
       "population": 16707,
       "crimesPer1000": 104.9
+    },
+    "E05013512": {
+      "code": "E05013512",
+      "name": "Tokyngton",
+      "ladCode": "E09000005",
+      "crimes": 603,
+      "population": 10006,
+      "crimesPer1000": 60.3
+    },
+    "E05013514": {
+      "code": "E05013514",
+      "name": "Wembley Central",
+      "ladCode": "E09000005",
+      "crimes": 1626,
+      "population": 17925,
+      "crimesPer1000": 90.7
+    },
+    "E05013515": {
+      "code": "E05013515",
+      "name": "Wembley Hill",
+      "ladCode": "E09000005",
+      "crimes": 1802,
+      "population": 15063,
+      "crimesPer1000": 119.6
+    },
+    "E05013516": {
+      "code": "E05013516",
+      "name": "Wembley Park",
+      "ladCode": "E09000005",
+      "crimes": 2141,
+      "population": 7548,
+      "crimesPer1000": 283.7
     },
     "E05013517": {
       "code": "E05013517",
@@ -1006,6 +1054,14 @@
       "population": 8294,
       "crimesPer1000": 74.3
     },
+    "E05013823": {
+      "code": "E05013823",
+      "name": "Raynes Park",
+      "ladCode": "E09000024",
+      "crimes": 653,
+      "population": 12301,
+      "crimesPer1000": 53.1
+    },
     "E05013825": {
       "code": "E05013825",
       "name": "Village",
@@ -1021,6 +1077,14 @@
       "crimes": 412,
       "population": 5603,
       "crimesPer1000": 73.5
+    },
+    "E05013827": {
+      "code": "E05013827",
+      "name": "West Barnes",
+      "ladCode": "E09000024",
+      "crimes": 559,
+      "population": 10610,
+      "crimesPer1000": 52.7
     },
     "E05013828": {
       "code": "E05013828",

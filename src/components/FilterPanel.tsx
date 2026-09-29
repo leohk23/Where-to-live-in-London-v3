@@ -4,7 +4,7 @@ import WorkLocationInput, { type LiveCommuteStatus } from './WorkLocationInput';
 import { BUDGET_MIN, BUDGET_MAX, BUDGET_STEP, MAX_MONTHLY_TRIPS } from '../lib/constants';
 import type { BedroomCount, Priorities } from '../types';
 import type { WorkLocationKey } from '../work-locations';
-import type { SchoolGender, SchoolFaith } from '../data';
+import type { SchoolGender, SchoolFaith, SchoolPhase } from '../data';
 
 type WorkMode = 'preset' | 'address';
 type CommuteSource = 'static' | 'live';
@@ -44,6 +44,8 @@ interface Props {
   setChildGender: (g: SchoolGender) => void;
   schoolFaith: SchoolFaith;
   setSchoolFaith: (f: SchoolFaith) => void;
+  schoolPhase: SchoolPhase;
+  setSchoolPhase: (p: SchoolPhase) => void;
   budgetEnabled: boolean;
   setBudgetEnabled: (v: boolean) => void;
   maxBudget: number;
@@ -82,6 +84,7 @@ export default function FilterPanel({
   priorities, setPriorities,
   childGender, setChildGender,
   schoolFaith, setSchoolFaith,
+  schoolPhase, setSchoolPhase,
   budgetEnabled, setBudgetEnabled,
   maxBudget, setMaxBudget,
   anyPriority,
@@ -263,9 +266,39 @@ export default function FilterPanel({
           ))}
         </div>
 
-        {/* Child gender — only single-sex schools that match are counted in the Schools score. */}
+        {/* School phase — score both phases (averaged) or just the one this family needs. */}
         {priorities.schools > 0 && (
           <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-medium text-gray-600 dark:text-gray-300">School phase</span>
+            <div className="inline-flex rounded-md border border-gray-200 bg-gray-50 p-0.5 text-xs dark:border-gray-700 dark:bg-gray-800">
+              {([['both', 'Both'], ['primary', 'Primary'], ['secondary', 'Secondary']] as const).map(([val, label]) => (
+                <button
+                  key={val}
+                  type="button"
+                  onClick={() => setSchoolPhase(val)}
+                  aria-pressed={schoolPhase === val}
+                  className={`rounded px-2.5 py-1 font-semibold leading-none transition ${
+                    schoolPhase === val
+                      ? 'bg-white text-blue-700 shadow-sm dark:bg-gray-900 dark:text-blue-300'
+                      : 'text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            {schoolPhase === 'primary' && (
+              <span className="text-[11px] text-gray-400 dark:text-gray-500">secondary and grammar schools not scored</span>
+            )}
+            {schoolPhase === 'secondary' && (
+              <span className="text-[11px] text-gray-400 dark:text-gray-500">primary schools not scored</span>
+            )}
+          </div>
+        )}
+
+        {/* Child gender — only single-sex schools that match are counted in the Schools score. */}
+        {priorities.schools > 0 && (
+          <div className="mt-2 flex flex-wrap items-center gap-2">
             <span className="text-xs font-medium text-gray-600 dark:text-gray-300">Schools for a</span>
             <div className="inline-flex rounded-md border border-gray-200 bg-gray-50 p-0.5 text-xs dark:border-gray-700 dark:bg-gray-800">
               {([['any', 'Any child'], ['boy', 'Son'], ['girl', 'Daughter']] as const).map(([val, label]) => (

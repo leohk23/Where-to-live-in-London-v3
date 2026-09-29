@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { commuteTimes, commuteRoutes } from '../../commute-times';
 import { summariseRoute, type TflJourney } from '../../lib/tfl-route';
-import { locationData, councilTaxData, boroughStats, locationSchoolStats, asianSpots, crimeStatsForLocation } from '../../data';
-import type { SchoolGender, SchoolFaith } from '../../data';
+import { locationData, councilTaxData, boroughStats, locationSchoolStats, asianSpots, crimeStatsForLocation, combinePhases, grammarCounts } from '../../data';
+import type { SchoolGender, SchoolFaith, SchoolPhase } from '../../data';
 import { workLocations, type WorkLocationKey } from '../../work-locations';
 import { expectedWaitMinutes, interchangeWaitMinutes } from '../../lib/commute-wait';
 import {
@@ -46,6 +46,8 @@ function readUrlParams() {
     cg:     (p.get('cg') === 'boy' ? 'boy' : p.get('cg') === 'girl' ? 'girl' : 'any') as SchoolGender,
     // Faith mode: 'secular' excludes faith schools from scoring.
     sf:     (p.get('sf') === 'secular' ? 'secular' : 'any') as SchoolFaith,
+    // School phase counted in the score: both (default), primary only, or secondary only.
+    sp:     (p.get('sp') === 'primary' ? 'primary' : p.get('sp') === 'secondary' ? 'secondary' : 'both') as SchoolPhase,
   };
 }
 
@@ -331,6 +333,7 @@ export function useCalculator() {
   // Which child the schools are being judged for — filters out opposite single-sex schools.
   const [childGender,   setChildGender]   = useState<SchoolGender>(url?.cg ?? 'any');
   const [schoolFaith,   setSchoolFaith]   = useState<SchoolFaith>(url?.sf ?? 'any');
+  const [schoolPhase,   setSchoolPhase]   = useState<SchoolPhase>(url?.sp ?? 'both');
   const [priorities, setPriorities] = useState<Priorities>({
     commute: url?.pc   ?? 0,
     cost:    url?.pco  ?? 0,
@@ -397,6 +400,7 @@ export function useCalculator() {
     if (priorities.schools)                     p.set('psch',   String(priorities.schools));
     if (childGender !== 'any')                  p.set('cg',     childGender);
     if (schoolFaith !== 'any')                  p.set('sf',     schoolFaith);
+    if (schoolPhase !== 'both')                 p.set('sp',     schoolPhase);
     if (budgetEnabled) { p.set('be', '1'); p.set('budget', String(maxBudget)); }
     if (officePostcode)  p.set('op',  officePostcode);
     if (officePostcode2) p.set('op2', officePostcode2);
@@ -404,7 +408,7 @@ export function useCalculator() {
     if (commuteSource2 === 'live') p.set('cs2', 'live');
     const qs = p.toString();
     window.history.replaceState({}, '', qs ? '?' + qs : window.location.pathname);
-  }, [workLocation, workLocation2, workMode, workMode2, bedrooms, monthlyTrips, priorities, maxBudget, budgetEnabled, officePostcode, officePostcode2, commuteSource, commuteSource2, childGender, schoolFaith]);
+  }, [workLocation, workLocation2, workMode, workMode2, bedrooms, monthlyTrips, priorities, maxBudget, budgetEnabled, officePostcode, officePostcode2, commuteSource, commuteSource2, childGender, schoolFaith, schoolPhase]);
 
   // Auto-switch sort column when priorities change
   useEffect(() => {
@@ -704,12 +708,13 @@ export function useCalculator() {
       const sq = x.secondarySchools ? phaseQuality(x.secondaryOutstandingSchools ?? 0, x.secondaryGoodSchools ?? 0, x.secondarySchools) : null;
       const ss = x.secondarySchools ? phaseSupply(secondaryStrong(x), SECONDARY_CHOICE_TARGET) : null;
       const pScore = phaseInt(pq, ps), sScore = phaseInt(sq, ss);
-      const averaged = Math.round(((pScore ?? 0) + (sScore ?? 0)) / 2);
+      const averaged = combinePhases(pScore, sScore, schoolPhase);
       return {
         primary:   { strong: primaryStrong(x),   quality: pq, supply: ps, score: pScore },
         secondary: { strong: secondaryStrong(x), quality: sq, supply: ss, score: sScore },
+        phase: schoolPhase,
         averaged,
-        raw: Math.min(100, averaged + Math.round(grammarBonus(x) * 100)),
+        raw: Math.min(100, averaged + (grammarCounts(schoolPhase) ? Math.round(grammarBonus(x) * 100) : 0)),
       };
     };
     // Build once per area; the composite normalises the SAME raw the column shows, so a schools-only
@@ -826,7 +831,7 @@ export function useCalculator() {
     }
 
     return scored;
-  }, [results, liveCommuteTimes, liveCommuteTimes2, liveCommuteRoutes, liveCommuteRoutes2, workMode, workMode2, workLocation2, commuteSource, commuteSource2, sortBy, sortDirection, priorities, budgetEnabled, maxBudget]);
+  }, [results, liveCommuteTimes, liveCommuteTimes2, liveCommuteRoutes, liveCommuteRoutes2, workMode, workMode2, workLocation2, commuteSource, commuteSource2, sortBy, sortDirection, priorities, budgetEnabled, maxBudget, schoolPhase]);
 
   useEffect(() => {
     calculateCosts();
@@ -844,6 +849,7 @@ export function useCalculator() {
     priorities,    setPriorities,
     childGender,   setChildGender,
     schoolFaith,   setSchoolFaith,
+    schoolPhase,   setSchoolPhase,
     budgetEnabled, setBudgetEnabled,
     maxBudget,     setMaxBudget,
     // Primary live commute

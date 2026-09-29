@@ -1,4 +1,4 @@
-import type { LocationInfo, LocationSchoolStats, SchoolRecord, NearbySchool, AsianSpot, AsianSpotRecord, BoroughStats, BedroomCount, SchoolScoreBreakdown, GeoPoint, WardCrimeDataset, CrimeSource } from './types';
+import type { LocationInfo, LocationSchoolStats, SchoolRecord, NearbySchool, AsianSpot, AsianSpotRecord, BoroughStats, BedroomCount, SchoolScoreBreakdown, SchoolPhase, GeoPoint, WardCrimeDataset, CrimeSource } from './types';
 import locationsJson from './data/locations.json';
 import schoolRecordsJson from './data/generated/schools.json';
 import asianSpotsJson from './data/asian-spots.json';
@@ -95,6 +95,7 @@ const schoolRecords = schoolRecordsJson as unknown as SchoolRecord[];
 export type SchoolGender = 'any' | 'boy' | 'girl';
 // 'secular' drops faith schools (not realistically open to families outside that faith); 'any' keeps them.
 export type SchoolFaith = 'any' | 'secular';
+export type { SchoolPhase };
 
 // A single-sex school is only relevant to a matching child; mixed schools always count.
 function suitsChild(s: SchoolRecord, g: SchoolGender): boolean {
@@ -202,7 +203,16 @@ const phaseInt = (quality: number | null, supply: number | null) =>
     ? null
     : Math.round(0.6 * Math.round(quality * 100) + 0.4 * Math.round(supply * 100));
 
-export function schoolScoreFromStats(stats: SchoolScoreStats, maxGrammar: number): SchoolScoreBreakdown {
+// Combine the two phase scores for the chosen phase(s). A missing phase counts as 0 in 'both'.
+export function combinePhases(p: number | null, s: number | null, phase: SchoolPhase): number {
+  if (phase === 'primary') return p ?? 0;
+  if (phase === 'secondary') return s ?? 0;
+  return Math.round(((p ?? 0) + (s ?? 0)) / 2);
+}
+// Grammar/selective schools are secondary, so their bonus only applies when secondary counts.
+export const grammarCounts = (phase: SchoolPhase) => phase !== 'primary';
+
+export function schoolScoreFromStats(stats: SchoolScoreStats, maxGrammar: number, phase: SchoolPhase = 'both'): SchoolScoreBreakdown {
   const primaryStrong = stats.primaryWeightedStrong;
   const secondaryStrong = stats.secondaryOutstandingSchools + stats.secondaryGoodSchools;
   const pq = stats.primarySchools ? stats.primaryWeightedQuality : null;
@@ -213,12 +223,13 @@ export function schoolScoreFromStats(stats: SchoolScoreStats, maxGrammar: number
   const ss = stats.secondarySchools ? phaseSupply(secondaryStrong, SECONDARY_CHOICE_TARGET) : null;
   const pScore = phaseInt(pq, ps);
   const sScore = phaseInt(sq, ss);
-  const averaged = Math.round(((pScore ?? 0) + (sScore ?? 0)) / 2);
-  const grammarBonus = 0.25 * Math.sqrt(stats.grammarSchools / Math.max(1, maxGrammar));
+  const averaged = combinePhases(pScore, sScore, phase);
+  const grammarBonus = grammarCounts(phase) ? 0.25 * Math.sqrt(stats.grammarSchools / Math.max(1, maxGrammar)) : 0;
 
   return {
     primary: { strong: primaryStrong, quality: pq, supply: ps, score: pScore },
     secondary: { strong: secondaryStrong, quality: sq, supply: ss, score: sScore },
+    phase,
     averaged,
     raw: Math.min(100, averaged + Math.round(grammarBonus * 100)),
   };

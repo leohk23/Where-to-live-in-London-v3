@@ -1088,5 +1088,63 @@
       { "key": "Mill Hill", "naptan": "910GMLHB" },
       { "key": "Mill Hill East", "naptan": "940GZZLUMHL", "station": "Mill Hill East Underground Station" }
     ]
+  },
+  "Wembley": {
+    "point": { "lat": 51.563198, "lon": -0.279262 },
+    "ladCode": "E09000005",
+    "id": "wembley",
+    "displayName": "Wembley",
+    "comparisonName": "Wembley",
+    "anchorStation": "Wembley Park Underground Station",
+    "labelScope": "area",
+    "dataConfidence": "medium",
+    "reviewNote": "Wembley area (Wembley Park / Wembley Central / Wembley Stadium), Brent. Rent from Hutch asking rents, Sep 2026.",
+    "borough": "Brent",
+    "zone": "Zone 4",
+    "station": "Wembley Park Underground Station",
+    "naptan": "940GZZLUWYP",
+    "rent": { "1": 1886, "2": 2461, "3": 2917, "4": 3704 },
+    "commuteStations": [
+      { "key": "Wembley", "naptan": "940GZZLUWYP" },
+      { "key": "Wembley Central", "naptan": "910GWMBY", "station": "Wembley Central Rail Station" },
+      { "key": "Wembley Stadium", "naptan": "910GWEMBLSM", "station": "Wembley Stadium Rail Station" }
+    ]
+  },
+  "Canary Wharf": {
+    "point": { "lat": 51.503488, "lon": -0.018246 },
+    "ladCode": "E09000030",
+    "id": "canary-wharf",
+    "displayName": "Canary Wharf",
+    "comparisonName": "Canary Wharf",
+    "anchorStation": "Canary Wharf Underground Station",
+    "labelScope": "area",
+    "dataConfidence": "medium",
+    "reviewNote": "Canary Wharf / northern Isle of Dogs, Tower Hamlets. Rent from Hutch asking rents, Sep 2026 (tower new-builds, premium end).",
+    "borough": "Tower Hamlets",
+    "zone": "Zone 2",
+    "station": "Canary Wharf Underground Station",
+    "naptan": "940GZZLUCYF",
+    "rent": { "1": 2711, "2": 3515, "3": 3939, "4": 4414 },
+    "commuteStations": [
+      { "key": "Canary Wharf", "naptan": "940GZZLUCYF" },
+      { "key": "Canary Wharf Elizabeth line", "naptan": "910GCANWHRF", "station": "Canary Wharf" },
+      { "key": "South Quay", "naptan": "940GZZDLSOQ", "station": "South Quay DLR Station" }
+    ]
+  },
+  "Raynes Park": {
+    "point": { "lat": 51.409173, "lon": -0.230151 },
+    "ladCode": "E09000024",
+    "id": "raynes-park",
+    "displayName": "Raynes Park",
+    "comparisonName": "Raynes Park",
+    "anchorStation": "Raynes Park Rail Station",
+    "labelScope": "station",
+    "dataConfidence": "medium",
+    "reviewNote": "Raynes Park station anchor (South Western Railway), Merton. Rent from Hutch asking rents, Sep 2026.",
+    "borough": "Merton",
+    "zone": "Zone 4",
+    "station": "Raynes Park Rail Station",
+    "naptan": "910GRAYNSPK",
+    "rent": { "1": 1645, "2": 2185, "3": 2991, "4": 4012 }
   }
 }

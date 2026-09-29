@@ -208,6 +208,8 @@ function LondonCostCalculator() {
       setPriorities={calc.setPriorities}
       schoolFaith={calc.schoolFaith}
       setSchoolFaith={calc.setSchoolFaith}
+      schoolPhase={calc.schoolPhase}
+      setSchoolPhase={calc.setSchoolPhase}
       childGender={calc.childGender}
       setChildGender={calc.setChildGender}
       budgetEnabled={calc.budgetEnabled}
@@ -280,6 +282,7 @@ function LondonCostCalculator() {
                       ? prios.map(k => <span key={k} className={chip}><span className="font-medium capitalize text-blue-600 dark:text-blue-400">{k}</span><span className="font-semibold text-blue-600 dark:text-blue-400">{calc.priorities[k]}</span></span>)
                       : <span className={chip}><span className={lab}>Priorities off</span></span>}
                     {calc.priorities.schools > 0 && calc.childGender !== 'any' && <span className={chip}><span className={lab}>Schools for</span><span className="font-medium">{calc.childGender === 'boy' ? 'son' : 'daughter'}</span></span>}
+                    {calc.priorities.schools > 0 && calc.schoolPhase !== 'both' && <span className={chip}><span className={lab}>Schools</span><span className="font-medium">{calc.schoolPhase} only</span></span>}
                     {calc.priorities.schools > 0 && calc.schoolFaith === 'secular' && <span className={chip}><span className={lab}>No</span><span className="font-medium">faith schools</span></span>}
                     {calc.budgetEnabled && <span className={chip}><span className={lab}>Budget</span><span className="font-medium">&pound;{calc.maxBudget.toLocaleString()}</span></span>}
                     <span className="inline-flex shrink-0 items-center gap-0.5 pl-1 font-medium text-blue-600 dark:text-blue-400">{filtersOverlayOpen ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}{filtersOverlayOpen ? 'Close' : 'Edit'}</span>

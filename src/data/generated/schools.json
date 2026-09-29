@@ -893,6 +893,16 @@
     "grammar": false
   },
   {
+    "urn": "101515",
+    "name": "Barham Primary School",
+    "phase": "Primary",
+    "lat": 51.54892,
+    "lon": -0.30524,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "131057",
     "name": "Barn Croft Primary School",
     "phase": "Primary",
@@ -1923,6 +1933,16 @@
     "lon": -0.20592,
     "outstanding": true,
     "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "101526",
+    "name": "Chalkhill Primary School",
+    "phase": "Primary",
+    "lat": 51.56204,
+    "lon": -0.27017,
+    "outstanding": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -3262,6 +3282,16 @@
     "grammar": false
   },
   {
+    "urn": "144794",
+    "name": "East Lane Primary School",
+    "phase": "Primary",
+    "lat": 51.56309,
+    "lon": -0.31044,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
     "urn": "101244",
     "name": "Eastbury Community School",
     "phase": "Secondary",
@@ -3427,6 +3457,16 @@
     "phase": "Primary",
     "lat": 51.38734,
     "lon": -0.10562,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "101519",
+    "name": "Elsley Primary School",
+    "phase": "Primary",
+    "lat": 51.54902,
+    "lon": -0.28705,
     "outstanding": false,
     "good": true,
     "grammar": false
@@ -3824,6 +3864,16 @@
     "phase": "Primary",
     "lat": 51.61459,
     "lon": -0.20306,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "101531",
+    "name": "Fryent Primary School",
+    "phase": "Primary",
+    "lat": 51.57781,
+    "lon": -0.26315,
     "outstanding": false,
     "good": true,
     "grammar": false
@@ -5058,6 +5108,16 @@
     "lon": -0.00642,
     "outstanding": false,
     "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "137177",
+    "name": "Harrow High School",
+    "phase": "Secondary",
+    "lat": 51.57989,
+    "lon": -0.32767,
+    "outstanding": false,
+    "good": true,
     "grammar": false
   },
   {
@@ -6886,6 +6946,16 @@
     "grammar": false
   },
   {
+    "urn": "101506",
+    "name": "Lyon Park Primary School",
+    "phase": "Primary",
+    "lat": 51.54398,
+    "lon": -0.2885,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "100612",
     "name": "Macaulay Church of England Primary School",
     "phase": "Primary",
@@ -7871,6 +7941,16 @@
     "grammar": false
   },
   {
+    "urn": "142718",
+    "name": "Oakington Manor Primary School",
+    "phase": "Primary",
+    "lat": 51.55199,
+    "lon": -0.27243,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "101905",
     "name": "Oaklands Primary School",
     "phase": "Primary",
@@ -8411,6 +8491,16 @@
     "grammar": false
   },
   {
+    "urn": "101509",
+    "name": "Park Lane Primary School",
+    "phase": "Primary",
+    "lat": 51.55584,
+    "lon": -0.29389,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "102736",
     "name": "Park Primary School",
     "phase": "Primary",
@@ -8516,6 +8606,16 @@
     "phase": "Primary",
     "lat": 51.42239,
     "lon": -0.14586,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "101906",
+    "name": "Perivale Primary School",
+    "phase": "Primary",
+    "lat": 51.53688,
+    "lon": -0.31017,
     "outstanding": true,
     "good": false,
     "grammar": false
@@ -8727,6 +8827,16 @@
     "phase": "Secondary",
     "lat": 51.56592,
     "lon": -0.2889,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "101510",
+    "name": "Preston Park Primary School",
+    "phase": "Primary",
+    "lat": 51.57197,
+    "lon": -0.30059,
     "outstanding": false,
     "good": true,
     "grammar": false
@@ -9783,6 +9893,17 @@
     "phase": "Primary",
     "lat": 51.5654,
     "lon": -0.06936,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "101549",
+    "name": "Sinai Jewish Primary School",
+    "phase": "Primary",
+    "lat": 51.57958,
+    "lon": -0.28171,
     "outstanding": false,
     "good": true,
     "grammar": false,
@@ -10886,6 +11007,28 @@
     "faith": true
   },
   {
+    "urn": "152390",
+    "name": "St John Fisher Catholic Primary School",
+    "phase": "Primary",
+    "lat": 51.53793,
+    "lon": -0.31181,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "151349",
+    "name": "St John Fisher RC Primary School",
+    "phase": "Primary",
+    "lat": 51.39712,
+    "lon": -0.22883,
+    "outstanding": false,
+    "good": false,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "100270",
     "name": "St John of Jerusalem Church of England Primary School",
     "phase": "Primary",
@@ -11082,11 +11225,33 @@
     "grammar": false
   },
   {
+    "urn": "101546",
+    "name": "St Joseph's Catholic Infant School",
+    "phase": "Primary",
+    "lat": 51.55182,
+    "lon": -0.28787,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
     "urn": "103090",
     "name": "St Joseph's Catholic Infant School",
     "phase": "Primary",
     "lat": 51.56461,
     "lon": -0.02402,
+    "outstanding": false,
+    "good": true,
+    "grammar": false,
+    "faith": true
+  },
+  {
+    "urn": "101539",
+    "name": "St Joseph's Catholic Junior School",
+    "phase": "Primary",
+    "lat": 51.55239,
+    "lon": -0.28667,
     "outstanding": false,
     "good": true,
     "grammar": false,
@@ -12647,6 +12812,16 @@
     "grammar": false
   },
   {
+    "urn": "138608",
+    "name": "Sudbury Primary School",
+    "phase": "Primary",
+    "lat": 51.55948,
+    "lon": -0.32026,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
     "urn": "143214",
     "name": "Sulivan Primary School",
     "phase": "Primary",
@@ -14168,6 +14343,26 @@
     "phase": "Primary",
     "lat": 51.47209,
     "lon": -0.37836,
+    "outstanding": false,
+    "good": true,
+    "grammar": false
+  },
+  {
+    "urn": "138457",
+    "name": "Wembley High Technology College",
+    "phase": "Secondary",
+    "lat": 51.56309,
+    "lon": -0.31044,
+    "outstanding": true,
+    "good": false,
+    "grammar": false
+  },
+  {
+    "urn": "130095",
+    "name": "Wembley Primary School",
+    "phase": "Primary",
+    "lat": 51.56168,
+    "lon": -0.29489,
     "outstanding": false,
     "good": true,
     "grammar": false

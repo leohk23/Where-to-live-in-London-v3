@@ -66,4 +66,7 @@ export const LOCATION_WARDS: Record<string, string[]> = {
   "Norbury": ["Bensham Manor", "Norbury & Pollards Hill", "Norbury Park", "Thornton Heath"],
   "Ruislip": ["Ruislip", "Ruislip Manor", "South Ruislip"],
   "Mill Hill": ["Edgwarebury", "Mill Hill"],
+  "Wembley": ["Tokyngton", "Wembley Central", "Wembley Hill", "Wembley Park"],
+  "Canary Wharf": ["Blackwall & Cubitt Town", "Canary Wharf"],
+  "Raynes Park": ["Raynes Park", "West Barnes"],
 };

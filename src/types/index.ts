@@ -172,10 +172,14 @@ export interface SchoolPhaseScore {
   score: number | null;   // 0-100 phase score = round(60·quality% + 40·choice%); null if none nearby
 }
 
+// Which school phases the Schools score counts: both (averaged) or just one.
+export type SchoolPhase = 'both' | 'primary' | 'secondary';
+
 export interface SchoolScoreBreakdown {
   primary: SchoolPhaseScore;
   secondary: SchoolPhaseScore;
-  averaged: number;       // 0-100 average of the two phase scores (a missing phase counts as 0)
+  phase: SchoolPhase;
+  averaged: number;       // 0-100 phase combination: average of both (a missing phase counts as 0), or the one chosen phase
   raw: number;            // 0-100 capped final = averaged + selective bonus. Integer-derived so the
                           // panel arithmetic (and the column) add up exactly. selective = raw - averaged.
 }

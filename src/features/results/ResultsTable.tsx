@@ -4,6 +4,7 @@ import {
   ArrowDown,
   CalendarClock,
   ChevronDown,
+  ChevronLeft,
   Clock,
   ChevronRight,
   GraduationCap,
@@ -361,13 +362,16 @@ function SchoolScorePanel({ score }: { score: SchoolScoreBreakdown }) {
         Score factors
       </div>
       <div className="space-y-2.5">
-        <Phase phase="Primary" data={score.primary} />
-        <Phase phase="Secondary" data={score.secondary} />
+        {/* A phase left out by the School phase filter stays visible for context, but dimmed. */}
+        <div className={score.phase === 'secondary' ? 'opacity-40' : ''}><Phase phase="Primary" data={score.primary} /></div>
+        <div className={score.phase === 'primary' ? 'opacity-40' : ''}><Phase phase="Secondary" data={score.secondary} /></div>
       </div>
-      {/* Ledger: average the two phase scores, add the selective bonus, reach the final. */}
+      {/* Ledger: combine the phase score(s), add the selective bonus, reach the final. */}
       <div className="mt-2.5 space-y-1 border-t border-gray-100 pt-2 text-[11px] dark:border-gray-800">
         <div className={`flex items-center justify-between gap-2 ${note}`}>
-          <span>Average <span className="text-gray-400 dark:text-gray-500">({score.primary.score ?? 0} + {score.secondary.score ?? 0}) ÷ 2</span></span>
+          {score.phase === 'both'
+            ? <span>Average <span className="text-gray-400 dark:text-gray-500">({score.primary.score ?? 0} + {score.secondary.score ?? 0}) ÷ 2</span></span>
+            : <span>{score.phase === 'primary' ? 'Primary' : 'Secondary'} only</span>}
           <span className={num}>{score.averaged}</span>
         </div>
         {grammarPct > 0 && (
@@ -1237,7 +1241,21 @@ export default function ResultsTable({
   const [isXl, setIsXl] = useState(false);
   const partnerDestination = getDestinationLabel(workMode2, workLocation2, officePostcode2, '');
   const hasPartnerDestination = Boolean(partnerDestination);
-  const detailColSpan = 10;
+  // Rent / Transport / Council Tax collapse into Total Cost by default; the toggle in the Total
+  // header reveals them. Remembered per viewer (storage may be unavailable — then just default).
+  const [costsExpanded, setCostsExpanded] = useState<boolean>(() => {
+    try { return localStorage.getItem('wtl-expand-costs') === '1'; } catch { return false; }
+  });
+  const toggleCosts = useCallback(() => {
+    setCostsExpanded(v => {
+      try { localStorage.setItem('wtl-expand-costs', v ? '0' : '1'); } catch { /* ignore */ }
+      return !v;
+    });
+  }, []);
+  const detailColSpan = costsExpanded ? 10 : 7;
+  const COST_PARTS: Partial<Record<SortColumn, string>> = { rent: 'rent', transport: 'transport', councilTax: 'council tax' };
+  // Collapsed while sorted by a hidden part: say so under Total, so the order isn't a mystery.
+  const hiddenCostSort = !costsExpanded ? COST_PARTS[sortBy] : undefined;
 
   const stickyRowTop = useCallback(() => {
     const title = titleRef.current;
@@ -1319,6 +1337,10 @@ export default function ResultsTable({
 
     const isXlNow = typeof window !== 'undefined' && window.matchMedia('(min-width: 1280px)').matches;
     if (!isXlNow || !body || !header) return;
+    // Measure the body at its content width, not the w-full stretch — otherwise the browser has
+    // already handed all the slack to Location, and max(header, body) can then overshoot the
+    // scroller and push the last column (Lifelines) off-screen.
+    body.style.width = 'min-content';
 
     const firstRow = body.querySelector('tbody tr');
     const bodyCells = firstRow ? Array.from(firstRow.querySelectorAll(':scope > td')) as HTMLElement[] : [];
@@ -1331,11 +1353,14 @@ export default function ResultsTable({
     const headW = headCells.map(h => h.getBoundingClientRect().width);
     const bodyW = bodyCells.map(c => c.getBoundingClientRect().width);
     const widths = bodyW.map((w, i) => Math.ceil(Math.max(w, headW[i])));
-    // If the columns don't fill the scroller, give the slack to the flexible
-    // Location column (index 1) so the table stretches like the old w-full did.
+    // If the columns don't fill the scroller, share the slack evenly across every column except
+    // the rank (index 0) so the table still stretches full-width without one huge Location column.
     const natural = widths.reduce((a, b) => a + b, 0);
     const target = scrollRef.current?.clientWidth ?? natural;
-    if (natural < target && widths.length > 1) widths[1] += target - natural;
+    if (natural < target && widths.length > 1) {
+      const share = Math.floor((target - natural) / (widths.length - 1));
+      for (let i = 1; i < widths.length; i++) widths[i] += share;
+    }
     const total = widths.reduce((a, b) => a + b, 0);
 
     // Lock widths through a <colgroup> on each table — order-independent, so it stays
@@ -1389,7 +1414,7 @@ export default function ResultsTable({
     // Depend on the results array itself (not just length) so widths re-measure when
     // content changes too — e.g. live commute times arriving or a re-sort — since the
     // fixed-layout table can't grow to reveal overflow on its own.
-  }, [anyPriority, budgetEnabled, expandedLocation, hasPartnerDestination, isXl, sortedResults, sortBy, sortDirection, updateTableChrome, syncHeaderWidths]);
+  }, [anyPriority, budgetEnabled, costsExpanded, expandedLocation, hasPartnerDestination, isXl, sortedResults, sortBy, sortDirection, updateTableChrome, syncHeaderWidths]);
 
   // Map clicks scroll the page to the picked row (highlighted, but not expanded).
   useEffect(() => {
@@ -1491,6 +1516,7 @@ export default function ResultsTable({
           )}
         </div>
       </th>
+      {costsExpanded && (<>
       <th onClick={() => onSort('rent')} className={thNarrowClass('rent')}>
         <div className={headerStackClass()}>
           <div className={headerTitleClass()}>Rent<SortIcon col="rent" /></div>
@@ -1531,17 +1557,38 @@ export default function ResultsTable({
           </div>
         </div>
       </th>
+      </>)}
       <th
         onClick={() => onSort('total')}
         className={`${thClass('total', 'text-center')} !bg-blue-50 dark:!bg-gray-700`}
       >
         <div className={headerStackClass()}>
-          <div className={headerTitleClass()}>Total Cost<SortIcon col="total" /></div>
+          <div className={headerTitleClass()}>
+            Total Cost<SortIcon col="total" />
+            <button
+              type="button"
+              // stopPropagation: the header's own click sorts by Total.
+              onClick={event => { event.stopPropagation(); toggleCosts(); }}
+              className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded border border-gray-300 text-gray-500 no-underline hover:border-blue-400 hover:text-blue-600 dark:border-gray-500 dark:text-gray-300"
+              aria-expanded={costsExpanded}
+              aria-label={costsExpanded ? 'Hide rent, transport and council tax columns' : 'Show rent, transport and council tax columns'}
+              title={costsExpanded ? 'Hide cost breakdown' : 'Show rent, transport & council tax'}
+            >
+              {/* The breakdown columns open to the LEFT of Total: point where they'll appear / fold back. */}
+              {costsExpanded ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
+            </button>
+          </div>
           <div className={headerBadgeRowClass()}>
-            <HeaderLevelBadge
-              label="Mixed"
-              title="Total combines rent, transport and council tax estimates."
-            />
+            {hiddenCostSort ? (
+              <span className="inline-flex items-center text-[10px] font-medium text-blue-600 no-underline dark:text-blue-400">
+                by {hiddenCostSort}<SortIcon col={sortBy} />
+              </span>
+            ) : (
+              <HeaderLevelBadge
+                label="Mixed"
+                title="Total combines rent, transport and council tax estimates."
+              />
+            )}
           </div>
         </div>
       </th>
@@ -1811,9 +1858,11 @@ export default function ResultsTable({
                         )}
                       </td>
 
+                      {costsExpanded && (<>
                       <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.rent.toLocaleString()}</td>
                       <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.transportCostMonthly.toFixed(0)}</td>
                       <td className={`whitespace-nowrap px-1 py-2 text-center text-sm font-medium lg:px-2 lg:py-3 lg:text-base ${hoverCellClass}`}>&pound;{result.councilTaxMonthly.toFixed(0)}</td>
+                      </>)}
                       <td className={`whitespace-nowrap bg-blue-50 px-1.5 py-2 text-center text-sm font-bold dark:bg-gray-800 lg:px-3 lg:py-3 lg:text-base ${
                         overBudget
                           ? 'text-red-400'
@@ -1845,7 +1894,8 @@ export default function ResultsTable({
 
                       <td className={`px-1.5 py-2 text-center align-middle lg:px-3 lg:py-3 ${hoverCellClass}`}>
                         {(asianSpots[result.location]?.length ?? 0) > 0
-                          ? <SpotIcons spots={asianSpots[result.location]} className="mx-auto max-w-[4rem] justify-center text-[11px]" />
+                          // One line, never wrapped: a third chip wrapping to a 2nd line made that row taller than the rest.
+                          ? <SpotIcons spots={asianSpots[result.location]} className="!flex-nowrap whitespace-nowrap justify-center !gap-x-1 text-[11px]" />
                           : <span className="text-gray-300 dark:text-gray-600">–</span>}
                       </td>
                       </tr>

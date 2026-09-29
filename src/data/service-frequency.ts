@@ -41,4 +41,9 @@ export const trainInterval: Record<string, { peak: number; offPeak: number }> = 
   "Teddington": { peak: 12, offPeak: 20 },
   "Norbury": { peak: 5, offPeak: 8 },
   "Mill Hill": { peak: 8, offPeak: 12 },
+  // Wembley Central: London Northwestern fast to Euston + Lioness Overground; Wembley Stadium: Chiltern to Marylebone.
+  "Wembley Central": { peak: 10, offPeak: 15 },
+  "Wembley Stadium": { peak: 15, offPeak: 30 },
+  // Raynes Park: SWR Kingston loop + Chessington + Epsom/Dorking branches combined.
+  "Raynes Park": { peak: 5, offPeak: 8 },
 };

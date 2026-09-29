@@ -142,7 +142,8 @@ export function computeWardScores(input: WardScoreInput): Map<string, WardScore>
 
   const base = boundary.wards.map(ward => {
     const stats = schoolStatsForPoint(ward.name, ward.centroid, childGender, schoolFaith);
-    const schoolScore = schoolScoreFromStats(stats, maxGrammar);
+    // Same phase choice as the area's own score (carried on its breakdown), so wards match the row.
+    const schoolScore = schoolScoreFromStats(stats, maxGrammar, result?.schoolScore.phase);
     const crimeRate = ward.code ? wardCrime.wards[ward.code]?.crimesPer1000 ?? null : null;
     const commute = wardCommuteDetail(ward.centroid);
     return { ward, stats, schoolScore, crimeRate, commuteMinutes: commute.minutes, nearestStation: commute.station, walkToStation: commute.walk, nearestStationRoute: commute.route };
