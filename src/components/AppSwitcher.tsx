@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useDismissableDetails } from '../hooks/useDismissableDetails';
 
 const itemClass = 'flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[15px]';
 const iconClass = 'inline-grid h-6 w-6 shrink-0 place-items-center rounded-md';
@@ -6,27 +6,7 @@ const iconClass = 'inline-grid h-6 w-6 shrink-0 place-items-center rounded-md';
 // The logo (the 💂 favicon) opens a small menu for switching to the owner's other apps —
 // mirrors the "P" menu in Where to park in London?, which links back here.
 export default function AppSwitcher() {
-  const ref = useRef<HTMLDetailsElement>(null);
-
-  // Closes when you tap anywhere else or press Escape.
-  useEffect(() => {
-    const close = () => ref.current?.removeAttribute('open');
-    const onClick = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node)) close();
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && ref.current?.open) {
-        close();
-        ref.current.querySelector('summary')?.focus();
-      }
-    };
-    document.addEventListener('click', onClick);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('click', onClick);
-      document.removeEventListener('keydown', onKey);
-    };
-  }, []);
+  const { ref } = useDismissableDetails();
 
   return (
     <details ref={ref} className="relative shrink-0">

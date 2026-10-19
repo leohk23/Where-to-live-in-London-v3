@@ -19,9 +19,11 @@ import {
   SlidersHorizontal,
   ChevronUp,
   ChevronDown,
+  Ellipsis,
 } from 'lucide-react';
 import { useCalculator } from './features/calculator/useCalculator';
 import { useDarkMode } from './hooks/useDarkMode';
+import { useDismissableDetails } from './hooks/useDismissableDetails';
 import AppSwitcher from './components/AppSwitcher';
 import FilterPanel from './components/FilterPanel';
 import LocationMap from './features/map/LocationMap';
@@ -60,6 +62,8 @@ function LondonCostCalculator() {
   const [copied, setCopied] = useState<boolean>(false);
   const [activePopover, setActivePopover] = useState<PopoverName | null>(null);
   const [largeText, setLargeText] = useState<boolean>(false);
+  // Phones fold the dark-mode, text-size and coffee buttons into a "⋯" menu so the title fits on one line.
+  const moreMenu = useDismissableDetails();
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null);
   // Shared so hovering a ward on the map and in the expanded row's ward card highlight each other.
   const [hoveredWard, setHoveredWard] = useState<string | null>(null);
@@ -253,9 +257,9 @@ function LondonCostCalculator() {
               beside the docked summary. */}
           <div className="flex min-w-0 items-center gap-2 sm:gap-2.5 lg:shrink-0">
             <AppSwitcher />
-            {/* Mobile: English (wrapping if it must) with the Chinese tucked beneath as a small line; sm+: one truncated line. */}
-            <h1 className="min-w-0 text-sm font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 sm:truncate sm:text-lg sm:leading-normal lg:text-xl">
-              <span className="block sm:inline">Where to live in London?</span>
+            {/* Mobile: English with the Chinese tucked beneath as a small second line; sm+: one truncated line. */}
+            <h1 className="min-w-0 text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:truncate sm:text-lg lg:text-xl">
+              <span className="block truncate sm:inline">Where to live in London?</span>
               {' '}
               <span className="block truncate text-xs font-semibold text-gray-500 dark:text-gray-400 sm:inline sm:[font-size:inherit]" lang="zh-Hant">倫敦住邊好？</span>
             </h1>
@@ -318,7 +322,7 @@ function LondonCostCalculator() {
             </button>
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="p-1.5 sm:p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="hidden sm:block p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               title={darkMode ? 'Light mode' : 'Dark mode'}
             >
@@ -326,7 +330,7 @@ function LondonCostCalculator() {
             </button>
             <button
               onClick={() => setLargeText(current => !current)}
-              className={`rounded-full p-1.5 sm:p-2 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-200 ${largeText ? 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200' : 'text-gray-400 dark:text-gray-500'}`}
+              className={`hidden sm:block rounded-full p-2 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-200 ${largeText ? 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200' : 'text-gray-400 dark:text-gray-500'}`}
               aria-label={largeText ? 'Return to normal text size' : 'Enlarge text size'}
               aria-pressed={largeText}
               title={largeText ? 'Normal text size' : 'Larger text'}
@@ -337,12 +341,59 @@ function LondonCostCalculator() {
               href="https://buymeacoffee.com/leohk23"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-1.5 sm:p-2 rounded-full text-gray-400 hover:text-amber-600 dark:text-gray-500 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors"
+              className="hidden sm:block p-2 rounded-full text-gray-400 hover:text-amber-600 dark:text-gray-500 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors"
               aria-label="Buy me a coffee"
               title="Buy me a coffee ☕"
             >
               <Coffee className="h-5 w-5" />
             </a>
+            <details
+              ref={moreMenu.ref}
+              className="relative sm:hidden"
+              onToggle={e => { if (e.currentTarget.open) setActivePopover(null); }}
+            >
+              <summary
+                className="block cursor-pointer list-none rounded-full p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:text-gray-500 dark:hover:bg-gray-800 dark:hover:text-gray-200 [&::-webkit-details-marker]:hidden"
+                aria-label="More options"
+                title="More"
+              >
+                <Ellipsis className="h-5 w-5" />
+              </summary>
+              <div
+                className="absolute right-0 top-[calc(100%+0.5rem)] z-[60] grid w-max gap-0.5 rounded-xl border border-gray-200 bg-white p-1.5 text-[15px] text-gray-900 shadow-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+                role="menu"
+              >
+                <button
+                  onClick={() => { setDarkMode(!darkMode); moreMenu.close(); }}
+                  className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-800"
+                  role="menuitem"
+                >
+                  {darkMode ? <Sun className="h-5 w-5 text-gray-400" /> : <Moon className="h-5 w-5 text-gray-400" />}
+                  {darkMode ? 'Light mode' : 'Dark mode'}
+                </button>
+                <button
+                  onClick={() => { setLargeText(current => !current); moreMenu.close(); }}
+                  className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-800"
+                  role="menuitemcheckbox"
+                  aria-checked={largeText}
+                >
+                  <ALargeSmall className="h-5 w-5 text-gray-400" />
+                  Larger text
+                  {largeText && <Check className="ml-auto h-4 w-4 text-blue-600 dark:text-blue-400" />}
+                </button>
+                <a
+                  href="https://buymeacoffee.com/leohk23"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={moreMenu.close}
+                  className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-amber-50 dark:hover:bg-amber-500/10"
+                  role="menuitem"
+                >
+                  <Coffee className="h-5 w-5 text-gray-400" />
+                  Buy me a coffee
+                </a>
+              </div>
+            </details>
 
             {activePopover && (
               <div className={`absolute right-0 top-11 z-50 rounded-md border border-gray-200 bg-white p-4 text-left text-sm text-gray-600 shadow-xl dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 ${popoverWidthClass}`}>
