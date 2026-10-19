@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useCalculator } from './features/calculator/useCalculator';
 import { useDarkMode } from './hooks/useDarkMode';
+import AppSwitcher from './components/AppSwitcher';
 import FilterPanel from './components/FilterPanel';
 import LocationMap from './features/map/LocationMap';
 import ResultsTable from './features/results/ResultsTable';
@@ -248,12 +249,17 @@ function LondonCostCalculator() {
         className="sticky top-0 z-50 border-b border-gray-200/70 bg-white/90 shadow-sm backdrop-blur dark:border-gray-800 dark:bg-gray-900/90"
       >
         <div className="mx-auto flex max-w-[110rem] items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
-          {/* Mobile: English with the Chinese tucked beneath as a small second line; sm+: one truncated line. */}
-          <h1 className="min-w-0 shrink-0 text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:truncate sm:text-lg lg:text-xl">
-            <span className="block truncate sm:inline">Where to live in London?</span>
-            {' '}
-            <span className="block truncate text-xs font-semibold text-gray-500 dark:text-gray-400 sm:inline sm:[font-size:inherit]" lang="zh-Hant">倫敦住邊好？</span>
-          </h1>
+          {/* Shrinks on phones so the header never pushes the page sideways; from lg it holds its width
+              beside the docked summary. */}
+          <div className="flex min-w-0 items-center gap-2 sm:gap-2.5 lg:shrink-0">
+            <AppSwitcher />
+            {/* Mobile: English (wrapping if it must) with the Chinese tucked beneath as a small line; sm+: one truncated line. */}
+            <h1 className="min-w-0 text-sm font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 sm:truncate sm:text-lg sm:leading-normal lg:text-xl">
+              <span className="block sm:inline">Where to live in London?</span>
+              {' '}
+              <span className="block truncate text-xs font-semibold text-gray-500 dark:text-gray-400 sm:inline sm:[font-size:inherit]" lang="zh-Hant">倫敦住邊好？</span>
+            </h1>
+          </div>
           {/* Once scrolled past the filters, the summary docks inline here — same row, so the header
               height (and the map size derived from it) never changes. Hidden on small screens where
               there's no room; the map isn't sticky there anyway, so no shake to avoid. */}
@@ -291,10 +297,10 @@ function LondonCostCalculator() {
               })()}
             </button>
           )}
-          <div className="relative flex shrink-0 items-center gap-1">
+          <div className="relative flex shrink-0 items-center gap-0.5 sm:gap-1">
             <button
               onClick={() => setActivePopover(current => current === 'share' ? null : 'share')}
-              className="p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-1.5 sm:p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               aria-label="Share this view"
               aria-expanded={activePopover === 'share'}
               title="Share"
@@ -303,7 +309,7 @@ function LondonCostCalculator() {
             </button>
             <button
               onClick={() => setActivePopover(current => current === 'information' ? null : 'information')}
-              className="p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-1.5 sm:p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               aria-label="Show information"
               aria-expanded={activePopover === 'information'}
               title="Information"
@@ -312,7 +318,7 @@ function LondonCostCalculator() {
             </button>
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-1.5 sm:p-2 rounded-full text-gray-400 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               title={darkMode ? 'Light mode' : 'Dark mode'}
             >
@@ -320,7 +326,7 @@ function LondonCostCalculator() {
             </button>
             <button
               onClick={() => setLargeText(current => !current)}
-              className={`rounded-full p-2 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-200 ${largeText ? 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200' : 'text-gray-400 dark:text-gray-500'}`}
+              className={`rounded-full p-1.5 sm:p-2 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-200 ${largeText ? 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200' : 'text-gray-400 dark:text-gray-500'}`}
               aria-label={largeText ? 'Return to normal text size' : 'Enlarge text size'}
               aria-pressed={largeText}
               title={largeText ? 'Normal text size' : 'Larger text'}
@@ -331,7 +337,7 @@ function LondonCostCalculator() {
               href="https://buymeacoffee.com/leohk23"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-full text-gray-400 hover:text-amber-600 dark:text-gray-500 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors"
+              className="p-1.5 sm:p-2 rounded-full text-gray-400 hover:text-amber-600 dark:text-gray-500 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors"
               aria-label="Buy me a coffee"
               title="Buy me a coffee ☕"
             >
